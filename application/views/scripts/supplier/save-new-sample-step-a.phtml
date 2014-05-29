@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>BarCode</title>
+</head>
+<body>
+<h1>产品已经存储进数据库</h1>
+<h1>请将这些条码(从SAP)抄写到标签纸上</h1>
+<h1>按照颜色贴到产品（外包装）上</h1>
+<h1> 然后 点 "continue"</h1>
+<p>&nbsp;</p>
+<div style="width:600px; height:auto; border:#000 1px solid;">
+<?php
+$arrCo = $this->colorcode;
+$colors = new Model_DbTable_Barcodecolorcodes();
+
+foreach($this->arrBarcode as $key => $value){
+	echo "[".$arrCo[$key]."]     ";
+	echo $value."<br />";
+	}
+?>
+</div><br />
+<br />
+<!--
+<form action="/supplier/save-new-sample-step-b" method="post">
+<input name="barcode_nocolor" type="hidden" value="" />
+<input name="btn" type="submit" value="Continue&gt;&gt;" />
+</form>
+-->
+</body>
+</html>

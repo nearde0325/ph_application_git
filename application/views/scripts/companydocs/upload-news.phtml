@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+<table width="800" border="0" cellspacing="1" cellpadding="10" bgcolor="#666666">
+<form action="/companydocs/upload-result" method="post" enctype="multipart/form-data" name="form1" id="form1">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:400px;">1.What News You want to Upload:?(Will Upload to different Page)<br />
+    Choose From : Notice , New Products NewLetter, Promotion</td>
+    <td colspan="2" rowspan="2" bgcolor="#FFFFFF">
+
+      <select name="news_type" id="news_type">
+        <option value="1">Announcement</option>
+        <option value="2">Product Information</option>
+        <option value="3">Promotion</option>
+      </select>
+      <br />
+      
+      <br />
+      <select name="news_category" id="news_category">
+        <option value="1">New Product Arrivial</option>
+        <option value="2">Product Information</option>
+        <option value="3">Product Price Change</option>
+        <option value="4">Product Description Change</option>
+    </select>      
+ </td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:400px;">1.1 Product Information Sub Category( Only need when you choose Product Information)</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">2.<strong><em>Must Write The Title </em></strong></td>
+    <td colspan="2" bgcolor="#FFFFFF"><label for="title"></label>
+      <input type="text" name="title" id="title" style="width:400px"  /></td>
+  </tr>
+  <tr>
+    <td colspan="3" bgcolor="#FFFFFF">3.&quot;Optional&quot; Content, &quot;Unlimited&quot; words, However , Not recommend you put too much<br />
+      <label for="content"></label>
+      <textarea name="content" id="content" cols="100" rows="10"></textarea>
+      <br />
+      [1000 charactors total]<br />
+      <br />
+      3.1 It is a Must See News ?? 
+      <br />
+      <input type="radio" name="news_must_see" id="radio" value="1" />
+      <label for="news_must_see"></label>
+      Yes, Show It in Everyone's Attendance Page 
+      <input type="radio" name="news_must_see" id="radio2" value="0" />
+      No, only Show It In Company Info Page</td>
+    </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">4. &quot;Optional&quot; Attach File A, Make Sure Not &quot;Space&quot; in the File Name</td>
+    <td colspan="2" bgcolor="#FFFFFF"><label for="file_a"></label>
+      <input type="file" name="file_a" id="file_a" /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">5. &quot;Optional&quot; Attach File B, Make Sure Not &quot;Space&quot; in the File Name</td>
+    <td colspan="2" bgcolor="#FFFFFF"><label for="file_b"></label>
+      <input type="file" name="file_b" id="file_b" /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">6. &quot;Optional&quot; Attach File C, Make Sure Not &quot;Space&quot; in the File Name</td>
+    <td colspan="2" bgcolor="#FFFFFF"><input type="file" name="file_c" id="file_c" /></td>
+  </tr>
+  <tr>
+    <td rowspan="2" bgcolor="#FFFFFF">7.Your Name and Department</td>
+    <td width="100" align="right" bgcolor="#FFFFFF">Name:<br /></td>
+    <td bgcolor="#FFFFFF"><input type="text" name="staff_name" id="staff_name" /></td>
+  </tr>
+  <tr>
+    <td align="right" bgcolor="#FFFFFF">Department:</td>
+    <td bgcolor="#FFFFFF"><input type="text" name="department" id="department" /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">8.<em><strong>Must Write</strong></em> Password allow you to upload</td>
+    <td colspan="2" bgcolor="#FFFFFF"><input type="text" name="password" id="password" /></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center" bgcolor="#FFFFFF"><input type="submit" name="button" id="button" value="After Click This Submit, Make Sure You Also Need to Active It!!!" />
+      <br />
+      if you forget to active it , it will NOT show </td>
+    </tr>
+     </form>
+</table>
+
+</body>
+</html>

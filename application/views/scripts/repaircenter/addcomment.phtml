@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Add Comment</title>
+</head>
+<body>
+Add Commnet <br />
+<form id="form1" name="form1" method="post" action="">
+  <p>
+    <label for="textfield">For Job ID: </label>
+    <input type="text" name="id_job_repair_comt" id="id_job_repair_comt" value="<?php echo $this->jobID?>" />
+    <br />
+    <br />
+    Staff Name:
+    <input type="text" name="staffname_repair_comt" id="staffname_repair_comt" />
+    <br />
+    Date Time : 
+    <?php
+  	date_default_timezone_set('Australia/Melbourne');	
+	echo $dateToday = date("Y-m-d");
+	echo " ";
+	echo $timeNow = date(" H:i");
+  
+  ?>
+    <br />
+    Comment: 
+    (500 letters if you finish the whole block )<br />
+    <textarea name="content_repair_comt" id="content_repair_comt" cols="100" rows="5"></textarea>
+    <br />
+    [ONCE Comment Added, you will not able to EDIT / DELETE Them!!!] </p>
+  <p>
+    <input type="submit" name="button" id="button" value="Submit" /> 
+    <br />
+  </p>
+</form>
+</body>
+</html>

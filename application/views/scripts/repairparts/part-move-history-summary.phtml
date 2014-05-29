@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<table width="2000" border="1" cellspacing="0" cellpadding="5" style="font-size:12px;">
+  <tr>
+    <td>id</td>
+    <td>Code</td>
+    <td>Des</td>
+    <td>Price</td>
+    <td>Stock Now</td>
+    <td>Ti</td>
+    <td>Ti Detail</td>
+    <td>To</td>
+    <td>To Detail</td>
+    <td>Go</td>
+    <td>Go Detail</td>
+    <td>Ei</td>
+    <td>Ei Detail</td>
+    <td>Fo</td>
+    <td>Fo Detail</td>
+    <td>Ai</td>
+    <td>Ai Detail</td>
+    <td>Ao</td>
+    <td>Ao Detail</td>
+    <td>Total Move</td>
+    <td>Stock Org</td>
+  </tr>
+<?php foreach($this->arrRes as $k => $v){
+	
+	if(!($v['qty_ti']==0 && $v['qty_to']==0 && $v['qty_go']==0 && $v['qty_ei']==0 && $v['qty_fo']==0 && $v['qty_ai']==0 && $v['qty_ao']==0))
+	{
+	?>  
+  <tr>
+    <td><?php  echo $v['id_product'];?></td>
+    <td><?php  echo $v['code_product'];?></td>
+    <td><?php  echo $v['title_product'];?></td>
+    <td><?php  echo $v['price_a'];?></td>
+    <td><?php  echo $v['stock'];?></td>
+    <td><?php  echo $v['qty_ti'];?></td>
+    <td><?php  echo ($this->showDetail == "yes")?$v['detail_ti']:"&nbsp;";?></td>
+    <td><?php  echo $v['qty_to'];?></td>
+    <td><?php  echo ($this->showDetail == "yes")?$v['detail_to']:"&nbsp;";?></td>
+    <td><?php  echo $v['qty_go'];?></td>
+    <td><?php  echo ($this->showDetail == "yes")?$v['detail_go']:"&nbsp;";?></td>
+    <td><?php  echo $v['qty_ei'];?></td>
+    <td><?php  echo ($this->showDetail == "yes")?$v['detail_ei']:"&nbsp;";?></td>
+    <td><?php  echo $v['qty_fo'];?></td>
+    <td><?php  echo ($this->showDetail == "yes")?$v['detail_fo']:"&nbsp;";?></td>
+    <td><?php  echo $v['qty_ai'];?></td>
+    <td><?php  echo ($this->showDetail == "yes")?$v['detail_ai']:"&nbsp;";?></td>
+    <td><?php  echo $v['qty_ao'];?></td>
+    <td><?php  echo ($this->showDetail == "yes")?$v['detail_ao']:"&nbsp;";?></td>
+    <td><?php  echo $v['move_total'];?></td>
+    <td><?php  echo $v['org_stock'];?></td>
+  </tr>
+<?php }}?>  
+  <tr>
+    <td>id</td>
+    <td>Code</td>
+    <td>Des</td>
+    <td>Price</td>
+    <td>Stock Now</td>
+    <td>Ti</td>
+    <td>Ti Detail</td>
+    <td>To</td>
+    <td>To Detail</td>
+    <td>Go</td>
+    <td>Go Detail</td>
+    <td>Ei</td>
+    <td>Ei Detail</td>
+    <td>Fo</td>
+    <td>Fo Detail</td>
+    <td>Ai</td>
+    <td>Ai Detail</td>
+    <td>Ao</td>
+    <td>Ao Detail</td>
+    <td>Total Move</td>
+    <td>Stock Org</td>
+  </tr>
+</table>
+</body>
+</html>

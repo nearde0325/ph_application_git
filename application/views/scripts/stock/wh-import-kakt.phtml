@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<form id="form1" name="form1" method="post" action="">
+  <p>
+    <textarea name="list" id="list" cols="120" rows="20"></textarea>
+  </p>
+  <p>
+    <label for="staff_name"></label>
+    Your Name Here :
+    <input type="text" name="staff_name" id="staff_name" />
+  </p>
+  <p>You can always cancel the error one after import </p>
+  <p>IT WILL TAKE A WHILE!!!! FOR SENDING EMAILS, TAKE YOUR TIME, DO NOT F5</p>
+  <p><br />
+    <input type="submit" name="button" id="button" value="Submit" />
+  </p>
+</form>
+<table width="600" border="1" cellspacing="0" cellpadding="5">
+  <caption>
+    Import Result
+  </caption>
+  <tr>
+    <td>KA/KT NO</td>
+    <td>SHOP</td>
+    <td>ACTION</td>
+  </tr>
+<?php
+foreach($this->arrResult as $v){
+?>  
+  <tr>
+    <td><?=$v[0]?></td>
+    <td><?=$v[1]?></td>
+    <td><?=$v[2]?></td>
+  </tr>
+<?php }?>
+</table>
+</body>
+</html>

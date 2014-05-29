@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Online Parts Price</title>
+
+</head>
+<?php 
+$dateToday = Model_DatetimeHelper::dateToday();
+$date7days = Model_DatetimeHelper::adjustDays("sub", $dateToday,7);
+
+
+?>
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+<h1>
+Date: <?php echo $this->dateToday?><br /> 
+
+Category ID: <?php echo $this->idCate?><br /> 
+
+</h1>
+
+<h1>Phone Repair Parts Price</h1>
+<strong >The <img src="/im/sync.png" /> icon means the price is updated within 7 days,please put mouse cursor on the icon to check the date of update<br/></strong>
+
+
+<p>Category:<br />
+<a href="/repaircenter/online-parts-price/cate/4">iPad</a> | <a href="/repaircenter/online-parts-price/cate/3">iTouch</a> | <a href="/repaircenter/online-parts-price/cate/0">iPhone3</a> |<a href="/repaircenter/online-parts-price/cate/1"> iPhone 4</a> | <a href="/repaircenter/online-parts-price/cate/2">iPhone 5</a> |<a href="/repaircenter/online-parts-price/cate/8"> HTC</a> | <a href="/repaircenter/online-parts-price/cate/5">S2</a> | <a href="/repaircenter/online-parts-price/cate/6">S3</a> | <a href="/repaircenter/online-parts-price/cate/11">S4</a> | <a href="/repaircenter/online-parts-price/cate/7">Sam Other</a> | <a href="/repaircenter/online-parts-price/cate/9">Nokia</a></p>
+<form id="form1" name="form1" method="post" action="">
+  <table width="650" border="1" cellspacing="0" cellpadding="5" bgcolor="#333333">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:150px" >Code</td>
+    <td bgcolor="#FFFFFF" style="width:350px" >Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px" >PriceA</td>
+    <td bgcolor="#FFFFFF" style="width:50px" >Cost Price</td>
+  </tr> 
+<?php
+foreach($this->pList as $key => $v){
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF"><?php echo $v['code_product']?></td>
+    <td bgcolor="#FFFFFF"><?php echo $v['title_product']?></td>
+    <td <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		else{
+		echo 'style="background-color:#FFF"';	
+		}
+		?> >
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+    <?php echo $v["price_a"]?></td>
+    <td bgcolor="#FFFFFF"><span style="color:#FFFFFF;"><?php echo $v["price_b"]?></span></td>
+  </tr>   
+<?php
+}
+?>
+</table> 
+
+</form>
+
+</body>
+</html>

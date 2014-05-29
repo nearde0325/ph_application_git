@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<table width="1000" border="0" cellspacing="1" cellpadding="5" bgcolor="#333333">
+  <tr>
+    <td bgcolor="#FFFFFF">
+      <table width="100%" border="0" cellspacing="0" cellpadding="10">
+        <tr>
+          <td align="center" valign="middle">Case<br />
+          保护壳</td>
+          <td align="center" valign="middle">Battery<br />
+          电池</td>
+          <td align="center" valign="middle">Charger<br />
+          充电器</td>
+          <td align="center" valign="middle"><p>DataCable<br />
+            数据线</p></td>
+          <td align="center" valign="middle">Hands Free<br />
+          耳机</td>
+          <td align="center" valign="middle">Holder<br />
+            车用支架</td>
+          <td align="center" valign="middle">SP<br />
+          保护贴</td>
+          <td align="center" valign="middle">Stylus<br />
+          手写笔</td>
+          <td align="center" valign="middle">Other<br />
+            其他</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">&nbsp;</td>
+  </tr>
+  <tr>
+    <td  bgcolor="#FFFFFF">2. Design CASE<br />
+      <table width="100%" border="0" cellspacing="0" cellpadding="5" >
+       <form id="form1" name="form1" method="post" action="">
+        <tr>
+          <td style="padding-left:30px;">Formula 公式：Manu + Model +Type(HC/LC/SC)+Number +Color</td>
+        </tr>
+        <tr>
+          <td style="padding-left:30px; font-size:16px;">
+           
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center">
+                <tr>
+                  <td style="border-bottom:#333 solid 1px;" >Brand<br />
+                  品牌</td>
+                  <td style="border-bottom:#333 solid 1px;" >+</td>
+                  <td style="border-bottom:#333 solid 1px;" >Model<br />
+                  型号</td>
+                   <td style="border-bottom:#333 solid 1px;" >+</td>
+                  <td style="border-bottom:#333 solid 1px;">TYPE</td>
+                   <td style="border-bottom:#333 solid 1px;" >N/A时数字不出现</td>
+                  <td style="border-bottom:#333 solid 1px;">Number</td>                  
+                  <td style="border-bottom:#333 solid 1px;" >-<br /></td>
+                  <td style="border-bottom:#333 solid 1px;" >Color<br />
+                    颜色</td>
+                </tr>
+                <tr>
+                  <td><label for="sub_type"></label>
+                    <select name="manu" id="manu">
+                      <?php
+					  $errorFlag = 0;
+                    foreach($this->manuList as $k2 =>$v2){
+											$chkstr="";
+	 					if($this->manuChoice == $v2['code_barcode']){
+							$chkstr='selected="selected"';
+		  				}	
+					?>
+                      <option value="<?php echo $v2['code_barcode']?>"  <?php echo $chkstr?>  ><?php echo $v2['des_barcode']?></option>
+                      <?php
+					}
+				   ?>
+                  </select></td>
+                  <td><input type="submit" name="sub_model" id="sub_model" value="Model" />
+                  &gt;&gt;</td>
+                  <td><select name="model" id="model">
+                    <?php
+                    foreach($this->modelList as $k3 =>$v3){
+						$chkstr="";
+	 					if($this->modelChoice == $v3['code_model']){
+							$chkstr='selected="selected"';
+		  				}	
+					?>
+                    <option value="<?php echo $v3['code_model']?>"   <?php echo $chkstr?>  ><?php echo $v3['des_model']?></option>
+                    <?php
+					}
+				   ?>
+                  </select></td>
+                  <td>&nbsp;</td>
+                  <td><select name="sub_type" id="sub_type">
+                    <?php
+                    foreach($this->subtypeList as $k1 =>$v1){
+						$chkstr="";
+	 					if($this->subtypeChoice == $v1['code_sub_type']){
+							$chkstr='selected="selected"';
+		  				}
+					?>
+                    <option value="<?php echo $v1['code_sub_type']?>"  <?php echo $chkstr?>  ><?php echo $v1['des_sub_type']?></option>
+                    <?php
+					}
+				   ?>
+                  </select></td>
+                  <td><input name="sub_number" type="submit" id="sub_number" value="Number" />
+                  &gt;&gt;<br /></td>
+                  <td><input name="number" type="text" value="<?php echo $this->number?>" readonly="readonly" /></td>
+                  <td>-</td>
+                  <td style="text-align:left; padding-left:10px;">
+                  <?php
+                   foreach($this->colorList as $k4 =>$v4){
+				  ?>
+                  <input type="checkbox" name="color[]" id="color[]"  
+                  <?php
+                  if(in_array($v4['id_color'],$this->colorChoice)){echo 'checked="checked"';}
+				  ?>
+                  value="<?php echo $v4['id_color'];?>" /><?php echo $v4['des_color']?><br />
+                  <?php
+                  }
+				  ?>
+				</td>
+                </tr>
+              </table>
+              
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding-left:30px;"><input type="submit" name="sub_result" id="sub_result" value="Result" />
+            生成结果</td>
+        </tr>
+        </form>
+      </table>
+      <br />
+          <table width="100%" border="0" cellspacing="0" cellpadding="5" >
+       <form action="/barcode/save-barcode"  target="_blank" method="post" enctype="multipart/form-data" name="form1" id="form1">
+         <?php
+       if(isset($this->barcodeCode) && $this->barcodeCode !=""){
+	   foreach($this->barcodeCode as $k5 =>$v5){
+		   
+	   ?>
+        <tr>
+          <td style="padding-left:30px; width:200px;">BarCode 条码：</td>
+          <td style="padding-left:30px;"><label for="barcode"></label>
+            <input type="text" name="barcode[<?php echo $k5?>]" id="barcode[<?php echo $k5?>]" style="width:500px;" value="<?php echo $v5;?>" />
+            <?php
+            $products = new Model_DbTable_Productsva();
+			if($products->ifExist($v5)){echo '<img src="/css/cs.jpg">'; $errorFlag=1;}
+			else{ echo '<img src="/css/tk.jpg">';}
+			?>
+            </td>
+        </tr>
+                <tr>
+          <td style="padding-left:30px;">Title 产品名称：</td>
+          <td style="padding-left:30px;"><input type="text" name="title[<?php echo $k5?>]" id="title[<?php echo $k5?>]" style="width:500px;"  value="<?php 
+		  $tmpArr = $this->barcodeDes;
+		  echo $tmpArr[$k5];?>" /></td>
+          </tr>
+          
+       <?php
+       
+	   }
+	   
+	   }
+	   ?>   
+        
+        
+        
+                <tr>
+                  <td colspan="2" align="center" style="padding-left:30px;">
+                              
+            <input type="hidden" name="code_sub_type" id="code_sub_type" value="<?php echo $this->subtypeChoice?>" />
+            <input type="hidden" name="code_model" id="code_model" value="<?php echo $this->modelChoice?>"  />
+            <input type="hidden" name="number_counter" id="number_counter" value="<?php echo $this->number?>" />
+                  <input type="reset" name="reset_btn" id="reset_btn" value="Reset 清空" /> 
+                  
+                                        <input type="submit" name="upload" id="upload" value="Upload 上传提交" <?php if($errorFlag == 1){ echo 'disabled="disabled"';}?>  />
+                    <br />
+                                        只有提交之后 计数器才会被记住 Only after submit , The Number will be Remember</td>
+                </tr>
+       </form>
+          </table>	
+    
+    
+    </td>
+  </tr>
+</table>
+</body>
+</html>

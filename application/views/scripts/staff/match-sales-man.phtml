@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<form id="form1" name="form1" method="post" action="">
+
+  <br />
+  <input type="submit" name="button" id="button" value="Submit" />
+  <br />
+  <table width="600" border="1" cellspacing="0" cellpadding="10">
+    <tr>
+    <th scope="col">Cot</th>
+      <th scope="col">APOS LOGIN</th>
+      <th scope="col">SHOP</th>
+      <th scope="col">ID</th>
+    </tr>
+    <?php foreach($this->arrRes as $key => $v) {?>
+    <tr>
+      <td><?php echo $key + 1 ;?></td>
+      <td><?php echo $v['sal_code']?></td>
+      <td><?php echo $v['shop_code']?></td>
+      <td><input name="id[<?php echo $v['id']?>]" type="text" id="id<?php echo $key + 1 ;?>" maxlength="4" style="width:50px;" /></td>
+    </tr>
+    <?php }?>
+  </table>
+  <p><br />
+    <br />
+  </p>
+</form>
+</body>
+</html>

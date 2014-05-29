@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+hr.hr4 {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #FF0000;
+    border-top: 1px dashed #FF0000;
+    color: #FFFFFF;
+    height: 4px;
+}
+.emailclick{
+	margin:3px;
+	padding:2px;
+	border:#ddd solid 1px;
+	width:450px;
+	cursor:pointer;
+	}
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" ></script>
+
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:13px;">
+<form action="/products/send-discount-manager" method="post" target="_blank">
+<h1><?=$this->shophead?>  Date: <?=$this->dateBegin?> to <?=$this->dateEnd?></h1> 
+
+<input name="shop_head" type="hidden" value="<?=$this->shophead?>" />
+<input name="date_begin" type="hidden" value="<?=$this->dateBegin?>" />
+<input name="date_end" type="hidden" value="<?=$this->dateEnd?>" />
+
+
+<table width="1300" border="0" cellspacing="1" cellpadding="5">
+  <tr>
+    <th scope="col">Invoice</th>
+    <th scope="col">Barcode</th>
+    <th scope="col">Description</th>
+    <th scope="col">Qty</th>
+    <th scope="col">RRP</th>
+    <th scope="col">%Discount</th>
+    <th scope="col">$Discount</th>
+    <th scope="col">Final</th>
+    <th scope="col">Sales</th>
+    <th scope="col">Remark</th>
+    <th scope="col">Apt</th>
+  </tr>
+ <?php
+$oldInvoice = "";
+$newInvoice = "";
+ 
+foreach($this->arrFinal as $k => $v){ 
+$newInvoice = $v[8];
+//$discount = 0;
+//    if($v[15] > 0){ $discount = round($v[15]/($v[15] + $v[14]),2)*100; }
+//	elseif($v[16] > 0){ $discount = round($v[16]/$v[14],2)*100; } 
+//($v[15] >=0 || $v[16] >=0) && $v[14] > 0
+if( 1) {
+?> 
+<?php
+if($newInvoice != $oldInvoice){
+$oldInvoice = $newInvoice;
+?>  
+  <tr>
+    <td colspan="12"><hr class="hr4" /></td>
+  </tr>
+<?php
+}
+?>
+
+  <tr>
+    <td><?=$v[8]?><input name="id_invoice[]" type="hidden" value="<?=$v[8]?>" /></td>
+    <td><?=$v[0]?><input name="barcode[]" type="hidden" value="<?=$v[0]?>" /></td>
+    <td><?=$v[2]?><input name="des[]" type="hidden" value="<?=$v[2]?>" /></td>
+    <td><?=(int)$v[11]?><input name="qty[]" type="hidden" value="<?=(int)$v[11]?>" /></td>
+    <td>$ <?php
+    if($v[15] > 0){ echo $v[15] + $v[14]; }
+	else{ echo $v[14]; }
+	?>
+    <input name="rrp[]" type="hidden" value="$ <?php
+    if($v[15] > 0){ echo $v[15] + $v[14]; }
+	else{ echo $v[14]; }
+	?>" />
+    </td>
+    <td>
+    <?php
+    if($v[15] > 0){ echo round($v[15]/($v[15] + $v[14]),2)*100; }
+	elseif($v[16] > 0){ echo round($v[16]/$v[14],2)*100; }
+	else{
+	echo $v[15] + $v[16];	
+		}    
+    ?> %
+    <input name="dis[]" type="hidden" value="<?php
+    if($v[15] > 0){ echo round($v[15]/($v[15] + $v[14]),2)*100; }
+	elseif($v[16] > 0){ echo round($v[16]/$v[14],2)*100; }
+	else{
+	echo $v[15] + $v[16];	
+		}    
+    ?> %" />
+    
+    
+    </td>
+    <td>
+    $
+    <?php
+    if($v[15] > 0){ echo $v[15]; }
+	elseif($v[16] > 0){ echo $v[16]; } 
+		else{
+	echo $v[15] + $v[16];	
+		}   
+    ?>
+    <input name="dis_amt[]" type="hidden" value="$ <?php
+    if($v[15] > 0){ echo $v[15]; }
+	elseif($v[16] > 0){ echo $v[16]; } 
+		else{
+	echo $v[15] + $v[16];	
+		}   
+    ?>" />
+    </td>
+    <td>$ <?=$v[17]?> <input name="final[]" type="hidden" value="$ <?=$v[17]?>" /></td>
+    <td><?=$v[22]?> <input name="sales[]" type="hidden" value="<?=$v[22]?>" /></td>
+    <td><?=$v[10]?> <input name="remark[]" type="hidden" value="<?=$v[10]?>" />
+    </td>
+    <td
+    <?php
+    if(isset($v[23])){
+	switch ($v[23]){
+		case(5):echo 'style="background-color:#FF8080;"';break;
+		case(3):echo 'style="background-color:#DEB363;"';break;
+		case(1):echo 'style="background-color:#9CFECD;"';break;
+		default:break;
+		}
+	
+		}
+	?>
+    
+    ><?php
+    if(isset($v[23])){
+	echo $v[23];	
+	?>
+    <input name="level[<?=$k?>]" type="hidden" value="<?php
+	echo $v[23];	
+	?>" />
+    <input name="accept[]" type="checkbox" value="<?=$k?>"  <?php echo $checked = ($v[23]== 5 || $v[23]== 3 )?'checked="checked"':'' ?>  />
+    <?php } ?>
+    </td>
+  </tr>
+<?php } } ?>
+</table><br />
+
+<table width="600" border="0" cellspacing="1" cellpadding="10">
+  <tr>
+    <td><p>Send To: 
+      <label for="manager_email"></label>
+      <input type="text" name="manager_email" id="manager_email" style="width:300px;" /> 
+      <input name="" type="submit" value="Send" />
+      <br /><br />
+
+      Manager Emails:</p>
+      <div id="email" class="emailclick" >adele.ye@phonecollection.com.au</div>
+      <div id="email" class="emailclick" >cc.choi@phonecollection.com.au</div>
+      <div id="email" class="emailclick" >emily.liang@phonecollection.com.au</div>
+       <div id="email" class="emailclick" >hope.mcmahon@phonecollection.com.au</div> 
+        <div id="email" class="emailclick" >karen.zhang@phonecollection.com.au</div> 
+         <div id="email" class="emailclick" >lina.xu@phonecollection.com.au</div> 
+          <div id="email" class="emailclick" >simon.seop@phonecollection.com.au</div> 
+          <div id="email" class="emailclick" >sophia.lam@phonecollection.com.au</div>
+           <div id="email" class="emailclick" >terra.yu@phonecollection.com.au</div> 
+            <div id="email" class="emailclick" >yin.liu@phonecollection.com.au</div>  
+            
+            
+            
+      </td>
+  </tr>
+  <tr>
+    <td><label for="mail_comment">Comment:</label>
+      <br />
+    <textarea name="mail_comment" id="mail_comment" cols="100" rows="5">
+   Dear Manager, I have filtered out these invoices for you, which may be not following our discount police very well. Please provide corresponding feedback to Carla within the timeframe.
+    </textarea></td>
+  </tr>
+</table>
+</form>
+
+
+<hr />
+<h2>This is How I calculate the Result , Debug information, so Just ignore it</h2>
+
+
+</body>
+<script language="javascript">
+$(document).ready(function() {
+$(".emailclick").click(function(){
+	
+	$("#manager_email").val($(this).html());
+	
+	});	
+	
+	});
+</script>
+
+</html>

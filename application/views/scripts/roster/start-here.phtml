@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<form id="form1" name="form1" method="post" action="/roster/registration">
+<table width="600" border="0" cellspacing="0" cellpadding="10">
+  <tr>
+    <td colspan="2"><h1 style="color:#069">Welcome</h1></td>
+  </tr>
+  <tr>
+    <td>You Email Address</td>
+    <td>
+      <label for="email_addr"></label>
+      <input type="text" name="email_addr" id="email_addr" />
+   </td>
+  </tr>
+  <tr>
+    <td>Manager Password</td>
+    <td><input type="password" name="mgr_pwd" id="mgr_pwd" />
+      <input type="hidden" name="shop" id="shop" value="<?php echo $this->shop?>" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">If Manager Password Can Not Help You Proceed To Next Step<br />
+      Please Call Head Office To Help You Out
+      <br />
+      <br /><input type="submit" name="btn_submit" id="btn_submit" value="Proceed &gt; &gt;" /></td>
+  </tr>
+</table>
+ </form>
+</body>
+</html>

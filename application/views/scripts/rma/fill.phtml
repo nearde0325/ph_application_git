@@ -1,0 +1,372 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Filling the Form </title>
+<link href="/css/template.css" rel="stylesheet" type="text/css" />
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+</head>
+<?php
+date_default_timezone_set('Australia/Melbourne');
+$dateToday = date("Y-m-d");	
+
+//check if the item exist in the DB 
+$error_flag = 0;
+$products = new Model_DbTable_Productsva();
+$productName = $products->getProductNameByCode(trim($this->productcode));
+if(!$productName){
+		$error_flag = 1;	
+	}
+?>
+<body>
+<script>
+	$(function() {
+		$( "#salesdate" ).datepicker({ dateFormat: "yy-mm-dd" });
+		$( "#returndate" ).datepicker({ dateFormat: "yy-mm-dd" });
+	});
+	</script>
+<table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
+<form id="form1" name="form1" method="post" action="/rma/confirm">
+  <tr>
+    <td style="text-align:center; background-color:#FF9;">**PRINT NOT NECESSARY**</td>
+  </tr>
+  <tr>
+    <td>This new RAM lodged For [<?php echo $this->shophead; ?>] by "<?php echo $this->staffname; ?>" on <?php echo $dateToday;?>
+      <input name="shop_head" type="hidden" value="<?php echo $this->shophead; ?>" />
+    <input name="staff_name" type="hidden" value="<?php echo $this->staffname; ?>" />
+    
+    </td>
+  </tr>
+  <tr>
+    <td><br />
+      Product Code(bar code) for this Lodgement is<br />
+    <br /></td>
+  </tr>
+  <tr>
+    <td style="text-align:center"><h1><?php echo $this->productcode; ?></h1>
+    <?php
+    if($error_flag){
+		echo "<br /><span style=\"color:#F00; font-weight:bold;\"> the product Code not found in the DB , it will pass , however it is recommended that you GO BACK find the correct code</span> ";
+		}
+	?>
+    <input name="product_code" type="hidden" value="<?php echo $this->productcode; ?>" /></td>
+  </tr>
+  <tr>
+    <td>Please Type the Product Name Here<span style="color:#f00;">*</span>:<br />
+      <br />
+<?php
+if(!$productName){
+	$productName = "Input Product Name";
+	}
+?>    
+      <input type="text" name="product_name" id="textfield" style="width:1000px" value="<?php echo $productName;?>"  /><br />
+
+</td>
+  </tr>
+  <tr>
+    <td>Choose the Faulty Reason, select between &quot;New Faulty&quot;and &quot;Returned Product&quot;<span style="color:#f00;"> *</span><br />
+      <br /></td>
+  </tr>
+  <tr>
+    <td>
+<div id="container">
+	<ul id="navigation">
+		<li ><a href="#page1">The "New Faulty" Product</a></li>
+        <li style="display:block; width:300px;">&nbsp; &nbsp; &nbsp;</li>
+		<li ><a href="#page3">Customer Returned Product</a></li>
+	</ul>
+	<br clear="all">
+	<div id="content">
+		<div id="page1" class="page">
+			<h1>&quot;New Faulty&quot; </h1>
+<input name="faulty_source" type="radio" value="1" />
+<span style="color:#f00; font-weight:bold;">&lt;--Please Make Sure Select this Option if you find this faulty product before you sale it to the customer </span>
+<br />
+<table width="1000" style="border:#333 1px solid;" cellspacing="0" cellpadding="0">
+             <tr>
+               <td style="width:200px;"> Faulty Invoice No.</td>
+               <td style="width:166px;"><input type="text" name="invoice_number_faulty" id="invoice_number_faulty" />
+               <span style="color:#900;">*</span></td>
+               <td><span style="font-size:11px">(Start From L13)</span></td>
+               <td>&nbsp;</td>
+               <td>&nbsp;</td>
+               <td>&nbsp;</td>
+             </tr>
+           </table>
+
+		<table width="1000" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="2" align="center" style="background:#5db0e3; padding:10px; text-align:center"> GENERIC PRODUCT<div style="float:right; margin-right:10px;"> <a href="#"><img src="/css/help-new.png" /></a>HELP</div></td>
+    </tr>
+  <tr>
+    <td align="center" style="width:500px; background:#95FFFF; padding:5px;">Case | Accessories | Cables</td>
+    <td align="center"><b>Electronic Products</b> (with battery or using power to function)</td>
+  </tr>
+  <tr>
+    <td style="width:500px;vertical-align:top" >
+      <ul>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason" value="11101" />
+        Components  or parts will not stick on</li>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason2" value="11102" />
+Package  damage or missing but product intact</li>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason3" value="11103" />
+Missing  parts or only Package left</li>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason4" value="11104" />
+Dots  or scratch on product</li>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason5" value="11105" />
+Product  broken or crack</li>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason6" value="11106" />
+Cable  or accessories broken</li>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason7" value="11107" />
+Assemble  fail or broken after first install</li>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason8" value="11108" />
+Case  or SP will not Fit or loose, however, barcode &amp; compatible Model is correct</li>
+      <li> 
+        <input type="radio" name="faulty_reason" id="faulty_reason9" value="11109" />
+Mobile phone malfunction or lose signals after  put the case on</li>
+    </ul>
+  </td>
+    <td style="width:500px;vertical-align:top">
+    <ul>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason10" value="11201" />
+        Cannot  turn on at all</li>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason11" value="11202" />
+        Product  Malfunction </li>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason12" value="11203" />
+        Function  normal , charger not working Or not charging</li>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason13" value="11204" />
+        Cable  or Connector Loose</li>
+      <li>
+        <input type="radio" name="faulty_reason" id="faulty_reason14" value="11205" />
+        Wireless  or Bluetooth Cannot Connect[compatible issue]</li>
+    </ul>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" style="background:#5db0e3; padding:10px; text-align:center">BRANDED PRODUCTS<div style="float:right; margin-right:10px;"> <a href="#"><img src="/css/help-new.png" /></a>HELP</div></td>
+    </tr>
+  <tr>
+    <td align="center" style="background:#95FFFF; padding:5px;"><span style="width:500px;">Case | Accessories | Cables</span></td>
+    <td align="center"><b>Electronic Products</b> (with battery or using power to function)</td>
+  </tr>
+  <tr>
+    <td style="width:500px;vertical-align:top">
+      <ul>
+        <li>
+          <input type="radio" name="faulty_reason" id="faulty_reason19" value="12101" />
+          Loose  broken parts upon unpack</li>
+        <li>
+          <input type="radio" name="faulty_reason" id="faulty_reason20" value="12102" />
+          Missing  parts in the package</li>
+        <li>
+          <input type="radio" name="faulty_reason" id="faulty_reason21" value="12103" />
+          Package  damage but product intact</li>
+        <li>
+          <input type="radio" name="faulty_reason" id="faulty_reason22" value="12104" />
+          Scratch  found upon unpack</li>
+        <li>
+          <input type="radio" name="faulty_reason" id="faulty_reason23" value="12105" />
+          Case / Accessory will not fit the mobile's  Sub-Model</li>
+      </ul>      
+    </td>
+    <td  style="width:500px;vertical-align:top">
+      <ul>
+          <li>
+            <input type="radio" name="faulty_reason" id="faulty_reason15" value="12201" />
+            Package  Damage</li>
+          <li>
+            <input type="radio" name="faulty_reason" id="faulty_reason16" value="12202" />
+            Product  Malfunction</li>
+          <li>
+            <input type="radio" name="faulty_reason" id="faulty_reason17" value="12203" />
+            Battery  or and charging issue</li>
+          <li>
+            <input type="radio" name="faulty_reason" id="faulty_reason18" value="12204" />
+            Compatible  issue </li>
+      </ul>
+      </td>
+  </tr>
+        </table>
+
+		</div>
+		<div id="page2" class="page">
+			<h1>&quot;&quot;</h1>
+		</div>
+		<div id="page3" class="page">
+			<h1>&quot;Returned Product&quot;</h1>
+            <p>
+              <input name="faulty_source" type="radio" value="2" />
+              <span style="color:#f00; font-weight:bold;" >&lt;--Please Make Sure Select this Option if it returned by our customer </span></p>
+            
+          
+            <table width="1000" style="border:#333 1px solid;" cellspacing="0" cellpadding="0">
+             <tr>
+               <td>Product Sales Date </td>
+               <td>
+                 <input type="text" name="product_sale_date" id="salesdate" /></td>
+               <td><span style="width:200px;">Faulty Invoice</span> No.<br />
+                 <span style="font-size:11px">(Start From L13, <br />
+                 Original Sales invoice number<br />
+should be fill in the comment)</span></td>
+               <td><input type="text" name="invoice_number" id="invoice_number" />
+               <span style="color:#900;">*</span></td>
+               <td>Customer Returned Date </td>
+               <td><input type="text" name="customer_return_date" id="returndate" /></td>
+             </tr>
+           </table>
+           <br />
+		   <table width="1000" border="0" cellspacing="0" cellpadding="0">
+		     <tr>
+		       <td colspan="2" align="center" style="background:#5db0e3; padding:10px; text-align:center"> GENERIC PRODUCT
+		         <div style="float:right; margin-right:10px;"> <a href="#"><img src="/css/help-new.png" alt="" /></a>HELP</div></td>
+		       </tr>
+		     <tr>
+		       <td align="center" style="width:500px; background:#95FFFF; padding:5px;">Case | Accessories | Cables</td>
+		       <td align="center"><b>Electronic Products</b> (with battery or using power to function)</td>
+		       </tr>
+		     <tr>
+		       <td style="width:500px;vertical-align:top" ><ul>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason24" value="21101" />
+		          Components or parts will not stick on the case, however after inspection, <span style="color:#900;">not force or physical damage</span>, consider as quality issue</li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason25" value="21102" />
+		           Missing parts or components</li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason26" value="21103" />
+		          Cable jack loose</li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason27" value="21104" />
+		           Case or SP will not Fit or loose, however, barcode & compatible model is correct</li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason28" value="21105" />
+		           Mobile phone malfunction or lose signals after put the case on</li>
+		         
+		         </ul></td>
+		       <td style="width:500px;vertical-align:top"><ul>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason33" value="21201" />
+		           Cannot  turn on at all</li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason34" value="21202" />
+		           Malfunction with no water damage		         </li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason35" value="21203" />
+		           Function  normal , charger not working or not charging</li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason36" value="21204" />
+		           Cable or connector loose, after inspection <span style="color:#900"> no force or physical damage</span>		         </li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason37" value="21205" />
+		           Wireless  or Bluetooth can not connect (compatible issue)</li>
+		         </ul></td>
+		       </tr>
+		     <tr>
+		       <td colspan="2" align="center" style="background:#5db0e3; padding:10px; text-align:center">BRANDED PRODUCTS
+		         <div style="float:right; margin-right:10px;"> <a href="#"><img src="/css/help-new.png" alt="" /></a>HELP</div></td>
+		       </tr>
+		     <tr>
+		       <td align="center" style="background:#95FFFF; padding:5px;"><span style="width:500px;">Case | Accessories | Cables</span></td>
+		       <td align="center"><b>Electronic Products</b> (with battery or using power to function)</td>
+		       </tr>
+		     <tr>
+		       <td style="width:500px;vertical-align:top"><ul>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason38" value="22101" />
+		           Within DOA or ELF period, components or parts will not stick on the case, however after inspection, no force or physical damage		         </li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason39" value="22102" />
+		           Cable jack loose		         </li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason40" value="22103" />
+		           Waterproof fail		         </li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason41" value="22104" />
+		           Mobile phone malfunction or lose signals after put the case on		         </li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason42" value="22105" />
+		           Case or accessory will not fit the mobile's sub-model		         </li>
+		         </ul></td>
+		       <td  style="width:500px;vertical-align:top"><ul>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason43" value="22201" />
+		           DOA  or ELF Period, Cannot turn on at all		         </li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason44" value="22202" />
+		         DOA or ELF Period, Malfunction with no water damage</li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason45" value="22203" />
+		           DOA or ELF Period, Function normal , charger not working Or not charging</li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason46" value="22204" />
+		           Cable or Connector Loose</li>
+		         <li>
+		           <input type="radio" name="faulty_reason" id="faulty_reason46" value="22205" />
+		           DOA or ELF Period, Wireless or Bluetooth Cannot Connect		         </li>                   
+		         </ul></td>
+		       </tr>
+		     </table>
+		</div>
+	</div>
+	
+</div> 
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <br />
+      <br />
+      <?php if($this->shophead =="ONLI"){?>
+      <input name="faulty_source" type="radio" value="3" />
+      For Online ONLY<br />
+	<input type="radio" name="faulty_reason" id="faulty_reason47" value="30001" />
+	Product Default 
+     <input type="radio" name="faulty_reason" id="faulty_reason48" value="30002" />
+     Package Damaged
+     <input type="radio" name="faulty_reason" id="faulty_reason49" value="30003" />
+    Wrong item Sent to Customer
+    <input type="radio" name="faulty_reason" id="faulty_reason50" value="30004" />
+    Warranty Claim
+      <?php
+	  }
+	  ?>
+      <br />
+      Your comment (<strong>and Fill <span style="color:#ff0000">Sales Invoice Number</span> for &quot;Returned Product&quot;</strong>):</td>
+  </tr>
+  <tr>
+    <td>
+      <textarea style="width:1000px" name="faulty_comment" id="textarea" cols="100" rows="3"></textarea></td>
+  </tr>
+  <tr>
+    <td>*If you have doubts about our warranty policy ,please call head office</td>
+  </tr>
+  <tr>
+    <td>*you are fully understand our policy and consider this case has fullfill one of our <br />
+      <br /></td>
+  </tr>
+  <tr>
+    <td style="text-align:center;"><input type="submit" name="button" id="button" value="CREATE THE SUMMAY" /></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  </form>  
+</table>
+
+
+</body>
+</html>

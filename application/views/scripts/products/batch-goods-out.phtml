@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
+
+  <p>
+    <label for="fileField">File :<br />
+      <br />
+    </label>
+    <input type="file" name="upload_file" id="upload_file" />
+  </p>
+  <p>
+    <input type="submit" name="button" id="button" value="Submit" />
+  </p>
+</form>
+<p>File List As Below :<br />
+</p>
+<table width="900" border="1" cellspacing="2" cellpadding="2">
+<?php
+echo $this->tablestring;
+?>
+</table>
+<p><br />
+  <br />
+</p>
+<form id="form2" name="form2" method="post" action="/products/save-batch-goods-out">
+  <p>
+    <label for="textarea"></label>
+  Date : [ example :2012-12-12] :  </p>
+  <p>&nbsp;</p>
+  <p>
+    <input type="text" name="upload_date" id="upload_date" value="<?php echo date("Y-m-d");?>" />
+  </p>
+  <p><br />
+  Ignore which lines, use Comma &quot;,&quot;</p>
+  <p> <br />
+    <textarea name="ignore_line" id="ignore_line" cols="100" rows="3"></textarea>
+    <br />
+    <br />
+    <input type="submit" name="button2" id="button2" value="Submit" />
+    <br />
+  </p>
+</form>
+<p>&nbsp; </p>
+</body>
+</html>

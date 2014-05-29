@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<p>Bonus This Month </p>
+<p>Cash <br />
+</p>
+<table width="1100" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <td>ID Bonus</td>
+    <td>Staff</td>
+    <td>Bonus Type</td>
+    <td>Total Amt</td>
+    <td>Period</td>
+    <td>Hold/Not</td>
+    <td>Will Pay On</td>
+    <td>Paid On</td>
+    <td>Comment</td>
+    <td>&nbsp;</td>
+  </tr>
+  <?php 
+  $stDetail = new Model_DbTable_Roster_Stafflogindetail();
+  $btype = new Model_Payroll_Staffbonustype();
+  
+  
+  foreach($this->bList as $k => $v){
+	if($v['pay_type'] == 1){
+		$btypeRow = $btype->getStaffbonustype($v['type_bonus']);
+		$sdRow = $stDetail->getDetail($v['id_staff']);
+		$nName = $sdRow['ni'];
+		$fName = Model_EncryptHelper::getSslPassword($sdRow['n']);
+		
+	  ?>
+  <tr>
+    <td><?php echo $v['id_bonus']?></td>
+    <td><?php echo $nName."[".$fName."]";?></td>
+    <td><?php echo $btypeRow['type_bonus']?></td>
+    <td>$ <?php echo $v['amt_total_bonus']?></td>
+    <td><?php echo $v['period_bonus_begin']." TO ".$v['Period_bonus_end'];?></td>
+    <td><?php echo ($v['hold_to_date']=='0000-00-00')?"":$v['hold_to_date']?></td>
+    <td><?php echo $v['pay_date']?></td>
+    <td>&nbsp;</td>
+    <td><?php echo $v['detail_bonus']?></td>
+    <td>&nbsp;</td>
+  </tr>
+ <?php 
+	}
+ }?> 
+</table>
+<br />
+Bank
+<br />
+<table width="1100" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <td>ID Bonus</td>
+    <td>Staff</td>
+    <td>Bonus Type</td>
+    <td>Total Amt</td>
+    <td>PayBank</td>
+    <td>Super</td>
+    <td>Period</td>
+    <td>Hold/Not</td>
+    <td>Will Pay On</td>
+    <td>Paid On</td>
+        <td>Comment</td>
+    <td>&nbsp;</td>
+  </tr>
+  <?php foreach($this->bList as $k => $v){
+	if($v['pay_type'] == 2){
+		$btypeRow = $btype->getStaffbonustype($v['type_bonus']);
+		$sdRow = $stDetail->getDetail($v['id_staff']);
+		$nName = $sdRow['ni'];
+		$fName = Model_EncryptHelper::getSslPassword($sdRow['n']);
+		
+	  ?>
+  <tr>
+    <td><?php echo $v['id_bonus']?></td>
+    <td><?php echo $nName."[".$fName."]";?></td>
+    <td><?php echo $btypeRow['type_bonus']?></td>
+    <td>$ <?php echo $v['amt_total_bonus']?></td>
+    <td>$ <?php echo $v['amt_bank_bonus']?></td>
+    <td>$ <?php echo $v['amt_bonus_super']?></td>
+        <td><?php echo $v['period_bonus_begin']." TO ".$v['Period_bonus_end'];?></td>
+    <td><?php echo ($v['hold_to_date']=='0000-00-00')?"":$v['hold_to_date']?></td>
+    <td><?php echo $v['pay_date']?></td>
+    <td>&nbsp;</td>
+    <td><?php echo $v['detail_bonus']?></td>
+    <td>&nbsp;</td>
+  </tr>
+ <?php 
+	}
+ }?> 
+</table>
+</body>
+</html>

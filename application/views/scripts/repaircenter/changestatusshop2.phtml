@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/css/template.css" rel="stylesheet" type="text/css" />
+
+<title>Change Status</title>
+</head>
+<?php
+$insstr1 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#FFFF00; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Waiting For HQ Pick Up</td>
+  </tr>
+</table>
+';
+$insstr2 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#00B0F0; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>In Transit (Shop to HQ)</td>
+  </tr>
+</table>
+';
+$insstr3 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#FFC000; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Before Quote</td>
+  </tr>
+</table>
+';
+$insstr4 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#92D050; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>After Quote</td>  
+  </tr>
+</table>
+';
+$insstr5 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#E6B8B7; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Phone Fixed / Phone Can\'t Fix</td>
+  </tr>
+</table>
+';
+$insstr6 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#00B0F0; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>In Transit (HQ to Shop)</td>
+  </tr>
+</table>
+';
+$insstr7 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#BFBFBF; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>In Store, Waiting Customer Pickup</td>
+  </tr>
+</table>
+';
+$insstr8 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#FFFFFF; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Pick Up, Case Closed.</td>  
+  </tr>
+</table>
+';
+
+?>
+<body>
+<?php 
+//echo var_dump($this->currentstatus);
+?>
+<table width="600" border="1" cellspacing="0" cellpadding="0">
+<form id="form1" name="form1" method="post" action="">
+  <tr>
+    <td colspan="2" class="thetbheader">Current Status</td>
+  </tr>
+  <tr>
+    <td colspan="2">Status Code: [<?php echo $this->currentstatus[0]['id_status'] ?>]<br/>
+    <?php
+	$vid = $this->currentstatus[0]['id_status'];
+	
+	if($vid == 1 or $vid == 3 or $vid == 5 or $vid == 7  ){ echo $insstr1;}
+	if($vid == 8 or $vid == 9 ){ echo $insstr2;}
+	if($vid == 12 or $vid == 14 or $vid == 16 ){ echo $insstr3;}
+	if($vid == 18 or $vid == 20 or $vid == 22 or $vid == 24  ){ echo $insstr4;}
+	if($vid == 23 or $vid == 25 or $vid == 29 ){ echo $insstr5;}
+	if($vid == 26 or $vid == 27 ){ echo $insstr6;}
+	if($vid == 28 or $vid == 30 ){ echo $insstr7;}
+	if($vid == 80 or $vid == 90 ){ echo $insstr8;}
+	?>
+    </td>
+  </tr>
+  <tr>
+    <td width="300" class="thetbheader" >
+    Job ID:
+      <label for="textfield"></label></td>
+    <td class="thetbheader" >Enter Your Name*: </td>
+  </tr>
+  <tr>
+    <td><input type="text" name="job_id" id="job_id" value="<?php echo $this->currentstatus[0]['id_job']?>" readonly="readonly" /></td>
+    <td><input type="text" name="staff_name" id="staff_name"  /></td>
+  </tr>
+  <tr>
+    <td colspan="2"  class="thetbheader" >Choose Status To Change:<br />
+    
+    </td>
+  </tr>
+  <tr>
+  
+    <td colspan="2">
+
+
+      <table width="596" border="1" cellspacing="0" cellpadding="0">
+              <?php
+    
+	$jobStatus = new Model_DbTable_Jobstatus();
+
+	?> 
+        <tr>
+          <td width="200" style="background-color:#FFFF00;">Waiting For HQ Pickup</td>
+          <td>
+          <input name="id_status" type="radio"  value="1" <?php if($vid == 1) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(1);?><br />
+          <input name="id_status" type="radio"  value="3" <?php if($vid == 3) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(3);?><br />
+          <input name="id_status" type="radio"  value="5" <?php if($vid == 5) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(5);?><br />
+          <input name="id_status" type="radio"  value="6" <?php if($vid == 7) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(7);?><br />                              
+          </td>
+        </tr>
+        <!--
+        <tr>
+          <td style="background-color:#00B0F0;">In Transit(Shop to HQ)</td>
+          <td>
+          <input name="id_status" type="radio"  value="8" <?php if($vid == 8) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(8);?><br />
+          <input name="id_status" type="radio"  value="9" <?php if($vid == 9) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(9);?><br />
+          </td>
+        </tr>
+        -->
+        <tr>
+          <td style="background-color:#FFC000;">Before Quote, Wait Tech Reply</td>
+          <td>
+          <!--
+           <input name="id_status" type="radio"  value="12" <?php if($vid == 12) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(12);?><br />
+          -->
+          <input name="id_status" type="radio"  value="14" <?php if($vid == 14) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(14);?><br />
+          <input name="id_status" type="radio"  value="16" <?php if($vid == 16) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(16);?><br />                  
+          </td>
+        </tr>
+        <tr>
+          <td style="background-color:#92D050;">After Quote,Wait Cus Reply</td>
+          <td>
+           <input name="id_status" type="radio"  value="18" <?php if($vid == 18) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(18);?><br />
+          <input name="id_status" type="radio"  value="20" <?php if($vid == 20) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(20);?><br />
+          <input name="id_status" type="radio"  value="22" <?php if($vid == 22) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(22);?><br />     
+          <input name="id_status" type="radio"  value="24" <?php if($vid == 24) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(24);?><br />                     
+          </td>
+        </tr>
+        <!--
+        <tr>
+          <td style="background-color:#E6B8B7;">Phone Fixed / Can Not Fix</td>
+          <td>
+           <input name="id_status" type="radio"  value="23" <?php if($vid == 23) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(23);?><br />
+          <input name="id_status" type="radio"  value="25" <?php if($vid == 25) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(25);?><br />
+          <input name="id_status" type="radio"  value="29" <?php if($vid == 29) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(29);?><br />           
+          
+          </td>
+        </tr>
+        <tr>
+          <td style="background-color:#00B0F0;">In Transit (Shop to HQ)</td>
+          <td>
+           <input name="id_status" type="radio"  value="26" <?php if($vid == 26) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(26);?><br />
+          <input name="id_status" type="radio"  value="27" <?php if($vid == 27) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(27);?><br />                   
+          </td>
+        </tr>
+        -->
+        <tr>
+          <td style="background-color:#BFBFBF;">In Store, Waiting For Customer<br />
+            Pickup</td>
+          <td>
+           <input name="id_status" type="radio"  value="28" <?php if($vid == 28) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(28);?><br />
+          <input name="id_status" type="radio"  value="30" <?php if($vid == 30) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(30);?><br />          
+          
+          </td>
+        </tr>
+         <tr>
+          <td>Customer Already Picked Up.<br />
+            Case Close</td>
+          <td><input name="id_status" type="radio"  value="80" <?php if($vid == 80) echo "checked=\"checked\""; ?> />
+            <?php echo $jobStatus->getStatusDes(80);?><br />
+           
+           <?php 
+           $repairjobs = new Model_DbTable_Repairjob();
+           $theids = $this->currentstatus[0]['id_job'];
+           
+           ?>
+           
+            <input name="id_status" type="radio"  value="90" <?php if($vid == 90) echo "checked=\"checked\""; ?> 
+            
+           	<?php 
+			$condition1 = $repairjobs->ifQuoteChange($theids) && !$repairjobs->ifSecondInvoiced($theids);
+			$condition2 = !$repairjobs->ifQuoteChange($theids) && !$repairjobs->ifFirstInvoiced($theids);
+           	var_dump($condition1);
+			var_dump($condition2);
+			var_dump($repairjobs->ifQuoteChange($theids) );
+			var_dump($repairjobs->ifFirstInvoiced($theids));
+			if($condition1 or $condition2){
+           	
+           		echo "disabled=\"disabled\"";           	
+           	
+           	?>
+            
+             />
+            <?php echo $jobStatus->getStatusDes(90);?><br />
+            <?php
+				if($condition1){
+            	echo "<span style=\"color:#FF0000;\">Since The Second Invoice has not been filled, you may not able to close the case now!</span>";
+				}
+				if($condition2){
+				echo "<span style=\"color:#FF0000;\">Since The Invoice ID has not been filled, you may not able to close the case now!</span>";	
+				}
+			}
+			else{
+            ?>
+            />
+            <?php echo $jobStatus->getStatusDes(90);?><br />
+            <?php }?>
+            </td>
+        </tr>
+        <tr>
+          <td style="background-color:#963634;">Special Status</td>
+          <td>
+          <input name="id_status" type="radio"  value="99" <?php if($vid == 99) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(99);?><br />
+          <input name="id_status" type="radio"  value="92" <?php if($vid == 92) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(92);?><br />          
+           <input name="id_status" type="radio"  value="94" <?php if($vid == 94) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(94);?><br />
+          <input name="id_status" type="radio"  value="96" <?php if($vid == 96) echo "checked=\"checked\""; ?> />
+          <?php echo $jobStatus->getStatusDes(96);?><br />           
+          
+          </td>
+        </tr>
+      </table>
+      <p>&nbsp;</p></td>
+  </tr>
+  <tr>
+  	<td colspan="2" align="center" valign="baseline">
+    <input name="submit" type="submit" value="submit" />
+    </td>
+  </tr>
+   <tr>
+  	<td colspan="2" align="center" valign="baseline">
+    <?php  echo $this->resultmessage;?>
+    </td>
+  </tr> 
+</form> 
+</table>
+</body>
+</html>

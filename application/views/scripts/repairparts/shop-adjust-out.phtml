@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Warehouse Transfer IN </title>
+<script language="javascript">
+function enableUpload(){
+	document.getElementById("sub_upload").disabled = false;
+	}
+
+</script>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+
+<h1>AO Adjust OUT (-)Shop ID:<?php echo $this->idShop?></h1>
+<p>***********************************<br />
+  <br />
+*********************************** <br />
+  
+  <?php
+$arrProducts = array();
+$end = 0;
+
+if($_POST){
+	//unset($arrProducts);
+	$arrProducts = unserialize(base64_decode(trim($_POST['saved_arr'])));
+	//echo $_POST['saved_arr'];
+	$end = count($arrProducts);
+	$tmpstr = trim($_POST['barcode_code'])."[".trim($_POST['barcode_qty'])."]";
+	$arrProducts[$end] = $tmpstr;
+	//var_dump($arrProducts);	
+	}
+if(isset($_GET['rm'])){
+	
+	$i = $_GET['rm'];
+	//echo $i;
+	$arrProducts = unserialize(base64_decode(trim($_GET['data'])));
+	array_splice($arrProducts,$i,1);
+	}	
+
+?>
+</p>
+<table width="800" border="0" cellspacing="1" cellpadding="5" bgcolor="#333">
+ <tr>
+    <td bgcolor="#FFFFFF">Scan BarCode:</td>
+    <td bgcolor="#FFFFFF">
+    <form id="form1" name="form1" method="post" action="/repairparts/shop-adjust-out/shop/<?php echo $this->idShop;?>">
+      <input type="text" name="barcode_code" id="barcode_code" /> 
+      Qty:
+[      
+<label for="textfield2"></label>
+      <input type="text" name="barcode_qty" id="barcode_qty" width="50" value="1" />
+      ]
+       <input type="hidden" name="saved_arr" id="saved_arr" value="<?php echo base64_encode(trim(serialize($arrProducts)));?>"/>
+      <input type="button" name="button" id="button" value="Add Record" onclick="javascript:document.form1.submit();" />
+      </form>
+      </td>
+  </tr>
+  <tr>
+    <td width="150" bgcolor="#FFFFFF">Records to Upload:</td>
+    <td bgcolor="#FFFFFF"><form id="form2" name="form2" method="post" action="/repairparts/save-shop-adjust-out">
+      <p>
+        <label for="staff_name"></label>
+        Staff Name:
+        <input type="text" name="staff_name" id="staff_name" onchange="enableUpload()" />
+        <input type="hidden" name="id_shop" id="id_shop" value="<?php echo $this->idShop?>" />
+        <br />
+        <br />
+  <input name="sub_upload" id="sub_upload" value="SAVE THESE RECORDS" type="submit" disabled="disabled" /><br />
+        <br />
+        Record For Upload to Database<br /> 
+      </p>
+      <hr />
+      <table width="100%" border="0" cellspacing="0" cellpadding="3" style="font-size:11px;">
+  <tr>
+    <td width="150">Code</td>
+    <td>Description(If you can not see the descripton, you barcode is incorrect)</td>
+    <td width="100">Qty</td>
+    <td width="50">Action</td>
+  </tr>
+      <?php
+	
+    foreach($arrProducts as $key => $value){
+			//echo $value;
+	$valArr = explode("[",$value,2);
+	?>   
+  
+  <tr>
+    <td><?php echo $valArr[0]?></td>
+    <td><?php
+   $rProducts = new Model_DbTable_Pr_Prproducts();
+   echo $rProducts->getProductDes($valArr[0]); 
+	?>
+    </td>
+    <td>[<?php echo $valArr[1]?>  Pcs</td>
+    <td>
+	<?php 
+	echo "<input type=\"hidden\" name=\"upload[]\" value=\"".$value."\" />";
+	echo "<a href=\"?rm=".$key."&data=".base64_encode(trim(serialize($arrProducts)))."\">Remove</a><br />";?></td>
+  </tr>
+<?php
+
+	}
+?>
+
+</table>
+    
+    </form></td>
+  </tr>
+ 
+</table>
+    <script language="javascript">
+    document.getElementById('barcode_code').focus(); 
+    </script> 
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif;" >
+<table width="300" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <th scope="col">THE CODE</th>
+  </tr>
+<?php foreach($this->resList as $key => $v){?>  
+  <tr>
+    <td><a target="_blank" href="/repairparts/check-notes-detail/idjob/<?php echo $v["id_job"]; ?>"><?php echo $v["id_job"]; ?></a></td>
+  </tr>
+<?php }?>
+</table>
+</body>
+</html>

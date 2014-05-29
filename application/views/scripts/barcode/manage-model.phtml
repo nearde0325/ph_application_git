@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<p>Model</p>
+<form id="form3" name="form3" method="post" action="">
+  Choose Manufacure First,Default is 1 Apple.<br />
+  <label for="id_manu_model"></label>
+  <select name="id_manu_model" id="id_manu_model">
+
+  <?php 
+  foreach ($this->manulist as $k1=>$v1){
+	  $chkstr="";
+	  if($this->idManu == $v1['id_barcode']){
+		  
+		  $chkstr='selected="selected"';
+		  }
+	  
+	  ?>
+       <option value="<?php echo $v1['id_barcode']?>" <?php echo $chkstr?> ><?php echo $v1['des_barcode']?></option>   
+  <?php	  
+	  }
+  ?>
+  </select>
+  <input type="submit" name="sub_go" id="sub_go" value="GO" />
+</form>
+<p><br />
+</p>
+<table width="800" border="0" cellspacing="0" cellpadding="5">
+  <form id="form2" name="form2" method="post" action="">
+  <tr>
+    <td style="width:100px" >ID</td>
+    <td style="width:100px" >CODE</td>
+    <td style="width:600px" >Description</td>
+  </tr>
+ <?php 
+ if(isset($this->modellist)){
+ foreach($this->modellist as $key => $value){
+ ?> 
+  <tr>
+    <td><span style="width:400px">
+      <input name="row[<?php echo $value['id_model']?>][id]" type="text" id="row[<?php echo $value['id_model']?>][id]" style="width:50px;" value="<?php echo $value['id_model']?>" readonly="readonly" />
+    </span></td>
+    <td><span style="width:400px">
+      <input type="text" name="row[<?php echo $value['id_model']?>][code]" id="row[<?php echo $value['id_model']?>][code]" style="width:100px;"  value="<?php echo $value['code_model']?>" />
+    </span></td>
+    <td><span style="width:400px">
+      <input type="text" name="row[<?php echo $value['id_model']?>][des]" id="row[<?php echo $value['id_model']?>][des]" style="width:350px;"  value="<?php echo $value['des_model']?>" />
+    </span></td>
+  </tr>
+ <?php 
+ }
+ }
+ ?> 
+  <tr>
+    <td colspan="3">
+      <input type="hidden" name="id_manu" id="id_manu" value="<?php echo $this->idManu?>" />	
+      <input type="submit" name="sub_1" id="sub_1" value="Modify" />
+</td>
+  </tr>
+    </form>  
+</table>
+<p><br />
+  Add New<br />
+</p>
+<table width="600" border="0" cellspacing="0" cellpadding="10">
+<form id="form1" name="form1" method="post" action="">
+  <tr>
+    <td style="width:200px" >Manufacure</td>
+    <td style="width:400px" ><label for="id_add_manu"></label>
+      <?php
+      $manu = new Model_DbTable_Barcodemanu();
+	  echo $manu->getManuDesByID($this->idManu)
+	  ?>
+      <input type="hidden" name="id_add_manu" id="id_add_manu" value="<?php echo $this->idManu?>" /></td>
+  </tr>
+  <tr>
+    <td>Code:</td>
+    <td><span style="width:400px">
+      <input type="text" name="code_add_model" id="code_add_model" />
+    </span></td>
+  </tr>
+  <tr>
+    <td>Description:</td>
+    <td><span style="width:400px">
+      <input type="text" name="des_add_model" id="des_add_model" style="width:350px;" />
+    </span></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="submit" name="sub_2" id="sub_2" value="Add" />
+</td>
+  </tr>
+  </form>  
+</table>
+<p>  <br />
+</p>
+</body>
+</html>

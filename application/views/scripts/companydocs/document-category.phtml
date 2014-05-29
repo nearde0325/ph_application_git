@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Category List</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+<h2>Company Document Category List</h2>
+<table width="600" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="width:450px;">Category Title</td>
+    <td>Action</td>
+  </tr>
+<?php 
+
+$theDoc = new Model_DbTable_Companydocuments();
+
+
+foreach($this->categorylist as $key => $value){
+?>  
+  <tr>
+    <td><?php echo $value['title_cate']?><br />
+    ---------------<br />
+    <?php
+    $list = $theDoc->listDocByCategory($value['id_cate']);
+    foreach($list as $k => $v){
+    	echo "<div><form name=\"myform99\">  ";
+    	echo $k + 1 ." | ".$v['title']." ";
+	?>
+            
+<input type="button" value="Del Doc" 
+onClick="if(confirm('Sure Want to Delete this Document?'))
+ window.location.href = '/companydocs/delete-doc?token=WAXN6BE79H4E&id=<?php echo  $v['id_docs']?>'
+else alert('Delete Canceled');">
+
+    <?php
+		echo "</form></div><br />";	
+    }
+	
+	?>
+        
+    </td>
+<td style="text-align:center">
+        <form name="myform1">  
+<input type="button" value="Delete" 
+onClick="if(confirm('Sure Want to Delete this Category?'))
+ window.location.href = '/companydocs/delete-cate?token=WAXN6BE79H4E&id=<?php echo  $value['id_cate']?>'
+else alert('Delete Canceled');">
+</form>
+    
+    </td>
+  </tr>
+<?php
+}
+?>
+</table>
+<p><br />
+</p>
+<h2>Add Category</h2>
+<form id="form2" name="form2" method="post" action="/companydocs/add-category">
+  <input name="cate_title" type="text" id="cate_title" size="80" />
+  <input type="submit" name="button" id="button" value="Submit" />
+</form>
+<br />
+<br />
+<h2>Upload Document <br />
+</h2>
+<form action="/companydocs/upload-doc" method="post" enctype="multipart/form-data" name="form3" id="form3">
+Category:<br />
+<label for="id_cate"></label>
+<select name="id_cate" id="id_cate">
+<?php 
+foreach($this->categorylist as $key => $value){
+?>
+<option value="<?php echo $value['id_cate']?>"><?php echo $value['title_cate']?></option>
+<?php
+}
+?>
+</select>
+<br />
+<br />
+Title<br />
+<br />
+<label for="title_doc"></label>
+<input name="title_doc" type="text" id="title_doc" size="80" />
+<br />
+File
+<br />
+<br />
+<label for="file_a"></label>
+<input type="file" name="file_a" id="file_a" />
+<br />
+<br />
+<br />
+  3.1 It is a Must See Documents ?? 
+      <br />
+      <input type="radio" name="news_must_see" id="radio" value="1" />
+      <label for="news_must_see"></label>
+      Yes, Show It in Everyone's Attendance Page 
+      <input type="radio" name="news_must_see" id="radio2" value="0" />
+      No, only Show It In Company Info Page<br />
+
+      
+<input type="submit" name="button2" id="button2" value="Submit" />
+</form>
+<h2>&nbsp; </h2>
+</body>
+</html>

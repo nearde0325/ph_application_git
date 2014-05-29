@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+	text-align:center;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+</head>
+<?php 
+	$dateEnd = Model_DatetimeHelper::getLastWeekSunday();
+?>
+<body  style="font-family:Arial, Helvetica, sans-serif" >
+<h2>Sales and Stock Updated on Every Thursday Midnight, You should check this on Thursday Morning.</h2>
+<table width="1300" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <td rowspan="3">Barcode</td>
+    <td rowspan="3">Description</td>
+    <td rowspan="3">&nbsp;</td>
+    <td colspan="11">Sales</td>
+    <td style="width:1px;">&nbsp;</td>
+    <td colspan="4">Stock</td>
+    <td>&nbsp;</td>
+    <td colspan="<?php
+    $totalCount = count($this->arrShip);
+	echo $totalCount+1;
+	
+	?>">Shipment</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td rowspan="2">Wk -8</td>
+    <td rowspan="2">Wk -7</td>
+    <td rowspan="2">Wk -6</td>
+    <td rowspan="2">Wk -5</td>
+    <td rowspan="2">Wk -4</td>
+    <td rowspan="2">Wk -3</td>
+    <td rowspan="2">Wk -2</td>
+    <td rowspan="2">Wk -1</td>
+    <td colspan="2">Average</td>
+    <td rowspan="2">Total</td>
+    <td rowspan="2">&nbsp;</td>
+    <td colspan="2" rowspan="2">Warehouse</td>
+    <td rowspan="2">Shop Total</td>
+    <td rowspan="2">Hold</td>
+    <td rowspan="2">&nbsp;</td>
+    <?php 
+	foreach($this->arrShip as $key2 => $shipment){
+	?>
+    <td rowspan="2"><?php echo $shipment;?></td>
+    <?php
+	}
+	 ?>
+    <td rowspan="2">Hold</td>
+    <td rowspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="background-color:#DDD;">WA</td>
+    <td>AM</td>
+  </tr>
+  <?php 
+  
+  $pros = new Model_DbTable_Productsva();
+  
+  foreach($this->pList as $key => $v){
+  	$id = $pros->getProductID($v['code_product']);
+	$line = $pros->getProduct($id);
+	$dateIntro = $line['date_introduce'];
+	
+	$week = Model_DbTable_Products_Sales::eightWeekNewProduct($dateIntro, $dateEnd);
+	
+  	// var_dump($v);
+  ?>
+  <tr>
+  	<td><?php echo $v['code_product']?></td>
+  	<td align="left"><span style="font-size:12px;"><?php echo $pros->getProductNameByCode($v['code_product']);?></span></td>
+  	<td>&nbsp;</td>
+  	<td><?php echo $v['sales_w8']?><?php echo ($week ==8)?"<img src='/im/start.png' />":""; ?></td>
+  	<td><?php echo $v['sales_w7']?><?php echo ($week ==7)?"<img src='/im/start.png' />":""; ?></td>
+  	<td><?php echo $v['sales_w6']?><?php echo ($week ==6)?"<img src='/im/start.png' />":""; ?></td>
+  	<td><?php echo $v['sales_w5']?><?php echo ($week ==5)?"<img src='/im/start.png' />":""; ?></td>
+  	<td><?php echo $v['sales_w4']?><?php echo ($week ==4)?"<img src='/im/start.png' />":""; ?></td>
+  	<td><?php echo $v['sales_w3']?><?php echo ($week ==3)?"<img src='/im/start.png' />":""; ?></td>
+  	<td><?php echo $v['sales_w2']?><?php echo ($week ==2)?"<img src='/im/start.png' />":""; ?></td>
+  	<td><?php echo $v['sales_w1']?><?php echo ($week ==1)?"<img src='/im/start.png' />":""; ?></td>
+  	<td  style="background-color:#DDD;" ><?php echo $avgSales = Model_DbTable_Products_Sales::weightOrderAverage($v['sales_w1'] , $v['sales_w2'] , $v['sales_w3'] , $v['sales_w4'] , $v['sales_w5'] , $v['sales_w6'] , $v['sales_w7'] , $v['sales_w8']) ?></td>
+  	<td><?php echo round(($v['sales_w1'] + $v['sales_w2'] + $v['sales_w3'] + $v['sales_w4'] + $v['sales_w5'] + $v['sales_w6'] + $v['sales_w7'] + $v['sales_w8'])/8,1); ?></td>
+  	<td><?php echo $v['sales_w1'] + $v['sales_w2'] + $v['sales_w3'] + $v['sales_w4'] + $v['sales_w5'] + $v['sales_w6'] + $v['sales_w7'] + $v['sales_w8'] ?></td>
+  	<td style="background-color:#333;">&nbsp;</td>
+  	<td><?php echo $v['stock_wh']?></td>
+  	<td><span style="font-size:12px">-<?php echo $v['kt_wh']?></span></td>
+  	<td><?php echo $v['stock_shop']?></td>
+    <?php
+    $hold = "-";
+	if($avgSales == 0 && ($v['stock_wh'] + $v['stock_shop'])>10 && $week >= 10 ){
+		$hold = "CLS";
+		}
+	// no stock no sales	
+	if($avgSales > 0){
+		
+		$hold = round($v['stock_wh'] /$avgSales,1);
+		
+		}	
+	
+	?>
+  	<td
+    <?php
+    switch($hold){
+		case("CLS"):{echo 'style="background-color:#600"';break;}
+		case($hold>0 && $hold<4):{echo 'style="background-color:#f00"';break;}
+		case($hold>=4 && $hold<6):{echo 'style="background-color:#ff0"';break;}
+		case($hold>6):{echo 'style="background-color:#0f0"';break;}
+		case("-"):{echo 'style="background-color:#DDD"';break;}
+		case(0):{echo 'style="background-color:#999"';break;}
+		}
+	?>
+    
+    ><?php echo $hold;?></td>
+    <td  style="background-color:#333;" >&nbsp;</td>
+	<?php
+    $sDetail = new Model_DbTable_Order_Shippingdetail();
+	$totalQty = 0;
+	
+	foreach($this->arrShip as $key => $vv){
+		$qty = $sDetail->getShippingQtyOrder($v['code_product'], $key);
+		$totalQty += (int)$qty;
+	?>
+    <td>
+    <?php echo ($qty)?$qty:"-" ?>
+    </td>
+    <?php
+  		}
+	 ?>
+  	<td
+    <?php
+    $holdAfter = ($avgSales >0 && $totalQty > 0 )?round(($v['stock_wh'] + $totalQty) / $avgSales,1):"-";
+    switch($holdAfter){
+		case("CLS"):{echo 'style="background-color:#600"';break;}
+		case($holdAfter >0 && $holdAfter <4):{echo 'style="background-color:#f00"';break;}
+		case($holdAfter >=4 && $holdAfter < 6):{echo 'style="background-color:#ff0"';break;}
+		case($holdAfter > 6):{echo 'style="background-color:#0f0"';break;}
+		case("-"):{echo 'style="background-color:#DDD"';break;}
+		case(0):{echo 'style="background-color:#999"';break;}
+		}	 
+	
+	?>
+    ><?php
+    echo $holdAfter;
+	?></td>
+  	<td>&nbsp;</td>
+  </tr>
+  <?php
+  }
+  ?>
+</table>
+</body>
+</html>

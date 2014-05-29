@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/css/template.css" rel="stylesheet" type="text/css" />
+<title>Phone Repair Status Summary</title>
+</head>
+
+<body>
+
+<table width="1000" style="border:#06C solid 1px;" cellspacing="2" cellpadding="5">
+  <tr>
+    <td width="250" align="center"><a href="/repaircenter/showallstatusbycode/code/1,3,5,7,34">Waiting HQ Pick Up</a></td>
+    <td width="250" align="center"><a href="/repaircenter/showallstatusbycode/code/14,16">In House Repair</a></td>
+    <td width="250" align="center"> <a href="/repaircenter/showallstatusbycode/code/9,12,22,24">Contact Mobile Clinic</a></td>
+    <td width="250" align="center"><a href="/repaircenter/showallstatusbycode/code/18,20">Contact Customer</a></td>
+  </tr>
+  <tr>
+    <td width="250" align="center"><a href="/repaircenter/showallstatusbycode/code/26">Waiting For Distribution</a></td>
+    <td width="250" align="center"><a href="/repaircenter/showallstatusbycode/code/28,30,31,33">Waiting Customer Pickup</a></td>
+    <td width="250" align="center"> <a href="/repaircenter/showallstatusbycode/code/35">Outstanding Job</a></td>
+    <td width="250" align="center">&nbsp;</td>
+  </tr>  
+</table>
+
+<br />
+You may still need check <a href="/repaircenter/showallstatus">ALL</a> status here<br />
+<br />
+
+
+
+<table width="1000"  cellspacing="0" cellpadding="1" style="border:#06C solid 1px;">
+  <tr>
+    <td colspan="2" style="width:150px;" class="thetbheader">Job ID</td>
+    <td style="width:180px;" class="thetbheader">Mobile</td>
+    <td style="width:180px;" class="thetbheader">Customer Contacts</td>
+    <td colspan="2" align="center" style="width:240px;" class="thetbheader">Status</td>
+    <td style="width:80px;"class="thetbheader" >Last Update</td>
+    <td colspan="5" align="center" valign="middle" class="thetbheader">Actions</td>
+  </tr>
+<?php
+$scArray = array(); 
+if($this->statuscode != ""){
+	$scArray = explode(",",$this->statuscode);
+	}
+	
+$lastStatusList = new Model_DbTable_Repairstatusrecord();
+if(empty($this->searchresult)){
+?>
+<tr>
+	<td colspan="12"> No record at the moment</td>
+</tr>
+<?php	
+	}
+else{
+$counter = 0;		
+foreach($this->searchresult as $k=>$v){
+$theLastStatus = $lastStatusList->getLastStatus($v['id_job']);
+if($theLastStatus[0]['id_status'] == $v['id_status'] and $theLastStatus[0]['time_record'] == $v['time_record'] and in_array($theLastStatus[0]['id_status'],$scArray) ){	
+?>
+  <tr
+  <?php 
+  if($counter%2 ==1 ){ 
+  echo 'class="thelineback"';
+  }
+  $counter++;
+  ?>
+  >
+    <td>[<?php echo $v['shop_code']?>]</td>
+    <td><?php echo $v['id_job'];?><a href="/repaircenter/viewdetail/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank" ><img src="/css/details.gif" /></a></td>
+
+    <td><?php echo $v['mobile_brand']." ".$v['mobile_model']; ?></td>
+    <td><?php echo $v['customer_name'];?><a href="/repaircenter/viewdetail/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank"><img src="/css/details.gif" /></a></td>
+    <td style="width:230px;">
+    
+	[<?php echo $v['id_status'];?>]
+    <?php
+    $newStatus = new Model_DbTable_Jobstatus();
+	echo $newStatus->getStatusDes($v['id_status']);
+	?>	
+    </td>
+    <td style="width:10px;"><a href="/repaircenter/viewhistory/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank"><img src="/css/details.gif" /></a></td>
+    <td align="center"><?php echo $v['time_record'];?></td>
+    <td align="center" valign="middle"><a href="/repaircenter/changestatus/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank"><img src="/css/edit.gif" />
+Status</a></td>
+    <td align="center" valign="middle"><a href="/repaircenter/changequote/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;"  target="_blank" ><img src="/css/edit.gif" />
+Quote</a></td>
+    <td align="center" valign="middle"><a href="/repaircenter/updateinvoice/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;"  target="_blank"><img src="/css/edit.gif" />
+Invoice</a></td>
+  </tr>
+<?php
+}
+}
+}
+?>
+</table>
+</body>
+</html>

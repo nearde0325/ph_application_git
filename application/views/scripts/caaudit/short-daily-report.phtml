@@ -1,0 +1,455 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+<style type="text/css">
+.hasTooltip {
+    position:relative;
+}
+.hasTooltip span {
+    display:none;
+}
+
+.hasTooltip:hover span {
+    display:block;
+    background-color:#888;
+    border-radius:1px;
+    color:white;
+    box-shadow:1px 1px 2px gray;
+    position:absolute;
+    padding:5px;
+    top:0px;
+    left:45px;   
+    width:250px; /* I don't want the width to be too large... */
+	/*white-space: nowrap; */
+}	
+</style>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 ,beforeShowDay: function(date){ return [date.getDay() == 1,""]}});
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+	});
+	</script>
+<?php
+$caOpen = new Model_DbTable_Cashaccountopening();
+$list = $caOpen->listAllShopcode();
+ 
+?>
+Color Code : <span style="background-color:#FF8080;width:150px;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Error Occur | <span style="background-color:#DEB363;width:150px;">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+Need Your Attention  | <span style="background-color:#9CFECD;width:150px;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Everything Ok | APOS Sales File Only Available After 04/29/2013,Please Only Select <em><strong>ONE WEEK   </strong></em>Check ALL <a href="/caaudit/short-daily-report-all" target="_blank">CLICK HERE</a>
+<form action="" method="post">
+  <p>Shopcode: <select name="shopcode"  id="shopcode">
+    
+    <?php foreach($list as $key => $v){ ?> 
+    <option value="<?php echo $v['shop_code_ca']?>" 
+    <?php 
+	if($v['shop_code_ca'] == $this->shopCode){echo 'selected="selected"';}
+	
+	?>
+    ><?php echo $v['shop_code_ca']?></option>
+ <?php  } ?> 
+  
+</select>
+     
+  Date Begin [yyyy-mm-dd]:
+    <input name="date_begin" id="date_begin" type="text" />  Date End:<input name="date_end" id="date_end" type="text" /> |  <input type="submit" name="button" id="button" value="Submit" />
+  </p>
+</form>
+<table width="1450" border="1" cellspacing="0" cellpadding="5" >
+  <tr>
+  	<td align="center">Date</td>
+    <td align="center">Time<br />
+Staff</td>
+    <td align="center">Yesterday <br />
+    Closing</td>
+    <td align="center">Today <br />
+    Opening</td>
+    <td align="center">CashOut</td>
+    <td align="center">BankIn</td>
+    <td align="center" bgcolor="#666666" style="width:1px">&nbsp;</td>
+    <td align="center"><span style="font-size:12px">Cash InTill</span><br />
+    <span style="font-size:8px">(After Bankin/Cashout)</span></td>
+    <td align="center" style="width:150px;">Cash Sales</td>
+    <td colspan="2" align="center" style="width:200px;">EFTPOS Sales<br />
+      <span style="font-size:8px">(Qty M/Copy)</span></td>
+    <td align="center">Total Sales<br />
+      <span style="font-size:8px">(APOS Filled In)</span></td>
+    <td align="center">APOS<br />
+<span style="font-size:8px">(Real)</span></td>
+    <td align="center"><span style="font-size:12px">Cash InTill</span><br />
+    <span style="font-size:8px">(Before Expense)</span></td>    
+    <td align="center">Expense</td>
+    <td align="center">Today<br />
+      Closing</td>
+    <td align="center">Remark</td>
+    <td align="center">View File</td>
+    <td align="center">&nbsp;</td>
+  </tr>
+  <?php 
+  if($_POST || $_GET){
+  foreach($this->arraudit as $key => $v)
+  {
+  ?>
+  <tr>
+    <td>
+    <?php 
+	if($v[1]){
+	echo $v[1][0]["date_record_open"];
+	}
+	elseif($v[2]){
+	echo $v[2][0]["date_record_close"];
+	}
+	?>
+    </td>
+    <td style="font-size:9px; font-stretch:narrower">
+	<?php 
+	if($v[1]){
+	echo $v[1][0]["time_record_open"];
+	echo " ".$v[1][0]["staff_name_prepare_open"];
+	}
+	 ?>
+    <br /> 
+	<?php 
+	if($v[2]){
+	echo $v[2][0]["time_record_close"];
+	echo " ".$v[2][0]["staff_name_prepare_close"];
+	} ?>
+    </td>
+    <td 
+    <?php if(trim($v[3][0]["date_record_close"])!=trim($v[4])){ ?>
+	style="background-color:#FF8080;" 	
+	<?php }?>
+    >
+    <?php 
+	if($v[3]){
+	echo $v[3][0]["close_balance_cash_close"]; 
+	}?>
+    <br /> 
+    <?php
+	//if(true){
+    if(trim($v[3][0]["date_record_close"])!=trim($v[4])){
+	echo "<span style=\"font-size:11px\">{$v[3][0]["date_record_close"]}</span>";	
+		}
+	?>
+    </td>
+    <td 
+    <?php
+    $openCash = 0 ;
+	if($v[1]){
+	$openCash = $v[1][0]["amount_note_100_open"];
+	$openCash += $v[1][0]["amount_note_50_open"];
+	$openCash += $v[1][0]["amount_note_20_open"];
+	$openCash += $v[1][0]["amount_note_10_open"];
+	$openCash += $v[1][0]["amount_note_5_open"];
+	$openCash += $v[1][0]["amount_coin_2_open"];
+	$openCash += $v[1][0]["amount_coin_1_open"];
+	$openCash += $v[1][0]["amount_coin_05_open"];
+	$openCash += $v[1][0]["amount_coin_02_open"];
+	$openCash += $v[1][0]["amount_coin_01_open"];
+	$openCash += $v[1][0]["amount_coin_005_open"];
+	}
+	if($openCash ==0 || abs($openCash - $v[3][0]["close_balance_cash_close"]) >0.04 ){
+	?>
+	style="background-color:#FF8080;" 
+    <?php }?>	
+    
+    >
+    <?php
+	echo $openCash;
+	?>
+    </td>
+    <td
+    <?php
+    if($v[1]){
+	if($v[1][0]["amount_cash_out_open"] <10 &&  $v[1][0]["amount_bank_in_open"] <10){
+	?>
+    style="background-color:#DEB363;" 
+    <?php }}?>
+    >
+	<?php
+	if($v[1]){
+	 echo $v[1][0]["amount_cash_out_open"]; 
+	 }?>
+    </td>
+    <td
+        <?php
+    if($v[1]){
+	if($v[1][0]["amount_cash_out_open"] <10 &&  $v[1][0]["amount_bank_in_open"] <10){
+	?>
+    style="background-color:#DEB363;" 
+    <?php }}?>
+    >
+    <?php
+	if($v[1]){
+	 echo $v[1][0]["amount_bank_in_open"]; 
+	}?>
+    </td>
+    <td bgcolor="#666666">&nbsp;</td>
+    <td 
+     
+	 <?php
+	$openBalClose = 0;
+	
+	if($v[2]){
+	$openBalClose = $v[2][0]["open_balance_close"];
+	}
+	if($openBalClose ==0){
+	echo ' style="background-color:#FF8080;"';	
+	}
+	if($openBalClose >0 && $openBalClose < 300){
+	?>
+    style="background-color:#DEB363;" 
+    <?php } ?> 
+    >
+    <?php
+	if($v[2]){
+	 echo $v[2][0]["open_balance_close"];
+	}?>
+    </td>    
+    <td
+    <?php
+	if($v[2]){
+	 if($v[2][0]["total_cash_sales_close"]<100){
+		 echo ' style="background-color:#DEB363;"';
+		 }
+	}?>
+    >
+    Inp: $<?php
+	if($v[2]){
+	 echo $v[2][0]["total_cash_sales_close"];
+	}?><br />
+	
+    <?php
+    if($v[6]){
+	echo "Cal: $".$v[6][0]["amt"]."[".$v[6][0]["ct"]."]<br/>"; 	
+	}
+	if($v[6] && $v[2]){
+	echo " Dif: $".round(($v[6][0]["amt"] - $v[2][0]["total_cash_sales_close"]),2);
+		}
+		
+	?>
+
+</td>
+    <td 
+     <?php
+	if($v[2]){
+	 if($v[2][0]["total_electronic_cash_close"]<100){
+		 echo ' style="background-color:#DEB363;"';
+		 }
+	}?>
+    
+    >$<?php
+	if($v[2]){
+	 echo $v[2][0]["total_electronic_cash_close"]; 
+	}?>
+    <span style="font-size:11px;">
+    [<?php
+	if($v[2]){
+	 echo $v[2][0]["qty_merchant_copy_close"]; 
+	}?>] (
+    <?php
+    if($v[2]){
+	echo "Dr:".$v[2][0]["drcr_electronic_cash_close"];	
+	echo "+Ae:".$v[2][0]["amex_electronic_cash_close"];	
+	echo "+vo:".$v[2][0]["offline_voucher_close"];
+	}
+	?>)
+    <br />
+    <?php
+    if($v[6]){
+    echo "Dr:".$v[6][1]["amt"]."[".$v[6][1]["ct"]."]";	
+	echo "+Ae:".$v[6][2]["amt"]."[".$v[6][2]["ct"]."]";
+    echo "+Mix:".$v[6][3]["amt"]."[".$v[6][3]["ct"]."]";
+	}
+    ?>
+    </span>
+    </td>
+    <td 
+     <?php
+	// amt eacho 
+	$amtOk = false;
+	$qtyOk = false;
+	$tInput = 0;
+	$tFile = 0;
+	$qInput = 0;
+	$qFile = 0;
+	if($v[2]){
+		$tInput = $v[2][0]["drcr_electronic_cash_close"] + $v[2][0]["amex_electronic_cash_close"] + $v[2][0]["offline_voucher_close"];
+		$qInput = $v[2][0]["qty_merchant_copy_close"];
+		} 
+	if($v[6]){
+		$tFile = $v[6][1]["amt"] + $v[6][2]["amt"] + $v[6][3]["amt"]; 
+		$qFile = $v[6][1]["ct"] + $v[6][2]["ct"] + $v[6][3]["ct"]; 
+		}	
+	if(abs($tInput -$tFile)<0.5){$amtOk = true;}
+	if((int)$qInput == (int)$qFile){$qtyOk = true;}
+	if($amtOk && $qtyOk){
+		echo ' style="background-color:#9CFECD;"';
+		}
+	elseif(!$amtOk){
+		echo ' style="background-color:#FF8080;"';
+		}			
+	elseif($amtOk && !$qtyOk){		
+		echo ' style="background-color:#DEB363;"';
+		}
+	else{
+		}	
+		
+	?>
+    
+    ><?php 
+	echo "TNC: $".($v[6][1]["amt"] + $v[6][2]["amt"] + $v[6][3]["amt"])."[".($v[6][1]["ct"] + $v[6][2]["ct"] + $v[6][3]["ct"])."]<br/>";
+	if($v[2] && $v[6]){
+	echo "Dif: $".round(($v[6][1]["amt"] + $v[6][2]["amt"] + $v[6][3]["amt"] -($v[2][0]["drcr_electronic_cash_close"] + $v[2][0]["amex_electronic_cash_close"] + $v[2][0]["offline_voucher_close"])),2);
+	}
+
+?></td>
+    <td 
+    
+    ><?php 
+	if($v[2]){
+	echo $v[2][0]["total_net_sales_close"]; 
+	?>
+	<span style="font-size:11px;">
+     <?php
+		if( abs($v[2][0]["total_net_sales_close"]-$v[2][0]["apos_total"]) >0.04 ){	
+	 echo "<br />";	
+	 echo $v[2][0]["apos_total"]; 
+	 }}
+	 ?>
+     <?php
+     if($v[6]){
+	echo "A:".( $v[6][0]["amt"] + $v[6][1]["amt"] +$v[6][2]["amt"] +$v[6][3]["amt"] ); 		 
+	//echo "Re:".$v[6][5]["amt"]."[".$v[6][5]["ct"]."]" ;
+	//echo "Final:".($v[6][0]["amt"] + $v[6][1]["amt"] +$v[6][2]["amt"] +$v[6][3]["amt"] + $v[6][5]["amt"] ); 
+	} 
+	 ?>
+    </span>
+    </td>
+    <td
+    <?php
+    if($v[5]){
+		if(abs($v[2][0]["total_net_sales_close"] - $v[5]) >0.04){
+			echo  'style="background-color:#FF8080;"';
+			}
+		}
+	?>
+     >
+     <?php echo $v[5];?>
+    </td>
+    <td >
+    <?php
+	if($v[2]){
+	 echo $v[2][0]["sub_expense_total"] + $v[2][0]["close_balance_cash_close"] ; 
+	 } ?>
+    </td>
+    <td
+    <?php
+	if($v[2]){
+	 if($v[2][0]["sub_expense_total"] >0){ echo ' style="background-color:#DEB363;"'; }
+	 } ?>
+    
+    >(<?php
+	if($v[2]){
+	 echo $v[2][0]["sub_expense_total"]; 
+	 } ?>)</td>
+    <td><?php
+	if($v[2]){
+	 echo $v[2][0]["close_balance_cash_close"];
+	}?></td>
+  	<td 
+    <?php
+    $styleStr = ' style="font-size:11px;background-color:#9CFECD;"';
+	if($v[1]){
+		if(trim($v[1][0]["remark_open_cash_not_match"])!=""){
+			$styleStr = ' style="font-size:11px;background-color:#DEB363;"';	
+		}
+	}
+	if($v[2]){
+		if(trim($v[2][0]["remark_close"])!=""){
+			$styleStr = ' style="font-size:11px;background-color:#DEB363;"';	
+		}
+	}
+	echo $styleStr;	
+	?>
+     > O:
+     <?php
+     	if($v[1]){
+		if(trim($v[1][0]["remark_open_cash_not_match"])!=""){	 
+	 ?>
+     <a href="#" class="hasTooltip">Remark<span><?=trim($v[1][0]["remark_open_cash_not_match"])?></span></a>
+     <?php
+	 		}
+	}
+	  ?>
+     <br />
+C:
+<?php
+	if($v[2]){
+		if(trim($v[2][0]["remark_close"])!=""){
+?>
+<a href="#" class="hasTooltip">Remark<span><?=trim($v[2][0]["remark_close"])?></span></a>
+<?php }} ?>
+
+
+</td>
+    <td style="font-size:11px;">&nbsp;<?php
+	if($v[1]){
+    $fileNameOpen =$this->shopCode."-opening-".$v[1][0]["date_record_open"].".html";
+	$fileNameClose =$this->shopCode."-closing-".$v[1][0]["date_record_open"].".html";
+	$fileNameSummary =$this->shopCode."-".$v[1][0]["date_record_open"]."-sum.html";
+	
+	?>
+      <a href="/ca/<?php echo $this->shopCode."/".$fileNameOpen?>" target="_blank">O</a> |
+      <a href="/ca/<?php echo $this->shopCode."/".$fileNameClose?>" target="_blank">C</a> |
+    <a href="/ca/<?php echo $this->shopCode."/".$fileNameSummary?>" target="_blank">S</a></td>
+    <td style="font-size:11px;"><?php
+       if($v[6]){
+    echo "ExChange: $".$v[6][4]["amt"]."[".$v[6][4]["ct"]."]";	
+	   }
+	
+	?></td>    
+  <?php
+	}
+  ?>
+  </tr>
+ <?php
+  
+  
+  }}
+ ?> 
+  <tr>
+  	<td align="center">Date</td>
+    <td align="center">Time</td>
+    <td align="center">Yesterday <br />
+    Closing</td>
+    <td align="center">Today <br />
+    Opening</td>
+    <td align="center">CashOut</td>
+    <td align="center">BankIn</td>
+    <td align="center" bgcolor="#666666" style="width:1px">&nbsp;</td>
+    <td align="center"><span style="font-size:12px">Cash InTill</span><br />
+    <span style="font-size:8px">(After Bankin/Cashout)</span></td>
+    <td align="center">Cash Sales</td>
+    <td colspan="2" align="center">EFPOS Sales</td>
+    <td align="center">Total Sales</td>
+    <td align="center">APOS</td>
+    <td align="center"><span style="font-size:12px">Cash InTill</span><br />
+    <span style="font-size:8px">(Before Expense)</span></td>    
+    <td align="center">Expense</td>
+    <td align="center">Today<br />
+Closing</td>
+    <td align="center">Qty/M</td>
+    <td align="center">View File</td>
+    <td align="center">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Order Confirmation</title>
+<style type="text/css">
+/* <![CDATA[ */
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+/* ]]> */
+
+
+</style>
+
+</head>
+<body  style="font-family:Arial, Helvetica, sans-serif">
+<h1>Confirm The Parts Qty You Received This Week:</h1>
+<h4>
+<ul>
+  <li>
+    If The Qty is not matching, DO NOT Confirm the Order
+  </li>
+  <li>
+   Using KAKT Management Page to Commucate with Warehouse
+  </li>
+  <li>
+    Once Order Confirmed, Stock Qty Will be Add immediatelly to your shop Stock
+  </li>
+</ul>
+</h4>
+
+<table width="500" border="0" cellspacing="1" cellpadding="0">
+
+  <tr>
+    <th bgcolor="#00FF00" scope="col">FullFill</th>
+    <th bgcolor="#FF8080" scope="col">Refuse / No Stock</th>
+    <th bgcolor="#FFFF00" scope="col">Partially</th>
+    <th bgcolor="#6699FF" scope="col">New / Over Stock</th>
+  </tr>
+</table>
+<br />
+<br />
+<br />
+
+<table width="850" border="0" cellspacing="1" cellpadding="0">
+<form action="" method="post">
+    <tr>
+    <th >Code</th>
+    <th style="width:300px;" >Description</th>
+    <th style="width:100px;" >Order</th>
+    <th style="width:100px;" >Allocated</th>
+    <th style="width:100px;" >Received</th>
+    </tr>
+<?php 
+$isSent = 0;
+	$rProduct = new Model_DbTable_Pr_Prproducts();
+foreach($this->oList as $key => $v){
+	$isSent = $v["is_send"];
+	if($v['code_product']!="SERVICE" && $v['code_product']!="CUSTPART" && ($v["qty_order"] >0 || $v["qty_allocate"] >0) ){
+	
+	?> 
+  <tr 
+ <?php
+	//set background 
+	$alloQty = 0;
+	if($v["qty_allocate"] == 0){
+		//refused
+		if($v["qty_order"] > 0){
+			
+			echo 'style="background-color:#FF8080;"';
+		}
+		else{
+			echo 'style="background-color:#999999;"';
+		}
+		//zero qty
+		} 
+	else{
+		//full fill
+			$alloQty =  $v["qty_allocate"];
+			
+		if($alloQty > $v["qty_order"] ){
+			echo 'style="background-color:#6699FF;"';
+			}
+		if($alloQty == $v["qty_order"] ){
+			echo 'style="background-color:#00FF00;"';
+			}
+		if($alloQty < $v["qty_order"] ){
+			echo 'style="background-color:#FFFF00;"';
+			}
+		if($alloQty == 0){
+			echo 'style="background-color:#FF8080;"';
+			}		
+	}
+ ?> 
+ >
+    <td><?php echo $v['code_product']?></td>
+    <td><span style="font-size:12px;"><?php echo $rProduct->getProductDes($v['code_product'])?></span></td>
+    <td><?php echo $v['qty_order']?></td>
+    <td><?php echo $v['qty_allocate']?></td>
+    <td>&nbsp;</td>
+  </tr>
+<?php }
+
+}?>  
+
+<tr>
+<td style="padding:20px; text-align:center;" colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="submit" name="btn_confirm" id="btn_confirm" value="Confirm Order Qty &amp; Notify Warehouse"  
+ <?php 
+ if(!$this->error){ echo 'disabled = "disabled"';}
+ 
+ ?>  
+  />
+</td>
+</tr>
+</form>
+</table>
+
+</body>
+</html>

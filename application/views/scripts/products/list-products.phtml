@@ -1,0 +1,71 @@
+
+<div class="box span12">
+  <div class="box-header" data-original-title>
+    <h2><i class="icon-user"></i><span class="break"></span>Products List</h2>
+    <div class="box-icon"> <a href="#" class="btn-setting"><i class="icon-wrench"></i></a> <a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a> <a href="#" class="btn-close"><i class="icon-remove"></i></a> </div>
+  </div>
+  <div class="box-content">
+    <form action="/products/save-product-order" method="post">
+      <table class="table table-striped table-bordered bootstrap-datatable datatable ">
+        <thead>
+          <tr>
+            <th rowspan="2" scope="col"><input type="checkbox" name="check_all" id="check_all" />
+              All</th>
+            <th rowspan="2" scope="col">Barcode</th>
+            <th rowspan="2" scope="col">Title</th>
+            <th colspan="4" scope="col" style="text-align:center">Stock</th>
+            <th colspan="4" scope="col" style="text-align:center">Sales</th>
+            <th colspan="5" style="text-align:center" scope="col">Back Order</th>
+            <th rowspan="2" style="text-align:center" scope="col">Action</th>
+          </tr>
+          <tr>
+            <td>Wh</td>
+            <td>Old</td>
+            <td>New</td>
+            <td>Total</td>
+            <td>A4W</td>
+            <td>A8W</td>
+            <td>Trend</td>
+            <td>Last</td>
+            <td>Order</td>
+            <td>Sp ETA</td>
+            <td>Act Rec</td>
+            <td>Act Ship</td>
+            <td>Act Arr</td>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+if(!empty($this->pList)){
+ 	foreach($this->pList as $v) {?>
+          <tr>
+            <td><input type="checkbox" name="id_product[]" id="id_product<?=$v["id_product"]?>" value="<?=$v["id_product"]?>" /></td>
+            <td><?=$v["code_product"]?></td>
+            <td><?=$v["title_product"]?></td>
+            <td><?=$v["stock_wh"]?></td>
+            <td><?=$v["stock_shop_old"]?></td>
+            <td><?=$v["stock_shop_new"]?></td>
+            <td><? echo $v["stock_wh"] + $v["stock_shop_old"] + $v["stock_shop_new"] ?></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td><button class="btn btn-small" data-rel="tooltip" title="" data-original-title="Hide Product"> <i class="icon-trash"></i> </button></td>
+          </tr>
+          <?php 
+ 	}
+}?>
+        </tbody>
+      </table>
+      <button  type="submit" class="btn btn-small btn-inverse" id="btn_add_to_order"  name ="btn_add_to_order"  >Add to Order List </button>
+      &nbsp;
+      <button  type="submit" class="btn btn-small btn-inverse" id="btn_new_order" name="btn_new_order" >New Order List</button>  
+      
+    </form>
+  </div>
+</div>

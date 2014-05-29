@@ -1,0 +1,78 @@
+<div class="row-fluid sortable ui-sortable">
+<?php 
+if($this->addNew){
+?>
+            				<div class="box span12">
+					<div class="box-header" data-original-title>
+						<h2><i class="icon-plus-sign"></i><span class="break"></span>Add to New Order</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+<form id="form1" name="form1" method="post" action="/order/save-add-new-order" class="form-horizontal">
+  <p>
+Order ID :
+    <input name="order_id" type="text" id="order_id" value="<?=$this->newOrder?>" readonly="readonly" />
+    <br />
+    <br />
+    Your Name:
+<input type="text" name="staff_name" id="staff_name" />
+    <input type="hidden" name="id_products" id="id_products" value="<?=$this->strArrProducts?>" />
+    <br />
+    </p>
+  <p>Your Comment:<br />
+    <label for="order_comm"></label>
+    <textarea name="order_comm" id="order_comm" cols="100" rows="5"></textarea>
+    <br />
+  <input type="submit" name="button" id="button" value="Submit" />
+  </p>
+</form>
+</div>
+</div>
+
+<?php
+}
+else{
+?>
+            				<div class="box span6">
+					<div class="box-header" data-original-title>
+						<h2><i class="icon-arrow-right"></i><span class="break"></span>Add Into Unfinallized Order</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="icon-remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+ <form id ="form2" action="/order/save-add-exist-order" method="post" >   
+                    <table class="table table-striped table-bordered bootstrap-datatable datatable " >
+  	<thead>
+    <tr>
+    <th scope="col">Select</th>
+    <th scope="col">Order ID</th>
+  </tr>
+  </thead>
+  <tbody>
+  <?php  foreach($this->orderList as $k =>$v ) { ?>
+  <tr>
+    <td>
+	<label class="radio"> <div class="radio"><input name="id_order" id="order_selected<?=$v["id_order"]?>" value="<?=$v["id_order"]?>" checked="" type="radio"></div></label>
+	 <div style="clear:both"></div>
+    </td>
+    <td><?=$v["order_no"]?></td>
+  </tr>
+  <?php } ?>
+  </tbody>
+  
+</table>
+<input type="hidden" name="id_products" id="id_products" value="<?=$this->strArrProducts?>" />
+<button  type="submit" class="btn btn-small btn-inverse" id="btn_confirm_add"  name ="btn_confirm_add"  >Confirm Add to Order</button>
+</form>
+</div></div>
+<?php
+}
+?>
+</div>

@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial;">
+<h1>Faulty Summary</h1>
+<?php
+date_default_timezone_set('Australia/Melbourne'); 
+$dateToday = date("Y-m-d");
+?>
+<p>Today is <?php echo $dateToday; ?> ,Week <?php echo date("w")?>  in <?php echo date("Y")?> Year</p>
+
+<form id="form1" name="form1" method="post" action="">
+ Week Begin:
+ <select name="week_begin" id="week_begin">
+ <?php
+ for($i=1;$i<53;$i++){
+		$att="";
+	if($i<10){
+		$att="0";
+		}
+	else{
+		$att="";
+		}
+ ?>   
+    <option value="2014W<?php echo $att.$i;?>">
+    <?php
+	
+    echo date("Y-m-d",strtotime("2014W".$att.$i));
+	?>
+    </option>
+ <?php
+}
+ ?>
+    
+ </select>
+ <input type="submit" name="button" id="button" value="Submit" />
+ 
+</form>
+<p>Period: Fix 4 Weeks INCLUDE the begin week.<br />
+
+<hr />
+<?php 
+
+if($_POST){
+$weekBegin = $_POST['week_begin'];
+//echo $weekBegin;
+$dateBegin = date("Y-m-d",strtotime($weekBegin));
+$dEnd =  new DateTime(date("Y-m-d",strtotime($weekBegin)));
+date_add($dEnd,date_interval_create_from_date_string('27 days'));
+$dateEnd = date_format($dEnd,'Y-m-d');
+
+$fProduct = new Model_DbTable_Faultyproduct();
+
+
+
+?>
+  <br />
+From <?php echo $dateBegin?>  to  <?php echo $dateEnd?> <br />
+  <br />
+  Total :  
+  <?php
+ $countFaultyProduct =  $fProduct->countListFaultyProductByDate($dateBegin, $dateEnd);
+ //var_dump($countFaultyProduct); 
+ echo $countFaultyProduct[0]["COUNT(DISTINCT `product_code_faulty`)"];
+  ?>
+   Barcode Report Faulty ,
+   
+   <?php
+   $sumFaultyPCs = $fProduct->sumTotalFaultyPCs($dateBegin, $dateEnd);
+   //var_dump($sumFaultyPCs); 
+   echo $sumFaultyPCs[0]["SUM(`faulty_qty`)"];
+   ?>
+   PCs</p>
+<p>Total : <?php
+	$countFaultyShop = $fProduct->countListFaultyShopByDate($dateBegin, $dateEnd);
+	
+	echo $countFaultyShop[0]["COUNT(DISTINCT `shopcode_faulty`)"];
+
+?> Shop Report Faulty <br />
+  <br />
+<hr />
+During this 4 Weeks from <?php echo $dateBegin?> to <?php echo $dateEnd?><br />
+  <br />
+<form id="form2" name="form2" method="post" action="/faultyaudit/topfaultybarcode">
+  Top
+    
+    <input type="text" name="topnum" id="topnum" style="width:50px" value="0" />
+  Faulty BarCode (put 0 means list all)
+  <input type="hidden" name ="date_begin" value="<?php echo $dateBegin?>" />
+  <input type="hidden" name ="date_end" value="<?php echo $dateEnd?>" />
+  
+  <br />
+  <br />
+  Show Red Arror if Increase 
+  <input type="text" name="incr" id="incr" style="width:50px" value="5" />
+  than Last 4 Weeks
+  <br />
+  <br />
+<input type="submit" name="button2" id="button2" value="Open &gt;&gt;" />
+</form><br />
+<br />
+
+<form id="form3" name="form2" method="post" action="/faultyaudit/toprejectbarcode">
+  Top
+  <input type="text" name="topnum" id="textfield2" style="width:50px" value="0" />
+  Rejected Faulty BarCode (put 0 means list all)
+    <input type="hidden" name ="date_begin" value="<?php echo $dateBegin?>" />
+  <input type="hidden" name ="date_end" value="<?php echo $dateEnd?>" />
+  <input type="submit" name="button3" id="button3" value="Open &gt;&gt;" />
+</form>
+
+  <br />
+  <br />
+<form id="form3" name="form2" method="post" action="/faultyaudit/topfaultyshop">
+  Top
+  
+  Faulty Shop 
+    <input type="hidden" name ="date_begin" value="<?php echo $dateBegin?>" />
+  <input type="hidden" name ="date_end" value="<?php echo $dateEnd?>" />
+  <input type="submit" name="button3" id="button3" value="Open &gt;&gt;" />
+</form><br />
+<br />
+
+  <form id="form4" name="form2" method="post" action="/faultyaudit/toprejectshop">
+    Top
+    
+    Reject Faulty Shop
+      <input type="hidden" name ="date_begin" value="<?php echo $dateBegin?>" />
+    <input type="hidden" name ="date_end" value="<?php echo $dateEnd?>" />
+    <input type="submit" name="button4" id="button4" value="Open &gt;&gt;" />
+  </form>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>
+    <?php
+}
+?>
+  </p>
+<p>&nbsp; </p>
+
+
+</body>
+</html>

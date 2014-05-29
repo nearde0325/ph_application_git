@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial;">
+<h1>Shop RMA Reject Order List<?php echo $_POST['date_begin'] ?>  to <?php echo $_POST['date_end'] ?> </h1>
+<?php 
+//var_dump($this->topnum);
+//var_dump($this->fproducts);
+$counter = 0;
+$topnum = 999;
+$fProduct = new Model_DbTable_Faultyproduct();
+
+?>
+<table width="888" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <td bgcolor="#FFFFFF">ShopCode</td>
+    <td bgcolor="#FFFFFF">Reject PCs</td>
+    <td bgcolor="#FFFFFF">Reject Detail</td>
+  </tr>
+<?php 
+foreach($this->fproducts as $key => $value){
+if($counter < $topnum){
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF"><?php echo $value['shopcode_faulty']?></td>
+    <td bgcolor="#FFFFFF"><?php echo $value["SUM(`faulty_qty`)"]?></td>
+    <td bgcolor="#FFFFFF">
+    <?php 
+    $fProductRow = $fProduct->singleShopRejectDetail($value['shopcode_faulty'],$_POST['date_begin'],$_POST['date_end']);
+    
+    foreach($fProductRow as $key2 =>$value2){
+    	 
+    	echo $value2['date_faulty']." | ".$value2['product_code_faulty']." | ".$value2['faulty_qty']."(PCs) | Audit: ".$value2['audit_comment']."<br />";
+    	 
+    }
+    
+    ?>
+    </td>
+  </tr>
+<?php
+	}
+$counter++;	
+}
+?>  
+  
+  <tr>
+    <td bgcolor="#FFFFFF">ShopCode</td>
+    <td bgcolor="#FFFFFF">Reject PCs</td>
+    <td bgcolor="#FFFFFF">Reject Detail</td>
+  </tr>
+</table>
+
+</body>
+</html>

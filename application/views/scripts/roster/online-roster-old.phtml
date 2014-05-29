@@ -1,0 +1,308 @@
+<style>
+#scrollDiv{position:fixed;left:50px;top:10px;}
+* html #scrollDiv{top:expression(eval(document.body.scrollTop));} /*ie 5.5+认识俺*/
+</style>
+<?php 
+$stDetail = new Model_DbTable_Roster_Stafflogindetail();
+
+$viewArrResult = $this->arrResultLive; ?>
+<link rel="stylesheet" href="/js/chosen/chosen.css" />
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<form name="form1" method="post" action="">
+  <br>
+<br>
+<div id="scrollDiv">
+  <table width="500" border="0" cellspacing="1" cellpadding="10" bgcolor="#000000">
+    <tr>
+      <th bgcolor="#FFFFFF" scope="col">Staff Name</th>
+      <th bgcolor="#FFFFFF" scope="col">Shift Begin</th>
+      <th bgcolor="#FFFFFF" scope="col">Shift End</th>
+    </tr>
+    <tr>
+    <td colspan="3" bgcolor="#999999"><span style="font-size:12px;">If The Staff Name is not selected, the corresponse shift time will be ignored</span></td>
+    </tr>
+  <tr>
+    <td bgcolor="#FFFFFF"><select name="staff_name_1" data-placeholder="Staff Name" class="chzn-select" style="width:120px" id="staff_name_1">
+      <option value=""></option>
+      <?php foreach($this->stList as $k => $v) {?>
+      <option value="<?=$v["id"]?>">
+        <?=ucwords($v["ni"])?>
+        .
+        <?=chr($v["il"]+64)?> ( <?=ucwords(Model_EncryptHelper::getSslPassword($v["n"]))?> )
+        </option>
+      <?php } ?>
+    </select></td>
+    <td bgcolor="#FFFFFF"><label for="select"></label>
+      <select name="shift_start_hour_1" id="shift_start_hour_1">
+        <option value="07">07</option>
+        <option value="08">08</option>
+        <option value="09" selected="selected">09</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+      </select>
+      <strong>:
+      <select name="shift_start_min_1" id="shift_start_min_1">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+      </select>
+      </strong></td>
+    <td bgcolor="#FFFFFF"><select name="shift_end_hour_1" id="shift_end_hour_1">
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17" selected="selected">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+    </select><strong>:</strong> <select name="shift_end_min_1" id="shift_end_min_1">
+      <option value="00">00</option>
+      <option value="15">15</option>
+      <option value="30" selected="selected">30</option>
+      <option value="45">45</option>
+      <option value="59">59</option>
+    </select></td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF"><select name="staff_name_2" data-placeholder="Staff Name" class="chzn-select" style="width:120px" id="staff_name_2">
+      <option value=""></option>
+      <?php foreach($this->stList as $k => $v) {?>
+      <option value="<?=$v["id"]?>">
+        <?=ucwords($v["ni"])?>
+        .
+        <?=chr($v["il"]+64)?> ( <?=ucwords(Model_EncryptHelper::getSslPassword($v["n"]))?> )
+        </option>
+      <?php } ?>
+    </select></td>
+    <td bgcolor="#FFFFFF"><select name="shift_start_hour_2" id="shift_start_hour2">
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09" selected="selected">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+    </select>
+      <strong>:
+      <select name="shift_start_min_2" id="shift_start_min_2">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+      </select>
+      </strong></td>
+    <td bgcolor="#FFFFFF"><select name="shift_end_hour_2" id="shift_end_hour2">
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17" selected="selected">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+    </select>
+      <strong>:</strong>
+      <select name="shift_end_min_2" id="shift_end_min_2">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30" selected="selected">30</option>
+        <option value="45">45</option>
+        <option value="59">59</option>
+      </select></td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF"><select name="staff_name_3" data-placeholder="Staff Name" class="chzn-select" style="width:120px" id="staff_name-3">
+      <option value=""></option>
+      <?php foreach($this->stList as $k => $v) {?>
+      <option value="<?=$v["id"]?>">
+        <?=ucwords($v["ni"])?>
+        .
+        <?=chr($v["il"]+64)?> ( <?=ucwords(Model_EncryptHelper::getSslPassword($v["n"]))?> )
+        </option>
+      <?php } ?>
+    </select></td>
+    <td bgcolor="#FFFFFF"><select name="shift_start_hour_3" id="shift_start_hour3">
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09" selected="selected">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+    </select>
+      <strong>:
+      <select name="shift_start_min_3" id="shift_start_min_3">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+      </select>
+      </strong></td>
+    <td bgcolor="#FFFFFF"><select name="shift_end_hour_3" id="shift_end_hour3">
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17" selected="selected">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+    </select>
+      <strong>:</strong>
+      <select name="shift_end_min_3" id="shift_end_min_3">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30" selected="selected">30</option>
+        <option value="45">45</option>
+        <option value="59">59</option>
+      </select></td>
+  </tr>
+</table>
+</div>
+  <input name="btn_addto2" type="submit" value="Add To Table">
+  <br>
+<?php 
+$arrDate = $this->arrDate;
+foreach($this->spList as $k => $shop) { ?>  
+<br>
+<br><br>
+<br>
+
+<table width="1400" border="0" cellspacing="1" cellpadding="10" bgcolor="#666666">
+    <tr>
+      <th bgcolor="#FFFFFF" scope="col" style="width:20px;">&nbsp;</th>
+      <th bgcolor="#FFFFFF" scope="col" style="width:20px;"><input name="choice[<?=$k?>][0]" type="checkbox" id="choice" value="1"></th>
+      <th align="left" bgcolor="#FFFFFF" scope="col">Monday<br>
+      <?=$arrDate[0]?></th>
+      <th bgcolor="#FFFFFF" scope="col" style="width:20px;"><input name="choice[<?=$k?>][1]" type="checkbox" id="choice1" value="1"></th>
+      <th align="left" bgcolor="#FFFFFF" scope="col">Tuesday<br>
+      <?=$arrDate[1]?></th>
+      <th bgcolor="#FFFFFF" scope="col" style="width:20px;"><input name="choice[<?=$k?>][2]" type="checkbox" id="choice" value="1"></th>
+      <th align="left" bgcolor="#FFFFFF" scope="col">Wednesday<br>
+      <?=$arrDate[2]?></th>
+      <th bgcolor="#FFFFFF" scope="col" style="width:20px;"><input name="choice[<?=$k?>][3]" type="checkbox" id="choice" value="1"></th>
+      <th align="left" bgcolor="#FFFFFF" scope="col">Thursday<br>
+      <?=$arrDate[3]?></th>
+      <th bgcolor="#FFFFFF" scope="col" style="width:20px;"><input name="choice[<?=$k?>][4]" type="checkbox" id="choice" value="1"></th>
+      <th align="left" bgcolor="#FFFFFF" scope="col">Friday<br>
+      <?=$arrDate[4]?></th>
+      <th bgcolor="#84BFFB" scope="col" style="width:20px;"><input name="choice[<?=$k?>][5]" type="checkbox" id="choice" value="1"></th>
+      <th align="left" bgcolor="#84BFFB" scope="col">Saturday<br>
+      <?=$arrDate[5]?></th>
+      <th bgcolor="#84BFFB" scope="col" style="width:20px;"><input name="choice[<?=$k?>][6]" type="checkbox" id="choice" value="1"></th>
+      <th align="left" bgcolor="#84BFFB">Sunday<br>
+      <?=$arrDate[6]?></th>
+    </tr>
+    <tr>
+      <td bgcolor="#FFFFFF" height="100"><?=$shop?></td>
+      <td colspan="2" bgcolor="#FFFFFF"><?php
+
+	  if(isset($viewArrResult[$k][0]) && $viewArrResult[$k][0]!=""){
+		$cot = 0;
+		foreach($viewArrResult[$k][0] as $key =>$v){
+		?>
+		<div style="display:block; background-color:#DDD; "> 
+        <?
+       $stDetailLine = $stDetail->getDetail($v[0]);		
+		?> 
+		       <?=ucwords($stDetailLine["ni"])?>
+               .
+               <?=chr($stDetailLine["il"]+64)?>
+		
+        <?=$v[1]?> :<?=$v[2]?> - <?=$v[3]?> : <?=$v[4]?> 
+         </div>	
+		<?php	
+			}  
+		  
+		  }
+		?></td>
+      <td colspan="2" bgcolor="#FFFFFF"><?php var_dump($viewArrResult[$k][1])?></td>
+      <td colspan="2" bgcolor="#FFFFFF"><?php var_dump($viewArrResult[$k][2])?></td>
+      <td colspan="2" bgcolor="#FFFFFF"><?php var_dump($viewArrResult[$k][3])?></td>
+      <td colspan="2" bgcolor="#FFFFFF"><?php var_dump($viewArrResult[$k][4])?></td>
+      <td colspan="2" bgcolor="#FFFFFF"><?php var_dump($viewArrResult[$k][5])?></td>
+      <td colspan="2" bgcolor="#FFFFFF"><?php var_dump($viewArrResult[$k][6])?></td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFFFFF">&nbsp;</td>
+      <td colspan="2" align="center" bgcolor="#FFFFFF"><input type="submit" name="button" id="button" value="Clear This"></td>
+      <td colspan="2" align="center" bgcolor="#FFFFFF"><input type="submit" name="button2" id="button2" value="Clear This"></td>
+      <td colspan="2" align="center" bgcolor="#FFFFFF"><input type="submit" name="button3" id="button3" value="Clear This"></td>
+      <td colspan="2" align="center" bgcolor="#FFFFFF"><input type="submit" name="button4" id="button4" value="Clear This"></td>
+      <td colspan="2" align="center" bgcolor="#FFFFFF"><input type="submit" name="button5" id="button5" value="Clear This"></td>
+      <td colspan="2" align="center" bgcolor="#FFFFFF"><input type="submit" name="button6" id="button6" value="Clear This"></td>
+      <td colspan="2" align="center" bgcolor="#FFFFFF"><input type="submit" name="button7" id="button7" value="Clear This"></td>
+    </tr>
+  </table>
+<br>
+<br>
+
+<?php }?>  
+  <br>
+  <input name="arr_result" type="hidden" value="<?=$this->arrResult?>" />
+  <input name="btn_addto" type="submit" value="Add To Table">
+</form>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+  <script src="/js/chosen/chosen.jquery.js" type="text/javascript"></script>
+  <script type="text/javascript"> 
+    var config = {
+      '.chzn-select': {allow_single_deselect:true},
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
+</body>  

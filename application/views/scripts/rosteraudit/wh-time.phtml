@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body>
+<?php  date_default_timezone_set("Australia/Melbourne");
+$stDetail = new Model_DbTable_Roster_Stafflogindetail();
+
+?>
+<table border="1" cellspacing="0" cellpadding="15" style="padding:15px;">
+  <tr>
+    <th colspan="2" scope="col">Staff</th>
+ <?php foreach($this->arrDate as $dateCheck){?>   
+    <th scope="col" colspan="2" style=" width:200px;"><?php echo $dateCheck;?></th>
+ <?php }?>   
+  </tr>
+  <?php foreach($this->arrRes as $people => $date){?>  
+  <tr>
+
+    <td><?php echo $people;?>
+    </td>
+    <td><?php
+    $stLine = $stDetail->getDetail($people);
+    echo ucwords(Model_EncryptHelper::getSslPassword($stLine['n']));
+    echo ucwords(" (".$stLine['ni'].")");
+    ?></td>
+	<?php foreach($date as $k => $v){?>    
+    <td style=" width:150px;">
+    	<?php 
+		$totalHour = "?";
+		if($v[0]!="" && $v[1]!=""){
+			$totalHour = round(($v[1]-$v[0])/3600,2);
+		}
+		echo ($v[0]=="")?"-":date ("H:i:s",$v[0]);
+		echo "<br/>";
+		echo ($v[1]=="")?"-":date ("H:i:s",$v[1]); 
+		?>
+    
+    </td>
+    <td> <?php echo ( $totalHour >= 8 )?($totalHour-0.5):"<span style=\"background:#AAA\">".($totalHour - 0)."</span>";?></td>
+	<?php }?>
+<?php }?>
+  </tr>
+</table>
+</body>
+</html>

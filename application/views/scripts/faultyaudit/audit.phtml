@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:13px; background-color:#96D3A8; color:#330;">
+
+<h1>
+<?php 
+date_default_timezone_set('Australia/Melbourne');
+$dateToday = date("Y-m-d");
+$shopName = new Model_DbTable_Shoplocation();
+$faultyReason = new Model_DbTable_Faultyreason();
+$sp = new Model_DbTable_Suppliers();
+$spList = $sp->listLocalSuppliers();
+$sN = $shopName->getNameByHead($this->shophead);
+echo $sN['name_of_shop']
+?>
+</h1>
+
+
+
+
+<?
+if($this->faultyproducts){
+foreach($this->faultyproducts as $key =>$value )
+{
+?>
+<table width="800" border="1" cellspacing="0" cellpadding="3" style="border:#BBB 1px solid;">
+<form action="/faultyaudit/updateaudit" method="post">
+  <tr>
+    <td style="width:80px;">RAM#</td>
+    <td style="width:120px;"><?php echo $value['shopcode_faulty']?><input type="hidden" name="shophead" value="<?php echo $value['shopcode_faulty']?>"></td>
+    <td style="width:120px;"><?php echo $value['staff_name_faulty']?></td>
+    <td><?php echo $value['date_faulty']?></td>
+    <td style="width:120px;" >Week:[<?php echo $value['week_of_year_faulty']?>]</td>
+  </tr>
+  <tr>
+    <td rowspan="9"><?php echo $value['id_faulty']?><input type="hidden" name="id_faulty" value="<?php echo $value['id_faulty']?>"></td>
+    <td><?php echo $value['product_code_faulty']?></td>
+    <td colspan="3">Qty:[<?php echo $value['faulty_qty']?>]<?php echo $value['product_name_faulty']?> </td>
+  </tr>
+  <tr>
+    <td><?php echo $value['reason_faulty']?></td>
+    <td colspan="3">
+<?php
+	echo $faultyReason->getReasonDesByID($value['reason_faulty']);
+?>    
+    </td>
+  </tr>
+  <tr>
+    <td colspan="4"><?php echo $value['comment_faulty']?></td>
+  </tr>
+  <tr>
+    <td>Sale Date:</td>
+    <td><?php echo $value['date_sales']?></td>
+    <td rowspan="3">
+      Server Time: [<?php  echo $dateToday?>]<input type="hidden" name="audit_date" value="<?php  echo $dateToday?>">Your Comment Here:
+      <br />
+      <textarea name="audit_comment" id="audit_comment" cols="50" rows="3"><?php echo $value['audit_comment']?></textarea>      <br /></td>
+    <td rowspan="3">&nbsp;</td>
+    </tr>
+  <tr>
+    <td>Invoice:</td>
+    <td><?php echo $value['id_invoice']?></td>
+    </tr>
+  <tr>
+    <td>Return Date: </td>
+    <td><?php echo $value['date_return']?></td>
+    </tr>
+  <tr>
+    <td rowspan="3">Handling<br />
+      Method</td>
+    <td><input type="radio" name="audit_faulty" id="audit_faulty1" value="1" />
+Accept-&gt;<br />
+<br /><br /></td>
+    <td><input type="radio" name="audit_handle" id="audit_handle3" value="3" />
+      <label for="audit_handle">Dispose<br />
+        <input type="radio" name="audit_handle" id="audit_handle4" value="4" />
+        Waiting Return To Supplier 
+        <select name="audit_supplier">
+        <?php
+        foreach($spList as $k3 => $v3){
+		?>
+          <option value="<?=$v3['id_supplier']?>"><?=$v3['short_title']?></option>	
+        <?php
+		}
+		?>
+        </select>
+        <br />
+        <input type="radio" name="audit_handle" id="audit_handle5" value="5" />
+      Waiting Return To China<br /> 
+      
+      <input type="radio" name="audit_handle" id="audit_handle6" value="6" />
+      Sale In Other Chanel
+      <br />
+      </label></td>
+    <td rowspan="3"><input type="submit" name="button" id="button" value="Submit" /></td>
+  </tr>
+  <tr>
+    <td><input type="radio" name="audit_faulty" id="audit_faulty2" value="2" />
+      Reject-&gt;</td>
+    <td><input type="radio" name="audit_handle" id="audit_handle2" value="2" />
+      Resellable Condition, Waiting Send Back<br />
+      <input type="radio" name="audit_handle" id="audit_handle8" value="202" />
+      Never Received<br />
+      <br />
+      <br />
+<input type="radio" name="audit_handle" id="audit_handle3" value="3" />
+      <label for="audit_handle">Dispose<br />
+        <input type="radio" name="audit_handle" id="audit_handle4" value="4" />
+        Waiting Return To Supplier 
+        <select name="audit_supplier2">
+        <?php
+        foreach($spList as $k3 => $v3){
+		?>
+          <option value="<?=$v3['id_supplier']?>"><?=$v3['short_title']?></option>	
+        <?php
+		}
+		?>
+        </select>
+        <br />
+        <input type="radio" name="audit_handle" id="audit_handle5" value="5" />
+      Waiting Return To China<br /> 
+      
+      <input type="radio" name="audit_handle" id="audit_handle6" value="6" />
+      Sale In Other Chanel
+      <br />
+      </label>      
+      
+      
+      
+      
+      
+      </td>
+  </tr>
+  <tr>
+    <td><input type="radio" name="audit_faulty" id="audit_faulty3" value="3" />
+      Cancel-&gt;</td>
+    <td><input type="radio" name="audit_handle" id="audit_handle1" value="1" />
+      Key In Error Canceled</td>
+  </tr>  
+</form>        
+</table>
+<br/>
+
+<?php 
+}
+}
+else "No New Faulty";
+?>
+
+</body>
+</html>

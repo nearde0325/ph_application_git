@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<table width="600" border="1" cellspacing="0" cellpadding="15">
+  <tr>
+    <th align="left" scope="col"><form id="form1" name="form1" method="post" action="">
+      <label for="code_product"></label>
+      <input type="text" name="code_product" id="code_product" />
+      <input type="submit" name="btn_show_loc" id="btn_show_loc" value="Show Location" />
+    </form></th>
+  </tr>
+</table>
+<table width="600" border="1" cellspacing="0" cellpadding="15" style="font-size:18px;">
+  <tr>
+    <th align="left" scope="col"><?php echo $this->codeProduct;?></th>
+    <th colspan="2" rowspan="2" align="left" scope="col"><?php echo $this->desProduct;?></th>
+  </tr>
+  <tr>
+    <th align="left" scope="col">WH Qty: <?php echo $this->skProduct;?></th>
+  </tr>
+  <tr>
+    <td style="width:120px;"><strong>Pick Up<br />
+    Location</strong></td>
+    <td>
+    <?php
+    foreach($this->locList as $k => $v){
+		if( $v['type_location'] == "PL"){
+			echo $v['code_location']." <a href=\"/stock/remove-product-location/org/epl/barcode/{$this->codeProduct}/location/{$v['code_location']}\" onclick=\"return confirm('Are You Sure To Remove {$this->codeProduct} Form Location : {$v['code_location']} ?')\" ><img src=\"/im/remove16.jpg\" width=\"16\" height=\"16\" border=\"0\" /></a><br />";
+			}
+		}
+	?>
+</td>
+    <td style="width:220px;"><form id="form_pl" name="form_pl" method="post" action="/stock/add-product-location/org/epl">
+      <img src="/im/add30.jpg" width="30" height="30" />
+      <input name="type_location" type="hidden" value="PL" />
+      <input name="code_product" type="hidden"  value="<?php echo $this->codeProduct;?>" />
+      <input type="text" name="code_location" id="code_location" style="width:100px;" />
+      <input type="submit" name="btn_add" id="btn_add" value="Add" />
+    </form></td>
+  </tr>
+  <tr>
+    <td><strong>Bulk<br />
+      Location</strong></td>
+    <td>
+        <?php
+    foreach($this->locList as $k => $v){
+		if( $v['type_location'] == "BKL"){
+			echo $v['code_location']." <a href=\"/stock/remove-product-location/org/epl/barcode/{$this->codeProduct}/location/{$v['code_location']}\" onclick=\"return confirm('Are You Sure To Remove {$this->codeProduct} Form Location : {$v['code_location']} ?')\" ><img src=\"/im/remove16.jpg\" width=\"16\" height=\"16\" border=\"0\" /></a><br />";
+			}
+		}
+	?>
+    </td>
+    <td><form id="form_blk" name="form_blk" method="post" action="/stock/add-product-location/org/epl">
+      <img src="/im/add30.jpg" width="30" height="30" />
+      <input name="type_location" type="hidden" value="BKL" />
+      <input name="code_product" type="hidden"  value="<?php echo $this->codeProduct;?>" />
+      <input type="text" name="code_location" id="code_location" style="width:100px;" />
+      <input type="submit" name="btn_add" id="btn_add" value="Add" />
+    </form></td>
+  </tr>
+  <tr>
+    <td><strong>Box<br />
+      Number</strong></td>
+    <td>
+        <?php
+    foreach($this->locList as $k => $v){
+		if( $v['type_location'] == "BN"){
+			echo $v['code_location']." <a href=\"/stock/remove-product-location/org/epl/barcode/{$this->codeProduct}/location/{$v['code_location']}\" onclick=\"return confirm('Are You Sure To Remove {$this->codeProduct} Form Location : {$v['code_location']} ?')\" ><img src=\"/im/remove16.jpg\" width=\"16\" height=\"16\" border=\"0\" /></a><br />";
+			}
+		}
+	?>
+    </td>
+    <td><form id="form_bn" name="form_bn" method="post" action="/stock/add-product-location/org/epl">
+      <img src="/im/add30.jpg" width="30" height="30" />
+      <input name="type_location" type="hidden" value="BN" />
+      <input name="code_product" type="hidden"  value="<?php echo $this->codeProduct;?>" />
+      <input type="text" name="code_location" id="code_location" style="width:100px;" />
+      <input type="submit" name="btn_add" id="btn_add" value="Add" />
+    </form></td>
+  </tr>
+</table><br />
+<br />
+
+
+<table width="800" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <td>CODE</td>
+    <td>DES</td>
+    <td>Stock</td>
+    <td>PL</td>
+    <td>BK</td>
+    <td>BN</td>
+  </tr>
+  
+ 
+<?php 
+//var_dump($this);
+foreach($this->arrSlist as $k => $v){?>  
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td><?php echo $v[1]?></td>
+    <td><?php echo $v[2]?></td>
+    
+    <td>
+    <?php foreach($v[3] as $loc){
+		if($loc['type_location']=='PL'){
+				echo $loc['code_location'].",";	
+			}
+		}
+	 ?>
+    </td>
+    <td>
+        <?php foreach($v[3] as $loc){
+		if($loc['type_location']=='BKL'){
+				echo $loc['code_location'].",";	
+			}
+		}
+	 ?>
+    </td>
+    <td>
+        <?php foreach($v[3] as $loc){
+		if($loc['type_location']=='BN'){
+				echo $loc['code_location'].",";	
+			}
+		}
+	 ?>
+    </td>
+  </tr>
+<?php }?>  
+</table>
+
+</body>
+</html>

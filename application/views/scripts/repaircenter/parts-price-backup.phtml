@@ -1,0 +1,504 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<?php 
+
+$rProducts = new Model_DbTable_Pr_Prproducts();
+$dateToday = Model_DatetimeHelper::dateToday();
+$date7days = Model_DatetimeHelper::adjustDays("sub", $dateToday,7);
+
+?>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<h1>Phone Repair Parts Price</h1>
+<strong >The <img src="/im/sync.png" /> icon means the price is updated within 7 days,please put mouse cursor on the icon to check the date of update<br/></strong>
+<table width="800" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <th colspan="3" bgcolor="#333333" scope="col" style="color:#fff; font-size:18px; padding:10px;">APPLE</th>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" style="width:100px;"><strong>Apple</strong></td>
+    <td align="center" valign="middle" style="width:100px;"><strong>iPad</strong></td>
+    <td><table width="100%" border="1" cellspacing="0" cellpadding="5">
+    <?php 
+    $rPlist80 = $rProducts->listProductsByCate(80);
+    
+    foreach($rPlist80 as $key => $v){
+
+    if($v["price_a"]>0){	
+    	?>
+      <tr>
+        <td style="width:420px;"><?php echo $v["title_product"]?></td>
+        <td align="center" valign="middle"
+        <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		?>
+        ><span>
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+       <?php echo $v["price_a"]?></span> 
+       </td>
+        <td align="center" valign="middle">
+         <?php if($v["price_b"] >0) { ?>
+        <span style = "color:#FFF;" ><?php echo $v["price_b"]?>
+        </span><?php } ?>
+        </td>
+      </tr>
+	<?php
+    }
+    } ?>
+    </table></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" style="width:100px;"><strong>Apple</strong></td>
+    <td align="center" valign="middle" style="width:100px;"><strong>iTouch 1/2/3/4/ nano</strong></td>
+    <td><table width="100%" border="1" cellspacing="0" cellpadding="5">
+    <?php 
+    $rPlist81 = $rProducts->listProductsByCate(81);
+    
+    foreach($rPlist81 as $key => $v){
+
+    if($v["price_a"]>0){	
+    	?>
+      <tr>
+        <td style="width:420px;"><?php echo $v["title_product"]?></td>
+        <td align="center" valign="middle"
+                <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		?>
+        ><span>
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+       <?php echo $v["price_a"]?></span> 
+        </td>
+        <td align="center" valign="middle"><?php if($v["price_b"] >0) { ?>
+       <span style = "color:#FFF;" ><?php echo $v["price_b"]?>
+        </span><?php } ?></td>
+      </tr>
+	<?php
+    }
+    } ?>
+    </table>
+    
+    
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" style="width:100px;"><strong>Apple</strong></td>
+    <td align="center" valign="middle" style="width:100px;"><strong>iPhone 3G/3S</strong></td>
+    <td><table width="100%" border="1" cellspacing="0" cellpadding="5">
+    <?php 
+    $rPlist82 = $rProducts->listProductsByCate(82);
+    
+    foreach($rPlist82 as $key => $v){
+
+    if($v["price_a"]>0){	
+    	?>
+      <tr>
+        <td style="width:420px;"><?php echo $v["title_product"]?></td>
+        <td align="center" valign="middle"
+               <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		?>
+        ><span>
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+       <?php echo $v["price_a"]?></span> 
+        </td>
+        <td align="center" valign="middle"><?php if($v["price_b"] >0) { ?><span style = "color:#FFF;" ><?php echo $v["price_b"]?>
+        </span><?php } ?></td>
+      </tr>
+	<?php
+    }
+    } ?>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" style="width:100px;"><strong>Apple</strong></td>
+    <td align="center" valign="middle" style="width:100px;"><strong>iPhone 4G/4S</strong></td>
+    <td><table width="100%" border="1" cellspacing="0" cellpadding="5">
+    <?php 
+    $rPlist83 = $rProducts->listProductsByCate(83);
+    
+    foreach($rPlist83 as $key => $v){
+
+    if($v["price_a"]>0){	
+    	?>
+      <tr>
+        <td style="width:420px;"><?php echo $v["title_product"]?></td>
+        <td align="center" valign="middle"
+                <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		?>
+        ><span>
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+       <?php echo $v["price_a"]?></span> 
+        </td>
+        <td align="center" valign="middle"><?php if($v["price_b"] >0) { ?><span style = "color:#FFF;" ><?php echo $v["price_b"]?>
+        </span><?php } ?></td>
+      </tr>
+	<?php
+    }
+    } ?>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" style="width:100px;"><strong>Apple</strong></td>
+    <td align="center" valign="middle" style="width:100px;"><strong>iPHone5</strong></td>
+    <td>
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+    <?php 
+    $rPlist84 = $rProducts->listProductsByCate(84);
+    
+    foreach($rPlist84 as $key => $v){
+
+    if($v["price_a"]>0){	
+    	?>
+      <tr>
+        <td style="width:420px;"><?php echo $v["title_product"]?></td>
+        <td align="center" valign="middle"
+                <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		?>
+        ><span>
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+       <?php echo $v["price_a"]?></span> 
+        </td>
+        <td align="center" valign="middle"><?php if($v["price_b"] >0) { ?><span style = "color:#FFF;" ><?php echo $v["price_b"]?>
+        </span><?php } ?></td>
+      </tr>
+	<?php
+    }
+    } ?>
+    </table>
+    
+    </td>
+  </tr>
+</table>
+<br />
+<table width="800" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <th colspan="3" bgcolor="#333333" scope="col" style="color:#fff; font-size:18px; padding:10px;">SAMSUNG</th>
+  </tr>
+  <tr>
+    <td rowspan="4" align="center" valign="middle" style="width:100px;"><strong>Samsung</strong></td>
+    <td align="center" valign="middle" style="width:100px;"><strong>S4</strong></td>
+    <td>
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+    <?php 
+    $rPlist85 = $rProducts->listProductsByCate(88);
+    
+    foreach($rPlist85 as $key => $v){
+
+    if($v["price_a"]>0){	
+    	?>
+      <tr>
+        <td style="width:420px;"><?php echo $v["title_product"]?></td>
+        <td align="center" valign="middle"
+                <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		?>
+        ><span>
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+       <?php echo $v["price_a"]?></span> 
+        </td>
+        <td align="center" valign="middle"><?php if($v["price_b"] >0) { ?><span style = "color:#FFF;" ><?php echo $v["price_b"]?>
+        </span><?php } ?></td>
+      </tr>
+	<?php
+    }
+    } ?>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" style="width:100px;"><strong>S2</strong></td>
+    <td>
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+    <?php 
+    $rPlist86 = $rProducts->listProductsByCate(86);
+    
+    foreach($rPlist86 as $key => $v){
+
+    if($v["price_a"]>0){	
+    	?>
+      <tr>
+        <td style="width:420px;"><?php echo $v["title_product"]?></td>
+        <td align="center" valign="middle"
+                <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		?>
+        ><span>
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+       <?php echo $v["price_a"]?></span> 
+        </td>
+        <td align="center" valign="middle"><?php if($v["price_b"] >0) { ?><span style = "color:#FFF;" ><?php echo $v["price_b"]?>
+        </span><?php } ?></td>
+      </tr>
+	<?php
+    }
+    } ?>
+    </table>
+    
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" style="width:100px;"><strong>S3</strong></td>
+    <td>
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+    <?php 
+    $rPlist87 = $rProducts->listProductsByCate(87);
+    
+    foreach($rPlist87 as $key => $v){
+
+    if($v["price_a"]>0){	
+    	?>
+      <tr>
+        <td style="width:420px;"><?php echo $v["title_product"]?></td>
+        <td align="center" valign="middle"
+                <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		?>
+        ><span>
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+       <?php echo $v["price_a"]?></span> 
+        </td>
+        <td align="center" valign="middle"><?php if($v["price_b"] >0) { ?><span style = "color:#FFF;" ><?php echo $v["price_b"]?>
+        </span><?php } ?></td>
+      </tr>
+	<?php
+    }
+    } ?>
+    </table>
+    
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" style="width:100px;"><strong>other<br />Samsung</strong></td>
+    <td>
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+    <?php 
+    $rPlist88 = $rProducts->listProductsByCate(89);
+    
+    foreach($rPlist88 as $key => $v){
+
+    if($v["price_a"]>0){	
+    	?>
+      <tr>
+        <td style="width:420px;"><?php echo $v["title_product"]?></td>
+        <td align="center" valign="middle"
+                <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		?>
+        ><span>
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+       <?php echo $v["price_a"]?></span> 
+        </td>
+        <td align="center" valign="middle"><?php if($v["price_b"] >0) { ?><span style = "color:#FFF;" ><?php echo $v["price_b"]?>
+        </span><?php } ?></td>
+      </tr>
+	<?php
+    }
+    } ?>
+    </table>
+    
+    
+    </td>
+  </tr>
+</table>
+<br />
+<table width="800" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <th colspan="3" bgcolor="#333333" scope="col" style="color:#fff; font-size:18px; padding:10px;">HTC</th>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" style="width:100px;"><strong>HTC</strong></td>
+    <td align="center" valign="middle" style="width:100px;"><strong>OneX</strong></td>
+    <td>
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+    <?php 
+    $rPlist89 = $rProducts->listProductsByCate(85);
+    
+    foreach($rPlist89 as $key => $v){
+
+    if($v["price_a"]>0){	
+    	?>
+      <tr>
+        <td style="width:420px;"><?php echo $v["title_product"]?></td>
+        <td align="center" valign="middle"
+                <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		?>
+        ><span>
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+       <?php echo $v["price_a"]?></span> 
+        </td>
+        <td align="center" valign="middle"><?php if($v["price_b"] >0) { ?><span style = "color:#FFF;" ><?php echo $v["price_b"]?>
+        </span><?php } ?></td>
+      </tr>
+	<?php
+    }
+    } ?>
+    </table>
+    
+    </td>
+  </tr>
+</table>
+<br />
+<table width="800" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <th colspan="3" bgcolor="#333333" scope="col" style="color:#fff; font-size:18px; padding:10px;">NOKIA</th>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" style="width:100px;"><strong>NOKIA</strong></td>
+    <td align="center" valign="middle" style="width:100px;"><strong>X6</strong></td>
+    <td>
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+    <?php 
+    $rPlist90 = $rProducts->listProductsByCate(90);
+    
+    foreach($rPlist90 as $key => $v){
+
+    if($v["price_a"]>0){	
+    	?>
+      <tr>
+        <td style="width:420px;"><?php echo $v["title_product"]?></td>
+        <td align="center" valign="middle"
+                <?php
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+		echo 'style="background-color:#FC0"';
+		}
+		?>
+        ><span>
+        <?php 
+        
+        if(strtotime($v["date_introduce"]) > strtotime($date7days)){
+        	
+        	echo '<a href="javascript:return false;" style="text-decoration:none" title="'.$v["date_introduce"].'"><img src="/im/sync.png" /></a>';
+        }
+        
+        ?>
+        
+       <?php echo $v["price_a"]?></span> 
+        </td>
+        <td align="center" valign="middle"><?php if($v["price_b"] >0) { ?><span style = "color:#FFF;" ><?php echo $v["price_b"]?>
+        </span><?php } ?></td>
+      </tr>
+	<?php
+    }
+    } ?>
+    </table>
+    
+    </td>
+  </tr>
+</table>
+
+<!-- BEGIN: Powered by Supercounters.com -->
+<center><script type="text/javascript" src="http://widget.supercounters.com/hit.js"></script><script type="text/javascript">sc_hit(622289,10,8);</script><br><noscript><a href="http://www.supercounters.com/hitcounter">Free Hit Counter</a></noscript>
+</center>
+<!-- END: Powered by Supercounters.com -->
+
+
+</body>
+</html>

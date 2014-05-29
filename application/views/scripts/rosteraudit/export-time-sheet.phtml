@@ -1,0 +1,22 @@
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 ,beforeShowDay: function(date){ return [date.getDay() == 1,""]}});
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 ,beforeShowDay: function(date){ return [date.getDay() == 0,""]}});
+	});
+	</script>
+<form action="" method="post">
+  <p>Begin 
+    <input name="date_begin" id="date_begin" type="text">
+    
+  </p>
+  <p>End 
+    <input name="date_end" id="date_end" type="text">
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    <input type="submit" name="button" id="button" value="Submit">
+  </p>
+</form>

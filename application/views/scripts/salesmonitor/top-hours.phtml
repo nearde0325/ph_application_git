@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<table width="1300" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <th scope="col">Date</th>
+    <th scope="col">9AM</th>
+    <th scope="col">10AM</th>
+    <th scope="col">11Am</th>
+    <th scope="col">12Pm</th>
+    <th scope="col">13PM</th>
+    <th scope="col">14PM</th>
+    <th scope="col">15PM</th>
+    <th scope="col">16PM</th>
+    <th scope="col">17PM</th>
+    <th scope="col">18PM</th>
+    <th scope="col">19PM</th>
+    <th scope="col">20PM</th>
+    <th scope="col">21PM</th>
+  </tr>
+<?php
+$arr = array(1,2,3,4,5,6,7);
+foreach($arr as $date){
+$key = $date;
+?>  
+  <tr>
+    <td><?php echo $date?></td>
+    <td><?php echo $d1 = isset($this->arrInvoice[$key][9])?$this->arrInvoice[$key][9]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][10])?$this->arrInvoice[$key][10]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][11])?$this->arrInvoice[$key][11]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][12])?$this->arrInvoice[$key][12]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][13])?$this->arrInvoice[$key][13]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][14])?$this->arrInvoice[$key][14]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][15])?$this->arrInvoice[$key][15]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][16])?$this->arrInvoice[$key][16]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][17])?$this->arrInvoice[$key][17]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][18])?$this->arrInvoice[$key][18]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][19])?$this->arrInvoice[$key][19]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][20])?$this->arrInvoice[$key][20]/$this->week:"--";?></td>
+    <td><?php echo isset($this->arrInvoice[$key][21])?$this->arrInvoice[$key][21]/$this->week:"--";?></td>
+  </tr>
+<?php }?>
+
+</table>
+</body>
+</html>

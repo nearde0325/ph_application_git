@@ -1,0 +1,187 @@
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script>
+
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1,minDate:-21,beforeShowDay: function(date){ return [date.getDay() == 1,""]}});
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 ,beforeShowDay: function(date){ return [date.getDay() == 0,""]}});
+	});
+	</script>
+<body style="font-family:Arial, Helvetica, sans-serif">    
+<form action="" method="get">
+  <p>Begin 
+    <input name="date_begin" id="date_begin" type="text">
+    
+  </p>
+  <p>End 
+    <input name="date_end" id="date_end" type="text">
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    <input type="submit" name="button" id="button" value="Submit">
+  </p>
+</form>
+Missing Shop<br />
+<?php
+date_default_timezone_set('Australia/Melbourne');
+$stDetail= new Model_DbTable_Roster_Stafflogindetail();
+//var_dump($this->missingShops);
+
+		$arrShopList = $this->arrShopList;
+				$arrVisible = array();
+				if(isset($arrShopList[$this->manID])){
+$arrVisible = $arrShopList[$this->manID];
+				}
+				else{
+					$arrVisible = array();
+					}
+?>
+<br />
+<br />
+
+<table width="1400" border="0" cellspacing="1" cellpadding="5" bgcolor="#333333" style="font-size:13px;">
+  <tr>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Staff</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Shop</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Date</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">MgrCfm<br />
+    Begin</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">MgrCfm<br />
+    End</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Staff<br />
+    Begin</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Staff<br />
+    End</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Actual On</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Actual Off</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Bk</th>
+    <th colspan="3" bgcolor="#FFFFFF" scope="col">Problems</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Act <br>
+      Count
+    Hour</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Total<br>
+      Schedual</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">&nbsp;</th>
+  </tr>
+  <tr>
+    <th bgcolor="#FFFFFF" scope="col">Mgr Assigned</th>
+    <th bgcolor="#FFFFFF" scope="col">Staff Come</th>
+    <th bgcolor="#FFFFFF" scope="col">Will Calculate</th>
+  </tr>
+<?php 
+foreach($this->arrResult as $key => $v){
+	if(in_array($v["shop_head"],$arrVisible)){
+	
+	
+	if($v["shop_head"]== "ADPC" || $v["shop_head"]== "CLIC" || $v["shop_head"]== "CLPC" || $v["shop_head"]== "WLIC"  ){
+		date_default_timezone_set('Australia/Adelaide');
+		}
+	else{
+		date_default_timezone_set('Australia/Melbourne');
+		}	
+	//$errArr = explode(",",$v["error"]);
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF"><?php
+    
+    $stDLine = $stDetail->getDetail($v["id_staff"]);
+    
+    if($stDLine["ni"]!=""){
+    	echo ucwords($stDLine["ni"]);
+    } 
+    else{
+		echo ucwords(Model_EncryptHelper::getSslPassword($stDLine["n"]));
+    }
+	?>[<?=$v["id_sheet"]?>]</td>
+    <td bgcolor="#FFFFFF"><?php echo $v["shop_head"];
+	//echo date_default_timezone_get();
+	
+	
+	?></td>
+    <td bgcolor="#FFFFFF"><?php echo  date("Y-m-d",$v["confirm_shift_begin"])?></td>
+    <td bgcolor="#FFFFFF"><?php echo date("H:i",$v["confirm_shift_begin"])?></td>
+    <td bgcolor="#FFFFFF"><?php echo date("H:i",$v["confirm_shift_end"])?></td>
+    <td bgcolor="#FFFFFF"><?php echo date("H:i",$v["shift_begin"])?></td>
+    <td bgcolor="#FFFFFF"><?php echo date("H:i",$v["shift_end"])?></td>
+    <td bgcolor="#FFFFFF"><?php  echo $actOn = ($v["on_duty"]== "")?"":date("H:i",$v["on_duty"]) ?></td>
+    <td bgcolor="#FFFFFF"><?php  echo $actOff = ($v["off_duty"]== "")?"":date("H:i",$v["off_duty"]) ?></td>
+    <td bgcolor="#FFFFFF" ><?php
+		$breakTime = 1800;				
+	if($v["break_time"]===(int)0 and $v["break_time"]!== null ){
+							$breakTime  = 0;
+						}
+						if((($v["confirm_shift_end"]-$v["confirm_shift_begin"])<18000) && ($v["break_time"] == 0 ||$v["break_time"]== null )){
+							$breakTime = 0;
+						}
+	
+	 echo $breakTime/60;
+	 
+	 
+	 ?></td>
+    <td bgcolor="#FFFFFF" ><?php echo $v["error"][0]?></td>
+    <td bgcolor="#FFFFFF" ><?php echo $v["error"][1]?></td>
+    <td bgcolor="#FFFFFF" ><?php echo $v["error"][2]?></td>
+    <td bgcolor="#FFFFFF" >
+      <?php
+if( ($v["confirm_shift_begin"] == $v["confirm_shift_end"]) || $v["on_duty"] == null || $v["off_duty"] == null  ) {
+	echo "0";
+	}
+else{	
+
+	
+	$manShiftBegin = $v["confirm_shift_begin"];
+	$manShiftEnd = $v["confirm_shift_end"];
+	$manAllo = $manShiftEnd - $manShiftBegin;
+	
+	$actBegin = $v["on_duty"];
+	$actEnd = $v["off_duty"];
+	
+	if($manShiftBegin!= null && $actBegin!="" && ( $actBegin > ($manShiftBegin + 300))){
+
+	$manShiftBegin = $actBegin;
+	}
+	
+	if($actEnd!="" && $manShiftEnd!= null && ( ($actEnd + 300) < $manShiftEnd) ){
+							
+	$manShiftEnd = $actEnd;		
+							
+	}
+	
+	
+	$finalHour = $manShiftEnd - $manShiftBegin - $breakTime;
+	
+	
+	echo round($finalHour/3600,2);
+	if($manAllo >=34200){
+		echo " -0.5";
+		}
+	}
+
+
+?>    
+    </td>
+    <td bgcolor="#FFFFFF" >
+    <?php
+    if( ($v["confirm_shift_begin"] != $v["confirm_shift_end"]) && ( $v["on_duty"] == null || $v["off_duty"] == null ) ) {
+	
+	$shouldBe = $v["confirm_shift_end"] - $v["confirm_shift_begin"] - $breakTime;
+	
+	echo round($shouldBe/3600,2);
+	}
+	
+	?>
+    </td>
+    <td bgcolor="#FFFFFF" ><form action="/rosteraudit/create-case" method="post">
+    <input name="case" type="hidden" value="<?php echo base64_encode(serialize($v))?>">
+    <input name="id_manager" type="hidden" value="<?php echo $this->manID;?>">
+    <input name="btn_create" type="submit" value="&gt;&gt;">
+    
+    </form></td>
+  </tr>
+<?php 
+	}
+}
+?>  
+</table>
+</body>

@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+.larger{
+	background-color:#0C3;
+	}
+.smaller{
+	background-color:#FFA4A4;
+	}	
+
+</style>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+</head>
+
+
+<body>
+<form id="form1" name="form1" method="post" action="">
+  <table width="500" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <td>Cycle :</td>
+    <td><select name="id_cycle">
+      <?php foreach($this->cycle as $id => $detail ){?>
+      <option value="<?php echo $id;?>">cycle[<?php echo $id;?>] : <?php echo $detail[0]." - ".$detail[1];?></option>
+      <?php }?>
+    </select></td>
+  </tr>
+  <tr>
+    <td>Group</td>
+    <td><select name="id_group">
+    <option value="0">Show All Groups</option>
+      <?php foreach($this->group as $id => $groupShops ){?>
+      <option value="<?php echo $id;?>">
+      <?php
+	  foreach($groupShops as $shops){
+		  echo $shops.",";
+		  }
+	  ?>
+      </option>
+      <?php }?>
+    </select></td>
+  </tr>
+</table>
+  <br />
+  <input type="submit" name="button" id="button" value="Show" />
+</form>
+<br />
+<br />
+<table width="1000" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <td>Group ID</td>
+    <td>Cycle</td>
+    <td>Group</td>
+    <td>Summary</td>
+    <td>Tar1</td>
+    <td>Tar2</td>
+    <td>Tar3</td>
+  </tr>
+<?php foreach($this->arrRes as $key => $group){?>  
+  <tr>
+    <td><?php echo $group[0]?></td>
+    <td><?php echo $group[1][0]." - ".$group[1][1]?></td>
+    <td><?php 
+	foreach($group[2] as $shops){
+		echo $shops.", ";
+		}
+	?></td>
+    <td><?php echo $group[3];?>
+    <input type="hidden" name="hf_<?php echo $group[0]?>" id="hf_<?php echo $group[0]?>"  value="<?php echo $group[3];?>" /></td>
+    <td><label for="target_1"></label>
+    <input type="text" name="target_1_<?php echo $group[0]?>" id="target_1_<?php echo $group[0]?>" /></td>
+    <td><input type="text" name="target_2_<?php echo $group[0]?>" id="target_2_<?php echo $group[0]?>" /></td>
+    <td><input type="text" name="target_3_<?php echo $group[0]?>" id="target_3_<?php echo $group[0]?>" /></td>
+  </tr>
+<?php }?>  
+</table>
+</body>
+<script language="javascript">	
+	$('input:text[id^=target_]').change(function(){
+		
+		//alert("only when it is text and it changed");
+		var id = $(this).attr("id");
+		var line = 0;
+		var length = id.length;
+		var n = id.lastIndexOf("_");
+		var value = id.substring(n+1);
+
+		var shift = parseFloat($("#hf_" + value).val());
+		var shift2 = parseFloat($(this).val());
+		
+		if( shift >= shift2 ){
+			$(this).removeClass(function(){
+				return $( this ).prev().attr( "class" );
+			});
+			$(this).addClass("larger");
+		}else{
+			$(this).removeClass(function(){
+				return $( this ).prev().attr( "class" );
+			});
+			$(this).addClass("smaller");
+		}
+	});
+
+// JavaScript Document
+</script>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<a href="/rosteraudit/check-all-names">Check Attendance By Names</a> | <a href="/rosteraudit/check-on-duty/shop/vic">VIC Shops</a> | <a href="/rosteraudit/check-on-duty/shop/sa">SA Shops</a>
+<h1>Online Attendance Record Today/ Yesterday</h1>
+<?php 
+
+date_default_timezone_set('Australia/Melbourne');
+$dateToday = Model_DatetimeHelper::dateToday();
+$dateYesterday =  Model_DatetimeHelper::dateYesterday();
+$attRecord = new Model_DbTable_Roster_Attnrecord();
+$staffs = new Model_DbTable_Roster_Stafflogindetail();
+
+?>
+<table width="900" border="1" cellspacing="5" cellpadding="5">
+  <tr>
+    <th scope="col">Shop Name</th>
+    <th scope="col">Yesterday</th>
+    <th scope="col">Today</th>
+  </tr>
+ 
+<?php foreach($this->checkResult as $key => $value){?>  
+  <tr>
+    <td><?=$value["0"]?></td>
+    <td>Latest Time:[<?=$value["2"]?>]<br />
+    
+    <br/>
+    <span style="font-size:12px;">
+    	<?php 
+    	$tStaList = $attRecord->getOndutyByDateByShop($value[0], $dateYesterday);
+    	if(!empty($tStaList)){
+    	foreach($tStaList as $k =>$v){
+    		
+    		//echo $v["sti"];
+    		$stDetail = $staffs->getDetail($v["sti"]);
+    		echo ucwords(Model_EncryptHelper::getSslPassword($stDetail["n"]));
+			echo "(".ucwords($stDetail["ni"]).")";
+    		$arrRecord = $attRecord->getFirstOnLastOffDuty($v["sti"], $dateYesterday, Model_EncryptHelper::sslPassword($value[0]));
+    		//var_dump($arrRecord);	
+    		$begin = "[NoRecord]";
+    		$end = "";
+    		
+    		if( $arrRecord[0] != "" ){
+				$begin = date("H:i",$arrRecord[0]);
+    		}
+    		if( $arrRecord[1] != "" ){
+    			$end = date("H:i",$arrRecord[1]);
+    		}    		
+    		echo " {$begin} to {$end}<br/>";
+    	}
+    	}
+    	?>
+    <span>	    
+    </td>
+
+    <td>Earlyest Time:[<?=$value["1"]?>]<br/>
+    
+    <br/>
+    <span style="font-size:12px;">
+    	<?php 
+    	$tStaList = $attRecord->getOndutyByDateByShop($value[0], $dateToday);
+    	if(!empty($tStaList)){
+    	foreach($tStaList as $k =>$v){
+    		
+    		//echo $v["sti"];
+    		$stDetail = $staffs->getDetail($v["sti"]);
+    		echo ucwords(Model_EncryptHelper::getSslPassword($stDetail["n"]));
+			echo "(".ucwords($stDetail["ni"]).")";
+    		$arrRecord = $attRecord->getFirstOnLastOffDuty($v["sti"], $dateToday, Model_EncryptHelper::sslPassword($value[0]));
+    		//var_dump($arrRecord);	
+    		$begin = "[NoRecord]";
+    		$end = "";
+    		
+    		if( $arrRecord[0] != "" ){
+				$begin = date("H:i",$arrRecord[0]);
+    		}
+    		if( $arrRecord[1] != "" ){
+    			$end = date("H:i",$arrRecord[1]);
+    		}    		
+    		echo " {$begin} to {$end}<br/>";
+    	}
+    	}
+    	?>
+    <span>	
+    </td>
+  </tr>
+<?php }?>  
+  
+</table>
+
+</body>
+</html>

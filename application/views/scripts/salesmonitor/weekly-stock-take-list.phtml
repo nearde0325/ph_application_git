@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:13px;">
+If you see empty Stock take list or very short one ,please call Norman On 0425737056 IMMEDIATELLY
+<h2>Weekly Stock Take List For <?php echo $this->shopCode?> , <?php echo $this->dateToCheck?> 
+  <input type="button" value="Click to Print This Page" onclick="window.print()" />
+</h2>
+<strong>Please Sign Your Name Here:_______________ , Start Time:<?php echo Model_DatetimeHelper::timenow();?> ,Finish Time:_______________<br /><br />
+
+</strong>
+<table width="650" border="1" cellspacing="0" cellpadding="2">
+<form method="post">
+  <tr>
+    <th scope="col" style="width:100px;">BarCode</th>
+    <th scope="col" style="width:430px;">Description</th>
+    <th scope="col" style="width:40px;">Sales</th>
+    <th scope="col" style="width:40px;">On Hand</th>
+    <th scope="col" style="width:40px;">Actual</th>
+  </tr>
+ <?php
+		$products = new Model_DbTable_Productsva();
+		
+  foreach ($this->result as $key => $v){?> 
+  <tr>
+    <td><?=$v[0]?></td>
+    <td><?php echo  $products->getProductNameByCode(trim($v[0]));?></td>
+    <td><?=$v[1]?></td>
+    <td><?=$v[2]?></td>
+    <td>
+    	<input type="text" name="qty_act[<?=$v["id_take"]?>]" id="qty_act_<?=$v["id_take"]?>" style="width:30px;" />
+    	<input type="hidden" name="id_take" id="id_take" value="<?=$v["id_take"]?>" />
+    </td>
+  </tr>
+ <?php }?> 
+ <tr>
+ <td colspan="5" align="center">&nbsp;</td>
+ </tr>
+</form>
+</table>
+
+
+</body>
+</html>

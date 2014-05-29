@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Faulty</title>
+
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<script language="javascript">
+function enableUpload(){
+	var staffKeyin = $('#staff_name').val();
+	var staffDis = $('#staff_name_dis').val();
+	var comm = $('#faulty_comment').val();
+	
+	var tech = $('#name_tech').val();
+	var idJob = $('#id_job').val();
+	
+	
+	var basicCheck = false;
+	var selectCheck = false;
+	
+	if(staffKeyin.length > 0 && staffDis.length > 0 && comm.length > 5){
+		basicCheck = true;
+		}
+	if($('#faulty_reason2').is(':checked') && $('#never_use').is(':checked')){
+		selectCheck = true;
+		//alert("first");
+		}
+	
+	if($('#faulty_reason3').is(':checked') || $('#faulty_reason4').is(':checked')){
+		
+		$('#never_use').removeAttr('checked');
+		if(tech.length > 0 && idJob.length == 13){
+			
+			selectCheck = true;
+			//alert("Second");
+			}
+		}	
+
+	//alert(basicCheck);
+	//alert(selectCheck);
+	if(basicCheck && selectCheck){
+		
+		$('#sub_upload').removeAttr('disabled');
+		$("#hint").html('');
+			
+		}
+	else{
+		
+		$('#sub_upload').attr('disabled','disabled');
+		$("#hint").html('Still Missing Some Information');
+		if(($('#faulty_reason3').is(':checked') || $('#faulty_reason4').is(':checked')) && idJob.length != 13){
+		$("#hint").html('Check Job ID');	
+			}
+    	if($('#faulty_reason2').is(':checked') && !$('#never_use').is(':checked')){
+		//selectCheck = true;
+		//alert("first");
+		$("#hint").html('Please Confirm Parts Never Been Used Checkbox');
+		}			
+		
+		}	
+
+	}
+
+</script>
+
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+
+<h1><span style="color:red;">Faulty</span> Phone Parts Record</h1>
+<p>
+<span style="color:#F00"><?php echo $this->errorMessage;?></span><br />
+  ********************************************************************************************************<br />
+Only For Faulty Phone Repair Parts, <span style="color:#F00" >NOT</span> For Normal Faulty Products<br />
+<br />
+  ***********************************
+  ********************************************************************<br />
+  <?php
+if($_POST){
+?>
+</p>    
+              <table style="width:650px;" border="1" cellspacing="0" cellpadding="3">
+           <form id="form1" name="form1" method="post" action="/repairparts/save-shop-fo">    
+        <tr>
+          <td style="width:200px;"><span >Shop ID:</span></td>
+          <td style="width:450px;"><input name="id_shop" type="text" id="id_shop" value="<?php echo $this->idShop ?>" readonly="readonly" style="width:50px;" />[<?php echo $this->shopHead?>]</td>
+        </tr>              
+        <tr>
+          <td>Faulty Barcode :</td>
+          <td><input type="text" name="barcode_code" id="barcode_code" value="<?php echo $this->faultyBarcode ?>" readonly="readonly" style="width:250px;" /></td>
+          </tr>              
+              
+        <tr>
+          <td>Part Description:</td>
+          <td><?php echo $this->faulty_des;?>
+            </td>
+          </tr>
+        <tr>
+          <td>(<a href="#" title="Staff Who Doing This RMA" >Key In</a>) Staff Name:</td>
+          <td><input type="text" name="staff_name" id="staff_name" onkeyup="enableUpload()" style="width:250px;" />
+            
+            *
+              <input type="hidden" name="shop_head" id="shop_head" value="<?php echo $this->shopHead?>" /></td>
+          </tr>
+        <tr>
+          <td>(Discoverer) Staff Name:</td>
+          <td><input type="text" name="staff_name_dis" id="staff_name_dis" onkeyup="enableUpload()" style="width:250px;" />
+            *</td>
+        </tr>
+        <tr>
+          <td colspan="2"><ul style="font-size:12px">
+            <li>Discoverer is the first person who find out the repair part is faulty</li>
+            <li>If the item is damaged during delivery, the discover may or may not be the repair technician, it can be the person who check the stock delivery, it can be the person who give the part to the repair technician</li>
+            <li>If the item is damaged by technician during repairing, the discoverer is the technician</li>
+            <li>If the item is returned by customer, the discoverer is the staff to taking care of the customer</li>
+          </ul></td>
+          </tr>
+        <tr>
+          <td>Qty: </td>
+          <td><input name="barcode_qty" type="text" id="barcode_qty" value="1" readonly="readonly" width="50" />
+          <span  style="font-size:12px" ><br />
+          (Our Repair Parts Are Sourcing From Different Suppliers, It is really Hard For Warehouse to Summary The Faulty Rate If We do Multiple Faulty in One RMA Number, As A Result, The RMA For the Repair Parts Are Required to be Done One By One, Should You have Any Better Ideas ,Please Share With Us.)</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center"><h4>Faulty Reason</h4></td>
+          </tr>
+        <tr>
+          <td bgcolor="#85F3DB"><input type="radio" name="faulty_reason" id="faulty_reason2" value="40002"  onclick="enableUpload()"  />
+            <label for="faulty_reason"></label>
+          DOA/Delivery Damage</td>
+          <td bgcolor="#85F3DB"><input name="never_use" type="checkbox" id="never_use" value="1" onclick="enableUpload()" />
+            <label for="never_use"></label>
+          I Confirm The Parts Never Been Used In Repairing</td>
+          </tr>
+        <tr>
+          <td colspan="2" ><div style="line-height:1px;">&nbsp;</div></td>
+          </tr>
+        <tr>
+          <td colspan="2" bgcolor="#80FF80"><input type="radio" name="faulty_reason" id="faulty_reason3" value="40003" onclick="enableUpload()" />
+          Damage Cause By Technician During Repairing</td>
+          </tr>
+        <tr>
+          <td colspan="2" bgcolor="#80FF80"><input type="radio" name="faulty_reason" id="faulty_reason4" value="40004" onclick="enableUpload()" />
+          Returned By Customer <span style="font-size:12px; font-weight:bold;">(Job Been Closed Successfully, Payment Been Made)</span></td>
+          </tr>
+        <tr>
+          <td bgcolor="#80FF80">Repair Technician Name:</td>
+          <td bgcolor="#80FF80"><input type="text" name="name_tech" id="name_tech" style="width:250px;"  onkeyup="enableUpload()"  />
+            *</td>
+        </tr>
+        <tr>
+          <td bgcolor="#80FF80">Job ID (13 Digits):</td>
+          <td bgcolor="#80FF80"><input type="text" name="id_job" id="id_job" onkeyup="enableUpload()" style="width:250px;" />
+            *</td>
+        </tr>
+        <tr>
+          <td>Detail  Comment: </td>
+          <td><span style="font-size:12px;">Detail comment/description MUST be provide</span>*</td>
+        </tr>
+        <tr>
+          <td colspan="2"><textarea name="faulty_comment" id="faulty_comment" cols="100" rows="4" onkeyup="enableUpload()" ></textarea></td>
+          </tr>
+
+
+
+        <tr>
+          <td colspan="2" align="center">
+          <div id="hint"></div>
+            <?php 
+		  if(trim($this->faulty_des) !="<span style=\"color:red;\">Error Occur,BarCode Not Exist</span>"){
+		  ?>
+            <input name="sub_upload" id="sub_upload" value="SAVE THIS RECORD" type="submit" disabled="disabled" />
+            <?php }?>          </td>
+          </tr>
+        </form> 
+        </table>
+        
+<?php
+}
+?>
+</body>
+</html>

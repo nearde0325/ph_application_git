@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+<!--
+.Table1px {}{
+  border-collapse:collapse;
+  border: none;
+  background: #FFFFFF;
+  table-layout:fixed;
+}
+.Table1px th {}{
+  border: solid 1px #000000;
+}
+.Table1px td {}{
+  border: solid 1px #000000;
+}
+-->
+</style>
+<script language="javascript">
+function toggle(source) {
+  checkboxes = document.getElementsByName('arr_action[]');
+  for(var i in checkboxes)
+    checkboxes[i].checked = source.checked;
+}
+</script>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+<?php
+$supplier = new Model_DbTable_Suppliers();
+$spList = $supplier->listLocalSuppliers();
+
+$fc = new Model_DbTable_Faultyproduct();
+
+
+?>
+<h1>Contact Supplier to RMA , Do When you get RMA no OR Authorized</h1>
+1) Select Product By Supplier:
+ALL | 
+<?php 
+foreach($spList as $k3 => $v3){	
+?>
+<a href="/faultyaudit/submit-rma?spid=<?=$v3["id_supplier"]?>"><?=$v3["short_title"]?>(
+<?php 
+$fccounts = $fc->countListStatusBySupplier(41,$v3["id_supplier"]);
+//var_dump($fccounts);
+echo $fccounts[0]["count('id_faulty')"];
+?>
+)</a>|
+<?php 
+}
+ ?>
+
+<br />
+<input type="checkbox" onClick="toggle(this)" /> 
+Select All<br/>
+<form action="/faultyaudit/save-submit-rma" method="post">
+
+<table width="700" border="1" cellspacing="0" cellpadding="5" class="Table1px">
+  <tr>
+    <td><input type="checkbox" onclick="toggle(this)" />
+All / None</td>
+    <td>ID</td>  
+    <td style="width:100px;">Barcode</td>
+    <td >Name</td>
+    <td style="width:100px;">Qty </td>
+  </tr>
+<?php
+$counts = 0;
+foreach($this->supplierList as $k => $v){
+?>  
+  <tr>
+      <td><input name="arr_action[]" type="checkbox" value="<?=$v["id_faulty"]?>"  checked="checked" /></td>
+      <td>#<?=$v["id_faulty"]?></td>
+    <td><?=$v["product_code_faulty"]?></td>
+    <td><?=$v["product_name_faulty"]?></td>
+    <td>x <?=$v["faulty_qty"]?> Pcs
+    <?php
+    $counts += $v["faulty_qty"];
+	?>
+    </td>
+
+  </tr>
+<?php
+}
+?>
+  <tr>
+    <td><input type="checkbox" onclick="toggle(this)" />
+All / None</td>
+    <td>ID</td>  
+    <td style="width:100px;">Barcode</td>
+    <td >Name</td>
+    <td style="width:100px;">Qty </td>
+
+  </tr>
+</table>
+<br />
+<input type="checkbox" onClick="toggle(this)" /> 
+Select All<br/>
+2) Choose Supplier, You may Only Choose One Supplier at a time<br />
+<br /><br />
+<br />
+3)Confirm and Print Summary
+<br />
+<br />
+Auditor Name :
+<input name="staff_name" type="text" id="staff_name" value="Elaine" />
+<br />
+<br />
+Supplier RMA NO:
+<input name="rma_no" type="text" id="rma_no" value="RMA No." />
+<br />
+<br />
+<input name="go" type="submit" value="Confirm Take Action" id="go" />
+</form>
+</body>
+</html>

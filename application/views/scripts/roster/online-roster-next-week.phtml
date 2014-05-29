@@ -1,0 +1,193 @@
+<style>
+.addstaff{
+	display:none;
+	}
+#scrollDiv{position:fixed;left:50px;top:10px;}
+* html #scrollDiv{top:expression(eval(document.body.scrollTop));}
+</style>
+
+<?php 
+date_default_timezone_set('Australia/Melbourne');
+$stDetail = new Model_DbTable_Roster_Stafflogindetail();
+
+$jsFile = "roster_js_0510.js";
+
+$viewArrResult = $this->arrResultLive; ?>
+<link rel="stylesheet" href="/js/chosen/chosen.css" />
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<form name="form1" method="post" action="">
+
+<br>
+<br>
+<div id="scrollDiv">
+<div id="add_staff_form" class="addstaff">
+  <table width="500" border="0" cellspacing="1" cellpadding="10" bgcolor="#000000">
+    <tr>
+      <th bgcolor="#FFFFFF" scope="col">Staff Name</th>
+      <th bgcolor="#FFFFFF" scope="col">Shift Begin</th>
+      <th bgcolor="#FFFFFF" scope="col">Shift End</th>
+      <th bgcolor="#FFFFFF" scope="col">Break Time</th>
+    </tr>
+  <tr>
+    <td bgcolor="#FFFFFF"></td>
+    <td bgcolor="#FFFFFF"><label for="select"></label>
+      <select name="shift_start_hour_1" id="shift_start_hour_1">
+        <option value="07">07</option>
+        <option value="08">08</option>
+        <option value="09" selected="selected">09</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+      </select>
+      <strong>:
+      <select name="shift_start_min_1" id="shift_start_min_1">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+      </select>
+      </strong></td>
+    <td bgcolor="#FFFFFF"><select name="shift_end_hour_1" id="shift_end_hour_1">
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17" selected="selected">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+    </select><strong>:</strong> <select name="shift_end_min_1" id="shift_end_min_1">
+      <option value="00">00</option>
+      <option value="15">15</option>
+      <option value="30" selected="selected">30</option>
+      <option value="45">45</option>
+      <option value="59">59</option>
+    </select></td>
+    <td bgcolor="#FFFFFF">
+    
+    </td>
+  </tr>
+</table>
+
+
+
+</div>
+</div>
+  <br>
+<?php 
+$arrDate = $this->arrDate;
+$shop = $this->shops ?>  
+<br>
+<br><br>
+<br>
+
+<table border="0" cellspacing="1" cellpadding="10" bgcolor="#666666">
+    <tr>
+      <th bgcolor="#FFFFFF" scope="col" style="width:20px;">&nbsp;</th>
+      <?php for($i = 0; $i < 7; $i++){?>
+      <th bgcolor="#FFFFFF" scope="col" style="width:70px;">&nbsp;</th>
+      <th align="left" bgcolor="#FFFFFF" scope="col" style="width:380px;"><?php echo date("l",strtotime($arrDate[$i]))?><br>
+      <?=$arrDate[$i]?></th>
+      <?php }?>      
+    </tr>
+    <tr>
+      <td bgcolor="#FFFFFF" height="100"><?=$shop?></td>
+
+
+
+<?php 
+$totalHours = 0;
+ for($i=0;$i<7;$i++){?>
+      
+      <td colspan="2" bgcolor="#FFFFFF" style="padding:5px; vertical-align:top">
+	  <table width="410" border="0" cellspacing="1" cellpadding="5" bgcolor="#CCC" style="font-size:12px;">
+  <tr>
+    <th bgcolor="#FFFFFF"><span style="font-size:11px;">Staff</span></th>
+    <th bgcolor="#FFFFFF"><span style="font-size: 11px">Begin</span></th>
+    <th bgcolor="#FFFFFF"><span style="font-size:11px;">End</span></th>
+    <th bgcolor="#FFFFFF"><span style="font-size:11px;">Break<br></span><span style="font-size:8px;">(min)</span></th>
+    <th bgcolor="#FFFFFF"><span style="font-size:11px;">Total<br></span><span style="font-size:8px;">(hr)</span></th>
+    <th colspan="2" bgcolor="#FFFFFF"><span style="font-size:11px">Action</span></th>
+</tr>
+	  <?php
+	
+	  if(isset($viewArrResult[0][$i]) && $viewArrResult[0][$i]!=""){
+		$cot = 0;
+		foreach($viewArrResult[0][$i] as $key =>$v){
+		?>  
+        <?
+       $stDetailLine = $stDetail->getDetail($v[0]);		
+		?>   
+    
+
+  <tr>
+    <td bgcolor="#FFFFFF"><?=ucwords($stDetailLine["ni"])?>
+               .
+               <?=chr($stDetailLine["il"]+64)?>
+              <input type="hidden" name="arr_Detail[<?=0?>][<?=$i?>][<?=$cot?>][0]" id="staff_id<?=$v[5]?>" value="<?=$v[0]?>" ></td>
+    <td align="center" bgcolor="#FFFFFF">
+      <input type="text" name="arr_Detail[<?=0?>][<?=$i?>][<?=$cot?>][1]" id="shift_begin_hour<?=$v[5]?>"  style="border: #CCC 1px solid; width:20px;" value="<?=$v[1]?>" readonly="readonly"   />
+      <input type="hidden" id="bksbh<?=$v[5]?>" value="<?=$v[1]?>" /> 
+      <b>:</b> 
+      <input type="text" name="arr_Detail[<?=0?>][<?=$i?>][<?=$cot?>][2]" id="shift_begin_min<?=$v[5]?>" style="border: #CCC 1px solid; width:20px;" value="<?=$v[2]?>" readonly="readonly"   />
+      <input type="hidden" id="bksbm<?=$v[5]?>" value="<?=$v[2]?>" />
+      </td>
+    <td align="center" bgcolor="#FFFFFF">
+      <input type="text" name="arr_Detail[<?=0?>][<?=$i?>][<?=$cot?>][3]" id="shift_end_hour<?=$v[5]?>" style="border: #CCC 1px solid; width:20px;" value="<?=$v[3]?>" readonly="readonly"  / > <input type="hidden" id="bkseh<?=$v[5]?>" value="<?=$v[3]?>" />
+      <b>:</b> <input type="text" name="arr_Detail[<?=0?>][<?=$i?>][<?=$cot?>][4]" id="shift_end_min<?=$v[5]?>" style="border: #CCC 1px solid; width:20px;" value="<?=$v[4]?>" readonly="readonly"   > <input type="hidden" id="bksem<?=$v[5]?>" value="<?=$v[4]?>" />      </td>
+    <td align="center" bgcolor="#FFFFFF">
+      <input type="hidden" name="arr_Detail[<?=0?>][<?=$i?>][<?=$cot?>][5]" value="<?=$v[5]?>"> 	
+      <input type="text" name="arr_Detail[<?=0?>][<?=$i?>][<?=$cot?>][6]" id="shift_break<?=$v[5]?>" style="border: #CCC 1px solid; width:20px;" readonly="readonly"  value="<?=$v[6]?>"  / ><input type="hidden" id="bksbk<?=$v[5]?>" value="" /></td>
+    <td align="center" bgcolor="#FFFFFF">
+      <input type="text" name="arr_Detail[<?=0?>][<?=$i?>][<?=$cot?>][7]" id="shift_total_hours<?=$v[5]?>" readonly="readonly" style="width:25px;" value="<?=$v[7]?>"></td>
+    <td align="center" bgcolor="#FFFFFF" style="width:40px;">&nbsp;</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:40px;">&nbsp;</td>
+  </tr>
+		<?php
+		$totalHours += $v[7];
+		$cot++;	
+			}  
+		  
+		  } 
+		?>  
+</table>
+</td>
+<?php }?>
+    </tr>
+  </table>
+<p>Total Shift Hours:
+  <label for="week_total_hour"></label>
+  <input type="text" name="week_total_hour_<?=0?>" id="week_total_hour_<?=0?>" style="width:100px;" value="<?=$totalHours?>" />
+<i>(hrs)</i><br>
+  <br>
+  
+  <?php ?>  
+  </p>
+<p>
+<input name="shops" type="hidden" value="<?=$this->shops?>" />
+<input name="date_begin" type="hidden" value="<?=$this->dateBegin?>" />
+<br>
+</p>
+</form>
+
+
+
+
+</body>  

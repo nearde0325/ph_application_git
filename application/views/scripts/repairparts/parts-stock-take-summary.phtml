@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<?php
+
+ $arrRepairShops = array(
+ 	1 => 'Bayside Shops',
+	2 => 'CSIC',
+	3 => 'Steven[Tech]',
+	4 => 'BHPC',
+	5 => 'HPIC',
+	6 => 'CBPC',
+	7 => 'WLIC',
+	8 => 'EPPC',
+	9 => 'WB Shops',
+	10 => 'NLPC',
+	11 => 'DCIC',
+	12 => 'KCPC',
+	13 => 'SLIC',
+	14 => 'FGIC',
+	15 => 'PMIC',
+	16 => 'WG Shops',
+	17 => 'ADPC',
+	18 => 'BBPC',
+	19 => 'CL Shops',
+	20 => 'LU [Tech]'
+ 	);
+$rPro = new Model_DbTable_Pr_Prproducts();
+?>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h2>Repair Parts Stock Take DIfference ( Result = Actual - System)</h2>
+<?php 
+foreach($arrRepairShops as $key => $value){
+?>
+<h3><?php echo $value;?></h3>
+<form method="post" action="/repairparts/stock-take-adjust">
+<table width="850" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <th scope="col">Code</th>
+    <th scope="col">Des</th>
+    <th scope="col">Act</th>
+    <th scope="col">Sys</th>
+    <th scope="col">Difference</th>
+    <th scope="col">RRP</th>
+    <th scope="col">Sub Total</th>
+  </tr>
+<?php 
+	$subTotal = 0;
+	$staff = 0;
+	foreach($this->prDiff as $difRow) {
+	if($difRow['id_shop'] == $key){
+		$staff = $difRow['staff_name_stocktake'];
+	?>  
+  <tr>
+    <td><input name ="code_product[]" value="<?php echo $difRow['code_product']?>" type="hidden" /><?php echo $difRow['code_product']?></td>
+    <td><?php echo $rPro->getProductDes($difRow['code_product']); ?></td>
+    <td align="center"><?php echo $difRow['qty_onhand_cf']; ?></td>
+    <td align="center"><?php echo $difRow['qty_onhand']; ?></td>
+    <td><input name ="qty_diff[]" value="<?php echo ($difRow['qty_onhand_cf'] - $difRow['qty_onhand']);?>" type="text" style="width:50px;" /> </td>
+    <td><?php $rPline = $rPro->getProductByCode($difRow['code_product']); echo $rPline['price_a']; 
+	$subTotal += $rPline['price_a'] * ($difRow['qty_onhand_cf'] - $difRow['qty_onhand']);
+	  ?></td>
+      <td><?php $rPline = $rPro->getProductByCode($difRow['code_product']); 
+	 echo $rPline['price_a'] * ($difRow['qty_onhand_cf'] - $difRow['qty_onhand']);
+	  ?></td>
+  </tr>
+<?php } }?>  
+  <tr>
+  	<td align="right">
+    By: <?php echo $staff;?> </td>
+  	<td colspan="5" align="right"><input type="hidden" name="shop_code" value="<?php echo $key;?>" />  	  <input type="submit" name="button" id="button" value="Create Adjustment" /></td>
+  	<td>$<?php echo $subTotal;?></td>
+  </tr>
+</table>
+</form>
+<?php 
+}?>
+</body>
+</html>

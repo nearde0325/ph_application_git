@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+<?php
+
+$rBorrow = new Model_DbTable_Pr_Loan();
+foreach($this->cList as $key => $value){
+?>
+<a href="/repairparts/stock-list-all/cate/<?=$value["id_cate"]?>"><?=$value["title_cate"]?></a> | 
+<?
+}
+?>
+<br />
+
+
+<h1>
+Date: <?php echo $this->dateToday?><br /> 
+
+Category ID: <?php echo $this->idCate?>
+</h1>
+<table width="1600" border="1" cellspacing="0" cellpadding="3" bgcolor="#333333">
+  <tr>
+    <td rowspan="2" bgcolor="#FFFFFF" style="width:150px" >Code</td>
+    <td rowspan="2" bgcolor="#FFFFFF" style="width:350px" >Description</td>
+    <td rowspan="2" align="center" bgcolor="#FFFFFF" style="width:60px" >Ware House</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >BaySide (1)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >Warehouse<br />
+    Hope(2)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >Warehouse<br />
+      Brian
+    (3)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >BHPC(4)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >HPIC(5)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >CBPC(6)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >WLIC(7)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >EPPC(8)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >WB Shops(9)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >NLPC(10)</td>
+     <td align="center" bgcolor="#FFFFFF" style="width:50px" >DCIC(11)</td>
+     <td align="center" bgcolor="#FFFFFF" style="width:50px" >KCPC(12)</td>
+     <td align="center" bgcolor="#FFFFFF" style="width:50px" >SLIC(13)</td>
+     <td align="center" bgcolor="#FFFFFF" style="width:50px" >FGIC(14)</td>
+     <td align="center" bgcolor="#FFFFFF" style="width:50px" >PMIC(15)</td>
+     <td align="center" bgcolor="#FFFFFF" style="width:50px" >WG Shops(16)</td>
+     <td align="center" bgcolor="#FFFFFF" style="width:50px" >ADPC(17)</td>
+     <td align="center" bgcolor="#FFFFFF" style="width:60px" >BBPC(18)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >CLShops(19)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >LU(20)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >BSIC(21)</td>
+    
+  </tr>
+  <tr>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >Adele</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >Hope</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >Brian</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Terra</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Karen</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Hope</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >CC</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Emily</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Sophia</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Emily</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Iris</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >&nbsp;</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >&nbsp;</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >&nbsp;</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >&nbsp;</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >&nbsp;</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >&nbsp;</td>
+        <td align="center" bgcolor="#FFFFFF" style="width:50px" >&nbsp;</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >&nbsp;</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >&nbsp;</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >&nbsp;</td>
+  </tr> 
+<?php
+foreach($this->pList as $key => $v){
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF"><?php echo $v['code_product']?></td>
+    <td bgcolor="#FFFFFF"><?php echo $v['title_product']?></td>
+    <td align="center" bgcolor="#FFFFFF">
+    <?php
+    $rStock = new Model_DbTable_Pr_Prstock();
+	
+	$whSk = $rStock->getWarehouseStock($v['id_product']);
+	if($whSk >0 && $whSk <=3 ){
+		echo '<img src="/im/call.jpg" title="Call Warehouse Confirm" />';
+		}
+	else{
+		echo $whSk;
+		}	
+
+	?>
+    </td>
+    <td align="center" bgcolor="#FFFFFF">
+    <?php 
+	echo ($rStock->getShopStock($v['id_product'],1) == 0)?"0":$rStock->getShopStock($v['id_product'],1);
+	
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 1);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 1);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	
+	?>
+    </td>
+    <td align="center" bgcolor="#FFFFFF">
+        <?php 
+	echo ($rStock->getShopStock($v['id_product'],2) == 0)?"0":$rStock->getShopStock($v['id_product'],2);
+	
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 2);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 2);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	
+		?>
+    </td>
+    <td align="center" bgcolor="#FFFFFF">
+        <?php 
+	echo ($rStock->getShopStock($v['id_product'],3) == 0)?"0":$rStock->getShopStock($v['id_product'],3);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 3);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 3);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?>
+    </td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],4) == 0)?"0":$rStock->getShopStock($v['id_product'],4);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 4);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 4);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],5) == 0)?"0":$rStock->getShopStock($v['id_product'],5);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 5);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 5);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],6) == 0)?"0":$rStock->getShopStock($v['id_product'],6);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 6);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 6);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; ?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],7) == 0)?"0":$rStock->getShopStock($v['id_product'],7);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 7);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 7);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],8) == 0)?"0":$rStock->getShopStock($v['id_product'],8);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 8);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 8);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],9) == 0)?"0":$rStock->getShopStock($v['id_product'],9);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 9);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 9);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],10) == 0)?"0":$rStock->getShopStock($v['id_product'],10);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 10);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 10);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],11) == 0)?"0":$rStock->getShopStock($v['id_product'],11);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 11);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 11);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],12) == 0)?"0":$rStock->getShopStock($v['id_product'],12);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 12);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 12);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],13) == 0)?"0":$rStock->getShopStock($v['id_product'],13);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 13);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 13);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],14) == 0)?"0":$rStock->getShopStock($v['id_product'],14);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 14);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 14);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],15) == 0)?"0":$rStock->getShopStock($v['id_product'],15);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 15);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 15);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],16) == 0)?"0":$rStock->getShopStock($v['id_product'],16);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 16);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 16);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],17) == 0)?"0":$rStock->getShopStock($v['id_product'],17);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 17);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 17);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+        <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],18) == 0)?"0":$rStock->getShopStock($v['id_product'],18);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 18);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 18);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+        <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],19) == 0)?"0":$rStock->getShopStock($v['id_product'],19);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 19);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 19);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+        <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],20) == 0)?"0":$rStock->getShopStock($v['id_product'],20);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 20);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 20);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+        <td align="center" bgcolor="#FFFFFF"><?php 
+	echo ($rStock->getShopStock($v['id_product'],21) == 0)?"0":$rStock->getShopStock($v['id_product'],21);
+		
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 21);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	$ldQty = $rBorrow->lendStock($v['id_product'], 21);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 
+	?></td>
+  </tr>   
+<?php
+}
+?>
+</table>
+
+</body>
+</html>

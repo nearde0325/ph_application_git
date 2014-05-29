@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/css/template.css" rel="stylesheet" type="text/css" />
+<title>Phone Repair Status Summary</title>
+</head>
+<?php
+$insstr1 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px;height:16px; border-color:#333; background-color:#FFFF00; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Waiting For HQ Pick Up</td>
+  </tr>
+</table>
+';
+$insstr2 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px;height:16px;  border-color:#333; background-color:#00B0F0; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>In Transit (Shop to HQ)</td>
+  </tr>
+</table>
+';
+$insstr3 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px;height:16px;  border-color:#333; background-color:#FFC000; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Before Quote</td>
+  </tr>
+</table>
+';
+$insstr4 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px;height:16px;  border-color:#333; background-color:#92D050; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>After Quote</td>  
+  </tr>
+</table>
+';
+$insstr5 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px;height:16px;  border-color:#333; background-color:#E6B8B7; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Phone Fixed / Phone Can\'t Fix</td>
+  </tr>
+</table>
+';
+$insstr6 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px;height:16px;  border-color:#333; background-color:#00B0F0; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>In Transit (HQ to Shop)</td>
+  </tr>
+</table>
+';
+$insstr7 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px;height:16px;  border-color:#333; background-color:#BFBFBF; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>In Store,Wait Customer Pickup</td>
+  </tr>
+</table>
+';
+$insstr8 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px;height:16px;  border-color:#333; background-color:#FFFFFF; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Pick Up, Case Closed.</td>  
+  </tr>
+</table>
+';
+
+$rRecord = new Model_DbTable_Pr_Prstockmovement();
+?>
+
+<body>
+Search
+<form action="/repaircenter/viewdetailstatus" method="get" name="form1" target="_blank">
+<input name="jid" type="text" /><input name="search" type="submit" value="search" />
+</form>
+
+<hr />
+Status List
+<table width="1000" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#FFFF00; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Waiting For HQ Pick Up</td>
+    <td style="width:16px; border-color:#333; background-color:#00B0F0; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>In Transit (Shop to HQ)</td>
+    <td style="width:16px; border-color:#333; background-color:#FFC000; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Before Quote</td>
+    <td style="width:16px; border-color:#333; background-color:#92D050; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>After Quote</td>        
+  </tr>
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#E6B8B7; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Phone Fixed / Phone Can't Fix</td>
+    <td style="width:16px; border-color:#333; background-color:#00B0F0; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>In Transit (HQ to Shop)</td>
+    <td style="width:16px; border-color:#333; background-color:#BFBFBF; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>In Store, Waiting Customer Pickup</td>
+    <td style="width:16px; border-color:#333; background-color:#FFFFFF; border-style:solid; border-width:1px;">&nbsp;</td>
+    <td>Pick Up, Case Closed.</td>            
+  </tr>
+</table>
+
+<hr>
+
+<table width="1000" style="border:#06C solid 1px;" cellspacing="2" cellpadding="5">
+  <tr>
+    <td width="250" align="center"><a href="/repaircenter/showallstatusbycode/code/1,3,5,7,34">Waiting HQ Pick Up</a></td>
+    <td width="250" align="center"><a href="/repaircenter/showallstatusbycode/code/14,16">In House Repair</a></td>
+    <td width="250" align="center"> <a href="/repaircenter/showallstatusbycode/code/9,12,22,24">Contact Mobile Clinic</a></td>
+    <td width="250" align="center"><a href="/repaircenter/showallstatusbycode/code/18,20">Contact Customer</a></td>
+  </tr>
+  <tr>
+    <td width="250" align="center"><a href="/repaircenter/showallstatusbycode/code/26">Waiting For Distribution</a></td>
+    <td width="250" align="center"><a href="/repaircenter/showallstatusbycode/code/28,30,31,33">Waiting Customer Pickup</a></td>
+    <td width="250" align="center"> <a href="/repaircenter/showallstatusbycode/code/35">Outstanding Job</a></td>
+    <td width="250" align="center">&nbsp;</td>
+  </tr>  
+</table>
+
+<br />
+You may still need check <a href="/repaircenter/showallstatus">ALL</a> status here , You may check all <a href="/repaircenter/showallhistory">History</a> here.<br />
+<br />
+
+
+<table width="1010"  cellspacing="0" cellpadding="1" style="border:#06C solid 1px;">
+  <tr>
+    <td colspan="2" style="width:150px;" class="thetbheader">Job ID</td>
+    <td colspan="2" class="thetbheader" style="width:180px;">Mobile</td>
+    <td style="width:180px;" class="thetbheader">Customer Contacts</td>
+    <td colspan="2" align="center" style="width:240px;" class="thetbheader">Status</td>
+    <td style="width:80px;"class="thetbheader" >Last Update</td>
+    <td colspan="5" align="center" valign="middle" class="thetbheader">Actions</td>
+  </tr>
+<?php 
+$lastStatusList = new Model_DbTable_Repairstatusrecord();
+if(empty($this->searchresult)){
+?>
+<tr>
+	<td colspan="13"> No record at the moment</td>
+</tr>
+<?php	
+	}
+else{
+$counter = 0;		
+foreach($this->searchresult as $k=>$v){
+$theLastStatus = $lastStatusList->getLastStatus($v['id_job']);
+if($theLastStatus[0]['id_status'] == $v['id_status'] and $theLastStatus[0]['time_record'] == $v['time_record'] ){	
+?>
+  <tr
+  <?php 
+  if($counter%2 ==1 ){ 
+  echo 'class="thelineback"';
+  }
+  $counter++;
+  ?>
+  >
+    <td>[<?php echo $v['shop_code']?>]</td>
+    <td><?php echo $v['id_job'];?><a href="/repaircenter/viewdetailstatus/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank" ><img src="/css/details.gif" /></a></td>
+
+    <td><?php echo $v['mobile_brand']." ".$v['mobile_model']; ?></td>
+    <td>
+    <?php 
+	$tmprows = $rRecord->getPartsRecordByJobId($v['id_job']);
+	if(isset($tmprows) && count($tmprows) > 0){
+		//var_dump($tmprows);
+		//echo $tmprows[0]['date_move'];
+		echo "Recorded";
+		}
+	else{
+		echo "NO Record";
+		}
+    
+    
+    ?>
+    </td>
+    <td><?php echo $v['customer_name'];?><a href="/repaircenter/viewdetail/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank"><img src="/css/details.gif" /></a></td>
+    <td style="width:230px;">
+    
+	[<?php echo $v['id_status'];?>]
+    <?php
+    $newStatus = new Model_DbTable_Jobstatus();
+	echo $newStatus->getStatusDes($v['id_status']);
+	?>
+    <?php
+	if($v['id_status'] == 1 or $v['id_status'] == 3 or $v['id_status'] == 5 or $v['id_status'] == 7  ){ echo $insstr1;}
+	if($v['id_status'] == 8 or $v['id_status'] == 9 ){ echo $insstr2;}
+	if($v['id_status'] == 12 or $v['id_status'] == 14 or $v['id_status'] == 16 ){ echo $insstr3;}
+	if($v['id_status'] == 18 or $v['id_status'] == 20 or $v['id_status'] == 22 or $v['id_status'] == 24  ){ echo $insstr4;}
+	if($v['id_status'] == 23 or $v['id_status'] == 25 or $v['id_status'] == 29 ){ echo $insstr5;}
+	if($v['id_status'] == 26 or $v['id_status'] == 27 ){ echo $insstr6;}
+	if($v['id_status'] == 28 or $v['id_status'] == 30 ){ echo $insstr7;}
+	if($v['id_status'] == 80 or $v['id_status'] == 90 ){ echo $insstr8;}
+	?>	
+    </td>
+    <td style="width:10px;"><a href="/repaircenter/viewhistory/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank"><img src="/css/details.gif" /></a></td>
+    <td align="center">
+	<?php 
+	date_default_timezone_set('Australia/Melbourne');
+	$timeBegin = strtotime($v['time_record']);
+	$dateToday = date("Y-m-d");
+
+	$newdate = strtotime("-3 day");
+	//print_r($timeBegin);
+	//print_r($newdate);	
+	if($newdate > $timeBegin){
+		echo "<b style=\"color:#FF0000;\">";
+		echo $v['time_record'];	
+	    echo "</b>";
+	}
+	else{
+		echo $v['time_record'];	
+		}
+	?></td>
+    <td align="center" valign="middle"><a href="/repaircenter/changestatus/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank"><img src="/css/edit.gif" />
+Status</a></td>
+    <td align="center" valign="middle"><a href="/repaircenter/changequote/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;"  target="_blank" ><img src="/css/edit.gif" />
+Quote</a></td>
+    <td align="center" valign="middle"><a href="/repaircenter/updateinvoice/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;"  target="_blank"><img src="/css/edit.gif" />
+Invoice</a></td>
+    <td align="center" valign="middle"><a href="/repaircenter/addcomment/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;"  target="_blank"><img src="/css/comm.jpg" />
+Comm</a></td>
+  </tr>
+<?php
+}
+}
+}
+?>
+</table>
+</body>
+</html>

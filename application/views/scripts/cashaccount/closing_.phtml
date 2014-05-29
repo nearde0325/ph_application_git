@@ -1,0 +1,446 @@
+<?php
+//$shop_code = "BSPC";
+date_default_timezone_set('Australia/Melbourne'); 
+$dateToday = date("Y-m-d");
+$timeNow = date("H:i:s");
+$dayToday = date("l");
+$openBalance = 100;
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Online Cash Account</title>
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="/js/scrollable.js"></script>
+<script type="text/javascript" src="/js/calculate2.js"></script>
+<link href="/css/cashaccountstyleclose.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<form id="form_cashaccount" name="form_cashaccount" method="post" action="/cashaccount/saveclosing">
+<div id="main">
+
+	<div id="wizard">
+<span style="font-size:20px;; color:#036;" >Online Cash Account Closing[Ver0.2] [DEMO SYSTEM ONLY DO YOU PAPAER]</span>
+<span style="float:right">
+APOS Total:
+<input name="apos_total_check" id="apos_total_check" type="text" value="0" style="background:#B9EEFF" readonly="readonly" />
+Electronic Cash:<input name="efpos_total_check" id="efpos_total_check" type="text" value="0" style="background:#B9EEFF" readonly="readonly" />
+</span>
+
+    	<ul id="status">
+			<li class="active"><strong>1.</strong>Staff Information</li>
+			<li><strong>2.</strong>APOS and EFPOS</li>
+            <li><strong>3.</strong>Expense Today</li>
+            <li><strong>4.</strong>Electronic Cash Sales</li>
+            <li><strong>5.</strong>Discount Vouchers</li>
+            <li><strong>6.</strong>Cash In The Till</li>
+            <li><strong>7.</strong>Summary and Remark</li>
+		</ul>
+        <div class="items">
+        
+        <div class="page">
+        	
+        <h3>FILL IN STAFF INFORMATION<br/><em>Please fill in your information as below</em></h3>
+        <div class="container">
+        <p><label> Shop Name: </label> Shopping Center [<?php echo $this->shophead;?>]<input type="hidden" name="shop_code" id="shop_code" value="<?php echo $this->shophead;?>" />
+        </p>
+        <p><label> Current Date and Time</label>
+        <input class="disinput" type="text" name="date_record" id="date_record" readonly="readonly" value="<?php echo $dateToday?>"  />
+        <input class="disinput" type="text" name="time_record" id="time_record" readonly="readonly" value="<?php echo $timeNow?>"  />
+        <input class="disinput" type="text" name="day_record" id="day_record" value="<?php echo $dayToday?>" />
+        </p>
+        <p><label>Prepared By <a name="pb" title="Composory field,fill staff name who preapre for this form" style=" line-height:13px; vertical-align:middle; " ><img src="help.jpg" width="17" height="17" border="0"/></a></label>
+          <input class="cominput" type="text" name="staff_name" id="staff_name" /><span class="comred">*</span>
+        </p>
+        <p><label>Staff On Duty <a name="pb" title="Fill staff name(s) that 'On Duty' This Shift" style=" line-height:13px; vertical-align:middle; " ><img src="help.jpg" width="17" height="17" border="0"/></a></label>
+        <input class="cominput" type="text" name="staff_on_duty1" id="staff_on_duty1" /><span class="comred" style="margin-right:10px;">*</span> <input class="input" type="text" name="staff_on_duty2" id="staff_on_duty2" />       
+        </p>
+		</div>
+        	   <div class="error_inv" id="error_message_1">
+          		<span style="font-weight:bold;display:block; line-height:13px;" ><img src="error2.png" width="22" height="18" style="line-height:13px;"  /> Error occur</span>
+                <span id="error_detail"></span>
+                </div>
+               <div class="btn_nav">
+                  <input type="button" class="next right" value="NEXT&raquo;" />
+               </div>
+        </div>
+        <div class="page">
+        <h3>APOS and EFPOS<br/>
+        <em>Input the APOS Total Sales and EFPOS Total Sales 
+        <span style="color:#F00">You will NOT able to revise these Numbers later, you NEED to re-do the whole form if you made mistakes</span></em></h3>
+        <div class="container">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="width:33%" >APOS Total:</td>
+    <td style="width:33%" >&nbsp;</td>
+    <td style="width:34%">
+      <!--<input type="text" name="apos_total" id="apos_total" onkeyup="calculateDifference()"  value="0" class="input" />-->
+      <input type="text" name="apos_total" id="apos_total"  value="0" class="cominput" />      
+      $ *</td>
+  </tr>
+  <tr>
+    <td colspan="2">APOS Total is today's total sales of your shop IN APOS<br /></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Electronic Sales Total</td>
+    <td>&nbsp;</td>
+    <td><span style="width:34%">
+      <input type="text" name="efpos_total" id="efpos_total"  value="0" class="cominput" /> $ *
+    </span></td>
+  </tr>
+  <tr>
+    <td colspan="3">Electronic Sales Total = Debit/Credit Card Sales + Amex Card Sales + Offline Voucher<br />
+      <span style="color:#F00" >If you click the &quot;Next&quot; button after you Fill in these Numbers, You may not come back revise them,You may only close the form and do it again.</span></td>
+    </tr>
+ <!--
+  <tr>
+    <td>Did you or morning shift colleague do refund today</td>
+    <td><input type="radio" name="do_refund" id="do_refund1" value="0" />
+      No, WE did not do any refund </td>
+    <td><input type="radio" name="do_refund" id="do_refund2" value="1" />
+      <label for="do_refund">Yes, WE did under HQ Approve today</label></td>
+  </tr>
+  <tr>
+    <td>Did you or morning shift colleague do exchange today</td>
+    <td><input type="radio" name="do_exchange" id="do_exchange1" value="0" />
+      No, WE did not do any exchange</td>
+    <td><input type="radio" name="do_exchange" id="do_exchange2" value="1" />
+      Yes, WE did exchange today</td>
+  </tr>
+  <tr>
+    <td>Did you or morning shift colleague do faulty today</td>
+    <td><input type="radio" name="do_faulty" id="do_faulty1" value="0" />
+      No, WE did not do any faulty</td>
+    <td><input type="radio" name="do_faulty" id="do_faulty2" value="1" />
+      Yes, WE did faulty RMA today</td>
+  </tr>
+  -->
+        </table>
+
+        
+</div>
+        	   <div class="error_inv" id="error_message_2">
+          		<span style="font-weight:bold;display:block; line-height:13px;" ><img src="error2.png" width="22" height="18" style="line-height:13px;"  /> Error occur</span>
+                <span id="error_detail_2"></span>
+          </div>                         
+               <div class="btn_nav">
+                  <input type="button" class="prev" style="float:left" value="PREV&laquo;" />
+                  <input type="button" class="next right" value="NEXT&raquo;" />
+               </div>         
+        
+        </div> 
+        <div class="page">
+        <h3>EXPENSE RECORD<br/>
+        <em>Please fill in all the expense  using  today.It does Not include the Cash Out today. <span style="color:#F00">All EXPENSE money MUST be taken from Opening Cash (normally $300)</span> You may record max 6 of it each day</em></h3>
+        <div class="container">
+        <table width="100%" border="0" cellspacing="2" cellpadding="2">
+      <tr>
+        <td>Name/ Description</td>
+        <td>Amount $</td>
+        <td>Staff Name/ Signature/Date</td>
+      </tr>
+      <tr>
+        <td>       
+          <input class="input" type="text" name="name_expense_1" id="name_expense_1" /></td>
+        <td><input  class="input"  type="text" name="sub_expense_1" id="sub_expense_1" value="0" onchange="summarySubExpense()" />$</td>
+        <td><input  class="input" type="text" name="staff_name_expense_1" id="staff_name_expense_1" /></td>
+      </tr>
+      <tr>
+        <td>
+          <input  class="input"  type="text" name="name_expense_2" id="name_expense_2" /></td>
+        <td><input  class="input"  type="text" name="sub_expense_2" id="sub_expense_2" value="0" onchange="summarySubExpense()"   />$</td>
+        <td><input  class="input"  type="text" name="staff_name_expense_2" id="staff_name_expense_2" /></td>
+      </tr>
+      <tr>
+        <td>
+          <input  class="input"  type="text" name="name_expense_3" id="name_expense_3" /></td>
+        <td><input  class="input"  type="text"  name="sub_expense_3" id="sub_expense_3" value="0" onchange="summarySubExpense()"   />$</td>
+        <td><input  class="input"  type="text" name="staff_name_expense_3" id="staff_name_expense_3" /></td>
+      </tr>
+      <tr>
+        <td>
+          <input  class="input" type="text" name="name_expense_4" id="name_expense_4" /></td>
+        <td><input  class="input" type="text"  name="sub_expense_4" id="sub_expense_4" value="0" onchange="summarySubExpense()"   />$</td>
+        <td><input  class="input" type="text" name="staff_name_expense_4" id="staff_name_expense_4" /></td>
+      </tr>
+      <tr>
+        <td>
+          <input  class="input" type="text" name="name_expense_5" id="name_expense_5" /></td>
+        <td><input  class="input" type="text"  name="sub_expense_5" id="sub_expense_5" value="0" onchange="summarySubExpense()"   />$</td>
+        <td><input  class="input" type="text" name="staff_name_expense_5" id="staff_name_expense_5" /></td>
+      </tr>
+      <tr>
+        <td>
+          <input  class="input" type="text" name="name_expense_6" id="name_expense_6" /></td>
+        <td><input  class="input" type="text"  name="sub_expense_6" id="sub_expense_6" value="0" onchange="summarySubExpense()"   />$</td>
+        <td><input  class="input" type="text" name="staff_name_expense_6" id="staff_name_expense_6" /></td>
+      </tr>
+      <tr>
+        <td><!--<input class="btnother" type="button" name="button" id="button" value="Calculate Total" onclick="passExpenseValue()" />--></td>
+        <td style="text-align:center"><strong>Total Expense:</strong> </td>
+        <td><input type="text" class="disinput" name="sub_expense_total" id="sub_expense_total" value="0" readonly="readonly"  />$</td>
+      </tr>      
+      <tr>
+      	<td>
+      	<input name="approved_check" type="checkbox" value="0" checked="checked" />All Purchase approved by Manager:
+        </td>
+        <td colspan="2" ><input  class="input" type="text" name="approved_manager" id="approved_manager" /></td>	
+      </tr>
+      <tr>
+        <td colspan="3"><span style="color:#F00">All EXPENSE money MUST be taken from Opening Cash (normally $300)</span><br /></td>
+        </tr>
+        </table>
+</div> 
+        	   <div class="error_inv" id="error_message_3">
+          		<span style="font-weight:bold;display:block; line-height:13px;" ><img src="error2.png" width="22" height="18" style="line-height:13px;"  /> Error occur</span>
+                <span id="error_detail_3"></span>
+                </div>                         
+               <div class="btn_nav">
+                  <!--<input type="button" class="prev" style="float:left" value="PREV&laquo;" />-->
+                  <input type="button" class="next right" value="NEXT&raquo;" />
+               </div>      
+        
+        </div>
+        
+                 
+                <div class="page">
+        <h3>Electronic Cash Details<br/><em>Please refer to the example write down the numbers on the daily settlement</em></h3>
+        <div class="container">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td style="width:35%;">[1] Qty of Merchant copy</td>        
+        <td style="width:35%; text-align:left;" rowspan="3" ><img src="/im/ca/sment.jpg" width="178" height="246" /></td>
+        <td style="width:40%;"><input type="text" name="qty_merchant_copy" id="qty_merchant_copy" value="0" class="input"  /></td>        
+        </tr>
+      <tr>
+        <td>[2] Debit/Credit Net Totals</td>
+        
+        <td><input type="text" name="dbcr_cash" id="dbcr_cash" value="0" class="input" onkeyup="electronicCashChange()"  />$</td>
+      </tr>
+      <tr>
+        <td>[3] Amex Card Purchase</td>
+        
+        <td><input type="text" name="amex_cash" id="amex_cash" value="0" class="input"  onkeyup="electronicCashChange()"  />$</td>
+      </tr>
+      <tr>
+        <td>Officeline Voucher</td>
+        <td><a href="https://spreadsheets.google.com/viewform?formkey=dF9zeE9xYmhBa2o0ZlkzbFpNLVYyS1E6MA" target="_blank">Claim Here</a></td>
+        <td><input type="text" name="offline_voucher" id="offline_voucher" value="0" class="input" onkeyup="electronicCashChange()"   />$</td>
+      </tr>
+      <tr>
+        <td><input class="btnother" type="button" name="button2" id="button2" value="Calculate Total Electronic Cash" onclick="calculateElectronicCashSales()" /><span id="sp_id_cal_electronic_cash" class="notclickyet" >&nbsp;<input id="id_cal_electronic_cash" type="hidden" value="0"></span></td>
+        <td>Total Electronic Cash</td>
+        <td><input type="text" name="total_electronic_cash" id="total_electronic_cash" value="0" class="disinput" readonly="readonly" />$</td>
+      </tr>
+    </table>
+  
+      </div>
+        	   <div class="error_inv" id="error_message_4">
+          		<span style="font-weight:bold;display:block; line-height:13px;" ><img src="error2.png" width="22" height="18" style="line-height:13px;"  /> Error occur</span>
+                <span id="error_detail_4"></span>
+                </div>       
+               <div class="btn_nav">
+                  <input type="button" class="prev" style="float:left" value="&laquo;PREV" />
+                  <input type="button" class="next right" value="NEXT&raquo;" />
+               </div>       
+        </div>
+        <div class="page">
+        <h3>Discount Vouchers<br /><em>Apply discount voucher here</em></h3>
+        <div class="container">                
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+          <td  style="width:35%;" >Credit Note</td>
+          <td  style="width:35%;"><a href="https://spreadsheets.google.com/viewform?formkey=dF9zeE9xYmhBa2o0ZlkzbFpNLVYyS1E6MA" target="_blank">Claim Here</a></td>
+          <td  style="width:40%;"><input type="text" name="credit_note" id="credit_note" value="0" class="input" />$</td>
+        </tr>
+        <tr>
+          <td>Coupon</td>
+          <td><a href="https://spreadsheets.google.com/viewform?formkey=dF9zeE9xYmhBa2o0ZlkzbFpNLVYyS1E6MA" target="_blank">Claim Here</a></td>
+          <td><input type="text" name="coupon_note" id="coupon_note" value="0" class="input" />$</td>
+        </tr>
+        
+      </table>        
+        </div>
+         <div class="error_inv" id="error_message_5">
+          		<span style="font-weight:bold;display:block; line-height:13px;" ><img src="error2.png" width="22" height="18" style="line-height:13px;"  /> Error occur</span>
+                <span id="error_detail_5"></span>
+        </div>       
+        <div class="btn_nav">
+                  <input type="button" class="prev" style="float:left" value="&laquo;PREV" />
+                  <input type="button" class="next right" value="NEXT&raquo;" />
+        </div>       
+                	
+        </div>
+<div class="page">
+        <h3>Cash In Till<br/>
+        <em>Please count the cash in till current time</em>, You may Press [Tab] Key for the next colume</h3>
+        <div class="container">
+        <table width="100%" border="0" cellspacing="1" cellpadding="0">      <tr>
+        <td>Denominations</td>
+        <td>Quantity*</td>
+        <td>Amount</td>
+      </tr>
+      <tr>
+        <td>$100.00</td>
+        <td><input class="sinput" name="qty_note_100" type="text" id="qty_note_100" value="0" onchange="calculateCashAmount(100,'qty_note_100','amount_note_100')" tabindex="1" /></td>
+        <td><input class="sinput"  name="amount_note_100" type="text" id="amount_note_100" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$50.00</td>
+        <td><input class="sinput"  name="qty_note_50" type="text" id="qty_note_50" value="0" onchange="calculateCashAmount(50,'qty_note_50','amount_note_50')" tabindex="2" /></td>
+        <td><input class="sinput"  name="amount_note_50" type="text" id="amount_note_50" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$20.00</td>
+        <td><input class="sinput"  name="qty_note_20" type="text" id="qty_note_20" value="0" onchange="calculateCashAmount(20,'qty_note_20','amount_note_20')" tabindex="3"  /></td>
+        <td><input class="sinput"  name="amount_note_20" type="text" id="amount_note_20" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$10.00</td>
+        <td><input class="sinput"  name="qty_note_10" type="text" id="qty_note_10" value="0" onchange="calculateCashAmount(10,'qty_note_10','amount_note_10')" tabindex="4"  /></td>
+        <td><input class="sinput"  name="amount_note_10" type="text" id="amount_note_10" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$5.00</td>
+        <td><input class="sinput"  name="qty_note_5" type="text" id="qty_note_5" value="0" onchange="calculateCashAmount(5,'qty_note_5','amount_note_5')" tabindex="5"  /></td>
+        <td><input class="sinput"  name="amount_note_5" type="text" id="amount_note_5" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$2.00</td>
+        <td><input class="sinput"  name="qty_coin_2" type="text" id="qty_coin_2" value="0" onchange="calculateCashAmount(2,'qty_coin_2','amount_coin_2')" tabindex="6"  /></td>
+        <td><input class="sinput"  name="amount_coin_2" type="text" id="amount_coin_2" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$1.00</td>
+        <td><input class="sinput"  name="qty_coin_1" type="text" id="qty_coin_1" value="0" onchange="calculateCashAmount(1,'qty_coin_1','amount_coin_1')" tabindex="7" /></td>
+        <td><input class="sinput"  name="amount_coin_1" type="text" id="amount_coin_1" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$0.50</td>
+        <td><input class="sinput"  name="qty_coin_05" type="text" id="qty_coin_05" value="0" onchange="calculateCashAmount(0.5,'qty_coin_05','amount_coin_05')" tabindex="8"   /></td>
+        <td><input class="sinput"  name="amount_coin_05" type="text" id="amount_coin_05" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$0.20</td>
+        <td><input class="sinput"  name="qty_coin_02" type="text" id="qty_coin_02" value="0" onchange="calculateCashAmount(0.2,'qty_coin_02','amount_coin_02')" tabindex="9"  /></td>
+        <td><input class="sinput"  name="amount_coin_02" type="text" id="amount_coin_02" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$0.10</td>
+        <td><input class="sinput"  name="qty_coin_01" type="text" id="qty_coin_01" value="0" onchange="calculateCashAmount(0.1,'qty_coin_01','amount_coin_01')" tabindex="10"   /></td>
+        <td><input class="sinput"  name="amount_coin_01" type="text" id="amount_coin_01" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$0.05</td>
+        <td><input class="sinput"  name="qty_coin_005" type="text" id="qty_coin_005" value="0" onchange="calculateCashAmount(0.05,'qty_coin_005','amount_coin_005')" tabindex="11"  /></td>
+        <td><input class="sinput"  name="amount_coin_005" type="text" id="amount_coin_005" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td ><input class="btnother" type="button" name="button2" id="button2" value="Calculate Colosing Balance" onclick="calculateTotalCashInTill()" tabindex="12"  /><span id="sp_id_cal_bal" class="notclickyet" >&nbsp;<input id="id_cal_close_bal" type="hidden" value="0"></span></td>
+        <td><strong>Closing Balance:</strong></td>
+        <td><input name="close_balance" type="text" class="disinput" id="close_balance" value="0" readonly="readonly" />$</td>
+      </tr>
+ <!--     
+      <tr>
+        <td >&nbsp;</td>
+        <td><strong>Opening Cash In The Till:</strong></td>
+        <td><input type="text" name="close_balance" id="close_balance" value="0" class="disinput" />$</td>
+      </tr>      
+      <tr>
+        <td><input class="btnother" type="button" name="button2" id="button2" value="Calculate Cash Sales" onclick="calculateCashSales()"  /><span id="sp_id_cal_total_cash_sales" class="notclickyet" >&nbsp;<input id="id_cal_total_cash_sales" type="hidden" value="0"></span></td>
+        <td><strong>Total Cash Sales:</strong></td>
+        <td><input type="text" name="total_cash_sales" id="total_cash_sales" value="0" class="disinput" />$</td>
+      </tr>
+ -->     
+      
+    </table>
+    </div>    
+        
+        	   <div class="error_inv" id="error_message_6">
+          		<span style="font-weight:bold;display:block; line-height:13px;" ><img src="error2.png" width="22" height="18" style="line-height:13px;"  /> Error occur</span>
+                <span id="error_detail_6"></span>
+                </div>         
+               <div class="btn_nav">
+                  <input type="button" class="prev" style="float:left" value="&laquo;PREV" />
+                  <input type="button" class="next right" value="NEXT&raquo;" />
+               </div>       
+        </div>         
+        
+          
+                <div class="page">
+        <h3>Summary And Remark<br/>
+        <em>Calculate Total Sales ,Remark the difference,</em></h3>
+        <div class="container">
+  		<table width="100%" border="0" cellspacing="0" cellpadding="0">       
+        <tr>
+        	<td style="width:33%" ><label>Total Cash Sales :</label></td>
+            <td style="width:33%" >&nbsp;</td>
+            <td style="width:34%" ><input type="text" name="total_cash_sales" id="total_cash_sales" value="0" class="disinput" readonly="readonly" />$</td>
+        </tr>
+        <tr>
+        	<td style="width:33%" ><label>Total Electronic Sales :</label></td>
+            <td style="width:33%" >&nbsp;</td>
+            <td style="width:34%" ><input name="total_electronic_sales" type="text" class="disinput" id="total_electronic_sales" value="0" readonly="readonly" />$</td>
+        </tr>
+        <tr>
+        	<td style="width:33%" ><label>Total Expense Today :</label></td>
+            <td style="width:33%" >&nbsp;</td>
+            <td style="width:34%" ><input name="total_expense_today" type="text" class="disinput" id="total_expense_today" value="0" readonly="readonly" />$</td>
+        </tr>
+        <tr>
+
+            <td style="width:33%" ><input type="button" name="button2" id="button2" value="Calculate Total Net Sales" onclick="calculateTotalNetSales();calculateDifference();" class="btnother"  />
+        <span id="sp_id_cal_net_sales" class="notclickyet" >&nbsp;<input id="id_cal_net_sales" type="hidden" value="0"></span></td>
+        	<td style="width:33%" ><label>Total Net Sales :</label></td>        
+            <td style="width:34%" ><input name="total_net_sales" type="text" class="disinput" id="total_net_sales" value="0" readonly="readonly" />$</td>
+        </tr>
+        <tr>
+        	<td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+        	<td style="width:33%" >&nbsp;</td>
+            <td style="width:33%" >&nbsp;</td>
+            <td style="width:34%" >&nbsp;</td>
+        </tr>
+        <tr>
+        	<td style="width:33%" ><label>Difference::</label></td>
+            <td style="width:33%" >&nbsp;</td>
+            <td style="width:34%" ><input type="text" name="cash_discrepancy" id="cash_discrepancy" value="0" readonly="readonly" class="disinput" onclick="calculateDifference()" />$
+        <span id="sp_id_inconsistency" class="clicked" >&nbsp;</span></td>
+        </tr>  
+        <tr>
+        	<td colspan="3">
+                    <div class="error_inv" id="remark_div">
+        <input id="ind_inconsistency" name="ind_inconsistency" type="checkbox" value="0" />I understand the Inconsistency and Remark the reason of difference as follow:<br />
+        <textarea name="remark_cont" id="remark_cont" cols="70" rows="4"></textarea>
+        </div>
+            </td>
+        </tr>                                              
+        </table>
+        </div>
+        	   <div class="error_inv" id="error_message_7">
+          		<span style="font-weight:bold;display:block; line-height:13px;" ><img src="error2.png" width="22" height="18" style="line-height:13px;"  /> Error occur</span>
+                <span id="error_detail_7"></span>
+                </div>         
+               <div class="btn_nav">
+                  <input type="button" class="prev" style="float:left" value="&laquo;PREV" />
+                  <input type="button" class="next right" id="sub" value="CREATE SUMMARY" />
+               </div>      
+        </div>          
+        </div>
+    
+    </div>
+</div>
+</form>
+<script type="text/javascript" src="/js/valudate2.js"></script>
+</body>
+</html>

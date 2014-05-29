@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=600px, initial-scale=0.5, maximum-scale=1.0, user-scalable=no" />
+<title></title>
+<style>
+body {
+    -webkit-text-size-adjust: none;
+	font-family:Arial, Helvetica, sans-serif;
+	
+}
+</style>
+</head>
+
+<body>
+<?php
+$opening = $this->opening;
+$closing = $this->closing;
+$totalOpen = $opening[0]["amount_note_100_open"] +
+	 $opening[0]["amount_note_50_open"] +
+  	 $opening[0]["amount_note_20_open"] +
+   	 $opening[0]["amount_note_10_open"] +
+     $opening[0]["amount_note_5_open"] +
+	 $opening[0]["amount_coin_2_open"] +
+	 $opening[0]["amount_coin_1_open"] +
+	 $opening[0]["amount_coin_05_open"] +
+	 $opening[0]["amount_coin_02_open"] +
+	 $opening[0]["amount_coin_01_open"] +
+	 $opening[0]["amount_coin_005_open"];
+?>
+<table width="600" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <th scope="col">Date: <?php echo $this->date; ?></th>
+    <th scope="col">Shop:<?php echo $this->shop; ?></th>
+  </tr>
+  <tr>
+    <th colspan="2" scope="col">The Opening</th>
+  </tr>
+  <tr>
+    <td align="center" style="width:50%" >Yesterday Closing</td>
+    <td align="center">Today Opening</td>
+  </tr>
+  <tr>
+    <td align="center">&nbsp;</td>
+    <td align="center">$ <?php echo $totalOpen; ?></td>
+  </tr>
+  <tr>
+    <td align="center">Bank In</td>
+    <td align="center">Cash Out</td>
+  </tr>
+  <tr>
+    <td align="center">$ <?php echo $opening[0]["amount_bank_in_open"] ?></td>
+    <td align="center">$ <?php echo $opening[0]["amount_cash_out_open"] ?></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">Any Remark</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">&nbsp;</td>
+  </tr>
+</table>
+<br />
+<br />
+
+<table width="600" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <th colspan="6" scope="col">The Closing</th>
+  </tr>
+  <tr>
+    <td colspan="3" align="center"  style="width:50%">Opening Balance <span style="font-size:12px; font-weight:bold;">After Bank In / Cash Out</span></td>
+    <td colspan="3" align="center">Closing Balance</td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center">$ <?php echo $opening[0]["open_balance"] ?></td>
+    <td colspan="3" align="center">$ <?php echo $closing[0]["close_balance_cash_close"] ?></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center">Cash Sales</td>
+    <td colspan="3" align="center">EFT Sales</td>
+  </tr>
+  <tr>
+    <td align="center" style="width:10%;" >Fill:</td>
+    <td align="center">$ <?php echo $closing[0]["total_cash_sales_close"] ?></td>
+    <td align="center">Dif</td>
+    <td align="center" style="width:10%;" >Fill:</td>
+    <td align="center">$ <?php echo $closing[0]["total_electronic_cash_close"] ?><span style="font-size:12px"> [ <?php echo $closing[0]["qty_merchant_copy_close"] ?> ]</span></td>
+    <td align="center">$ <?php echo $closing[0]["total_cash_sales_close"] ?></td>
+  </tr>
+  <tr>
+    <td align="center">Sys:</td>
+    <td align="center">$ <?php echo $closing[0]["apos_sys_sales_cash"] ?></td>
+    <td align="center">$ <?php echo $closing[0]["total_cash_sales_close"] - $closing[0]["apos_sys_sales_cash"] ?></td>
+    <td align="center">Sys:</td>
+    <td align="center">$ <?php echo $closing[0]["apos_sys_sales_eft"] +  $closing[0]["apos_sys_sales_ae"]  ?></td>
+    <td align="center">Dif:</td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center">Total Sales</td>
+    <td colspan="3" align="center">Sys: Total Sales</td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center">&nbsp;</td>
+    <td colspan="3" align="center">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">Any Expense</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">Any Remark</td>
+  </tr>
+  <tr>
+    <td colspan="6" align="center">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

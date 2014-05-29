@@ -1,0 +1,99 @@
+<?php ob_start();?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/css/template.css" rel="stylesheet" type="text/css" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+Return to Shop Main Page<br />
+<br />
+<table table width="1310"  cellspacing="0" cellpadding="1" style="border:#06C solid 1px; font-size:13px;">
+  <tr class="thetbheader">
+    <td colspan="2" style="width:150px;" >Job ID</td>
+    <td style="width:180px;">Mobile</td>
+    <td style="width:180px;">Customer Contacts</td>
+    <td style="width:180px;">Customer Phone</td>
+    <td style="width:180px;">Customer Mobile</td>
+    <td colspan="2" align="center" style="width:240px;">Status</td>
+    <td style="width:180px;">Last Update</td>
+    <td colspan="5" align="center" valign="middle">Actions</td>
+  </tr>
+<?php 
+$lastStatusList = new Model_DbTable_Repairstatusrecord();
+if(empty($this->searchresult)){
+?>
+<tr>
+	<td colspan="14"> No record at the moment</td>
+</tr>
+<?php	
+	}
+else{
+$counter = 0;			
+foreach($this->searchresult as $k=>$v){
+$theLastStatus = $lastStatusList->getLastStatus($v['id_job']);
+if($theLastStatus[0]['id_status'] == $v['id_status'] and $theLastStatus[0]['time_record'] == $v['time_record'] ){	
+?>
+  <tr
+  <?php 
+  if($counter%2 ==1 ){ 
+  echo 'class="thelineback"';
+  }
+  $counter++;
+  ?>  
+  
+  >
+    <td>[<?php echo $v['shop_code']?>]</td>
+    <td><?php echo $v['id_job'];?><a href="/repaircenter/viewdetail/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank" >[Details]</a></td>
+
+    <td><?php echo $v['mobile_brand']." ".$v['mobile_model']; ?></td>
+    <td><?php echo $v['customer_name'];?><a href="/repaircenter/viewdetail/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank">[View Contacts]</a></td>
+    <td><?php echo $v['customer_phone']; ?></td>
+    <td><?php echo $v['customer_mobile']." ".$v['mobile_model']; ?></td>
+    <td style="width:230px;">
+      
+      [<?php echo $v['id_status'];?>]
+      <?php
+    $newStatus = new Model_DbTable_Jobstatus();
+	echo $newStatus->getStatusDes($v['id_status']);
+	?>	
+    </td>
+    <td style="width:10px;"><a href="/repaircenter/viewhistory/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank">[History]</a></td>
+    <td align="center"><?php echo $v['time_record'];?></td>
+    <td align="center" valign="middle">
+	<?php if(isset($_GET['act'])) {?>
+    <a href="/repaircenter/changestatus/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank">Change <br />
+Status</a>
+<?php }?>
+</td>
+    <td align="center" valign="middle">
+<?php if(isset($_GET['act'])) {?>
+    <a href="/repaircenter/changequote/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;"  target="_blank" >Change <br />
+Quote</a>
+<?php }?>
+</td>
+    <td align="center" valign="middle">
+<?php if(isset($_GET['act'])) {?>
+    <a href="/repaircenter/updateinvoice/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;"  target="_blank">Update <br />
+Invoice</a>
+<?php }?>
+</td>
+  </tr>
+<?php
+}
+}
+}
+?>
+</table>
+</body>
+</html>
+<?php
+$page = ob_get_contents();
+ob_end_flush();
+$fp = fopen("output.html","w");
+fwrite($fp,$page);
+fclose($fp);
+
+?>

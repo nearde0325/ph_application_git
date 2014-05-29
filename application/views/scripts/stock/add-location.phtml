@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+</head>
+<body>
+
+    
+<h1>Add Location</h1>
+<form action="" method="post" id="form_add" name="form_add">
+<table width="600" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <td align="center">Pickup Location
+      <input type="radio" name="type_location" id="radio" value="PL" />
+    <label for="code_location"></label></td>
+    <td align="center">Bulk Location
+      <input type="radio" name="type_location" id="radio2" value="BKL" /></td>
+    <td align="center">Box Number
+    <input type="radio" name="type_location" id="radio3" value="BN" /></td>
+  </tr>
+  
+  <tr>
+    <th rowspan="2" align="left" style="width:30%">Location Code :<br />      <textarea name="location_code" cols="10" rows="2" id="location_code"></textarea></th>
+    <th colspan="2" align="left" scope="col"><input type="button" name="btn_a" id="btn_a" value="A" />
+    <input type="button" name="btn_b" id="btn_b" value="B" />
+    <input type="button" name="btn_c" id="btn_c" value="C" />
+    <input type="button" name="btn_d" id="btn_d" value="D" />
+    <input type="button" name="btn_e" id="btn_e" value="E" />
+    <input type="button" name="btn_f" id="btn_f" value="F" />
+    <input type="button" name="btn_g" id="btn_g" value="G" /> | 
+    <input type="button" name="btn_x" id="btn_x" value="X" />
+    <input type="button" name="btn_y" id="btn_y" value="Y" />
+    <input type="button" name="btn_z" id="btn_z" value="Z" />    <br />
+    <br />
+    <input type="button" name="btn_h" id="btn_h" value="H" />
+    <input type="button" name="btn_i" id="btn_i" value="I" />
+    <input type="button" name="btn_j" id="btn_j" value="J" />
+    <input type="button" name="btn_k" id="btn_k" value="K" />
+    <input type="button" name="btn_l" id="btn_l" value="L" />
+    <input type="button" name="btn_m" id="btn_m" value="M" />
+    <input type="button" name="btn_n" id="btn_n" value="N" /></th>
+  </tr>
+  <tr>
+    <th colspan="2" align="left" scope="col">
+    <input type="button" name="btn_0" id="btn_0" value="0" />
+    <input type="button" name="btn_1" id="btn_1" value="1" />
+    <input type="button" name="btn_2" id="btn_2" value="2" />
+    <input type="button" name="btn_3" id="btn_3" value="3" />
+    <input type="button" name="btn_4" id="btn_4" value="4" />
+    <input type="button" name="btn_5" id="btn_5" value="5" />
+    <input type="button" name="btn_6" id="btn_6" value="6" />
+    <input type="button" name="btn_7" id="btn_7" value="7" />
+    <input type="button" name="btn_8" id="btn_8" value="8" />
+    <input type="button" name="btn_9" id="btn_9" value="9" /></th>
+  </tr>
+
+  <tr>
+    <td colspan="3" align="center" valign="top">
+      <label for="barcodes">Scan Barcode</label>
+      <br />
+
+    <textarea name="barcodes" id="barcodes" cols="90" rows="5" ></textarea></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center" valign="top"><input type="reset" name="Reset" id="button" value="Reset" />       <input type="submit" name="button_save" id="button_save" value="Save" /></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center" valign="top">&nbsp;</td>
+  </tr>
+</table>
+</form>
+</body>
+<script>
+$(document).ready(function() {
+$('#form_add').bind("keyup keypress", function(e) {
+  var code = e.keyCode || e.which; 
+  if (code  == 13) {               
+   // e.preventDefault();
+   // return "|";
+  }
+});
+
+$('input[id^="btn_"]').on("click", function(e){
+	
+	var code = $(this).val();
+	var oldcode = $('#location_code').val();
+	$('#location_code').val(oldcode + code);
+	
+	});
+});
+	</script>
+</html>

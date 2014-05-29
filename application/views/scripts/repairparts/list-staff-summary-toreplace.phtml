@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<table cellspacing="0" cellpadding="10" style="font-size:12px;">
+  <tr>
+    <th rowspan="3" scope="col" style="width:150px;">Repair Staff</th>
+    <th rowspan="3" scope="col">Job ID</th>
+    <th rowspan="3" scope="col" style="width:200px;">Finish Date</th>
+    <th rowspan="3" scope="col">Mobile Model</th>
+    <th colspan="3" scope="col">Quotes &amp; Invoices</th>
+    <th colspan="4" scope="col">Parts and Cost</th>
+    <th colspan="5" scope="col">Price and Disount</th>
+    <th colspan="7" scope="col">Bonus</th>
+  </tr>
+  <tr>
+    <td rowspan="2" align="center" style="">Quote</td>
+    <td rowspan="2" align="center" style="width:120px;">Invoices</td>
+    <td rowspan="2" align="center">Total Amount</td>
+    <td rowspan="2" align="center" style="width:60px;" >Part</td>
+    <td rowspan="2" align="center" style="width:60px;" >Unit Cost</td>
+    <td rowspan="2" align="center" style="width:60px;" >Unit</td>
+    <td rowspan="2" align="center" style="width:60px;" >Parts Cost</td>
+    <td colspan="2" align="center">Invoice Price</td>
+    <td colspan="3" align="center">Discount</td>
+    <td colspan="3" align="center">Bonus Payout</td>
+    <td colspan="2" align="center">Policy</td>
+    <td rowspan="2" align="center">Reopen</td>
+    <td rowspan="2" align="center" bgcolor="#B0CAFF">Final</td>
+  </tr>
+    <tr>
+    <td align="center"  style="width:40px;" >&gt; Cost</td>
+    <td align="center"  style="width:40px;" >&gt; RRP</td>
+    <td align="center"  style="width:40px;" >Repair</td>
+    <td align="center"  style="width:40px;" >Sales</td>
+    <td align="center"  style="width:40px;" >Total</td>
+    <td align="center"  style="width:40px;" >Full</td>
+    <td align="center"  style="width:40px;" >Disct</td>
+    <td align="center"  style="width:40px;" >NO</td>
+    <td align="center"  style="width:40px;" >Contact</td>
+    <td align="center"  style="width:40px;" >Cust Parts</td>
+  </tr>
+<?php 
+
+$oldStaffId = 0;
+$totalStaffInvoice = 0;
+$staffBonusWithOutPolicy = 0;
+$staffBonusWithPolicy = 0;
+$totalBonus = 0;
+$tBRule = 0;
+$staffJobCot = 1;
+
+$staff = new Model_DbTable_Roster_Stafflogindetail(Zend_Registry::get('db_real'));
+$rParts = new Model_DbTable_Pr_Prproducts(Zend_Registry::get('db_real'));
+$rPartsRecord = new Model_DbTable_Repairstatusrecord(Zend_Registry::get('db_real'));
+
+foreach($this->arrRes as $k=>$v){
+	if($v["repair_staff"] != $oldStaffId && $oldStaffId != 0){
+	
+		
+?>		
+<tr>
+<td align="right" bgcolor="#E1E1E1">
+ <?php 
+	if($v["repair_staff"] != $oldStaffId){			
+		$staffRow = $staff->getDetail($oldStaffId);
+		echo ucwords(Model_EncryptHelper::getSslpassword($staffRow["n"]));
+		echo " (".ucwords($staffRow["ni"]).")";	
+	}
+	?>
+</td>
+<td align="right" bgcolor="#E1E1E1">Total:<?php echo $staffJobCot; $staffJobCot = 1;?></td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td colspan="2" align="right" bgcolor="#E1E1E1">Total: $ <?php echo $totalStaffInvoice; $totalStaffInvoice=0;?></td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td colspan="5" align="center" bgcolor="#E1E1E1">Total Bonus $ <?php
+$policyDeduct = 0;
+
+$policyDeduct = $staffBonusWithOutPolicy - $staffBonusWithPolicy;
+ 
+   if($v["repair_staff"] == 10 || $v["repair_staff"] == 18 || $v["repair_staff"] == 50 || $v["repair_staff"] == 199){
+	   echo "Same As Final ";
+	   }else{
+ echo $staffBonusWithOutPolicy;
+ 	$staffBonusWithOutPolicy = 0;
+
+	   }
+  ?></td>
+<td bgcolor="#E1E1E1">&nbsp;</td>
+<td bgcolor="#E1E1E1">&nbsp;</td>
+<td bgcolor="#E1E1E1">&nbsp;</td>
+<td bgcolor="#E1E1E1">Policy Dect</td>
+<td bgcolor="#E1E1E1">- $ <?php 
+if($oldStaffId == 10 || $oldStaffId == 18 || $oldStaffId == 50 || $oldStaffId == 199){
+	echo "0";
+	}
+else{
+	echo $policyDeduct;
+	}	
+ ?></td>
+<td bgcolor="#E1E1E1">Final Total:</td>
+<td bgcolor="#E1E1E1"> $ <?php echo $staffBonusWithPolicy; 	$staffBonusWithPolicy = 0;?></td>
+</tr> 		
+<?		
+}
+?>    
+    <tr>
+    <td rowspan="2" align="center" 
+   <?php
+   if($oldStaffId == 10 || $oldStaffId == 18 || $oldStaffId == 50 || $oldStaffId == 199){
+	   echo 'bgcolor="#CACAFF"';
+	   }
+	if($v["repair_staff"] == $oldStaffId){
+		echo 'style="border-top-width:0px;"';	
+		}   
+   ?>
+    >
+    <?php 
+	if($v["repair_staff"] != $oldStaffId){			
+		$staffRow = $staff->getDetail($v["repair_staff"]);
+		echo ucwords(Model_EncryptHelper::getSslpassword($staffRow["n"]));
+		echo " (".ucwords($staffRow["ni"]).")";	
+		$oldStaffId = $v["repair_staff"];
+	}
+	else{	
+		echo "&nbsp;";	
+		// cal culate bonus 
+		$staffJobCot++;
+		$totalBonus += $v["bonus_amt"];
+			if($v["bonus_rule"][0] && $v["bonus_rule"][1]){
+				$tBRule += $v["bonus_amt"];
+			}
+	}
+	?>
+    </td>
+    <td rowspan="2" align="center"><?php echo $v["id_job"]?></td>
+    <td align="center"><?php echo $v["date_start"]?> to <?php echo substr($v["time_record"],0,10);?></td>
+    <td rowspan="2" align="center"><?php echo $v["mobile_model"]?></td>
+    <td rowspan="2" align="center"> $ <?php echo $v["quot_price"]?></td>
+    <td>[1] : <?php echo ($v["invoice_no"]!="")?ucwords($v["invoice_no"]):" - ";?></td>
+    <td rowspan="2" align="center"
+    <?php 
+	$totalInvoice = 0;
+	if($v["invoice_no"]== $v["invoice_no2"]){
+		$totalInvoice = $v["invoice_amt"];
+		}
+	else{
+		$totalInvoice = $v["invoice_amt"] + $v["invoice_amt2"] ;
+		}	
+	if($totalInvoice ==0 ){
+	?>
+     bgcolor="#FFD9D9"
+     <?php } ?>
+     > $ <?php echo $totalInvoice; $totalStaffInvoice +=$totalInvoice; ?></td>
+    <td colspan="4" rowspan="2" style="padding:0px; vertical-align:top;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <?php 
+	$totalCost = 0;
+	foreach($v["part_sum"][0] as $part){
+		$pLine = $rParts->getProductByCode(trim($part[0]));
+		$singleCost = $pLine['act_cost'] * $part[1];
+		$totalCost += $singleCost; 
+	?>	
+      <tr>
+        <td  style="width:60px;" ><?php echo $part[0];?></td>
+        <td align="center"  style="width:60px;" > $ <?php echo $pLine['act_cost']?></td>
+        <td align="center"  style="width:60px;" > x <?php echo $part[1];?></td>
+        <td align="center"  style="width:60px;" >$ <?php echo $singleCost;?></td>
+      </tr>		
+	<?php	
+		}
+	?>
+    <tr>
+    <td colspan="3" align="right">Sub Total:
+    </td>
+    <td> $ <?php echo $totalCost;?></td>
+    </tr>
+    </table></td>
+    <td rowspan="2" align="center"><?php
+    
+	echo ($totalInvoice - $totalCost)?
+	'<img src="/images/yes20.jpg" />'
+	:
+	'<img src="/images/no20.jpg" />';
+	?></td>
+    <td rowspan="2" align="center"><?php
+    
+	echo (($totalInvoice - $v["part_sum"][1])>=0)?
+	'<img src="/images/yes20.jpg" />'
+	:
+	'<img src="/images/no20.jpg" />';
+	?></td>
+    <td rowspan="2" align="center"> $ <?php 
+	echo $v["repair_disc"];
+	?></td>
+    <td rowspan="2" align="center"> $ <?php 
+	echo $v["sales_disc"];
+	?></td>
+    <td rowspan="2" align="center" 
+    <?php
+    if(($v["repair_disc"] + $v["sales_disc"]) <=0){
+		echo ' bgcolor="#CCFFCC"';
+		}
+	?>
+    > $ <?php 
+	echo $v["repair_disc"] + $v["sales_disc"];
+	?></td>
+    <td rowspan="2" align="center"><?php echo ($v["full_bonus_amt"] >0 )?" $ {$v['full_bonus_amt']}":" - ";
+	$staffBonusWithOutPolicy += $v["full_bonus_amt"];
+	
+	 ?></td>
+    <td rowspan="2" align="center"><?php echo ($v["dis_bonus_amt"] > 0 )?" $ {$v['dis_bonus_amt']}":" - ";
+	$staffBonusWithOutPolicy += $v["dis_bonus_amt"];
+	
+	 ?></td>
+    <td rowspan="2" align="center"><?php echo (!$v["w_bonus"])?" <img src='/images/no20.jpg' />":" - "; ?></td>
+    <td rowspan="2" align="center"><?php echo ($v["bonus_rule"][0])?'<img src="/images/yes20.jpg" />'
+	:
+	'<img src="/images/no20.jpg" />'; ?></td>
+    <td rowspan="2" align="center"><?php echo ($v["bonus_rule"][1])?'<img src="/images/yes20.jpg" />'
+	:
+	'<img src="/images/no20.jpg" />'; ?> </td>
+    <td rowspan="2" align="center"><?
+    
+	$rOpen = $rPartsRecord->isJobReopen($v["id_job"]);
+	
+	echo (!$rOpen)?" - ":"YES";
+	?></td>
+    <td rowspan="2" align="center" bgcolor="#B0CAFF"> $ <?php
+	$bonusAmt = $v["bonus_amt"];
+	if($v["repair_staff"] == 10 || $v["repair_staff"] == 18 || $v["repair_staff"] == 50 || $v["repair_staff"] == 199){
+		if($v["w_bonus"] && $totalInvoice > 0){
+		$bonusAmt = 3;
+		}
+		else{
+			$bonusAmt = 0;
+			}
+		
+		}
+	if($rOpen){
+		$bonusAmt = 0;
+		}	
+	echo $bonusAmt; 
+	$staffBonusWithPolicy += $bonusAmt;
+	?></td>
+  </tr>
+    <tr>
+      <td align="center"> Record By :[<?php echo $v["staff_record"]?>]</td>
+      <td>[2] : <?php echo ($v["invoice_no2"]!="")?ucwords($v["invoice_no2"]):" - ";?></td>
+    </tr>
+<?php }?> 
+
+<tr>
+<td align="right" bgcolor="#E1E1E1">
+ <?php 
+	if($v["repair_staff"] != $oldStaffId){			
+		$staffRow = $staff->getDetail($oldStaffId);
+		echo ucwords(Model_EncryptHelper::getSslpassword($staffRow["n"]));
+		echo " (".ucwords($staffRow["ni"]).")";	
+	}
+	?>
+</td>
+<td align="right" bgcolor="#E1E1E1">Total:<?php echo $staffJobCot; $staffJobCot = 1;?></td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td colspan="2" align="right" bgcolor="#E1E1E1">Total: $ <?php echo $totalStaffInvoice; $totalStaffInvoice=0;?></td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td align="right" bgcolor="#E1E1E1">&nbsp;</td>
+<td colspan="5" align="center" bgcolor="#E1E1E1">Total Bonus $ <?php
+$policyDeduct = 0;
+
+$policyDeduct = $staffBonusWithOutPolicy - $staffBonusWithPolicy;
+ 
+   if($v["repair_staff"] == 10 || $v["repair_staff"] == 18 || $v["repair_staff"] == 50 || $v["repair_staff"] == 199){
+	   echo "Same As Final ";
+	   }else{
+ echo $staffBonusWithOutPolicy;
+ 	$staffBonusWithOutPolicy = 0;
+
+	   }
+  ?></td>
+<td bgcolor="#E1E1E1">&nbsp;</td>
+<td bgcolor="#E1E1E1">&nbsp;</td>
+<td bgcolor="#E1E1E1">&nbsp;</td>
+<td bgcolor="#E1E1E1">Policy Dect</td>
+<td bgcolor="#E1E1E1">- $ <?php 
+if($oldStaffId == 10 || $oldStaffId == 18 || $oldStaffId == 50 || $oldStaffId == 199){
+	echo "0";
+	}
+else{
+	echo $policyDeduct;
+	}	
+ ?></td>
+<td bgcolor="#E1E1E1">Final Total:</td>
+<td bgcolor="#E1E1E1"> $ <?php echo $staffBonusWithPolicy; 	$staffBonusWithPolicy = 0;?></td>
+</tr> 
+    
+</table>
+
+</body>
+</html>

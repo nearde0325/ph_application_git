@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<table width="700" border="1" cellspacing="5" cellpadding="0" align="left" style="border:#336 2px dashed" >
+  <tr>
+    <td height="7" align="center" class="theh1" style="text-align:center; padding-left:0px;">Print Out This Page Please==== 
+      <input type="submit" name="button" id="button" value="PRINT THIS PAGE" onclick="javascript:window.print()" />
+       ====Print Out This Page Please</td>
+  </tr>
+  <tr>
+    <td height="1" align="center" class="theh1" style="text-align:center; padding-left:0px;"><span style="font-size:36px;">THIS SIDE FACE UP AND OUT</span></td>
+  </tr>  
+  <tr>
+    <td height="18" class="theh1" style="text-align:center"><table width="100%" border="0" cellspacing="1" cellpadding="5">
+    
+      <tr>
+        <th rowspan="2" style="width:180px;" scope="col"><img src="<?php echo ($this->weekId)?"/im/oddweek.jpg":"/im/evenweek.jpg";?>" width="168" height="168" /></th>
+        <th align="left" valign="top" scope="col">RMA ID:<br />
+          <span style="font-size:88px;"><?php echo $this->rmaID;?></span></th>
+        <th align="right" valign="top" scope="col" style="width:150px;">FAULTY NO.:<br />
+          <span style="font-size:8px;">(In this week)</span><br />
+          <span style="font-size:88px;"><?php echo $this->faultyNo; ?></span></th>
+      </tr>
+      <tr>
+        <td align="left">BARCODE:<?php echo trim($_POST['product_code']);?><br />
+          DESCRIPTION:<?php echo $_POST['product_name']; ?></td>
+        <td align="left" valign="bottom">DATE:<?php echo $this->dateToday; ?><br />
+          SHOP:<?php echo $_POST['shop_head'];?><br />
+          STAFF:<?php echo $_POST['staff_name']; ?><br />
+          SIGN:______</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="7" align="left" class="theh1" style="text-align:left; padding-left:20px;"><br />
+<ul style="font-size:13px;">
+      <li>
+        Print out this page and wraped on the Faulty Product,sign on it</li>
+      <li>Make sure RMA code and Week Marker face up and out</li>
+      <li>Week Marker: Triangle symbol means Odd Week, Smile face symbol means Even Week<br />
+        Always return the faulty with same symbol
+      </li>
+      <li>For small items, put in the bag, or stickit on the paper</li>
+      <li>Double check the total quantity of the RMA for same week</li>
+      <li><!--you May always re-print this page in the RMA summary,--> you may close this page now</li>
+    </ul><br />
+<br />
+</td>
+  </tr>
+  <tr>
+    <td height="7" align="center" class="theh1" style="text-align:center; padding-left:0px;">Print Out This Page Please==== 
+      <input type="submit" name="button" id="button" value="PRINT THIS PAGE" onclick="javascript:window.print()" />
+       ====Print Out This Page Please</td>
+  </tr>
+</table>
+</body>
+</html>
+

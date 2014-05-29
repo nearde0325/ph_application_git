@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style>
+.atten{
+	background-color:#FF8080;
+	}
+</style>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:13px;">
+<h2>Weekly Stock Take Difference For <?php echo $this->shopCode?> , <?php echo $this->dateToCheck?></h2>
+<form method="post">
+  <table width="650" border="1" cellspacing="0" cellpadding="2">
+    
+    <tr>
+    <th scope="col" style="width:100px;">BarCode</th>
+    <th scope="col" style="width:430px;">Description</th>
+    <th scope="col" style="width:40px;">On Hand</th>
+    <th scope="col" style="width:40px;">Actual</th>
+    <th scope="col" style="width:40px;">Qty<br />
+      Diff</th>
+    <th scope="col" style="width:40px;">Unit<br />
+      RRP</th>
+    </tr>
+ <?php
+		$products = new Model_DbTable_Productsva();
+	$totalLost = 0;	
+  foreach ($this->arrStock as $key => $v){?> 
+  <tr>
+    <td><?=$v["barcode"]?></td>
+    <td><?php echo  $products->getProductNameByCode(trim($v["barcode"]));?></td>
+    <td 
+    <?php if($v["qty_sys"] <0 ){?>
+    style="background-color:#FF8080"
+    <?php }?>
+    ><?=$v["qty_sys"]?></td>
+    <td>
+    <?=$v["qty_act"]?>
+    </td>
+    <td><?php echo $v['qty_act'] - $v['qty_sys']?></td>
+    <td> $ <?php
+    $rrp = file_get_contents("http://192.168.1.126/products/get-rrp/b_code/{$v['barcode']}");
+	echo $rrp;
+	$totalLost += $rrp * ($v['qty_act'] - $v['qty_sys']);
+	?></td>
+  </tr>
+ <?php }?> 
+ <tr>
+ <td colspan="7" align="center">Total Amount: $  <?php echo $totalLost?><br />
+
+   <br />
+   Stock Take By:
+   <br />
+   <br /></td>
+ </tr>
+
+</table>
+</form>
+
+</body>
+</html>

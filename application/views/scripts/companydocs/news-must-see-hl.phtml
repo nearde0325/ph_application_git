@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style>
+a {
+	color:#333;
+	}
+</style>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<div style="padding:2px; border:#900 solid 1px; width:400px; font-size:13px;">
+Hi, There Are <span style="color:#F00;"><?php echo $this->totalCount; ?></span> News That You Need Attention To.
+</div>
+<h3>News / Documents Need Your Attention</h3>
+<table width="700" border="0" cellspacing="0" cellpadding="5" style="font-size:13px;">
+ 
+ <?php foreach($this->arrUNews as $news){?>
+  <tr>
+    <td><a href="/companydocs/show-news-detail/id/<?php echo $news[0]?>/is/<?php echo $this->is?>" target="_blank"><?php echo $news[1]?></a><img src="/im/new_icon.gif" /></td>
+  </tr>
+ <?php }?> 
+ <?php foreach($this->arrUDocs as $doc){?>  
+    <tr>
+    <td><a href="/companydocs/show-doc-detail/id/<?php echo $doc[0]?>/is/<?php echo $this->is?>" target="_blank" onclick="location.reload()" ><?php echo $doc[1]?></a><img src="/im/new_icon.gif" /></td>
+  </tr>
+  <?php }?>  
+</table>
+
+<h3>Latest News Must See</h3><br />
+
+<table width="700" border="0" cellspacing="0" cellpadding="5"  style="font-size:13px;">
+ <?php 
+ $i =0;
+ foreach($this->mNewsList as $news){?>
+  <tr>
+    <td><a href="/companydocs/show-news-detail/id/<?php echo $news['id']?>/is/<?php echo $this->is?>" target="_blank"><?php echo $news['title_news']?></a></td>
+  </tr>
+ <?php 
+ if($i >9){break;}
+ ++$i;
+ }?> 
+</table>
+<h3>Latest Document Must See</h3>
+<table width="700" border="0" cellspacing="0" cellpadding="5"  style="font-size:13px;">
+ <?php 
+ $i =0;
+ foreach($this->mDocsList as $doc){?>
+  <tr>
+    <td><a href="/companydocs/show-doc-detail/id/<?php echo $doc['id_docs']?>/is/<?php echo $this->is?>" target="_blank"><?php echo $doc['title']?></a></td>
+  </tr>
+ <?php 
+ if($i >9){break;}
+ ++$i;
+ }?> 
+</table>
+<br />
+<br />
+<br />
+<br />
+<a href="/companydocs/news-must-see/pv/full/is/<?php echo $this->is;?>" target="_blank">Click Here To Check All Must See News And Documents </a>
+</body>
+</html>

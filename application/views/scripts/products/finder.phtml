@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1><?php echo $this->barcode;?></h1>
+
+<br />
+<br />
+<table width="900" cellspacing="0" cellpadding="0">
+  <tr>
+    <th rowspan="2" scope="col" style="width:250px;"><img src="http://115.64.171.97:1080/product_img/home_img/<?php echo $this->barcode ?>_0.jpg" style="width:200px;" alt="Product Do Not Have A Image" /></th>
+    <th scope="col">Product Description</th>
+  </tr>
+  <tr>
+    <td align="left" valign="top" style="font-size:12px;"><?php echo $this->proDetail;?></td>
+  </tr>
+</table>
+<br />
+<br />
+
+<table width="900"  cellspacing="0" cellpadding="0">
+  <tr>
+    <th scope="col">Barcode</th>
+    <th scope="col" style="width:450px;">Description</th>
+    <th scope="col">Color</th>
+    <th scope="col">Onhand (<?php echo $this-> shop?>)</th>
+    <th scope="col">PPR</th>
+  </tr>
+  <?php foreach($this->arrRes as $key => $v) {?>
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td><?php echo $v[1]?></td>
+    <td><?php echo $v[2]?></td>
+    <td><?php echo (int)$v[4][$this->shop]?></td>
+    <td><?php echo $v[5]?></td>
+  </tr>
+  <?php }?>
+</table>
+<br />
+<br />
+
+<table width="1000"  cellspacing="0" cellpadding="0" style="font-size:12px;">
+  <tr>
+    <th scope="col">Barcode</th>
+    <th scope="col">Color</th>
+    <th scope="col">WH</th>
+    <th scope="col">BB<br />
+    PC</th>
+    <th scope="col">BH<br />
+    PC</th>
+    <th scope="col">BS<br />
+    IC</th>
+    <th scope="col">BS<br />
+    PC</th>
+    <th scope="col">BS<br />
+    XP</th>
+    <th scope="col">CB<br />
+    PC</th>
+    <th scope="col">DC<br />
+    IC</th>
+    <th scope="col">EP<br />
+    PC</th>
+    <th scope="col">EP<br />
+      IC</th>
+    <th scope="col">FG<br />
+    IC</th>
+    <th scope="col">HP<br />
+    IC</th>
+    <th scope="col">KC<br />
+    PC</th>
+    <th scope="col">NL<br />
+    PC</th>
+    <th scope="col">PM<br />
+    IC</th>
+    <th scope="col">PM<br />
+    PC</th>
+    <th scope="col">SL<br />
+    IC</th>
+    <th scope="col">WB<br />
+    IC</th>
+    <th scope="col">WB<br />
+    PC</th>
+    <th scope="col">WG<br />
+    IC</th>
+    <th scope="col">WG<br />
+    PC</th>
+    <th bgcolor="#CCCCCC" scope="col">AD<br />
+    PC</th>
+    <th bgcolor="#CCCCCC" scope="col">CL<br />
+    IC</th>
+    <th bgcolor="#CCCCCC" scope="col">CL<br />
+    PC</th>
+    <th bgcolor="#CCCCCC" scope="col">WL<br />
+      IC</th>
+  </tr>
+   <?php foreach($this->arrRes as $key => $v) {?>
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td><?php echo $v[2]?></td>
+    <td><?php echo  (int)$v[4]['WH']?></td>
+    <td><?php echo  (int)$v[4]['BBPC']?></td>
+    <td><?php echo  (int)$v[4]['BHPC']?></td>
+    <td><?php echo  (int)$v[4]['BSIC']?></td>
+    <td><?php echo  (int)$v[4]['BSPC']?></td>
+    <td><?php echo  (int)$v[4]['BSXP']?></td>
+    <td><?php echo  (int)$v[4]['CBPC']?></td>
+    <td><?php echo  (int)$v[4]['DCIC']?></td>
+    <td><?php echo  (int)$v[4]['EPPC']?></td>
+    <td><?php echo  (int)$v[4]['EPIC']?></td>
+    <td><?php echo  (int)$v[4]['FGIC']?></td>
+    <td><?php echo  (int)$v[4]['HPIC']?></td>
+    <td><?php echo  (int)$v[4]['KCPC']?></td>
+    <td><?php echo  (int)$v[4]['NLPC']?></td>
+    <td><?php echo  (int)$v[4]['PMIC']?></td>
+    <td><?php echo  (int)$v[4]['PMPC']?></td>
+    <td><?php echo  (int)$v[4]['SLIC']?></td>
+    <td><?php echo  (int)$v[4]['WBIC']?></td>
+    <td><?php echo  (int)$v[4]['WBPC']?></td>
+    <td><?php echo  (int)$v[4]['WGIC']?></td>
+    <td><?php echo  (int)$v[4]['WGPC']?></td>
+    <td bgcolor="#CCCCCC"><?php echo  (int)$v[4]['ADPC']?></td>
+    <td bgcolor="#CCCCCC"><?php echo  (int)$v[4]['CLIC']?></td>
+    <td bgcolor="#CCCCCC"><?php echo  (int)$v[4]['CLPC']?></td>
+    <td bgcolor="#CCCCCC"><?php echo  (int)$v[4]['WLIC']?></td>
+  </tr>
+ <?php }?> 
+</table> 
+</body>
+</html>

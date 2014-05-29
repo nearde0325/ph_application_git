@@ -1,0 +1,171 @@
+<head>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<link type="text/css" href="/css/1pxtable.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 ,beforeShowDay: function(date){ return [date.getDay() == 1,""]}});
+	});
+	$(function() {
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 ,beforeShowDay: function(date){ return [date.getDay() == 0,""]}});
+	});	
+
+
+
+	</script>
+    
+<script language="javascript">
+function toggle(source) {
+  checkboxes = document.getElementsByName('shop_selection[]');
+  for(var i in checkboxes)
+    checkboxes[i].checked = source.checked;
+}
+</script>
+    
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+
+<?php if(!$this->loginSuccess){?>
+<div style="width:900px; border:#666 solid 1px; padding:15px;">
+<h2>Roster / Attendance / Staff Performance For Manager <br>
+</h2>
+<form name="form1" method="post" action="">
+  <input type="checkbox" name="cb_ack" id="cb_ack">
+  <label for="cb_ack"></label>
+I am fully aware the pages I am are about to see contains confidential information and I should not pass to any unauthorized person <br>
+  <br>
+  Please input your attendance Password<br>
+  <br>
+  <label for="password"></label>
+  <input type="password" name="password" id="password">
+  <input type="submit" name="btn_shop_se" id="btn_shop_se" value="Choose Shop" disabled />
+  <br>
+  <br>
+</form>
+</div>
+<?php }
+else{
+?>
+
+<form name="form_post" id="form_post" method="post" action="/roster/online-roster">
+<table width="900" border="0" cellspacing="0" cellpadding="15">
+  <tr>
+    <th colspan="4" scope="col">Select Date</th>
+  </tr>
+  <tr>
+    <td>Date Begin:</td>
+    <td><input name="date_begin" id="date_begin" type="text"></td>
+    <td>Date End:</td>
+    <td><input name="date_end" id="date_end" type="text"></td>
+  </tr>
+  <tr>
+    <th colspan="4" scope="col">Select Shops</th>
+  </tr>
+  <tr>
+    <td colspan="4"><input type="checkbox" onClick="toggle(this)">
+      Select All Shops<br>
+      <br>
+        <?php
+		$cot = 0;
+if(!empty($this->spList)){			
+foreach($this->spList as $key => $value){	
+?>
+<span style="width:150px; display:inline-block" >
+  <input type="checkbox" name="shop_selection[]" value="<?=$value?>"> [<?=$value?>]
+</span>
+  <?php
+if($cot%5 == 0 ){echo "<br />";}
+$cot++;
+}}
+else{
+	echo "You haven't been assigned any shop. You may close the window now";
+	}
+ ?>
+      
+      </td>
+  </tr>
+  <tr>
+    <td colspan="4"><table width="100%" border="0" cellspacing="0" cellpadding="10">
+      <tr>
+        <td align="center" valign="middle"><input type="submit" name="btn_roster" id="btn_roster" value="Arrange / Confirm Roster"></td>
+        <td align="center" valign="middle"><input type="submit" name="btn_login" id="btn_login" value="Check Staff Login/Logout"></td>
+        <td align="center" valign="middle">
+        <?php
+        $idMgr = base64_decode($this->idMgr);
+		if($idMgr == 1 || $idMgr == 110 || $idMgr == 2 || $idMgr == 3 || $idMgr == 4 || $idMgr == 27 || $idMgr == 131 || $idMgr == 156 || $idMgr == 165 || $idMgr == 162  || $idMgr == 125 ){
+		?>
+        <input type="submit" name="btn_per" id="btn_per" value="Check Staff Performance" >
+        <?php }?>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="middle"><input type="submit" name="btn_export_roster" id="btn_export_roster" value="Export Roster To Excel"  ></td>
+        <td align="center" valign="middle">&nbsp;</td>
+        <td align="center" valign="middle">&nbsp;</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <th colspan="4" scope="col">Shop Payment Case</th>
+  </tr>
+  <tr>
+    <td colspan="4"><table width="100%" border="0" cellspacing="0" cellpadding="10">
+      <tr>
+        <td align="center" valign="middle" style="width:33%"><a href="/rosteraudit/manager-list-problems/token/<?php echo $this->idMgr; ?>" target="_blank">Create Case Using Time Sheet</a></td>
+        <td align="center" valign="middle"><!--<a href="/rosteraudit/create-case/token/<?php echo $this->idMgr; ?>" target="_blank">Create Case Not In Time Sheet<br>
+          (Stand Alone Case)
+        </a>-->
+        Stand Alone Case Has Been Disabled<br>
+We will release the Policy Update
+        </td>
+        <td align="center" valign="middle"  style="width:33%"><a href="/rosteraudit/manager-case-control/token/<?php echo $this->idMgr; ?>" target="_blank">Manage Your Cases</a></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" style="font-size:12px;">
+          The Link above show all your &quot;Confirmed &quot;Time Sheet with following errors, and they will cause short payment<br>
+          *The time you &quot;confirmed&quot; does match the  roster staff input by him/herself<br>
+          *The staff roster has missing attendance records<br>
+          *The staff came but you did not allocate any shift for him / her that day</td>
+        <td align="left" valign="top"  style="font-size:12px">If you have anything else that not in the &quot;List of Problem&quot;, you may create case Here</td>
+        <td align="left" valign="top"  style="font-size:12px">The Head Office will handle your case and all your case result is here</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+</form> 
+<?php }?>
+
+
+</body>
+
+<script language="javascript">
+ $(document).ready(function() {
+$("#btn_roster").on("click", function(e){
+    //e.preventDefault();
+	$('#form_post').attr('target','_self');
+	$('#form_post').attr('action', "/roster/online-roster").submit();
+	
+	});
+$("#btn_login").on("click", function(e){
+    //e.preventDefault();
+	$('#form_post').attr('target','_self');
+   	$('#form_post').attr('action', "/roster/manager-check-attn-record").submit();
+	});
+$("#btn_per").on("click", function(e){
+    //e.preventDefault();
+	$('#form_post').attr('target','_self');
+    $('#form_post').attr('action', "/staff/cal-staff-performance-public").submit();
+	});
+$("#btn_export_roster").on("click", function(e){
+   	//e.preventDefault();
+	$('#form_post').attr('target','_self');
+    $('#form_post').attr('action', "/roster/export-roster").submit();
+	});
+$('#cb_ack').on("click", function(e){
+
+		$('#btn_shop_se').removeAttr('disabled');
+	});
+});
+</script>

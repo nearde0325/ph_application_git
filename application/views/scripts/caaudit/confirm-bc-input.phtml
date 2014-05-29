@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h2>Not Confirmed</h2>
+<div style="background:#FFFFB0;">
+<?php
+date_default_timezone_set("Australia/Melbourne");
+
+foreach($this->arrNotConfirmed as $v){ echo $v.",";}
+ ?>
+</div>
+<h2>Did Not Fill Opening</h2>
+<div style="background:#FFCECE;">
+<?php
+foreach($this->arrNotExist as $v){ echo $v.",";}
+ ?>
+</div>
+<br />
+Color Indicator: <span style="background-color:#FFCECE;width:150px;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Incorrect Amount  | <span style="background-color:#FFFFB0;width:150px;">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+I Filled This Amount | <span style="background-color:#9CFECD;width:150px;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Ok | <img src="/im/btn_edit.gif" />
+I Filled This Amount
+<form method="post">
+  Select Shop To Confirm
+  <select name="shop">
+<?php 
+$arrRes = $this->arrShop;
+foreach($arrRes as $v){
+?>
+  <option value="<?php echo $v;?>" 
+   <?php 
+   if($v == $this->selectedShop){echo 'selected = "selected"';}
+   ?>
+  ><?php echo $v;?></option>
+<?php }?>  
+</select>
+<input name="btn_shop_select" type="submit" value="Select" />
+<br />
+
+<table width="1200" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <th scope="col">Day</th>
+    <th scope="col">Date</th>
+    <th scope="col" style="width:220px;">Bank In</th>
+    <th scope="col" style="width:220px;">Cash Out</th>
+    <th scope="col" style="width:220px;" >Expense</th>
+    <th scope="col" style="width:200px;">Comment</th>
+  </tr>
+  <?php
+  if($_POST){
+   foreach($this->arrActDate as $dateToCheck) {
+	  	$isBi = 0;
+		
+	  	$amtBi = "0";
+		$amtCo = "0";
+		$amtExp = "0";
+		
+		$dateBi = "Bank In Not Exist";
+		$dateCo = "Cash Out Not Exist";
+		$dateExp = "Expense Not Exist";
+		
+		//0 means not decide yet 
+		//1 correct
+		//2 verified but incorrect 
+		//3 Filled in 
+		
+		$crBi = 0;
+		$crCo = 0;
+		$crExp = 0;
+		
+		
+		//Closing Line Exist 
+	    if($this->arrCloseDetail[$dateToCheck]){
+			
+		  $idClose = $this->arrCloseDetail[$dateToCheck]['id_ca_close'];
+		  $crExp = $this->arrCloseDetail[$dateToCheck]['exp_cf'];
+		  
+		  if($crExp >0){
+		  	$amtExp = $this->arrCloseDetail[$dateToCheck]['exp_cf_amt'];
+		  	$dateExp =  $this->arrCloseDetail[$dateToCheck]['exp_cf_date'];
+		  }
+		  else{
+		  	$crExp = 0;
+			$amtExp = $this->arrCloseDetail[$dateToCheck]['sub_expense_total'];
+			$dateExp = "Please Confirm";
+		  }
+  
+		}else{
+		//CLose Line Not Exist At All	
+			$crExp = 3;
+			$amtExp = 0;
+			$dateExp = "Fill In Please";
+		}	
+		//Opening Line Exist 
+		
+		 if($this->arrOpenDetail[$dateToCheck]){
+			$idOpen = $this->arrOpenDetail[$dateToCheck]['id_ca_open'];
+			
+			$crBi = $this->arrOpenDetail[$dateToCheck]['bankin_confirm'];
+			$crCo = $this->arrOpenDetail[$dateToCheck]['cashout_confirm'];
+			
+			$amtBi = (isset($crBi))? $this->arrOpenDetail[$dateToCheck]['bankin_cf_amt'] :$this->arrOpenDetail[$dateToCheck]['amount_bank_in_open'];
+			$amtCo = (isset($crCo))? $this->arrOpenDetail[$dateToCheck]['cashout_cf_amt'] :$this->arrOpenDetail[$dateToCheck]['amount_cash_out_open'];  
+			$dateBi = (isset($crBi))? $this->arrOpenDetail[$dateToCheck]['bankin_cf_date'] :"";
+			$dateCo = (isset($crCo))? $this->arrOpenDetail[$dateToCheck]['cashout_cf_date'] :"";
+			$isBi = ($this->arrOpenDetail[$dateToCheck]['amount_bank_in_open'] >0 )?true:false;
+		}else{
+		//opening Line Not Exist
+			$crBi = 3;
+			$amtBi = 0;
+			$dateBi = "Please Fill In";
+			
+			$crCo = 3;
+			$amtCo = 0;
+			$dateCo = "Please Fill In";		
+		}	  
+?>
+  <tr>
+    <td><?php echo date("D",strtotime($dateToCheck));?></td>
+    <td><?php echo $dateToCheck;?></td>
+    <td 
+   <?php
+   $finalAmtBi = ($amtBi == 0 && $isBi == false)?" - ": $amtBi;
+   $biBgColor = "#FFFFFF";
+   //green Condition 
+	if($crBi == 1 || $crCo == 1){
+		$biBgColor = "#9CFECD";
+	}
+	if($crCo == 3 && $finalAmtBi == ' - '){
+		$biBgColor = "#9CFECD";
+		}
+   //red
+   	if($crBi == 2 || $crCo == 2){
+		$biBgColor = "#FFCECE";
+		}
+   //yellow 
+   if($crBi == 3){
+	   $biBgColor = "#FFFFB0";
+	   }
+   //white 
+   ?> 
+   bgcolor="<?php echo $biBgColor;?>" 
+    > 
+     <?php if($crBi== 0 && trim($finalAmtBi)!="-"  ){?>
+    <input type="checkbox" name="cf_bi[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" id="cf_bi" value="1" />
+   <?php }?> 
+   <?php if($crBi== 1 ){?>
+    <img src="/im/yes20.jpg"/>
+    <input type="hidden" name="cf_bi_hidden[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" id="cf_bi" value="1" />
+   <?php }?> 
+    <?php if($crBi== 2 ){?>
+    <img src="/im/no20.jpg"/>
+   <?php }?>   
+      $
+<input name="cf_bi_amt[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" type="text" value="<?php echo $finalAmtBi;?>" />
+<?php if($crBi== 2 ){?>
+<br />
+<span style="font-size:12px;">IPT: $ <?php echo $this->arrOpenDetail[$dateToCheck]['amount_bank_in_open'];?></span>
+<?php }?>  
+
+</td>
+    <td
+    <?php  
+    $finalAmtCo = ($amtCo == 0 && $isBi == true)?" - ":$amtCo;
+	   $biBgColor = "#FFFFFF";
+   //green Condition 
+	if($crBi == 1 || $crCo == 1){
+		$biBgColor = "#9CFECD";
+	}
+	if($crBi == 3 && $finalAmtCo == ' - '){
+		$biBgColor = "#9CFECD";
+	}
+   //red
+   	if($crBi == 2 || $crCo == 2){
+		$biBgColor = "#FFCECE";
+		}
+   //yellow 
+   if($crCo == 3){
+	   $biBgColor = "#FFFFB0";
+	   }
+   //white 
+    ?>
+    bgcolor="<?php echo $biBgColor;?>" 
+    > 
+     <?php if($crCo== 0 && trim($finalAmtCo)!="-" ){?>
+    <input type="checkbox" name="cf_co[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" id="cf_co" value="1" />
+      <?php } ?>
+      <?php if($crCo== 1 ){?>
+    <img src="/im/yes20.jpg"/>
+    <input type="hidden" name="cf_co_hidden[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" id="cf_co" value="1" />
+   <?php }?> 
+    <?php if($crCo== 2 ){?>
+    <img src="/im/no20.jpg"/>
+   <?php }?> 
+      
+      $
+<input name="cf_co_amt[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" type="text" value="<?php  echo $finalAmtCo;?>" />
+<?php if($crCo== 2 ){?>
+<br />
+<span style="font-size:12px;">IPT: $ <?php echo $this->arrCloseDetail[$dateToCheck]['sub_expense_total'];?></span>
+<?php }?>  
+</td>
+    <td
+     <?php  
+    $finalAmtExp = $amtExp;
+	   $biBgColor = "#FFFFFF";
+   //green Condition 
+	if($crExp==1){
+		$biBgColor = "#9CFECD";
+	}
+   //red
+   	if($crExp == 2){
+		$biBgColor = "#FFCECE";
+		}
+   //yellow 
+   if($crCo == 3){
+	   $biBgColor = "#FFFFB0";
+	   }
+   //white 
+    ?>   
+    
+    bgcolor="<?php echo $biBgColor;?>" 
+    
+    > 
+    <?php if($crExp== 0 ){?>
+    <input type="checkbox" name="cf_exp[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" id="cf_exp" value="1"/>
+    <?php }?>
+    <?php if($crExp== 1 ){?>
+    <img src="/im/yes20.jpg"/>
+    <input type="hidden" name="cf_exp_hidden[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" id="cf_exp" value="1"/>
+   <?php }?> 
+    <?php if($crExp== 2 ){?>
+    <img src="/im/no20.jpg"/>
+   <?php }?> 
+      $
+<input name="cf_exp_amt[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" type="text" value="<?php  echo $amtExp;?>" />
+<?php if($crExp== 2 ){?>
+<br />
+<span style="font-size:12px;">IPT: $ <?php echo $this->arrOpenDetail[$dateToCheck]['amount_cash_out_open'];?></span>
+<?php }?> 
+
+</td>
+    <td style="font-size:13px;"><input type="hidden" name="id_open[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" value="<?php echo  $this->arrOpenDetail[$dateToCheck]['id_ca_open'] ?>">
+    <input type="hidden" name="id_close[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" value="<?php echo  $this->arrCloseDetail[$dateToCheck]['id_ca_close'] ?>">
+    
+     <input type="hidden" name="bi_input[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" value="<?php echo  $this->arrOpenDetail[$dateToCheck]['amount_bank_in_open'] ?>">
+     <input type="hidden" name="co_input[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" value="<?php echo  $this->arrOpenDetail[$dateToCheck]['amount_cash_out_open'] ?>"> 
+      <input type="hidden" name="exp_input[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" value="<?php echo   $this->arrCloseDetail[$dateToCheck]['sub_expense_total']; ?>">
+      <br />
+      <textarea id="textarea" name="comm_bc[<?php echo $this->selectedShop;?>][<?php echo $dateToCheck;?>]" cols="30" rows="2"><?php echo  $this->arrOpenDetail[$dateToCheck]['comm_bc'] ?></textarea></td>
+    </tr>
+<?php  
+	 }
+  }
+ ?>  
+</table>
+<br />
+<input type="submit" name="btn_save_result" id="btn_save_result" value="Save Modifications" 
+
+<?php
+if($this->token != '1357911'){
+?>
+disabled="disabled"
+<?php	
+	}
+?>
+ />
+</form>
+</body>
+</html>

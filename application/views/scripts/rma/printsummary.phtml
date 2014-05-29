@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>New RMA Lodgement Step 1</title>
+<link href="/css/template.css" rel="stylesheet" type="text/css" />
+<?php
+$faultyExist = 0;
+date_default_timezone_set('Australia/Melbourne');
+$dateToday = date('Y-m-d');
+if($this->faultyproducts !="There are no NEW RMA Recorder that unhandled"){$faultyExist=1;}
+
+if($this->week == 'this'){
+?>
+<style type="text/css"> @media print { body { display:none } } </style>
+<?php }?>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<table width="750" border="0" cellspacing="0" cellpadding="10" align="left">
+<form id="form_step0" name="formstep0" method="post" action="/rma/fill">
+  <tr>
+    <td colspan="4"><span class="theh1" >Phone Collection Online RMA Summary</span></td>
+  </tr>
+  <tr>
+    <td >Shop Name : <?php echo $this->shopname;?> [<?php echo $this->dateBegin;?> to <?php echo $this->dateEnd;?>]</td>
+    <td >Total:<?php echo count($this->faultyproducts);?></td>
+    <td >Print on:</td>
+    <td ><?php echo $dateToday;?></td>
+  </tr>
+  <tr>
+    <td colspan="4" style="padding:0px; vertical-align:top;" >
+      <table width="100%" border="1" cellspacing="0" cellpadding="0" >
+        <tr>
+          <td>Date</td>
+          <td>ID</td>
+          <td>Code</td>
+          <td>Name</td>
+          <td>Qty</td>
+          <td>StaffName</td>
+          <td>ReasonCode</td>
+          <td>InvoiceNo.</td>
+          <td>&nbsp;</td>
+        </tr>
+        <?php 
+		if($faultyExist){
+			foreach($this->faultyproducts as $key =>$value){
+				if($value['product_code_faulty'] != "CUSTPART"){
+		?>		
+        
+        
+        <tr>
+          <td><?php echo $value['date_faulty'];?></td>
+          <td><?php echo $value['id_faulty'];?></td>
+          <td><?php echo $value['product_code_faulty'];?></td>
+          <td><?php echo $value['product_name_faulty'];?></td>
+          <td><?php echo $value['faulty_qty'];?></td>
+          <td><?php echo $value['staff_name_faulty'];?></td>
+          <td><?php echo $value['reason_faulty'];?></td>
+          <td><?php echo $value['id_invoice'];?></td>
+          <td><a href="/rma/reprint-rma/idrma/<?php echo $value['id_faulty'];?>" target="_blank"><img src="/im/icon_print.gif" border="0" /></a></td>
+        </tr>		
+        
+        
+        		
+		<?php
+				}
+				}			
+			}
+		else{
+			?>
+        <tr>
+        <td colspan="9">There are no NEW RMA Recorder that unhandled </td>
+        </tr>               
+            <?php
+			}			
+		?>
+                                                  
+      </table></td>
+  </tr>  
+  <tr>
+  <td colspan="4">
+  <table width="100%" border="1" cellspacing="1" cellpadding="15">
+  <tr>
+    <td style="font-size:20px">Total Qty Of Faulty <br /></td>
+    <td style="font-size:20px">Actual Pickup Qty <br />
+      of Faulty</td>
+    <td style="font-size:20px">Prepare By:</td>
+  </tr>
+  <tr>
+    <td align="center"><span style="font-size:88px;"><?php echo count($this->faultyproducts);?></span></td>
+    <td align="center">Mark Here:<br />
+      <br />
+      <br />
+      <br />
+      <br />
+      _____________</td>
+    <td align="center">Sign Here:<br />
+      <br />
+      <br />
+      <br />
+      <br />
+      _______________</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" valign="top" style="border:#000 solid 1px;">If Acutal Qty of Faulty not match weekly Total Qty of Faulty, Remark Reason Here:<br />
+      <br />
+      <br />
+      <br />
+      <br /></td>
+    <td align="center" style="border:#000 solid 1px;">
+    Week Marker:
+    <?php
+    $weekID = date("W",strtotime($this->dateBegin)) % 2;
+	?>
+    <img src="<?php echo ($weekID)?"/im/oddweek.jpg":"/im/evenweek.jpg";?>" width="168" height="168" />
+    </td>
+    </tr>
+  </table>
+
+  </td>
+  </tr>
+  <tr>
+    <td colspan="4"><p>Copyright &copy; Phone Collection 2012-2013<br />
+    </p>
+      <p>
+      According RMA Procedure, you should ONLY return RMA Faulty Product For Last Week<br />
+	  DO NOT return any faulty product of current week.
+      <?php if($this->week =='this') {?>
+      <h2>*This is for you Check Online ONLY,<br />
+*DO NOT PRINT THIS PAGE NOW<br />
+*DO NOT RETURN CURRENT WEEK FAULTY ITEM</h2>
+      <?php } ?>
+      </p></td>
+  </tr>
+</form> 
+</table>
+</body>
+</html>

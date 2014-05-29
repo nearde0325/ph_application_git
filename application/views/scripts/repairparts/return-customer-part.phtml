@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<?php
+$oldDate = "";
+
+$totalPcs = 0;
+$rProducts = new Model_DbTable_Pr_Prproducts();
+$rMove = new Model_DbTable_Pr_Prstockmovement();
+$rejob = new  Model_DbTable_Repairjob();
+
+$arrJobs = array();
+
+$totalScan = 0;
+$totalNoScan = 0;
+
+		$arrShopMaping = array(
+				"ADPC" =>"AD",
+				"BBPC" =>"BB",
+				"BHPC" =>"BH",
+				"BSPC" =>"BS",
+				"BSIC" =>"BSIC",
+				"BSXP" =>"BSXP",
+				"CBPC" =>"CB",
+				"CLPC" =>"CL",
+				"CLIC" =>"CLIC",
+				"CSIC" =>"CSIC",
+				"DCIC" =>"DCIC",
+				"EPPC" =>"EP",
+				"FGIC" =>"FGIC",
+				"HPIC" =>"HPIC",
+				"KCPC" =>"KC",
+				"NLPC" =>"NL",
+				"PMPC" =>"PM",
+				"PMIC" =>"PMIC",
+				"SLIC" =>"SLIC",
+				"WBPC" =>"WB",
+				"WBIC" =>"WBIC",
+				"WGPC" =>"WGPC",
+				"WGIC" =>"WGIC",
+				"WLIC" =>"WLIC",
+				);
+?>				
+<h2>Customer Parts Return List Last Week [ <?php echo $this->dateBegin." To ".$this->dateEnd; ?>]</h2>
+<table width="950" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:200px" >Job ID</td>
+    <td bgcolor="#FFFFFF">Mobile</td>
+    <td bgcolor="#FFFFFF" style="width:250px">Model</td>
+    <td bgcolor="#FFFFFF" style="width:100px">Color</td>
+    <td bgcolor="#FFFFFF" style="width:100px">Returned</td>
+  </tr>
+<?php
+$oldDate = "";
+	$dateBegin = $this->dateBegin;
+	$dateEnd = $this->dateEnd;
+
+$arrDateList = Model_DatetimeHelper::createDateArray($dateBegin,$dateEnd);
+foreach($arrDateList as $key => $v){
+	$dateRecord = $v;
+	
+	$dailyList = $rMove->getStockMoveByDateByCode(2,$v,$v,$this->idShop);
+	
+		foreach($dailyList as $k7 => $v7){
+			
+			$idPart = $v7["id_product"];
+			$rProductLine = $rProducts->getProduct($idPart);
+			if($rProductLine["w_bonus"]){
+			
+	
+	     	$rowMove = $rMove->getProductMoveByDateByCode(2,$v7["id_product"],$v7["date_move"],$v7["date_move"],$this->idShop);	
+		
+				
+			 foreach ($rowMove as $k9 => $v9){
+				 if(is_numeric($v9["id_job"]) && !in_array($v9["id_job"],$arrJobs)){
+					 $arrJobs[] = $v9["id_job"];
+		 		    $rowJob = $rejob->getJob($v9["id_job"]);
+							?>
+  <tr>
+    <td bgcolor="#FFFFFF"><?php echo $dateRecord;?></td>
+    <td bgcolor="#FFFFFF" ><?php echo $v9["id_job"];?></td>
+    <td bgcolor="#FFFFFF"><?php echo $rowJob["mobile_brand"];?></td>
+    <td bgcolor="#FFFFFF"><?php echo $rowJob["mobile_model"];?></td>
+    <td bgcolor="#FFFFFF"><?php echo $rowJob["mobile_color"];?></td>
+    <td bgcolor="#FFFFFF">
+    <?php 
+	echo ($rowJob['cust_part'])?'<span style="background-color:#090;">[V]</span>':
+    '<span  style="background-color:#C30;">[X]</span>';
+     if($rowJob['cust_part']){ $totalScan++; }
+	 else{$totalNoScan++;}
+	 ?>
+    </td>
+  </tr>	
+ <?php 						
+			
+					 }
+			 }
+			 
+			}
+			 
+		}
+}
+?>  
+
+  
+  <tr>
+    <td bgcolor="#FFFFFF">
+Date</td>
+    <td bgcolor="#FFFFFF" >Job ID</td>
+    <td bgcolor="#FFFFFF">Mobile</td>
+    <td bgcolor="#FFFFFF">Model</td>
+    <td bgcolor="#FFFFFF">Color</td>
+    <td bgcolor="#FFFFFF">Total:<?php echo $totalNoScan + $totalScan;?></td>
+  </tr>
+</table><br />
+
+Total: <?php echo $totalNoScan + $totalScan;?> [Pcs] , Returned <?php echo $totalScan;?> [Pcs], Not Returned <?php echo $totalNoScan; ?> [Pcs]
+</body>
+</html>

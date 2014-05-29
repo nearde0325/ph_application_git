@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Job Confirmation</title>
+<style type="text/css">
+h2{ color:#004A6F; font-family:Arial; font-size:18px; line-height:20px;}
+body { font-family:Arial; font-size:13px;}
+.logoright{ display:block; float:right;}
+
+</style>
+</head>
+
+<body>
+<pre>
+<?php
+//var_dump($_POST);
+?>
+</pre>
+<?php
+if(empty($this->jobdetail)){
+?>
+<h1 style="color:red;">Error Occur, NO information for this JobID</h1>
+<?php	
+	}
+?>
+<table width="1000" border="1" cellspacing="0" cellpadding="5" align="left">
+  <tr>
+    <td colspan="2"><h2>Job Details</h2></td>
+  </tr>
+  <tr>
+    <td valign="top" style="width:500px;">
+    <h3>Mobile Phone Details</h3>
+    Job ID: <?php echo $this->jobdetail['id_job'] ?><br />      
+    Mobile Brand: <?php echo $this->jobdetail['mobile_brand'] ?><br />
+    Mobile Model: <?php echo $this->jobdetail['mobile_model'] ?><br />
+    IMEI: <?php echo $this->jobdetail['mobile_imei'] ?><br />
+    Repair Type<br />
+    <div style="border:1px black solid;  width:450px;"> <?php echo $this->jobdetail['repair_type'] ?><br />
+    </div>
+    <br />
+	DETAILS:<br />
+	<div style="border:1px black solid; width:450px;"> <?php echo $this->jobdetail['issue_detail'] ?>
+	  </div> 
+	<p><br />
+	  Parts Choice :  <?php echo $this->jobdetail['parts_selection'] ?><br />
+	  Quotation	Price :  <?php echo $this->jobdetail['quot_price']?><br />
+	  Invoice ID: <?php echo $this->jobdetail['invoice_no'] ?>
+    </p>
+	<p>Passcode:<?php echo $this->jobdetail['mobile_passcode'] ?></p></td>
+    <td valign="top">
+    <h3>Customer and Contacts</h3>
+    Customer Name: <?php echo $this->jobdetail['customer_name'] ?><br />
+    Home Phone: <?php echo $this->jobdetail['customer_phone'] ?><br />
+    Alternative Mobile Phone: <?php echo $this->jobdetail['customer_mobile'] ?><br />
+    Email: <?php echo $this->jobdetail['customer_email'] ?><br />
+    <br />
+    Shop Code:[ <?php echo $this->jobdetail['shop_code'] ?>]<br />    
+    Staff Name: <?php echo $this->jobdetail['staff_name'] ?><br />
+    Date &amp; Time: <?php echo $this->jobdetail['date_start']." ".$this->jobdetail['time_start']  ?><br />    <br />
+    </td>
+  </tr>
+  </table>
+  <br />
+ <br />
+ 
+ <table width="1000" border="1" cellspacing="0" cellpadding="5" align="left">
+  <tr>
+    <td colspan="2" align="left"><h2>Status History</h2></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+    <table width="1000" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="3">Status for Job ID:<?php echo $this->list[0]['id_job']?></td>
+  </tr>
+<?php
+foreach($this->list as $k => $v) 
+ {
+ ?> 
+  <tr>
+    <td><?php echo $v['time_record']?></td>
+    <td>By :<?php echo $v['staff_record']?></td>
+    <td>
+    [<?php echo $v['id_status']?>]
+    <?php
+    $newStatus = new Model_DbTable_Jobstatus();
+	echo $newStatus->getStatusDes($v['id_status']);
+	?>
+    </td>
+  </tr>
+<?
+ }
+?>  
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+</table>
+    
+    </td>
+  </tr> 
+</table>
+ <table width="1000" border="1" cellspacing="0" cellpadding="5" align="left">
+  <tr>
+    <td align="left"><h2>Comment  History [<a href="/repaircenter/addcomment/jobid/<?php echo $this->jobdetail['id_job'] ?>" target="_blank"> + Add Comment</a>]</h2></td>
+  </tr>
+<?php 
+if(isset($this->commlist)){
+foreach ($this->commlist as $k1 => $v1){
+?>  
+  <tr>
+    <td align="left">Comment by [<?php echo $v1['staffname_repair_comt']?>] on <?php echo $v1['date_repair_comt']?>,<?php echo $v1['time_repair_comt']?> <br /><div style=" border:#666 1px solid;"><?php echo $v1['content_repair_comt']?></div></td>
+  </tr>  
+<?php
+}
+}
+?> 
+ </table> 
+ <br />
+</body>
+</html>

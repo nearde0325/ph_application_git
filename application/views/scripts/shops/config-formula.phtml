@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1>Shop Calculation Fomula</h1>
+<table width="1250"  cellspacing="1" cellpadding="5">
+<form method="post" >
+  <tr>
+    <th scope="col">Staff</th>
+    <th scope="col">Shop</th>
+    <th scope="col">Fix/Fomula</th>
+    <th scope="col">(&gt;) Fix $</th>
+    <th scope="col">Fomula [A] value$</th>
+    <th scope="col">Use[A]</th>
+    <th scope="col">Fomula%</th>
+    <th scope="col">Fomula $</th>
+  </tr>
+<?php
+$stDetail = new Model_DbTable_Roster_Stafflogindetail();
+$staffName = "";
+ foreach($this->tList as $k => $v){
+ 	
+	$key = $v["id_fomula"];
+	
+	?>  
+  <tr>
+     <td><?php
+
+	$staff = $stDetail->getDetail($v["id_staff"]);
+		
+		if($staffName != $staff["ni"]){
+			
+			echo ucwords($staff["ni"]);		
+			$staffName = $staff["ni"];
+		}
+		else{
+			
+			echo "&nbsp;";
+		}
+     ?><input name="id_staff[<?php echo $key?>]" type="hidden" value="<?php echo $v["id_staff"]?>" /></td>
+    <td><?php echo $v["shop_code"]?><input name="id_fomula[<?php echo $key?>]" type="hidden" value="<?php echo $v["id_fomula"]?>" /><input name="shop_code[<?php echo $key?>]" type="hidden" value="<?php echo $v["shop_code"]?>" /></td>
+ 
+	<td>
+	  <input type="radio" name="choice[<?php echo $key?>]" id="choice0" value="0"  <?php echo  ($v["choice"] == 0 )?'checked="checked"':''; ?> />
+	  Fix
+	  <input type="radio" name="choice[<?php echo $key?>]" id="choice1" value="1"  <?php echo  ($v["choice"] == 1 )?'checked="checked"':''; ?>/>
+	  Fomula
+	  </td>
+    <td><input name="fix_amt[<?php echo $key?>]" type="text" value="<?php echo $v["fix_amt"]?>" />
+    $</td>
+    <td><input name="rate_a[<?php echo $key?>]" type="text" value="<?php echo $v["rate_a"]?>" />
+    $</td>
+    <td align="center">
+      	  <input type="radio" name="rate_a_choice[<?php echo $key?>]" id="choice0a" value="0"  <?php echo  ($v["rate_a_choice"] == 0 )?'checked="checked"':''; ?> /> Use Target
+	  <input type="radio" name="rate_a_choice[<?php echo $key?>]" id="choicea" value="1"  <?php echo  ($v["rate_a_choice"] == 1 )?'checked="checked"':''; ?>/> Use [A] Value
+      
+      </td>
+    <td><input name="rate_p[<?php echo $key?>]" type="text" value="<?php echo $v["rate_precent"]?>" />
+      %</td>
+    <td><input name="rate_amt[<?php echo $key?>]" type="text" value="<?php echo $v["rate_amt"]?>" />
+    $</td>
+  </tr>
+<?php }?>
+<tr>
+<td colspan="8" align="center" valign="middle">Password: 
+  <label for="password"></label>
+  <input type="password" name="password" id="password" />
+   <input type="submit" name="button" id="button" value="Submit" /></td>
+</tr>
+</form>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

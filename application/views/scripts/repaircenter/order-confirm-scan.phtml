@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Order Confirmation</title>
+<style type="text/css">
+/* <![CDATA[ */
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+/* ]]> */
+
+
+</style>
+<script language="javascript">
+function enab(){
+	document.getElementById('btn_confirm').disabled = false;
+	}
+function getfocus(){
+	document.getElementById('part_code').select();
+	document.getElementById('part_code').focus();;
+	}
+</script>
+</head>
+<body  style="font-family:Arial, Helvetica, sans-serif" onload="getfocus()" >
+<h1>Confirm The Parts Qty You Received This Week:</h1>
+<h4>
+<ul>
+  <li>
+    If The Qty is not matching, DO NOT Confirm the Order
+  </li>
+  <li>
+   Using KAKT Management Page to Commucate with Warehouse
+  </li>
+  <li>
+    Once Order Confirmed, Stock Qty Will be Add immediatelly to your shop Stock
+  </li>
+</ul>
+</h4>
+
+<table width="500" border="0" cellspacing="1" cellpadding="0">
+
+  <tr>
+    <th bgcolor="#00FF00" scope="col">FullFill</th>
+    <th bgcolor="#FF8080" scope="col">Refuse / No Stock</th>
+    <th bgcolor="#FFFF00" scope="col">Partially</th>
+    <th bgcolor="#6699FF" scope="col">New / Over Stock</th>
+  </tr>
+</table>
+Scan Or Type In Parts Barcode <br />
+<form id="form1" name="form1" method="post" action="">
+  <input type="text" name="part_code" id="part_code" style="font-size:16px; width:300px;" />
+  <input type="submit" name="btn_submit" id="btn_submit" value="Submit" />
+<br />
+	<input type="hidden" name="str_part" value="<?php echo $this->strPart?>" />
+    <input type="hidden" name="hidden_part" value="<?php echo $this->hiddenpart?>" />
+  <br />
+  <input type="submit" name="btn_cancel" id="btn_cancel" value="Cancel Last Scan" />
+<br />
+</form>
+<br />
+<br />
+<br />
+
+<table width="850" border="0" cellspacing="1" cellpadding="0">
+<form action="/repaircenter/order-confirm-report" method="post">
+    <tr>
+    <th >Code</th>
+    <th style="width:300px;" >Description</th>
+    <th style="width:100px;" >Order</th>
+    <th style="width:100px;" >Allocated</th>
+    <th style="width:100px;" >Received</th>
+    </tr>
+<?php 
+$isSent = 0;
+	$rProduct = new Model_DbTable_Pr_Prproducts();
+	$arrParts = $this->arrParts;
+foreach($this->oList as $key => $v){
+	$isSent = $v["is_send"];
+	if($v['code_product']!="SERVICE" && $v['code_product']!="CUSTPART" && ($v["qty_order"] >0 || $v["qty_allocate"] >0) ){
+	
+	?> 
+  <tr 
+ <?php
+	//set background 
+	$alloQty = 0;
+	if($v["qty_allocate"] == 0){
+		//refused
+		if($v["qty_order"] > 0){
+			
+			echo 'style="background-color:#FF8080;"';
+		}
+		else{
+			echo 'style="background-color:#999999;"';
+		}
+		//zero qty
+		} 
+	else{
+		//full fill
+			$alloQty =  $v["qty_allocate"];
+			
+		if($alloQty > $v["qty_order"] ){
+			echo 'style="background-color:#6699FF;"';
+			}
+		if($alloQty == $v["qty_order"] ){
+			echo 'style="background-color:#00FF00;"';
+			}
+		if($alloQty < $v["qty_order"] ){
+			echo 'style="background-color:#FFFF00;"';
+			}
+		if($alloQty == 0){
+			echo 'style="background-color:#FF8080;"';
+			}		
+	}
+ ?> 
+ >
+    <td><?php echo $v['code_product']?></td>
+    <td><span style="font-size:12px;"><?php echo $rProduct->getProductDes($v['code_product'])?></span></td>
+    <td><?php echo $v['qty_order']?></td>
+    <td><?php echo $v['qty_allocate']?></td>
+    <td><?php 
+	if(isset($arrParts[$v['code_product']])){
+		echo $arrParts[$v['code_product']];
+		}
+	else{
+		echo "0";
+		}	
+	?></td>
+  </tr>
+<?php }
+
+}?>  
+
+<tr>
+<td style="padding:20px; text-align:center;" colspan="5">&nbsp;&nbsp;&nbsp;Differences Remained :(Differences will keep discrease during scanning):<br />
+  By Default, you should have no Differences
+  <br />
+  <br />
+  <label for="difference"></label>
+  <textarea name="difference" id="difference" cols="90" rows="5"><?php 
+  foreach($this->oList as $key => $value ){
+	  $scaned = 0;
+	  if(isset($arrParts[$value['code_product']])){
+		  $scaned = $arrParts[$value['code_product']];
+		  }
+	  $differences = $value['qty_allocate'] - $scaned; 
+	  if($differences!=0){
+		  echo "[".$value['code_product']."]".$rProduct->getProductDes($value['code_product'])." X ".$differences." Pcs\n";
+		  }
+	  }
+  
+  ?>
+  </textarea>  &nbsp;<br />
+  <br />
+  Your Comment To Warehouse:(For Example DOA Faulty or Extra Parts)<br />
+  <br />
+  <textarea name="comment" id="comment" cols="90" rows="5"></textarea></td>
+</tr>
+<tr>
+  <td style="padding:20px; text-align:center;" colspan="5"><input type="checkbox" name="scan_finished" id="scan_finished" onchange="enab()" />
+    <label for="scan_finished"></label>
+    I have finished scanning all the delivery parts
+    <input name="order_no" type="hidden" id="order_no" value="<?php echo $this->orderNo;?>" />
+    <br />
+    <br />
+    Your Attendance Password :
+    <label for="pwd"></label>
+    <input type="password" name="pwd" id="pwd" />
+    <br />
+    <br />    
+    <input type="submit" name="btn_confirm" id="btn_confirm" value="Confirm Order Qty &amp; Notify Warehouse"  
+ <?php 
+ if(1){ echo 'disabled = "disabled"';}
+ 
+ ?>  
+  />
+    <br />
+    <br />
+    * After the button Clicked, The Remainning Differences and Comment will report to Warehouse<br />
+    If All Qty is Correct, Warehouse WILL ACTIVE THE PARTS DELIVERY FOR YOU</td>
+</tr>
+</form>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<p>Manage Product Sub Type</p>
+<form id="form3" name="form3" method="post" action="">
+  Choose Product Type ,Default is Case (Exclude Design Case)<br />
+  <select name="id_main_type" id="id_main_type">
+
+  <?php 
+  foreach ($this->mainlist as $k1=>$v1){
+	  $chkstr="";
+	  if($this->idMainType == $v1['id_type']){
+		  
+		  $chkstr='selected="selected"';
+		  }
+	  
+	  ?>
+       <option value="<?php echo $v1['id_type']?>" <?php echo $chkstr?> ><?php echo $v1['des_type']?></option>   
+  <?php	  
+	  }
+  ?>
+  </select>
+  <input type="submit" name="sub_go" id="sub_go" value="GO" />
+</form>
+<p><br />
+</p>
+<table width="800" border="0" cellspacing="0" cellpadding="5">
+  <form id="form2" name="form2" method="post" action="">
+  <tr>
+    <td style="width:100px" >ID</td>
+    <td style="width:100px" >CODE</td>
+    <td style="width:600px" >Description</td>
+  </tr>
+ <?php 
+ if(isset($this->sublist)){
+ foreach($this->sublist as $key => $value){
+ ?> 
+  <tr>
+    <td><span style="width:400px">
+      <input name="row[<?php echo $value['id_sub_type']?>][id]" type="text" id="row[<?php echo $value['id_sub_type']?>][id]" style="width:50px;" value="<?php echo $value['id_sub_type']?>" readonly="readonly" />
+    </span></td>
+    <td><span style="width:400px">
+      <input type="text" name="row[<?php echo $value['id_sub_type']?>][code]" id="row[<?php echo $value['id_sub_type']?>][code]" style="width:100px;"  value="<?php echo $value['code_sub_type']?>" />
+    </span></td>
+    <td><span style="width:400px">
+      <input type="text" name="row[<?php echo $value['id_sub_type']?>][des]" id="row[<?php echo $value['id_sub_type']?>][des]" style="width:350px;"  value="<?php echo $value['des_sub_type']?>" />
+    </span></td>
+  </tr>
+ <?php 
+ }
+ }
+ ?> 
+  <tr>
+    <td colspan="3">
+      <input type="hidden" name="id_main" id="id_main" value="<?php echo $this->idMainType?>" />	
+      <input type="submit" name="sub_1" id="sub_1" value="Modify" />
+</td>
+  </tr>
+    </form>  
+</table>
+<p><br />
+  Add New<br />
+</p>
+<table width="600" border="0" cellspacing="0" cellpadding="10">
+<form id="form1" name="form1" method="post" action="">
+  <tr>
+    <td style="width:200px" >Main Product Type</td>
+    <td style="width:400px" >
+      <?php
+      $mainType = new Model_DbTable_Barcodeproducttype();
+	  echo $mainType->getTypeDes($this->idMainType);
+	  ?>
+      <input type="hidden" name="id_add_main" id="id_add_main" value="<?php echo $this->idMainType?>" /></td>
+  </tr>
+  <tr>
+    <td>Code:</td>
+    <td><span style="width:400px">
+      <input type="text" name="code_add_sub_type" id="code_add_sub_type" />
+    </span></td>
+  </tr>
+  <tr>
+    <td>Description:</td>
+    <td><span style="width:400px">
+      <input type="text" name="des_add_sub_type" id="des_add_sub_type" style="width:350px;" />
+    </span></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="submit" name="sub_2" id="sub_2" value="Add" />
+</td>
+  </tr>
+  </form>  
+</table>
+<p>  <br />
+</p>
+</body>
+</html>

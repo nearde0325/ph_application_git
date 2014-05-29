@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+<?php
+$rStock = new Model_DbTable_Pr_Prstock();
+$rMove = new Model_DbTable_Pr_Prstockmovement();
+$rOrder = new Model_DbTable_Pr_Order();
+$rBorrow = new Model_DbTable_Pr_Loan();
+
+foreach($this->cList as $key => $value){
+?>
+<a href="/repairparts/stock-alert/cate/<?=$value["id_cate"]?>"><?=$value["title_cate"]?></a> | 
+<?
+}
+?>
+<br />
+<h1>
+Date: <?php echo $this->dateToday?><?php echo $this->dateTwoWeeks?><br /> 
+
+Category ID: <?php echo $this->idCate?><br /> 
+</h1>
+<form method="post" action="" >
+<table width="1800" border="1" cellspacing="0" cellpadding="3" bgcolor="#333333">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:150px" >Code</td>
+    <td bgcolor="#FFFFFF" style="width:20px" >Active</td>
+    <td bgcolor="#FFFFFF" style="width:350px" >Description</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >Ware House</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >Bayside Shops<br />
+      (1)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >CSIC(2)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >Steven(3)<br />
+    Warehouse</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >BHPC(4)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >HPIC(5)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >CBPC(6)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >WLIC(7)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >EPPC(8)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >WBShops(9)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >NLPC(10)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >DCIC(11)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >KCPC(12)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >SLIC(13)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >FGIC(14)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >PMIC(15)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >WG Shops(16)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >ADPC(17)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >BBPC(18)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >CLShops(19)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:60px" >LU(20)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Total Stock</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Total Used<br />
+      GO+FO
+      <br />
+    (2 Weeks)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Aver-Use<br />
+    (Week)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Use-Last<br />
+      Week</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Stock Hold<br />
+    (Weeks)</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >Order Status</td>
+    <td align="center" bgcolor="#FFFFFF" style="width:50px" >ETA</td>
+  </tr> 
+<?php
+
+foreach($this->pList as $key => $v){
+	$totalQty = 0;
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF"><a href="/repairparts/part-move-history?part_code=<?php echo $v['code_product']?>" target="_blank"><?php echo $v['code_product']?></a></td>
+    <td align="center" bgcolor="#FFFFFF"><input type="checkbox" name="active[<?php echo $v['id_product']?>]" id="active<?php echo $v['id_product']?>" value="1" <?php echo ($v['active'])?'checked="checked"':''?> />
+    <label for="active[]"></label></td>
+    <td bgcolor="#FFFFFF"><?php echo $v['title_product']?></td>
+    <td align="center" bgcolor="#FFFFFF">
+    <?php
+
+	echo $rStock->getWarehouseStock($v['id_product']);
+	if(is_numeric($rStock->getWarehouseStock($v['id_product']))){
+		$totalQty += $rStock->getWarehouseStock($v['id_product']);
+		}
+	?>
+	(-
+	<?php 
+	echo $rOrder->qtyOnOrder($v['code_product']);
+	?>)
+    </td>
+    <td align="center" bgcolor="#FFFFFF">
+    <?php 
+	echo $rStock->getShopStock($v['id_product'],1);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 1);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 1);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":""; 	
+		if(is_numeric($rStock->getShopStock($v['id_product'],1))){
+		$totalQty += $rStock->getShopStock($v['id_product'],1);
+		}
+	?>
+    </td>
+    <td align="center" bgcolor="#FFFFFF">
+        <?php
+        echo $rStock->getShopStock($v['id_product'],2);         
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 2);
+	echo ($brQty>0)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 2);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],2))){
+		$totalQty += $rStock->getShopStock($v['id_product'],2);
+		}
+	?>
+    </td>
+    <td align="center" bgcolor="#FFFFFF">
+        <?php
+        echo $rStock->getShopStock($v['id_product'],3);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 3);
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 3);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	echo ($brQty>0)?"[Br:".$brQty."]":"";
+			if(is_numeric($rStock->getShopStock($v['id_product'],3))){
+		$totalQty += $rStock->getShopStock($v['id_product'],3);
+		}
+	?>
+    </td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],4);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 4);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 4);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],4))){
+		$totalQty += $rStock->getShopStock($v['id_product'],4);
+		}
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],5);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 5);
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 5);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+	echo ($brQty)?"[Br:".$brQty."]":"";
+			if(is_numeric($rStock->getShopStock($v['id_product'],5))){
+		$totalQty += $rStock->getShopStock($v['id_product'],5);
+		}
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],6);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 6);
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 6);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+	echo ($brQty)?"[Br:".$brQty."]":"";
+			if(is_numeric($rStock->getShopStock($v['id_product'],6))){
+		$totalQty += $rStock->getShopStock($v['id_product'],6);
+		}
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],7);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 7);
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 7);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+	echo ($brQty)?"[Br:".$brQty."]":"";
+			if(is_numeric($rStock->getShopStock($v['id_product'],7))){
+		$totalQty += $rStock->getShopStock($v['id_product'],7);
+		}
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],8);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 8);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 8);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],8))){
+		$totalQty += $rStock->getShopStock($v['id_product'],8);
+		}
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],9);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 9);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 9);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],9))){
+		$totalQty += $rStock->getShopStock($v['id_product'],9);
+		}
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],10);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 10);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 10);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],10))){
+		$totalQty += $rStock->getShopStock($v['id_product'],10);
+		}
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],11);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 11);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 11);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],11))){
+		$totalQty += $rStock->getShopStock($v['id_product'],11);
+		}
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],12);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 12);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 12);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],12))){
+		$totalQty += $rStock->getShopStock($v['id_product'],12);
+		}
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],13);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 13);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 13);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],13))){
+		$totalQty += $rStock->getShopStock($v['id_product'],13);
+		}
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],14);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 14);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 14);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],14))){
+		$totalQty += $rStock->getShopStock($v['id_product'],14);
+		}
+	?></td>
+    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],15);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 15);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 15);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],15))){
+		$totalQty += $rStock->getShopStock($v['id_product'],15);
+		}
+	?></td>
+	    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],16);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 16);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 16);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],16))){
+		$totalQty += $rStock->getShopStock($v['id_product'],16);
+		}
+	?></td>
+	    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],17);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 17);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 17);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],17))){
+		$totalQty += $rStock->getShopStock($v['id_product'],17);
+		}
+	?></td>
+	    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],18);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 18);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 18);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],18))){
+		$totalQty += $rStock->getShopStock($v['id_product'],18);
+		}
+	?></td>
+	    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],19);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 19);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 19);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],19))){
+		$totalQty += $rStock->getShopStock($v['id_product'],19);
+		}
+	?></td>
+	    <td align="center" bgcolor="#FFFFFF"><?php 
+	echo $rStock->getShopStock($v['id_product'],20);
+	$brQty = $rBorrow->borrowedStock($v['id_product'], 20);
+	echo ($brQty)?"[Br:".$brQty."]":"";
+	
+	$ldQty = $rBorrow->lendStock($v['id_product'], 20);
+	echo ($ldQty < 0)?"[Br:".$ldQty."]":"";
+	
+			if(is_numeric($rStock->getShopStock($v['id_product'],20))){
+		$totalQty += $rStock->getShopStock($v['id_product'],20);
+		}
+	?></td>                
+    <td align="center" bgcolor="#FFFFFF"><?=$totalQty?></td>
+    <td align="center" bgcolor="#FFFFFF">
+    <?php
+    $qtyGo = $rMove->getCountAllProductMoveByDateByCode(2,$v['id_product'],$this->dateTwoWeeks, $this->dateToday);
+	$qtyFo = $rMove->getCountAllProductMoveByDateByCode(8,$v['id_product'],$this->dateTwoWeeks, $this->dateToday);	
+	//var_dump($qtyGo);
+	echo $qtyTotalUsed = $qtyFo + $qtyGo ;
+	?>
+    </td>
+    <td align="center" bgcolor="#FFFFFF">
+    <?php
+    echo $avUseWeek = round($qtyTotalUsed/2,1);
+    ?>
+    </td>
+    <td align="center" bgcolor="#FFFFFF"><?php
+    $qtyGoOne = $rMove->getCountAllProductMoveByDateByCode(2,$v['id_product'],$this->dateOneWeek, $this->dateToday);
+	$qtyFoOne = $rMove->getCountAllProductMoveByDateByCode(8,$v['id_product'],$this->dateOneWeek, $this->dateToday);	
+	//var_dump($qtyGo);
+	echo $qtyTotalUsedOne = $qtyFoOne + $qtyGoOne ;
+	?></td>
+    <td align="center" bgcolor="#FFFFFF">
+      <?php
+    $weekHold = "";
+	if($avUseWeek == 0 && $totalQty == 0){
+		$weekHold = " ";
+	}
+	if($avUseWeek == 0 && $totalQty != 0){
+		$weekHold = "∞";
+	}
+    if($avUseWeek!=0 && is_numeric($avUseWeek)){
+    	$weekHold = round($totalQty/$avUseWeek,1);
+    }
+    ?>
+      <span 
+    <?php 
+    if($weekHold == "∞" || $weekHold >= 5){ echo 'style="color:#008800;"';}
+    if($weekHold < 5 && $weekHold >= 3 ){ echo 'style="color:#996600;"';} 
+    if($weekHold < 3 ){
+    	echo 'style="color:#990000;"';
+    }
+    ?>
+
+    >
+      <?php echo $weekHold;?>
+      </span>
+      
+    </td>
+    <td align="center" bgcolor="#FFFFFF">&nbsp;</td>
+    <td align="center" bgcolor="#FFFFFF">&nbsp;</td>
+  </tr>   
+<?php
+}
+?>
+</table>
+
+<br />
+<input name="btn_save" type="submit" value="Save" />
+</form>
+</body>
+</html>

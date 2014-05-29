@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+.ipt{
+	width:200px;
+	}
+</style>
+
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<?php if(!$this->errorFlag){?>
+<form id="form1" name="form1" method="post" action="/roster/registration-done">
+<table width="600" border="0" cellspacing="0" cellpadding="10">
+  <tr>
+    <td colspan="2"><h1 style="color:#069">Registration (Basic Information)</h1></td>
+  </tr>
+  <tr>
+    <td style="width:200px;">Your Email <span style="font-size:12px;">(Read Only Field)</span>:</td>
+    <td>
+      <label for="email_addr"></label>
+      <input name="email_addr" type="text" class="ipt" id="email_addr" readonly="readonly" value="<?php echo $this->email; ?>"  />
+   </td>
+  </tr>
+  <tr>
+    <td>Given Names*:<br />
+      <span style="font-size:12px;">[First Name &amp; Middle Name<br />
+On The Passport / Driver's Liciense]</span></td>
+    <td><input name="given_name" type="text" class="ipt" id="given_name" /></td>
+  </tr>
+  <tr>
+    <td>Surname*:<br />
+      <span style="font-size:12px;">[Last Name 
+      On The Passport /<br />
+Driver's Liciense]</span></td>
+    <td><input name="surname" type="text" class="ipt" id="surname" /></td>
+  </tr>
+  <tr>
+    <td>Prefferred Name*:<br />
+<span style="font-size:12px;">[Nick Name,<br />
+Do Not include in the Given Names]</span>
+</td>
+    <td><input name="pre_name" type="text" class="ipt" id="pre_name" /></td>
+  </tr>
+  <tr>
+    <td>Date Of Birth* :</td>
+    <td>
+      <select name="day" id="day">
+          <option value="01">01</option>
+          <option value="02">02</option>
+          <option value="03">03</option>
+          <option value="04">04</option>
+          <option value="05">05</option>
+          <option value="06">06</option>
+          <option value="07">07</option>
+          <option value="08">08</option>
+          <option value="09">09</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+          <option value="25">25</option>
+          <option value="26">26</option>
+          <option value="27">27</option>
+          <option value="28">28</option>
+          <option value="29">29</option>
+          <option value="30">30</option>
+          <option value="31">31</option>
+        </select>
+      /
+      <select name="month" id="month">
+          <option value="01">Jan.</option>
+          <option value="02">Feb.</option>
+          <option value="03">Mar.</option>
+          <option value="04">Apr.</option>
+          <option value="05">May</option>
+          <option value="06">June</option>
+          <option value="07">July</option>
+          <option value="08">Aug.</option>
+          <option value="09">Sept.</option>
+          <option value="10">Oct.</option>
+          <option value="11">Nov.</option>
+          <option value="12">Dec.</option>
+        </select>
+/
+<input type="text" name="year" id="year" style="width:50px;" /></td>
+  </tr>
+  <tr>
+    <td>Gender*:</td>
+    <td>
+      <select name="gender" id="gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select></td>
+  </tr>
+  <tr>
+    <td>Address*:</td>
+    <td><label for="addr"></label>
+      <textarea name="addr" id="addr" cols="50" rows="3"></textarea></td>
+  </tr>
+  <tr>
+    <td>Suburb*:</td>
+    <td><input name="suburb" type="text" class="ipt" id="suburb" /></td>
+  </tr>
+  <tr>
+    <td>State*:</td>
+    <td>
+      <select name="state" id="state">
+        <option value="SA">SA</option>
+        <option value="VIC">VIC</option>
+      </select></td>
+  </tr>
+  <tr>
+    <td>Postcode*:</td>
+    <td><input name="post_code" type="text" class="ipt" id="post_code" /></td>
+  </tr>
+  <tr>
+    <td>Mobile No.:</td>
+    <td><input name="mobile_no" type="text" class="ipt" id="mobile_no" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">Optional Information</td>
+    </tr>
+  <tr>
+    <td>Tax File No.(TFN):</td>
+    <td><input name="tfn_no" type="text" class="ipt" id="tfn_no" /></td>
+  </tr>
+  <tr>
+    <td>Bank Account BSB:</td>
+    <td><input name="bank_bsb" type="text" class="ipt" id="bank_bsb" /></td>
+  </tr>
+  <tr>
+    <td>Bank Account No.:</td>
+    <td><input name="bank_acc_no" type="text" class="ipt" id="bank_acc_no" /></td>
+  </tr>
+  <tr>
+    <td>Bank Account Name:</td>
+    <td><input name="bank_acc_name" type="text" class="ipt" id="bank_acc_name" /></td>
+  </tr>
+  <tr>
+    <td>Credit / Debit Card No.:</td>
+    <td><input name="card_no" type="text" class="ipt" id="card_no" /></td>
+  </tr>
+  <tr>
+    <td>Medicare Card No.:</td>
+    <td><input name="medicare_no" type="text" class="ipt" id="medicare_no" /></td>
+  </tr>
+  <tr>
+    <td>Student Card No.:</td>
+    <td><input name="student_no" type="text" class="ipt" id="student_no" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><input type="hidden" name="shop_manager" id="shop_manager" value="<?php echo $this->shopManager;?>" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left" style="font-size:13px;">* Please Make Sure You Double Checked All Information Correct <br />
+      * You are required to privide documents to proof you are legally permitted to work in Australia<br />
+      * <b>For the maximum protection of your sensitive personal information, the information you provided will be stored after encryption, access by authorized person in a password protection page.You will not able to change it by yourself again.Again,please make sure all information are correct.<br />
+      * If you can not provide identification documents and optional information on the day of registration, Manager is request to call head office with in 7 days to provide them.
+      </b></td>
+    </tr>
+  <tr>
+    <td colspan="2" align="center" bgcolor="#CCCCCC"><strong>Staff Identification Documents , Must Be Filled In By Manager, <br />
+      Not Staff him/her Self<br />
+      ******************************************************************************************
+          <br />
+    The Original Document Must Be Present While Filling Information<br />
+    You will Still Request to Provide Physical Copy Of All Necessary Documetns<br />
+    ******************************************************************************************    </strong></td>
+    </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Passport No.*:</td>
+    <td bgcolor="#CCCCCC"><input name="passport_no" type="text" class="ipt" id="passport_no" /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Driver's License No.*:</td>
+    <td bgcolor="#CCCCCC"><input name="driver_license" type="text" class="ipt" id="driver_license" /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Visa Type*:</td>
+    <td bgcolor="#CCCCCC"><select name="visa_type" id="visa_type">
+      <option value="International Student">International Student</option>
+      <option value="Working Holiday">Working Holiday</option>
+      <option value="Permanent Residency">Permanent Residency</option>
+      <option value="Australian Citizen Ship">Australian Citizen Ship</option>
+      <option value="New Zealand Citien Ship">New Zealand Citizen Ship</option>
+      <option value="Temporary Residency">Temporary Residency</option>
+      <option value="Bridging Visa">Bridging Visa</option>
+      <option value="Other">Other Visa With Work Permit</option>
+    </select></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Visa Expire Date*:<br />
+      <span style="font-size:12px;">[Write &quot;Permanent&quot; if there is no expire date]</span></td>
+    <td bgcolor="#CCCCCC"><input name="visa_date" type="text" class="ipt" id="visa_date" /></td>
+  </tr>   
+    
+  <tr>
+    <td colspan="2" align="center"><br />
+      <br /><input type="submit" name="btn_submit" id="btn_submit" value="Proceed To Setup Password  &gt; &gt;" /></td>
+  </tr>
+</table>
+ </form>
+<?php }?> 
+</body>
+</html>

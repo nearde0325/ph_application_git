@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+.btn-danger {
+
+    background-color: #DA4F49;
+    background-image: -moz-linear-gradient(center top , #FA603D, #F1360A);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+	width:185px;
+}
+.alert-info {
+    background-color: #E9F8FF !important;
+    border: 1px solid #75C7D3 !important;
+    color: #3D7F89 !important;
+	overflow:auto;
+	margin-bottom:3px;
+	width:200px;
+	font-family:Arial, Helvetica, sans-serif
+	
+}
+.alert-info2 {
+    background-color: #E9F8FF !important;
+    border: 1px solid #75C7D3 !important;
+    color: #3D7F89 !important;
+	height:25px;
+	width:200px;
+	font-family:Arial, Helvetica, sans-serif
+	
+}
+</style>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<div>
+We thanks your voice!!
+<br />
+<form id="form1" name="form1" method="post" action="/customer/save-staff/shop/<?php echo $this->shopHead?>">
+<input type="hidden" name="inq_id" value="<?php echo $this->idInq?>" / >
+<input name="password" type="password" />
+<br />
+  <input type="submit" name="button" id="button" value="Submit " class="btn-danger" />
+</form>
+
+<div class="alert-info" >
+  Please enter your attendance password to  return </div>
+</div>
+</body>
+</html>

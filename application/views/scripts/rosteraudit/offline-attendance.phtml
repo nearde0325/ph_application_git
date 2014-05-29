@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1>Will Insert </h1>
+<table width="1000" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <td>No</td>
+    <td>Shop</td>
+    <td>Invoice</td>
+    <td>Date</td>
+    <td>Time</td>
+    <td>Staff</td>
+    <td>Remark</td>
+    <td>On/Off</td>
+    <td>ID</td>
+  </tr>
+  <?php foreach($this->arrInsert as $k => $v){?>
+  <tr>
+    <td><?php echo $k + 1;?></td>
+    <td><?php echo $v[0]?></td>
+<td><?php echo $v[1]?></td>
+<td><?php echo $v[2]?></td>
+<td><?php echo $v[3]?></td>
+<td><?php echo $v[4]?></td>
+<td><?php echo $v[7]?></td>
+<td><?php echo $v[5]?></td>
+<td><?php echo $v[6]?></td>
+  </tr>
+  <?php }?>
+</table>
+<p>&nbsp;</p>
+
+<h1>Can Not Find </h1>
+<form action="" method="post">
+<table width="1000" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <td>No</td>
+    <td>Shop</td>
+    <td>Invoice</td>
+    <td>Date</td>
+    <td>Time</td>
+    <td>Staff</td>
+    <td>Remark</td>
+    <td>On/Off</td>
+    <td>ID</td>
+    <td>OK</td>
+  </tr>
+  <?php foreach($this->arrCanNot as $k => $v){?>
+  <tr>
+    <td><?php echo $k + 1;?></td>
+    <td><?php echo $v[0]?><input name="shop[<?php echo $k;?>]" type="hidden" value="<?php echo $v[0]?>" /></td>
+<td><?php echo $v[1]?></td>
+<td><?php echo $v[2]?><input name="date[<?php echo $k;?>]" type="hidden" value="<?php echo $v[2]?>" /></td>
+<td><?php echo $v[3]?><input name="time[<?php echo $k;?>]" type="hidden" value="<?php echo $v[3]?>:00" /></td>
+<td><?php echo $v[4]?></td>
+<td><?php echo $v[7]?></td>
+<td><?php echo $v[5]?>
+  <input name="on_off[<?php echo $k;?>]" type="hidden" value="<?php echo $v[5]?>" /></td>
+<td><input type="text" style="width:50px" name="id[<?php echo $k;?>]" value="<?php echo $v[6]?>"></td>
+<td><input type="checkbox" name="is_select[<?php echo $k;?>]" id="is_select_<?php echo $k;?>" /></td>
+  </tr>
+  <?php }?>
+</table>
+<input name="" type="submit" value="Submit" />
+</form>
+<p>&nbsp;</p>
+</body>
+</html>

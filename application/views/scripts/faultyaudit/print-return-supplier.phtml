@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+<!--
+.Table1px {}{
+  border-collapse:collapse;
+  border: none;
+  background: #FFFFFF;
+  table-layout:fixed;
+}
+.Table1px th {}{
+  border: solid 1px #000000;
+}
+.Table1px td {}{
+  border: solid 1px #000000;
+}
+-->
+</style>
+<script language="javascript">
+function toggle(source) {
+  checkboxes = document.getElementsByName('arr_action[]');
+  for(var i in checkboxes)
+    checkboxes[i].checked = source.checked;
+}
+</script>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+<?php
+$supplier = new Model_DbTable_Suppliers();
+$spList = $supplier->listLocalSuppliers();
+
+$fc = new Model_DbTable_Faultyproduct();
+
+
+?>
+<h1>Return To Supplier Product List </h1>
+1) Select Product By Supplier:
+ALL | 
+<?php 
+foreach($spList as $k3 => $v3){	
+?>
+<a href="/faultyaudit/print-return-supplier?spid=<?=$v3["id_supplier"]?>"><?=$v3["short_title"]?>(
+<?php 
+$fccounts = $fc->countListStatusBySupplier(4,$v3["id_supplier"]);
+//var_dump($fccounts);
+echo $fccounts[0]["count('id_faulty')"];
+?>
+)</a>
+<?php 
+}
+ ?>
+
+<br />
+<br/>
+<form action="/faultyaudit/save-return-supplier" method="post">
+
+<table width="800" border="1" cellspacing="0" cellpadding="5" class="Table1px">
+  <tr>
+        <td><input type="checkbox" onClick="toggle(this)" />
+    All / None</td>
+    <td style="width:100px;">Barcode</td>
+    <td >Name</td>
+    <td style="width:100px;">Qty </td>
+    <td style="width:100px;">Date</td>
+
+  </tr>
+<?php
+$counts = 0;
+foreach($this->supplierList as $k => $v){
+?>  
+  <tr>
+      <td><input name="arr_action[]" type="checkbox" value="<?=$v["id_faulty"]?>"  checked="checked" /> #<?=$v["id_faulty"]?> </td>
+    <td><?=$v["product_code_faulty"]?></td>
+    <td><?=$v["product_name_faulty"]?></td>
+    <td>x <?=$v["faulty_qty"]?> Pcs
+    <?php
+    $counts += $v["faulty_qty"];
+	?>
+    </td>
+    <td><?=$v["audit_date"]?></td>
+
+  </tr>
+<?php
+}
+?>
+  <tr>
+        <td><input type="checkbox" onClick="toggle(this)" />
+    All / None</td>
+    <td style="width:100px;">Barcode</td>
+    <td >Name</td>
+    <td style="width:100px;">Qty </td>
+    <td style="width:100px;">Date</td>
+
+  </tr>
+</table>
+<br />
+<br/>
+2) Choose Supplier, You may Only Choose One Supplier at a time<br />
+<br /><br />
+<br />
+3)Confirm and Print Summary
+<br />
+<br />
+Auditor Name :
+<input name="staff_name" type="text" id="staff_name" value="Flora" />
+<br />
+<br />
+<input name="go" type="submit" value="Confirm Take Action" id="go" />
+</form>
+</body>
+</html>

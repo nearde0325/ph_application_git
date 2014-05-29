@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>BarCode List</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<H1>Barcode List For Category:<?php echo $this->idCate?></H1>
+<table width="600" border="0" cellspacing="0" cellpadding="3">
+  <tr>
+    <td style="width:300; height:30px;">BarCode</td>
+    <td>Description</td>
+  </tr>
+<?php
+$counter = 0;
+$rStock = new Model_DbTable_Pr_Prstock();
+
+foreach($this->plist as $key => $value){
+$stockRow = $rStock->getStock($value['id_product']);
+$shop1Stock = $stockRow['stock_sp1'];
+//if($shop1Stock>0){
+?>
+
+  <tr>
+    <td style="width:300; height:30px;">
+    <img src="/prcode/barcode-gd.php?sno=<?php echo $value['code_product']?>" height="20" />
+    </td>
+    <td style="font-size:12px;">[<?php echo $value['code_product']?>]<?php echo $value['title_product']?></td>
+  </tr>
+
+<?php
+//}
+}
+?>
+</table>
+</body>
+</html>

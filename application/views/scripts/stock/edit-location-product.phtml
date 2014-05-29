@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+
+<form id="form1" name="form1" method="post" action="">
+  <label for="code_location">Input Location: </label>
+  <input type="text" name="code_location" id="code_location" />
+  <input type="submit" name="btn_go" id="btn_go" value="Go" />
+</form>
+<br />
+<br />
+<table width="750" border="1" cellspacing="0" cellpadding="15">
+  <tr>
+    <th colspan="2" scope="col">In This Location Code/Box Number : </th>
+    <th colspan="3" scope="col"><span style="font-size:30px;"><?php echo $this->location;?></span></th>
+  </tr>
+  <tr>
+    <td align="left">Barcode </td>
+    <td style="width:350px;"> Description </td>
+    <td align="center">Wh Stock</td>
+    <td align="center">Type</td>
+    <td align="center">Action</td>
+  </tr>
+<?php foreach($this->pList as $key => $v){?>  
+  <tr>
+    <td><?php echo $v['code_product']?></td>
+    <td><?php echo $v['des']?></td>
+    <td><?php echo $v['sk']?></td>
+    <td><?php echo $v['type_location']?></td>
+    <td align="center">
+    <?php
+    echo " <a href=\"/stock/remove-product-location/org/elp/barcode/{$v['code_product']}/location/{$this->location}\" onclick=\"return confirm('Are You Sure To Remove {$v['code_product']} Form Location : {$this->location} ?')\" ><img src=\"/im/remove16.jpg\" width=\"16\" height=\"16\" border=\"0\" /></a>";
+	?>
+    </td>
+  </tr>
+<?php }?>  
+</table>
+<h2><img src="/im/add30.jpg" alt="" width="32" height="32" /> Add Into This Location / Box Number</h2>
+<form method="post" action="/stock/add-location/org/elp">
+<input name="location_code" type= "hidden" id="location_code" value="<?php echo $this->location;?>">
+<table width="750" border="1" cellspacing="0" cellpadding="15">
+  <tr>
+    <th align="left" scope="col"><input type="radio" name="type_location" id="radio" value="PL" />
+    Pickup Location</th>
+    <th align="left" scope="col"><input type="radio" name="type_location" id="radio2" value="BKL" />
+    Bulk Location</th>
+    <th align="left" scope="col"><input type="radio" name="type_location" id="radio3" value="BN" />
+    Box Number</th>
+  </tr>
+  <tr>
+    <td colspan="3" align="left"><label for="barcodes"></label>
+    <textarea name="barcodes" cols="90" rows="5" id="barcodes"></textarea></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="left"><input type="submit" name="btn_add" id="btn_add" value="Add Into This Location" /></td>
+  </tr>
+</table>
+</form>
+<p>&nbsp;</p>
+</body>
+</html>

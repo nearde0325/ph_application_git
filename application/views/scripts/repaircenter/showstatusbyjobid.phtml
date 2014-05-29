@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/css/template.css" rel="stylesheet" type="text/css" />
+<title>Show Phone Repair Status For Shop</title>
+
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script language="javascript">
+function removeAtt(id){
+	document.getElementById(id).removeAttribute("style");
+	}
+</script>
+</head>
+<?php
+$insstr1 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#FFFF00; border-style:solid; border-width:1px;">A</td>
+    <td>Waiting For HQ Pick Up</td>
+  </tr>
+</table>
+';
+$insstr2 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#00B0F0; border-style:solid; border-width:1px;">B</td>
+    <td>In Transit (Shop to HQ)</td>
+  </tr>
+</table>
+';
+$insstr3 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#FFC000; border-style:solid; border-width:1px;">C</td>
+    <td>Before Quote</td>
+  </tr>
+</table>
+';
+$insstr4 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#92D050; border-style:solid; border-width:1px;">D</td>
+    <td>After Quote</td>  
+  </tr>
+</table>
+';
+$insstr5 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#E6B8B7; border-style:solid; border-width:1px;">E</td>
+    <td>Phone Fixed / Phone Can\'t Fix</td>
+  </tr>
+</table>
+';
+$insstr6 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#00B0F0; border-style:solid; border-width:1px;">F</td>
+    <td>In Transit (HQ to Shop)</td>
+  </tr>
+</table>
+';
+$insstr7 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#BFBFBF; border-style:solid; border-width:1px;">G</td>
+    <td>In Store, Waiting Customer Pickup</td>
+  </tr>
+</table>
+';
+$insstr8 = '
+<table width="230" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:16px; border-color:#333; background-color:#FFFFFF; border-style:solid; border-width:1px;">H</td>
+    <td>Pick Up, Case Closed.</td>  
+  </tr>
+</table>
+';
+
+?>
+
+<body>
+<script>
+	$(function() {
+		$( ".date_borrowed" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+	});
+	</script>
+<H1><?php echo $this->shophead;?>  | <a href="/repaircenter/mainpage/shop/<?php echo $this->shophead;?> ">Back to Main Page</a></H1>
+<?php
+
+$rCenterMapping = $this->rCenterMapping;
+$shopHead = $this->shophead;
+$idShop = $rCenterMapping[$shopHead];
+
+		//if($this->shophead == "PMIC"){$idShop = 15;}
+		
+if(strtolower(trim($_POST['id_job']))=="parts"){
+?>
+<a href="/repairparts/parts-record-with-borrow/shophead/<?php echo $this->shophead?>/shop/<?php echo $idShop;?>/jobid/<?php echo $_POST['id_job'];?>"><h2>Parts Sale Click Here :</h2></a>
+<?php
+}
+?>
+<hr>
+
+<table width="1000"  cellspacing="0" cellpadding="1" style="border:#06C solid 1px;">
+  <tr>
+    <td style="width:150px;" class="thetbheader">Job ID</td>
+    <td style="width:180px;" class="thetbheader">Mobile</td>
+    <td style="width:180px;" class="thetbheader">Customer Contacts</td>
+    <td colspan="2" align="center" style="width:240px;" class="thetbheader">Status</td>
+    <td class="thetbheader" style="width:80px;" >Repair By</td>
+    <td class="thetbheader" style="width:80px;" ><span class="thetbheader" style="width:80px;">Last Update</span></td>
+    <td colspan="7" align="center" valign="middle" class="thetbheader">Actions</td>
+  </tr>
+<?php 
+$lastStatusList = new Model_DbTable_Repairstatusrecord();
+if(empty($this->searchresult)){
+?>
+<tr>
+	<td colspan="14"> No record at the moment</td>
+</tr>
+<?php	
+	}
+else{
+$counter = 0;		
+foreach($this->searchresult as $k=>$v){
+$theLastStatus = $lastStatusList->getLastStatus($v['id_job']);
+if($theLastStatus[0]['id_status'] == $v['id_status'] and $theLastStatus[0]['time_record'] == $v['time_record'] ){	
+?>
+  <tr
+  <?php 
+  if($counter%2 ==1 ){ 
+  echo 'class="thelineback"';
+  }
+  $counter++;
+  ?>
+  >
+    <td><?php echo $v['id_job'];?><a href="/repaircenter/viewdetail/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank" ><img src="/css/details.gif" /></a></td>
+    <td><?php echo $v['mobile_brand']." ".$v['mobile_model']; ?></td>
+    <td><?php echo $v['customer_name'];?><a href="/repaircenter/viewdetail/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank"><img src="/css/details.gif" /></a> <a href="/repairjob/<?php echo $this->shophead; ?>/<?php echo $v['id_job'];?>.html" style="font-size:12px;" target="_blank"><img src="/im/icon_print.gif" /></a></td>
+    <td style="width:230px;">	
+	[<?php echo $v['id_status'];?>]
+    <?php
+    $newStatus = new Model_DbTable_Jobstatus();
+	echo $newStatus->getStatusDes($v['id_status']);
+	?>	
+    <?php
+	if($v['id_status'] == 1 or $v['id_status'] == 3 or $v['id_status'] == 5 or $v['id_status'] == 7  ){ echo $insstr1;}
+	if($v['id_status'] == 8 or $v['id_status'] == 9 ){ echo $insstr2;}
+	if($v['id_status'] == 12 or $v['id_status'] == 14 or $v['id_status'] == 16 ){ echo $insstr3;}
+	if($v['id_status'] == 18 or $v['id_status'] == 20 or $v['id_status'] == 22 or $v['id_status'] == 24  ){ echo $insstr4;}
+	if($v['id_status'] == 23 or $v['id_status'] == 25 or $v['id_status'] == 29 ){ echo $insstr5;}
+	if($v['id_status'] == 26 or $v['id_status'] == 27 ){ echo $insstr6;}
+	if($v['id_status'] == 28 or $v['id_status'] == 30 ){ echo $insstr7;}
+	if($v['id_status'] == 80 or $v['id_status'] == 90 ){ echo $insstr8;}
+	?>
+ 
+    </td>
+    <td style="width:10px;"><a href="/repaircenter/viewhistory/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank"><img src="/css/details.gif" /></a></td>
+    <td align="center"> <?php  if($v['repair_staff'] == 0 || $v['repair_staff'] == null ){ ?>
+	<a href="/repaircenter/add-repair-staff/jobid/<?php echo $v['id_job'];?>" target="_blank" > Add Repair Staff </a>
+   <?php }
+   else{
+	$sDetail = new Model_DbTable_Roster_Stafflogindetail();
+	$stLine = $sDetail->getDetail($v['repair_staff']);
+	echo ucwords($stLine["ni"]);
+	  }
+    ?></td>
+    <td align="center"><?php echo $v['time_record'];?></td>
+    <td align="center" valign="middle">
+	<?php if($v['id_status']<80){?>
+    <a href="/repaircenter/changestatusshop/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;" target="_blank"><img src="/css/edit.gif" />
+Status</a>
+<?php } ?>
+</td>
+    <td align="center" valign="middle">
+<?php if($v['id_status']<80){?>
+    <a href="/repaircenter/changequote/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;"  target="_blank" ><img src="/css/edit.gif" />
+Quote</a>
+<?php } ?>
+</td>
+    <td align="center" valign="middle">
+ <?php if($v['id_status']<80){?>   
+    <a href="/repaircenter/updateinvoice/jobid/<?php echo $v['id_job'];?>" style="font-size:12px;"  target="_blank"><img src="/css/edit.gif" />
+Invoice</a>
+<?php } ?>
+
+</td>
+    <td align="center" valign="middle">
+ <?php if($v['id_status']<80){?>       
+	<?php
+  if($idShop!=99){
+	?>
+      <a href="/repairparts/parts-record-with-borrow/shophead/<?php echo $this->shophead?>/shop/<?php echo $idShop;?>/jobid/<?php echo $v['id_job'];?>">
+      Parts<br />
+      Record</a>
+      <?php }
+ }
+	  ?>
+      <?php if($v['id_status'] >=80){?>
+      <a href="/repaircenter/re-open-job-warranty/jobid/<?php echo $v['id_job'];?>" target="_blank" >ReOpen For Warranty</a>
+<?php }?>
+      </td>
+  </tr>
+   <tr>
+    <td colspan="1" style="height:30px;">Part(s) Record On:<br />
+    <?php
+    $rStock = new Model_DbTable_Pr_Prstockmovement();
+	$tmprows = $rStock->getPartsRecordByJobId($v['id_job']);
+	if(isset($tmprows) && count($tmprows) > 0){
+		//var_dump($tmprows);
+		echo $tmprows[0]['date_move'];
+		}
+	else{
+		echo "NoRecord";
+		}	
+	?>
+    </td>
+    <td colspan="11">
+    <?php
+	$rProducts = new Model_DbTable_Pr_Prproducts();
+		$rBorrow = new Model_DbTable_Pr_Loan();
+		
+	
+ 	if(isset($tmprows) && count($tmprows) > 0){
+		//var_dump($tmprows);
+		foreach($tmprows as $key => $value){
+			
+			$rowProduct = $rProducts->getProduct($value['id_product']);
+			echo "[".$rowProduct['code_product']."] ".$rowProduct['title_product']." ";
+			if($value['code_move'] == 2){
+				echo "x ";
+				}
+			elseif($value['code_move'] == 7){
+				echo "x -";
+				}	
+			if($idShop!=20){
+				echo $value['qty_product'];
+				
+				$bLine = $rBorrow->getByStMoveCode($value['id_move']);
+			
+			if($bLine){
+				
+				echo " Borw Code :[{$bLine['b_code']}] ";
+				
+				echo ($bLine['confirmed'])?"<span style=\"color:#0f0;\" title = \"Borrow Action Confirmed By Other Party,Stock Has Been Adjusted\">Confirmed</span>":"<span style=\"color:#f00;\" title = \"Borrow Action Hasn't Been Confirmed By Other Party,Stock Has Not Been Adjusted YET\" >Not Confirm Yet</span>";
+				
+				}
+			echo "<br />";	
+				
+				
+				
+			}
+			else{
+				echo $value['qty_product']."  ";
+				?>
+                <?php
+				//if borrow code alloced to this job 
+                
+				
+				?>
+                  <a href="#" style=" border: #900 1px solid; background:#600; color:#FF0;" onclick="javascript:removeAtt(<?php echo $value['id_move'];?><?php echo $value['id_product']; ?>);return false;">I NEED TO BORROW THIS</a><br /><br />
+
+                  <div id="<?php echo $value['id_move'];?><?php echo $value['id_product']; ?>" style="display:none;"><form target="_blank" action="/repaircenter/sa-borrow" >
+           <input type="hidden" name="id_product" value="<?php echo $value['id_product']; ?>" />
+           <input type="hidden" name="code_product" value="<?php echo $rowProduct['code_product']; ?>" />
+           <input type="hidden" name="id_stockmove" value="<?php echo $value['id_move'];?>" />
+           <input type="hidden" name="id_job" value="<?php echo $v['id_job']; ?>" />
+           <input type="hidden" name="shop_to" value="<?php echo $idShop; ?>" />
+  Borrow From : <select name="shop_from">
+		  <optgroup label="Technician">
+                <option value="20" >LU</option>
+                <option value="3" >STEVEN</option>
+          </optgroup>
+           <optgroup label="Other Shop">
+                <option value="17" >ADPC</option> 
+                <option value="1" >Bayside Shops</option> 
+                <option value="18" >BBPC</option>               
+                <option value="4" >BHPC</option>
+                <option value="6" >CBPC</option>
+                <option value="19" >CL Shops</option> 
+                <option value="2" >CSIC</option>
+                <option value="11" >DCIC</option>
+                <option value="8" >EPPC</option>
+                <option value="14" >FGIC</option> 
+                <option value="5" >HPIC</option>
+    		    <option value="12" >KCPC</option>
+                <option value="10" >NLPC</option>
+                <option value="15" >PMIC</option> 
+                <option value="13" >SLIC</option>
+                <option value="9" >WB Shops</option>
+                <option value="16" >WG Shops</option> 
+                <option value="7" >WLIC</option>   
+           </optgroup>                   
+  				</select>  
+  On Date:     <input name="date_borrowed" type="text" id="date_borrowed<?php echo $value['id_move'];?>" class="date_borrowed"/> Qty : <input name="qty_borrowed" type="text" id="qty_borrowed" style="width:30px;" value="<?php echo $value['qty_product'];?>" />                        
+   , Your Attendance Password: 
+   <input name="staff_pass" type="password" />
+                  <input type="submit" name="button" id="button" value="Borrow Confirmed" /></form>
+                  </div>
+                <?php
+				}
+			}	
+		}   
+	?>
+    </td>
+  </tr> 
+  <tr>
+  <td colspan="1" style="height:40px;">
+  Comment<br />
+  [<?php echo $v['id_job'];?>]:
+  </td>  
+  <td colspan="11" style="border:#666 1px solid;">
+  <?php
+  		$commentRecords = new Model_DbTable_Jobcomments();
+		$commentList = $commentRecords->listCommentByJobID($v['id_job']);	
+  if(isset($commentList)){
+	  foreach($commentList as $k1 =>$v1){
+	?>	  
+		  Comment by [<?php echo $v1['staffname_repair_comt']?>] on <?php echo $v1['date_repair_comt']?>,<?php echo $v1['time_repair_comt']?> <br /><div style=" border:#666 1px solid;"><?php echo $v1['content_repair_comt']?></div>
+	<?php	  
+		  }	  
+	  } 
+  ?>
+  </td>
+  </tr>
+
+<?php
+}
+}
+}
+?>
+</table>
+<p><br />
+</p>
+</body>
+</html>

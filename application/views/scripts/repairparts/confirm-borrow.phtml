@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<?php 
+$rPro = new Model_DbTable_Pr_Prproducts();
+ $arrRepairShops = array(
+ 	1 => 'Bayside Shops',
+	2 => 'CSIC',
+	3 => 'Steven[Tech]',
+	4 => 'BHPC',
+	5 => 'HPIC',
+	6 => 'CBPC',
+	7 => 'WLIC',
+	8 => 'EPPC',
+	9 => 'WB Shops',
+	10 => 'NLPC',
+	11 => 'DCIC',
+	12 => 'KCPC',
+	13 => 'SLIC',
+	14 => 'FGIC',
+	15 => 'PMIC',
+	16 => 'WG Shops',
+	17 => 'ADPC',
+	18 => 'BBPC',
+	19 => 'CL Shops',
+	20 => 'LU [Tech]'
+ 	);
+	?>
+    
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<h1>Borrow Parts Confirm Slip</h1>
+<form id="form1" name="form1" method="post" action="">
+<table width="600" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <td align="center">Borrow Code :<strong><?php echo $this->borrowLine['b_code'];?></strong></td>
+    <td align="center">JobID:<strong><?php echo $this->borrowLine['id_job'];?></strong></td>
+  </tr>
+  <tr>
+    <td>From:<strong><?php echo $arrRepairShops[$this->borrowLine['shop_from']];?></strong></td>
+    <td>To:<strong><?php echo $arrRepairShops[$this->borrowLine['shop_to']];?></strong></td>
+  </tr>
+  <tr>
+    <td>Borrow Date: <strong><?php echo $this->borrowLine['date_loan'];?></strong></td>
+    <td>Borrow Time:<strong><?php echo $this->borrowLine['time_record'];?></strong></td>
+  </tr>
+  <tr>
+    <td>Parts:<strong><?php echo $this->borrowLine['code_product'];?></strong></td>
+    <td>Qty:<strong><?php echo $this->borrowLine['qty_product'];?></strong> pcs</td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong><?php echo $this->rpLine['title_product'];?></strong></td>
+  </tr>
+  <tr>
+    <td>Borrowed By</td>
+    <td>Confirm Your Password </td>
+  </tr>
+  <tr>
+    <td><strong><?php echo $this->stLine['ni'];?></strong> (Creator)</td>
+    <td>
+    
+    <input type="password" name="pwd" id="pwd" <?php echo ($this->borrowLine['confirmed'])?'disabled="disabled"':''; ?> />
+    
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <input type="submit" name="button" id="button" value="Confirm Borrow Status" <?php echo ($this->borrowLine['confirmed'])?'disabled="disabled"':''; ?> />
+      <br />
+      <?php echo ($this->borrowLine['confirmed'])?'The Code Already Been Confirmed, No need to Confirm Again':''; ?></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><p style="font-size:12px;"><strong>Only After</strong> You Confirm the Status<br />
+      Your Shop (&quot;Form Shop&quot;)Stock For this Part will Deduct<br />
+      (&quot;To Shop&quot;) Stock Will Increase
+      <br />
+    </p></td>
+    </tr>
+</table>
+    </form>
+</body>
+</html>

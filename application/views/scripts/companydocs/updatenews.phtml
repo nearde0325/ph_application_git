@@ -1,0 +1,101 @@
+<?php    
+header("Expires: Mon, 26 Jul 1970 05:00:00 GMT");      
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");      
+header("Cache-Control: no-cache, must-revalidate");      
+header("Pragma: no-cache");    
+?> 
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="refresh" content="60">
+<title>Upate News</title>
+<style type="text/css">
+.title{ color:#018; font-weight:bold;}
+.today{ color:#F60; font-weight:bold; text-decoration:none;}
+.notoday{ color:#666; text-decoration:none;}
+</style>
+</head>
+<?php 
+$dateToday = Model_DatetimeHelper::dateToday();
+
+?>
+<body leftmargin="0" topmargin="0" style="font-family:Arial, Helvetica, sans-serif; font-size:13px; line-height:18px;">
+<span class="title">Update This week:</span> <br />
+<?php
+$newsType = "";
+$link = "";
+$class = "notoday";
+
+foreach($this->newslist as $key => $value){
+
+if($value['id_type']==1){
+	$newsType = "[Announces ]";
+	$link = "anno";
+	}
+if($value['id_type']==2){
+	
+	if($value['id_sub_type'] == 1){
+		$newsType = "[New Products ]";
+		}
+		if($value['id_sub_type'] == 2){
+			$newsType = "[Product Information ]";
+		}		
+		if($value['id_sub_type'] == 3){
+			$newsType = "[Price Change ]";
+		}		
+
+		if($value['id_sub_type'] == 4){
+			$newsType = "[Description Change ]";
+		}
+	$link = "newsletter";
+	}
+if($value['id_type']==3){
+	$newsType = "[Promotions]";
+	$link = "promotions";
+	}
+if($value['id_type']==5){
+	$newsType = "[Repair Parts]";
+	$link = "http://115.64.171.97:1080/repaircenter/parts-price";
+	}
+	
+//new
+if($value['id_type']==6){
+	$newsType = "[New Documents]";
+	$link = "http://115.64.171.97:1080/companydocs/listdocs";
+}
+	
+if($value['date_update'] == $dateToday ){
+		$class="today";
+	}
+else{
+		$class = "notoday";
+	}			
+
+if($value['id_type']<5){
+?>
+[<?php echo $value['date_update']?>]<?php echo $newsType?>:<a href="http://115.64.171.97:1080/companydocs/<?php echo $link?>" target="_blank" class="<?php echo $class?>"><?php echo $value['title_update']?></a>
+<?
+}
+else {
+?>
+[<?php echo $value['date_update']?>]<?php echo $newsType?>:<a href="<?php echo $link?>" target="_blank" class="<?php echo $class?>"><?php echo $value['title_update']?></a>
+<?	
+	}
+?>
+<?php 
+$dateToCheck = new DateTime($value['date_update']);
+$dateTimeToday = new DateTime($dateToday);
+$res = date_diff($dateTimeToday,$dateToCheck);
+$rest = $res->format("%a");
+if($rest <= 7){ ?>
+ <img src="/im/new_icon.gif" width="28" height="9" />
+<?php }?>
+<br />
+<?php
+}
+?>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<span style="font-size:28px;">
+DO NOT LEAVE THIS PAGE, IT WILL NOT SAVE<br />
+
+<br />
+SCAN ONLY CUSTOMER RETURNED PARTS</span>
+
+<form id="form1" name="form1" method="post" action="">
+
+ 
+    <input type="text" name="id_job" id="id_job" style="width:500px; font-size:28px;" />
+ 
+    <input name="str_jobid" type="hidden" value="<?php echo $this->strJobID?>" />
+    <br />
+  </p>
+</form>
+
+
+    <script language="javascript">
+    document.getElementById('id_job').focus(); 
+    </script>    <br />
+<br />
+
+
+<table width="1200" border="1" cellspacing="0" cellpadding="0" style="font-size:13px;">
+  <tr>
+    <th scope="col">Count</th>
+    <th scope="col">Job</th>
+    <th scope="col">Shop</th>
+    <th scope="col">Phone</th>
+    <th scope="col">Color</th>
+    <th scope="col">Parts Record</th>
+    <th scope="col">Is Correct</th>
+    <th scope="col">Comment</th>
+  </tr>
+  <?php 
+  $rJob = new Model_DbTable_Repairjob();
+  $rRecord = new Model_DbTable_Pr_Prstockmovement();
+  $rPro = new Model_DbTable_Pr_Prproducts();
+  
+  
+  $arrIdJob = $this->arrIdJob;
+  $arrIdJob = array_reverse($arrIdJob,true);
+  foreach($arrIdJob as $key => $v){
+  	$rLine = $rJob->getJob($v);
+  	$rRLine = $rRecord->getPartsRecordByJobId($v);
+  ?>
+  <tr>
+    <td><?php echo $key + 1;?></td>
+    <td><?php echo $v?></td>
+    <td>
+    <?php 
+		echo $rLine["shop_code"];
+    ?>
+    </td>
+    <td>
+        <?php 
+		echo $rLine["mobile_brand"]." ";
+		echo $rLine["mobile_model"]." ";
+    ?>
+    </td>
+    <td>    <?php 
+		echo $rLine["mobile_color"];
+    ?></td>
+    <td>
+    <?php 
+		foreach($rRLine as $k2 =>$v2){
+			$id = $v2["id_product"];
+			$rPline = $rPro->getProduct($id);
+			echo "[ {$rPline['code_product']} ] {$rPline['title_product']} X {$v2['qty_product']} Pcs <br />" ;
+		}
+    ?>
+    </td>
+    <td><?php 
+		
+		switch($rLine["cust_part_correct"]){
+			case(1):{echo "YES";break;}
+			case(2):{echo "NO";break;}
+			default:{echo "Please Decide";break;}
+			}
+    ?></td>
+    <td><?php 
+		echo $rLine["cust_part_comm"];
+    ?></td>
+  </tr>
+  <?php }?>
+</table>
+
+
+
+</body>
+
+</html>

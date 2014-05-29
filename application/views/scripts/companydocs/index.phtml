@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<META name="robots" content="NOINDEX,NOFOLLOW" />
+<META name="googlebot" content="NOARCHIVE, NOODP, NOSNIPPET" />
+
+<title>Untitled Document</title>
+<style type="text/css">
+#a { text-decoration:none;}
+</style>
+</head>
+<body style="font:12px Arial;">
+<?php
+
+if(isset($_POST['password']) && $_POST['password']=="calico"){
+
+?>
+<table width="600" border="0" cellspacing="0" cellpadding="10">
+  <tr>
+    <td><a href="/companydocs/upload-news" target="_blank">1.Upload News : Announce/Notice , News Letter, Promotion</a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><a href="/companydocs/active-news" target="_blank">2. Active News : After Upload , Active it so it show in the News Flash</a></td>
+    <td>&nbsp;</td>
+  </tr>
+   <tr>
+    <td><a href="/companydocs/manage-news" target="_blank">2. Manage News(Delete Errors)</a></td>
+    <td>&nbsp;</td>
+  </tr> 
+  
+  <tr>
+    <td><a href="/companydocs/document-category" target="_blank">3.Manage Company Documents and Document Categories</a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><a href="/companydocs/anno">4.Check Result Here </a></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<?php }
+else{
+?>
+<form action="" method="post">
+password:
+<input name="password" type="text" />
+<input name="" type="submit" value="Submit" />
+
+</form>
+<?php }?>
+</body>
+</html>

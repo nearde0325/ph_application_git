@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+	});
+	</script>
+<form action="" method="post">     
+  Date Begin [yyyy-mm-dd]:
+    <input name="date_begin" id="date_begin" type="text" />  Date End:<input name="date_end" id="date_end" type="text" /> |  <input type="submit" name="button" id="button" value="Submit" />
+  </p>
+</form>
+
+<h2>Parts Used Summary Last Week/Select Date </h2>
+<table width="650" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+
+  </tr>
+<?php
+$oldDate = "";
+
+
+$rProducts = new Model_DbTable_Pr_Prproducts();
+$rMove = new Model_DbTable_Pr_Prstockmovement();
+$rejob = new  Model_DbTable_Repairjob();
+
+
+
+foreach($this->pUsed as $key => $v){
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF">
+	<?php 
+	if($v["date_move"]!=$oldDate)
+	{
+		$oldDate = $v["date_move"];
+		//echo $v["date_move"];
+	
+	}
+		
+	?>
+    </td>
+    <td bgcolor="#FFFFFF">	
+	<?php 
+	$row= $rProducts->getProduct($v["id_product"]);
+	echo $row["code_product"];
+	?>
+    </td>
+    <td bgcolor="#FFFFFF" style="font-size:11px;">
+    <?php
+    echo $row["title_product"]
+	?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php echo $v["ctp"]?></td>
+
+  </tr>
+<?php
+}
+?>  
+  
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+
+  </tr>
+</table>
+
+
+
+<h2>Parts Used DetailLast Week/Select Date </h2>
+<table width="950" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+    <td bgcolor="#FFFFFF" style="width:150px">Job ID</td>
+    <td bgcolor="#FFFFFF" style="width:150px">Invoice ID(s)</td>
+  </tr>
+<?php
+$oldDate = "";
+
+	$dateBegin = $this->dateBegin;
+	$dateEnd = $this->dateEnd;
+
+$arrDateList = Model_DatetimeHelper::createDateArray($dateBegin,$dateEnd);
+//var_dump($arrDateList);
+
+foreach($arrDateList as $key => $v){
+	$dailyList = $rMove->getStockMoveByDateByCode(2,$v,$v,$this->idShop);
+		foreach($dailyList as $k7 => $v7){
+			
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF">
+	<?php 
+	
+	if($v7["date_move"]!=$oldDate)
+	{
+		$oldDate = $v7["date_move"];
+		echo $v7["date_move"];
+	
+	}
+		
+	?>
+    </td>
+    <td bgcolor="#FFFFFF">	
+	<?php 
+	$row= $rProducts->getProduct($v7["id_product"]);
+	echo $row["code_product"];
+	?>
+    </td>
+    <td bgcolor="#FFFFFF" style="font-size:11px;">
+    <?php
+    echo $row["title_product"]
+	?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php echo $v7["ctp"]?></td>
+    <td colspan="2" bgcolor="#FFFFFF">
+      <?php
+
+		echo $v7["id_job"];
+		if(is_numeric($v7["id_job"])){
+		 $row = $rejob->getJob($v7["id_job"]);
+		 if($row){
+			 echo " [{$row['invoice_no']}][{$row['invoice_no2']}]";
+			 }
+		}
+		echo "<br />";		 			
+	?>
+    </td>
+  </tr>
+<?php
+		}
+}
+?>  
+  
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+    <td bgcolor="#FFFFFF" style="width:50px">&nbsp;</td>
+    <td bgcolor="#FFFFFF" style="width:50px">&nbsp;</td>
+  </tr>
+</table>
+<h2>Faulty Parts Record </h2>
+<table width="650" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+  </tr>
+<?php
+$oldDate = "";
+
+foreach($this->pFau as $key => $v){
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF">
+	<?php 
+	if($v["date_move"]!=$oldDate)
+	{
+		$oldDate = $v["date_move"];
+		//echo $v["date_move"];
+	
+	}
+		
+	?>
+    </td>
+    <td bgcolor="#FFFFFF">	
+	<?php 
+	$row= $rProducts->getProduct($v["id_product"]);
+	echo $row["code_product"];
+	?>
+    </td>
+    <td bgcolor="#FFFFFF" style="font-size:11px;">
+    <?php
+    echo $row["title_product"]
+	?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php echo $v["ctp"]?></td>
+  </tr>
+<?php
+}
+?>  
+  
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+  </tr>
+</table>
+
+<h2>Error Correction Record </h2>
+<table width="650" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+  </tr>
+<?php
+$oldDate = "";
+
+foreach($this->pErr as $key => $v){
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF">
+	<?php 
+	if($v["date_move"]!=$oldDate)
+	{
+		$oldDate = $v["date_move"];
+		//echo $v["date_move"];
+	
+	}
+		
+	?>
+    </td>
+    <td bgcolor="#FFFFFF">	
+	<?php 
+	$row= $rProducts->getProduct($v["id_product"]);
+	echo $row["code_product"];
+	?>
+    </td>
+    <td bgcolor="#FFFFFF" style="font-size:11px;">
+    <?php
+    echo $row["title_product"]
+	?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php echo $v["ctp"]?></td>
+  </tr>
+<?php
+}
+?>  
+  
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+  </tr>
+</table>
+
+
+
+</body>
+</html>

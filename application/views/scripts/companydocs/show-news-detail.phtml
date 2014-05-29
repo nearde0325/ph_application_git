@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<table width="700" border="0" cellspacing="0" cellpadding="10">
+  <tr>
+    <td><h1><?php echo $this->newsRow['title_news'];?><h1></td>
+  </tr>
+  <tr>
+    <td><?php echo $this->newsRow['content_news'];?> </td>
+  </tr>
+  <tr>
+    <td style="font-size:12px;"> Date:<?php echo $this->newsRow['date_news']; ?>  By :<?php echo $this->newsRow['staff_name']; ?> , <?php echo $this->newsRow['department']; ?></td>
+  </tr>
+  <tr>
+    <td style="font-size:12px;" >
+	<strong>Attachment(s):</strong><br />
+	<?php echo (empty($this->newsRow['attach_1_name']))?"":'Attachment 1: <a href="/docs/'.$this->newsRow['attach_1_name'].'" target="_blank">'.$this->newsRow['attach_1_name'].'</a>';?> <br />
+	<?php echo (empty($this->newsRow['attach_2_name']))?"":'Attachment 2: <a href="/docs/'.$this->newsRow['attach_2_name'].'" target="_blank">'.$this->newsRow['attach_2_name'].'</a>';?> <br />
+	<?php echo (empty($this->newsRow['attach_3_name']))?"":'Attachment 3: <a href="/docs/'.$this->newsRow['attach_1_name'].'" target="_blank">'.$this->newsRow['attach_3_name'].'</a>';?> <br />
+    
+    </td>
+  </tr>
+   <tr>
+    <td><form method="post">
+    <input name="id_staff" type="hidden" value="<?php echo $this->idStaff; ?>" />
+    <input name="id_news" type="hidden" value="<?php echo $this->idNews; ?>" />
+    <input name="submit" type="submit" value="I have read this news and it does make sense to me" />
+    </form>
+     <br /><br />
+     <span style="font-size:11px;">Should you have any questions regarding this article / toturial / news / announcement,please contact head office for help</span> </td>
+  </tr>  
+</table>
+
+
+
+
+</body>
+</html>

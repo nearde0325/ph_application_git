@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+.ebt_yes {
+	color: #060;
+	font-size:14px;
+	font-weight:bold;
+	text-decoration: none;
+	border:3px outset #060;
+	background-color:#89EB96;
+	display:inline-block;
+	width: 150px;
+	padding:5px;
+}
+.ebt_no {
+	color: #900;
+	font-size:14px;
+	font-weight:bold;
+	text-decoration: none;
+	border:3px outset #C00;
+	background-color:#FCB1B4;
+	display:inline-block;
+	width: 400px;
+	padding:5px;
+}
+
+.ebt_yes_short {
+	color: #060;
+	text-decoration: none;
+	border:4px outset #060;
+	font-size:16px;
+	background-color:#89EB96;
+	display:inline-block;
+	width: 150px;
+	height:50px;
+	padding:5px;
+}
+
+.ebt_no_short {
+	color: #000;
+	font-size:16px;
+	text-decoration: none;
+	border:4px outset #060;
+	background-color:#093;
+	display:inline-block;
+	width: 150px;
+	height:50px;
+	padding:5px;
+}
+
+
+</style>
+
+
+
+<script type="text/javascript">
+<!--
+function myPopup() {
+window.open( "http://<?php echo $_SERVER['HTTP_HOST'];?>/companydocs/news-must-see/is/<?php echo base64_encode($this->stID);?>/pv/highlight" )
+}
+function correctEnable(){
+	document.getElementById('btn_on_duty').disabled = false;
+	document.getElementById('btn_off_duty').disabled = false;
+	return false;
+	}
+
+function wrongEnable(){
+	
+	document.getElementById('btn_save_modify_shift').disabled = false;
+	return false;
+	}	
+
+//-->
+</script>
+
+
+</head>
+<?php
+	  date_default_timezone_set('Australia/Melbourne');
+	  if($this->shopHead == "ADPC" || $this->shopHead == "WLIC" ||$this->shopHead == "CLPC" ||$this->shopHead == "CLIC" ){
+		  date_default_timezone_set('Australia/Adelaide');
+	  }
+
+ ?>
+<body style="font-family:Arial, Helvetica, sans-serif">
+
+<table width="850" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="4" style="font-size:12px;">
+        <tr>
+          <td valign="middle" bgcolor="#CCCCCC" width="50%"><img src="/im/usericon.jpg" width="36" height="30" /> Hi,<b><?=ucwords($this->staffName)?></b> , Welcome login to <b><?=$this->shopHead?></b> 
+          <?
+		  if($this->aboutExpire <=3){		  
+		  ?>
+          <h1 style="color:#F00; text-align:center;">Attention!! <br />
+Your Password Will Be Expired Within 3 Days!!</h1>
+<?php }?>
+</td>
+          <td align="right" valign="middle" bgcolor="#CCCCCC"> Last Changes : <?php
+ echo $this->onOffDuty;
+ ?>, Your Roster <a href="/roster/check-my-roster/staff/<?php echo base64_encode(Model_EncryptHelper::sslPassword($this->stID)) ?>" target="_blank"><img src="/im/calendar.jpg" width="27" height="30" border="0" /> </a> <a href="/roster/check-mybonus/sid/<?php echo base64_encode(Model_EncryptHelper::sslPassword($this->stID)) ?>" target="_blank"><img src="/im/dollar_bg.jpg" height="30" border="" /></a></td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="10">
+      <tr>
+        <td width="33%" align="right"  style="border-bottom:#333 solid 1px;" ><b><?php
+    if($this->shopHead == "ADPC" || $this->shopHead == "WLIC" ||$this->shopHead == "CLPC" ||$this->shopHead == "CLIC" ){ echo "Adelaide ";} else{ echo "Melbourne ";}
+	?></b> Time Now is:</td>
+        <td align="center"  style="border-bottom:#333 solid 1px;" ><h1 style="font-size:36px; color:#036;" ><?php  
+		  echo date("H:i:s");
+	   ?> </h1></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center" valign="middle"  style="border-bottom:#333 solid 1px;" ><h1>My Roster Today:
+                <?php
+      if($this->shiftToday){
+	 $shiftBeginHour = date("H",$this->shiftToday["shift_begin"]);
+	 $shiftBeginMin = date("i",$this->shiftToday["shift_begin"]);
+	 $shiftEndHour = date("H",$this->shiftToday["shift_end"]);
+	 $shiftEndMin = date("i",$this->shiftToday["shift_end"]); 
+	 echo " {$shiftBeginHour} : {$shiftBeginMin} -- {$shiftEndHour} : {$shiftEndMin} <br />  Is it Correct ?";
+	  }
+	  else{
+	  ?> 
+      Not Allocated<br />  
+        <div style="border:#603 1px solid; margin:5px; background-color:#FEDADD" align="center"><strong style="font-size:16px;">Do Not Panic, Just Input Your Shift By Yourself</strong><br />
+            <span style="font-size:12px; font-weight:normal;">(Shift may modified by manager from time to time so if you sure you should work here today, <u>just input your shift by yourself</u> AFTER you click the &quot;ON/OFF Duty&quot; button, we will notify your manager to confirm you shift for you)</span></div>
+      <?php } ?>
+         </h1></td>
+        </tr>
+      <tr>
+        <td align="center" valign="middle"  style="border-bottom:#333 solid 1px;" ><input type="submit" name="button" id="btn_is_correct" value="<?php echo ($this->shiftToday)?'YES, CLICK HERE':'CLICK HERE'; ?>" class="ebt_yes" onclick="correctEnable()"/></td>
+        <td align="center" valign="middle"  style="border-bottom:#333 solid 1px;background-color:#CCC;" ><input type="submit" name="button2" id="btn_is_wrong" value="<?php echo ($this->shiftToday)?'IF ANSWER NO,CLICK HERE':'DO NOT CLICK HERE'; ?>" class="ebt_no" onclick="wrongEnable()"  <?php echo ($this->shiftToday)?'':'disabled="disabled"'; ?> /></td>
+      </tr>
+    </table></td>
+  </tr>  
+  <tr>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="10">
+      <tr>
+        <td width="33%" align="center" style="border-bottom:#333 solid 1px;"><span style="padding:10px; width:60%;
+    "> <form id="form1" name="form1" method="post" action="/roster/on-off-duty-record"> 
+          <br />
+          <br />
+<input type="submit"  value="Click Me On Duty"   name="btn_on_duty" id="btn_on_duty"  onclick="myPopup()" disabled="disabled" class="ebt_yes_short" />
+          <br />
+          
+          <input type="hidden" name="std" id="std" value="<?=$this->stID?>" />
+          <span style="padding:10px
+    ">
+          <input type="hidden" name="shophead" id="shophead" value="<?=$this->shopHead?>" />
+          </span>          <br />
+          <span style="padding:10px
+    ">
+          <input type="submit" name="btn_off_duty" id="btn_off_duty" value="Click Me Off Duty"  class="ebt_no_short"  <?php if($this->firstLoginToday){?> disabled="disabled"<?php }?>  />
+          </span>        
+          
+           </form> 
+           </span>
+          </td>
+        <td align="center" valign="top"  style="border-bottom:#333 solid 1px; background-color:#CCC;" ><form method="post"><br />
+<br />
+<br />
+
+         <?php
+      if($this->shiftToday){
+	 $shiftBeginHour = date("H",$this->shiftToday["shift_begin"]);
+	 $shiftBeginMin = date("i",$this->shiftToday["shift_begin"]);
+	 $shiftEndHour = date("H",$this->shiftToday["shift_end"]);
+	 $shiftEndMin = date("i",$this->shiftToday["shift_end"]);
+	  
+	  ?>
+        <select name="shift_start_hour" id="shift_start_hour" style="font-size:20px;">
+      			    <option value="08" <?php echo ((int)$shiftBeginHour == 8)?'selected="selected"':''; ?>>08</option>
+                    <option value="09" <?php echo ((int)$shiftBeginHour == 9)?'selected="selected"':''; ?>>09</option>
+                    <option value="10" <?php echo ((int)$shiftBeginHour == 10)?'selected="selected"':''; ?>>10</option>
+                    <option value="11" <?php echo ((int)$shiftBeginHour == 11)?'selected="selected"':''; ?>>11</option>
+                    <option value="12" <?php echo ((int)$shiftBeginHour == 12)?'selected="selected"':''; ?>>12</option>
+                    <option value="13" <?php echo ((int)$shiftBeginHour == 13)?'selected="selected"':''; ?>>13</option>
+                    <option value="14" <?php echo ((int)$shiftBeginHour == 14)?'selected="selected"':''; ?>>14</option>
+                    <option value="15" <?php echo ((int)$shiftBeginHour == 15)?'selected="selected"':''; ?>>15</option>
+                    <option value="16" <?php echo ((int)$shiftBeginHour == 16)?'selected="selected"':''; ?>>16</option>
+                    <option value="17" <?php echo ((int)$shiftBeginHour == 17)?'selected="selected"':''; ?>>17</option>
+                    <option value="18" <?php echo ((int)$shiftBeginHour == 18)?'selected="selected"':''; ?>>18</option>
+                    <option value="19" <?php echo ((int)$shiftBeginHour == 19)?'selected="selected"':''; ?>>19</option>
+                    <option value="20" <?php echo ((int)$shiftBeginHour == 20)?'selected="selected"':''; ?>>20</option>
+                    <option value="21" <?php echo ((int)$shiftBeginHour == 21)?'selected="selected"':''; ?>>21</option>
+                  </select>
+            <span style="font-size:22px; font-weight:bold">:</span>
+            <select name="shift_start_min" id="shift_start_min"  style="font-size:20px;">
+                    <option value="00" <?php echo ((int)$shiftBeginMin == 0)?'selected="selected"':''; ?> >00</option>
+                    <option value="15" <?php echo ((int)$shiftBeginMin == 15)?'selected="selected"':''; ?> >15</option>
+                    <option value="30" <?php echo ((int)$shiftBeginMin == 30)?'selected="selected"':''; ?> >30</option>
+                    <option value="45" <?php echo ((int)$shiftBeginMin == 45)?'selected="selected"':''; ?> >45</option>
+            </select> 
+          <span style="font-size:22px; font-weight:bold; margin:3px; "> TO </span> 
+          <select name="shift_end_hour" id="shift_end_hour"  style="font-size:20px;">
+      			    <option value="08" <?php echo ((int)$shiftEndHour == 8)?'selected="selected"':''; ?>>08</option>
+                    <option value="09" <?php echo ((int)$shiftEndHour == 9)?'selected="selected"':''; ?>>09</option>
+                    <option value="10" <?php echo ((int)$shiftEndHour == 10)?'selected="selected"':''; ?>>10</option>
+                    <option value="11" <?php echo ((int)$shiftEndHour == 11)?'selected="selected"':''; ?>>11</option>
+                    <option value="12" <?php echo ((int)$shiftEndHour == 12)?'selected="selected"':''; ?>>12</option>
+                    <option value="13" <?php echo ((int)$shiftEndHour == 13)?'selected="selected"':''; ?>>13</option>
+                    <option value="14" <?php echo ((int)$shiftEndHour == 14)?'selected="selected"':''; ?>>14</option>
+                    <option value="15" <?php echo ((int)$shiftEndHour == 15)?'selected="selected"':''; ?>>15</option>
+                    <option value="16" <?php echo ((int)$shiftEndHour == 16)?'selected="selected"':''; ?>>16</option>
+                    <option value="17" <?php echo ((int)$shiftEndHour == 17)?'selected="selected"':''; ?>>17</option>
+                    <option value="18" <?php echo ((int)$shiftEndHour == 18)?'selected="selected"':''; ?>>18</option>
+                    <option value="19" <?php echo ((int)$shiftEndHour == 19)?'selected="selected"':''; ?>>19</option>
+                    <option value="20" <?php echo ((int)$shiftEndHour == 20)?'selected="selected"':''; ?>>20</option>
+                    <option value="21" <?php echo ((int)$shiftEndHour == 21)?'selected="selected"':''; ?>>21</option>
+                    <option value="22" <?php echo ((int)$shiftEndHour == 22)?'selected="selected"':''; ?>>22</option>
+                    <option value="23" <?php echo ((int)$shiftEndHour == 23)?'selected="selected"':''; ?>>23</option>                                        
+            </select>
+                 <span style="font-size:22px; font-weight:bold">:</span>
+            <select name="shift_end_min" id="shift_end_min"  style="font-size:20px;">
+                    <option value="00" <?php echo ((int)$shiftEndMin == 0)?'selected="selected"':''; ?>  >00</option>
+                    <option value="15" <?php echo ((int)$shiftEndMin == 15)?'selected="selected"':''; ?>  >15</option>
+                    <option value="30" <?php echo ((int)$shiftEndMin == 30)?'selected="selected"':''; ?>  >30</option>
+                    <option value="45" <?php echo ((int)$shiftEndMin == 45)?'selected="selected"':''; ?>  >45</option>
+                    <option value="59" <?php echo ((int)$shiftEndMin == 59)?'selected="selected"':''; ?>  >59</option>
+                  </select>
+            <br />
+            <br />
+            <input name="id_sheet" type="hidden" value="<?=$this->shiftToday["id_sheet"]?>" />
+            <input type="submit" name="btn_save_modify_shift" id="btn_save_modify_shift" value="I am Confirming My Roster And Notify My Manager" class="ebt_no" disabled="disabled" />
+          <br />
+          <span style="font-size:11px">Please <strong><u>wait a few seconds</u></strong> for the page sending email to your manager, after you click the button</span>
+         <?php } else {?>
+         <?php }?>
+          </form>
+          </td>
+      </tr>
+    </table></td>
+  </tr>
+
+  <tr>
+    <td align="center" style="padding:0px;"><iframe frameborder="0" width="500" height="50" src="/companydocs/news-must-see/is/<?php echo base64_encode($this->stID);?>" align="middle" scrolling="no" ></iframe></td>
+  </tr>
+  <tr>
+    <td style="padding:20px
+    ">
+      <span style="FONT-SIZE: 12px">(Shift may modified by manager from time to 
+time , if you believe you schedule shift is incorrect or manager ask you to come 
+on different time , simply modify your pre-arranged shift 
+before you click the &quot;ON/OFF Duty&quot; button, we will notify your manager to 
+confirm your new shift for you)</span></td>
+  </tr>
+</table>
+
+</body>
+</html>

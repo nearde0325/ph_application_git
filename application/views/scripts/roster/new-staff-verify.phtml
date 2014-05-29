@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h2>Searching Following Staffs in the Files</h2>
+<form id="form1" name="form1" enctype="multipart/form-data" method="post" action="">
+<table width="1000" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Last Name</th>
+    <th scope="col">First Name</th>
+    <th scope="col">Nick Name</th>
+    <th scope="col">ID Card</th>
+    <th scope="col">ID Record</th>
+    <th scope="col">Type</th>
+  
+  </tr>
+<?php foreach($_POST["act"] as $v ){  ?>  
+  <tr>
+    <td><input name="act[<?php echo $v;?>]" type="text" value="<?php echo $v;?>" readonly="readonly" style="width:50px;"  /></td>
+    <td><input name="last_name[<?php echo $v;?>]" type="text" value="<?php echo $_POST["last_name"][$v]; ?>" /></td>
+    <td><input name="first_name[<?php echo $v;?>]" type="text" value="<?php echo $_POST["first_name"][$v]; ?>" /></td>
+    <td><input name="nick_name[<?php echo $v;?>]" type="text" value="<?php echo $_POST["nick_name"][$v]; ?>" /></td>
+    <td><input name="id_card[<?php echo $v;?>]" type="text" value="<?php echo $_POST["id_card"][$v]; ?>" /></td>
+    <td>
+    <?php
+    if(isset($_POST["sb_start"])){
+		echo "verify it";
+		}
+	if(isset($_POST["bn_verify"])){
+		$idRecord = $this->arrIdRecord;
+		if(isset($idRecord[$v])){
+	 ?>
+     <input name="id_record[<?php echo $v?>]" type="text" value="<?php echo $idRecord[$v];?>" />
+	<?php
+    		}
+		else{
+			echo "<span style=\"color:#f00;\">NOT FOUNT</span>";
+			}	
+		
+		}		
+	?>
+    </td>
+    <td><?php
+	switch ($_POST["type"][$v]){
+		case(1):{echo "A";break;}
+		case(2):{echo "B";break;}
+		case(3):{echo "C";break;}
+		case(4):{echo "D";break;}
+		case(5):{echo "E";break;}
+		case(6):{echo "F";break;}
+		case(7):{echo "G";break;}
+		}
+	 ?>
+     <input name="type[<?php echo $v;?>]" type="hidden" value="<?php echo $_POST["type"][$v]?>" />
+     </td>
+
+  </tr>
+ <?php } ?> 
+</table>
+  <label for="ag_file"><br />
+  <strong>Pay VERY ATTENTION to the File you Uploaded, Make Sure Upload It in right place<br /></strong>
+    <br />
+    A/C/D/F/G MYOB Staff File:<br />
+    <br />
+  </label>
+  <input type="file" name="ag_file" id="ag_file" />
+  <br />
+  <br />
+  B/E MYOB Saff File:<br />
+  <br />
+  <input type="file" name="be_file" id="be_file" />
+  <br />
+  <br />
+   DO NOT SAVE ANYTHING IF ANY RECORD NOT FOUND IN THE SYSTEM<br />
+  <input type="submit" name="bn_verify" id="bn_verify" value="Verify It Now" />
+  <input type="submit" name="bn_save" id="bn_save" value="Save These Records" />
+</form>
+<p>&nbsp;</p>
+</body>
+</html>

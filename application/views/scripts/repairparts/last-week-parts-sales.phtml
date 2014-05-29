@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<table width="800" border="1" cellspacing="1" cellpadding="0">
+  <tr>
+  	<th scope="col">Des</th>
+    <th scope="col">ID</th>
+    <th scope="col">Code</th>
+    <th scope="col">Sales<br />
+      LastWeek</th>
+    <th scope="col">Faulty</th>
+    <th scope="col">Max</th>
+    <th scope="col">Onhand</th>
+    <th scope="col">Wh</th>
+  </tr>
+<?php 
+$rPro = new Model_DbTable_Pr_Prproducts();
+	
+foreach($this->arrRes as $k => $v){
+	
+if(!empty($v[1])){	
+	?>  
+  <tr>
+  	<td><?php
+    	echo $rPro->getProductDes($v[1])
+	?></td>
+	<?php foreach($v as $line) {?>
+    <td><?php echo $line ?></td>
+	<?php }?>
+  </tr>
+<?php 
+}
+
+} ?>  
+</table>
+</body>
+</html>

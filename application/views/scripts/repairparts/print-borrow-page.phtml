@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<table width="750" border="1" cellspacing="0" cellpadding="4" style="font-size:12px;">
+<?php 
+$rPro = new Model_DbTable_Pr_Prproducts();
+ $arrRepairShops = array(
+ 	1 => 'Bayside Shops',
+	2 => 'CSIC',
+	3 => 'Steven[Tech]',
+	4 => 'BHPC',
+	5 => 'HPIC',
+	6 => 'CBPC',
+	7 => 'WLIC',
+	8 => 'EPPC',
+	9 => 'WB Shops',
+	10 => 'NLPC',
+	11 => 'DCIC',
+	12 => 'KCPC',
+	13 => 'SLIC',
+	14 => 'FGIC',
+	15 => 'PMIC',
+	16 => 'WG Shops',
+	17 => 'ADPC',
+	18 => 'BBPC',
+	19 => 'CL Shops',
+	20 => 'LU [Tech]'
+ 	);
+	
+	
+foreach($this->borrowCodes as $key => $v){
+?>
+  <tr>
+    <th scope="col"><img src="/prcode/jobid-gd.php?sno=<?php echo $v['b_code'] ?>" height="28"  width="300"/></th>
+    <th width="50" rowspan="2" valign="middle" style="border-top-width:0px; border-bottom-width:0px;" scope="col">&nbsp;</th>
+    <th scope="col"><img src="/prcode/jobid-gd.php?sno=<?php echo $v['b_code'] ?>" height="28"  width="300"/></th>
+  </tr>
+  <tr>
+    <th scope="col">BCODE: <?php echo $v['b_code'] ?></th>
+    <th scope="col">BCODE: <?php echo $v['b_code'] ?></th>
+  </tr>
+  <tr>
+    <td valign="top"><table width="330" border="0" cellspacing="0" cellpadding="4">
+
+      <tr>
+        <td colspan="2" align="center"> <?php echo $v['code_product']; ?></td>
+        <td align="center"> x <?php echo $v['qty_product']; ?> [pcs]</td>
+      </tr>
+      <tr align="center">
+        <td colspan="3" style="font-size:12px;"><?php echo $rProduct->getProductDes($v['code_product']); ?></td>
+        </tr>
+      <tr align="center">
+        <td colspan="3" style=""><?php echo $v['date_loan']; ?> <?php echo $v['time_record']; ?></td>
+      </tr>
+             <tr>
+        <th scope="col"><?php echo $arrRepairShops[$v['shop_from']];?></th>
+        <th scope="col">====&gt;</th>
+        <th scope="col"><?php echo $arrRepairShops[$v['shop_to']];?></th>
+      </tr> 
+      <tr align="center">
+        <td style="">Staff Sign Here</td>
+        <td style="">&nbsp;</td>
+        <td style="">Staff Sign Here</td>
+      </tr>
+      <tr>
+        <td style="border-bottom: #000 solid 1px;">&nbsp;</td>
+        <td style="">&nbsp;</td>
+        <td style="border-bottom: #000 solid 1px;">&nbsp;</td>
+      </tr>
+            <tr align="center">
+        <td colspan="3" align="left" style=""><p><br />
+          About Borrow Receipt <br />
+          This is for Shop To , you Return it every week<br />
+          Together With your Paper Work<br />
+          <br />
+          If All Shop To/ From are same for this <br />
+          JOB iD, you may just sign once at the bottom 
+        </p>
+          <p><br />
+          </p></td>
+      </tr>
+    </table></td>
+    <td rowspan="2" align="center" valign="middle" style="border-top-width:0px; border-bottom-width:0px;" ><img src="/im/cutv.jpg" /></td>
+    <td valign="top"><table width="330" border="0" cellspacing="0" cellpadding="4">
+      <tr>
+        <td colspan="2" align="center"><?php echo $v['code_product']; ?></td>
+        <td> x <?php echo $v['qty_product']; ?> [pcs]</td>
+      </tr>
+      <tr align="center">
+        <td colspan="3" style=""><?php echo $rProduct->getProductDes($v['code_product']); ?></td>
+      </tr>
+      <tr align="center">
+        <td colspan="3" style=""><?php echo $v['date_loan']; ?> <?php echo $v['time_record']; ?></td>
+      </tr>
+      <tr>
+        <th scope="col"><?php echo $arrRepairShops[$v['shop_from']];?></th>
+        <th scope="col">====&gt;</th>
+        <th scope="col"><?php echo $arrRepairShops[$v['shop_to']];?></th>
+      </tr>
+      <tr align="center">
+        <td style="">Staff Sign Here</td>
+        <td style="">&nbsp;</td>
+        <td style="">Staff Sign Here</td>
+      </tr>
+      <tr>
+        <td style="border-bottom: #000 solid 1px;">&nbsp;</td>
+        <td style="">&nbsp;</td>
+        <td style="border-bottom: #000 solid 1px;">&nbsp;</td>
+      </tr>
+      <tr align="center">
+        <td colspan="3" align="left" style=""><p><br />
+          About Borrow Receipt <br />
+          This is for Techs ,Shop From, You may Keep it <br />
+          When Head Office do Stock Adjuestment <br />
+          Return it 
+          <br />
+          </p></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td style="border-width:0px;" >&nbsp;</td>
+    <td style="border-width:0px;" >&nbsp;</td>
+  </tr>
+<?php }?>  
+</table>
+</body>
+</html>

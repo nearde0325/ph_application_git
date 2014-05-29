@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<p>List All Products We have now and Stock</p>
+<hr />
+<table width="900" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td bgcolor="#CCCCCC">Img</td>
+    <td bgcolor="#CCCCCC">ID</td>
+    <td bgcolor="#CCCCCC">Barcode</td>
+    <td width="250" bgcolor="#CCCCCC">&nbsp;</td>
+    <td width="60" bgcolor="#CCCCCC">&nbsp;</td>
+    <td bgcolor="#CCCCCC">&nbsp;</td>
+  </tr>
+  <?php
+  $pStocks = new Model_DbTable_Productstock();
+  foreach($this->productslist as $key => $value){
+  ?>
+  <tr>
+    <td width="10" height="60" >&nbsp;</td>
+    <td><?php echo $value['id_product']?></td>
+    <td><?php echo $value['code_product']?></td>
+    <td colspan="3">
+    <img src="/pbarcode/barcode-gd.php?sno=<?php echo $value['code_product'];?>" />
+    
+    </td>
+  </tr>
+  <?php
+  }
+  ?>
+  <tr>
+    <td bgcolor="#CCCCCC">Img</td>
+    <td bgcolor="#CCCCCC">ID</td>
+    <td bgcolor="#CCCCCC">Barcode</td>
+    <td bgcolor="#CCCCCC">&nbsp;</td>
+    <td bgcolor="#CCCCCC">&nbsp;</td>
+    <td bgcolor="#CCCCCC">&nbsp;</td>
+  </tr>
+</table>
+
+</body>
+</html>

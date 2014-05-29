@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<pre>
+<?php  //var_dump($this->arrRes)?>
+</pre>
+<?php
+date_default_timezone_set('Australia/Melbourne');
+$stDetail = $stDetail = new Model_DbTable_Roster_Stafflogindetail();
+
+
+?>
+<table width="1100" border="0" cellspacing="1" cellpadding="5" bgcolor="#333333">
+  <tr>
+    <th bgcolor="#FFFFFF" scope="col">Staff</th>
+    <th bgcolor="#FFFFFF" scope="col">Shop</th>
+    <th bgcolor="#FFFFFF" scope="col">Event</th>
+    <th bgcolor="#FFFFFF" scope="col">Scheduled</th>
+    <th bgcolor="#FFFFFF" scope="col">filled</th>
+    <th bgcolor="#FFFFFF" scope="col">Actual</th>
+    <th bgcolor="#FFFFFF" scope="col">Time Diff</th>
+    <th bgcolor="#FFFFFF" scope="col" width="200px">Comment</th>
+  </tr>
+<?php foreach($this->arrRes as $key => $v){?>  
+  <tr>
+    <td bgcolor="#FFFFFF">
+    <?php
+    $stLine = $stDetail->getDetail($v["id_staff"]);
+	if($stLine["ni"]!=""){echo $stLine['ni'];}
+	else{
+		echo Model_EncryptHelper::getSslPassword($stLine["n"]);
+	}
+	?>
+    </td>
+    <td bgcolor="#FFFFFF"><?=$v["shop_head"]?></td>
+    <td bgcolor="#FFFFFF"><?php echo $event = ($v[2]==2)?"COME LATE":"LEAVE EARLY"?></td>
+    <td bgcolor="#FFFFFF"><?php 
+    if($v[2]==2){
+    	echo  date("m-d H:i",$v["confirm_shift_begin"]);
+    }
+    else{
+    	echo  date("m-d H:i",$v["confirm_shift_end"]);
+    }
+     ?></td>
+    <td bgcolor="#FFFFFF">
+    <?php 
+    if($v[2]==2){
+    	echo  date("m-d H:i",$v["shift_begin"]);
+    }
+    else{
+    	echo  date("m-d H:i",$v["shift_end"]);
+    }
+    
+    ?>    
+    </td>
+    <td bgcolor="#FFFFFF">
+    <?php echo  date("m-d H:i",$v[0]); ?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php 
+    
+    if($v[2]==2){
+    	
+    	echo  round(($v[0] - $v["shift_begin"])/60,0);
+    }
+    else{
+    	
+    	echo  round(($v["shift_end"] - $v[0])/60,0);
+    }   
+    
+    ?></td>
+    <td bgcolor="#FFFFFF"><?php echo $v[1] ?></td>
+  </tr>
+<?php }?>  
+  
+  
+</table>
+
+
+</body>
+</html>

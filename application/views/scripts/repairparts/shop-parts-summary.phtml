@@ -1,0 +1,377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+	});
+	</script>
+<form action="" method="post">     
+  Date Begin [yyyy-mm-dd]:
+    <input name="date_begin" id="date_begin" type="text" />  Date End:<input name="date_end" id="date_end" type="text" /> |  <input type="submit" name="button" id="button" value="Submit" />
+  </p>
+</form>
+
+<h2>Parts Used Summary Last Week/Select Date </h2>
+<table width="650" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+
+  </tr>
+<?php
+$oldDate = "";
+
+$totalPcs = 0;
+$rProducts = new Model_DbTable_Pr_Prproducts();
+$rMove = new Model_DbTable_Pr_Prstockmovement();
+$rejob = new  Model_DbTable_Repairjob();
+
+		$arrShopMaping = array(
+				"ADPC" =>"AD",
+				"BBPC" =>"BB",
+				"BHPC" =>"BH",
+				"BSPC" =>"BS",
+				"BSIC" =>"BSIC",
+				"BSXP" =>"BSXP",
+				"CBPC" =>"CB",
+				"CLPC" =>"CL",
+				"CLIC" =>"CLIC",
+				"CSIC" =>"CSIC",
+				"DCIC" =>"DCIC",
+				"EPPC" =>"EP",
+				"FGIC" =>"FGIC",
+				"HPIC" =>"HPIC",
+				"KCPC" =>"KC",
+				"NLPC" =>"NL",
+				"PMPC" =>"PM",
+				"PMIC" =>"PMIC",
+				"SLIC" =>"SLIC",
+				"WBPC" =>"WB",
+				"WBIC" =>"WBIC",
+				"WGPC" =>"WGPC",
+				"WGIC" =>"WGIC",
+				"WLIC" =>"WLIC",
+				);
+
+foreach($this->pUsed as $key => $v){
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF">
+	<?php 
+	if($v["date_move"]!=$oldDate)
+	{
+		$oldDate = $v["date_move"];
+		//echo $v["date_move"];
+	
+	}
+		
+	?>
+    </td>
+    <td bgcolor="#FFFFFF">	
+	<?php 
+	$row= $rProducts->getProduct($v["id_product"]);
+	echo $row["code_product"];
+	?>
+    </td>
+    <td bgcolor="#FFFFFF" style="font-size:11px;">
+    <?php
+    echo $row["title_product"]
+	?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php 
+	$totalPcs += $v["ctp"];
+	 echo $v["ctp"];?></td>
+  </tr>
+<?php
+}
+?>  
+  
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Total<br /><?php echo $totalPcs;?></td>
+
+  </tr>
+</table>
+
+
+
+<h2>Parts Used DetailLast Week/Select Date </h2>
+<table width="950" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+    <td bgcolor="#FFFFFF" style="width:200px">Job ID</td>
+    <td bgcolor="#FFFFFF" style="width:200px">Invoice ID(s)</td>
+  </tr>
+<?php
+$oldDate = "";
+$totalScan = 0;
+$totalNotScan = 0;
+	$dateBegin = $this->dateBegin;
+	$dateEnd = $this->dateEnd;
+
+$arrDateList = Model_DatetimeHelper::createDateArray($dateBegin,$dateEnd);
+//var_dump($arrDateList);
+
+foreach($arrDateList as $key => $v){
+	$dailyList = $rMove->getStockMoveByDateByCode(2,$v,$v,$this->idShop);
+		foreach($dailyList as $k7 => $v7){
+		$partsPrice = 0;	
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF">
+	<?php 
+	
+	if($v7["date_move"]!=$oldDate)
+	{
+		$oldDate = $v7["date_move"];
+		echo $v7["date_move"];
+	
+	}
+		
+	?>
+    </td>
+    <td bgcolor="#FFFFFF">	
+	<?php 
+	$row= $rProducts->getProduct($v7["id_product"]);
+	$partsPrice = $row['price_a'];
+	echo $row["code_product"];
+	echo "(\${$partsPrice})";
+	?>
+    </td>
+    <td bgcolor="#FFFFFF" style="font-size:11px;">
+    <?php
+    echo $row["title_product"]
+	?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php echo $v7["ctp"]?></td>
+    <td colspan="2" bgcolor="#FFFFFF">
+      <?php
+		
+		$rows = $rMove->getProductMoveByDateByCode(2,$v7["id_product"],$v7["date_move"],$v7["date_move"],$this->idShop);
+		 foreach ($rows as $k9 => $v9){
+		
+		echo $v9["id_job"];
+		if(is_numeric($v9["id_job"])){
+		 $row = $rejob->getJob($v9["id_job"]);
+		 if($row){
+			 echo ($row["cust_part"])?'<span style="background-color:#090;">[V]</span>':'<span  style="background-color:#C30;">[X]</span>';	 
+			 if($row["cust_part"]){$totalScan++;}
+			 else{$totalNotScan++;}
+			 
+			 
+			 echo "($ {$row['quot_price']})[{$row['invoice_no']}][{$row['invoice_no2']}] ({$row['shop_code']})";
+			 
+			 $fileArr = $this->fileArray;
+			 //echo end($fileArr);
+			 $errorFlag = true;
+			 $matchFist = 0;
+			 $matchBoth = 0;
+			  $shopCode = $arrShopMaping[$row['shop_code']];
+		
+
+					 
+			 if(!empty($fileArr) && $row['invoice_no']!="" && $row['invoice_no2']=="" ){
+					$inv = "L14".substr($row['invoice_no'],-7,7);	
+				 $arrFound = array_keys($fileArr,$inv);
+				 
+				 
+				 
+				 foreach($arrFound as $v){
+					
+					  if($fileArr[$v-1] == $shopCode){
+						  $matchFist = 1;
+						  
+						  if($fileArr[$v +1] == $row['quot_price']){ echo "<span style='font-size:11px;'>Correct,</span>";}
+						  else{ echo "<br /><span style='font-size:11px;'>Found Not Match:({$fileArr[$v +1]},{$fileArr[$v +2]},{$fileArr[$v +3]}),</span>" ;}
+						  
+						  	  if($fileArr[$v +1] >= $partsPrice && $partsPrice > 0){ echo "<span style='font-size:11px;'>Price OK,</span>";}						  else{
+						      echo "<span style='font-size:11px;background-color:#888;' >Discount</span>";	  
+							  }	
+						  
+						  
+						  }	
+						  
+					
+					 }
+				 
+				 }	 
+				
+				if(!$matchFist){
+					echo "<span style='font-size:11px;'>NOT Found!</span>";
+					} 
+			 }
+
+
+			 if(!empty($fileArr) && $row['invoice_no']!="" && $row['invoice_no2']!="" ){
+				echo "<span style='font-size:11px;'>Manual Check</span>";
+				/*
+				 $arrFound = array_keys($fileArr,$row['invoice_no']);
+				 
+				 
+				 foreach($arrFound as $v){
+					
+					  if($fileArr[$v-1] == $shopCode){
+						  
+						  if($fileArr[$v +1] == $row['quot_price']){ $matchFist == 1;}
+						  else{ echo "Found Not Match:({$fileArr[$v +1]})" ;}
+						  }		 	
+					 
+					 }
+				 
+				 }	 
+				*/ 
+			 }
+			 
+			 			 
+			 
+			 
+			 
+		}
+		echo "<br />";
+		 }
+	?>
+    </td>
+  </tr>
+<?php
+		}
+}
+?>  
+  
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+    <td bgcolor="#FFFFFF" style="width:50px"><span style="width:200px"><span style="background-color:#090;">[V] Cust Part Returned: <?php echo $totalScan;?></span></span></td>
+    <td bgcolor="#FFFFFF" style="width:50px"><span style="width:200px"> <span  style="background-color:#C30;">[X] Not Returned: <?php echo $totalNotScan;?></span></span></td>
+  </tr>
+</table>
+<h2>Faulty Parts Record </h2>
+<table width="650" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+  </tr>
+<?php
+$oldDate = "";
+
+foreach($this->pFau as $key => $v){
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF">
+	<?php 
+	if($v["date_move"]!=$oldDate)
+	{
+		$oldDate = $v["date_move"];
+		//echo $v["date_move"];
+	
+	}
+		
+	?>
+    </td>
+    <td bgcolor="#FFFFFF">	
+	<?php 
+	$row= $rProducts->getProduct($v["id_product"]);
+	echo $row["code_product"];
+	?>
+    </td>
+    <td bgcolor="#FFFFFF" style="font-size:11px;">
+    <?php
+    echo $row["title_product"]
+	?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php echo $v["qtys"]?></td>
+  </tr>
+<?php
+}
+?>  
+  
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+  </tr>
+</table>
+
+<h2>Error Correction Record </h2>
+<table width="650" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+  </tr>
+<?php
+$oldDate = "";
+
+foreach($this->pErr as $key => $v){
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF">
+	<?php 
+	if($v["date_move"]!=$oldDate)
+	{
+		$oldDate = $v["date_move"];
+		//echo $v["date_move"];
+	
+	}
+		
+	?>
+    </td>
+    <td bgcolor="#FFFFFF">	
+	<?php 
+	$row= $rProducts->getProduct($v["id_product"]);
+	echo $row["code_product"];
+	?>
+    </td>
+    <td bgcolor="#FFFFFF" style="font-size:11px;">
+    <?php
+    echo $row["title_product"]
+	?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php echo $v["ctp"]?></td>
+  </tr>
+<?php
+}
+?>  
+  
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px">
+Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px" >Code</td>
+    <td bgcolor="#FFFFFF">Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px">Pcs</td>
+  </tr>
+</table>
+
+
+
+</body>
+</html>

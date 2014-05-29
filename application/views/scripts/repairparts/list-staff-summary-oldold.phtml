@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h2> Staff List </h2>
+<table width="1000" border="1" cellspacing="1" cellpadding="5">
+  <tr>
+    <th scope="col">Repair Staff</th>
+    <th scope="col">Shop</th>
+    <th scope="col">Date</th>
+    <th scope="col">JOB</th>
+    <th scope="col">Model</th>
+    <th scope="col">Quote</th>
+    <th scope="col">Inv</th>
+    <th scope="col">$</th>
+    <th scope="col">Inv2</th>
+    <th scope="col">$</th>
+    <th scope="col">Record</th>
+    <th scope="col">By</th>
+    <th scope="col" width="74" >Parts</th>
+    <th scope="col" width="75" >Total<br />
+      Cost</th>
+    <th scope="col">RRP</th>
+    <th scope="col">In B List</th>
+    <th scope="col">Dis-Rep</th>
+    <th scope="col">Dis-<br />
+      Sale</th>
+    <th scope="col">Dis-Total</th>
+    <th scope="col">Bonus</th>
+    <th scope="col">Follow Rule</th>
+  </tr>
+<?php 
+
+$oldStaffId = 0;
+$totalBonus = 0;
+$tBRule = 0;
+
+$staff = new Model_DbTable_Roster_Stafflogindetail(Zend_Registry::get('db_real'));
+$rParts = new Model_DbTable_Pr_Prproducts(Zend_Registry::get('db_real'));
+
+foreach($this->arrRes as $k=>$v){
+	if($v["repair_staff"] != $oldStaffId){	
+	?>  
+<tr>
+<td>
+<?php
+echo $totalBonus;
+echo "    ---------   ";
+echo $tBRule;
+$totalBonus = $v["bonus_amt"];
+$tBRule = 0;
+if($v["bonus_rule"][0] && $v["bonus_rule"][1]){
+	$tBRule = $v["bonus_amt"];
+}
+
+ ?>
+</td>
+</tr>
+<?php }?>
+  <tr>
+    <td><span><?php 
+	if($v["repair_staff"] != $oldStaffId){
+		// write staff Name
+			
+		$staffRow = $staff->getDetail($v["repair_staff"]);
+		
+		echo ucwords(Model_EncryptHelper::getSslpassword($staffRow["n"]));
+		
+		echo "(".ucwords($staffRow["ni"]).")";	
+		
+		$oldStaffId = $v["repair_staff"];
+	}
+	else{	
+		echo "&nbsp;";	
+		$totalBonus += $v["bonus_amt"];
+		if($v["bonus_rule"][0] && $v["bonus_rule"][1]){
+			$tBRule += $v["bonus_amt"];
+		}
+	}
+	?>	
+	</span></td>
+    <td><?php echo $v["shop_code"]?></td>
+    <td><?php echo $v["date_start"]?></td>
+    <td><?php echo $v["id_job"]?></td>
+    <td><?php echo $v["mobile_model"]?></td>
+    <td><?php echo $v["quot_price"]?></td>
+    <td><?php echo $v["invoice_no"]?>[<?php echo $v["invoice_qty"]?>][<?php echo $v["invoice_dis"]?>]</td>
+    <td><?php echo $v["invoice_amt"]?></td>
+    <td><?php echo $v["invoice_no2"]?>[<?php echo $v["invoice_qty2"]?>][<?php echo $v["invoice_dis2"]?>]</td>
+    <td><?php echo $v["invoice_amt2"]?></td>
+    <td><?php echo $v["time_record"]?></td>
+    <td><?php echo $v["staff_record"]?></td>
+    <td><?php 
+	$totalCost = 0;
+	foreach($v["part_sum"][0] as $part){
+		
+		$pLine = $rParts->getProductByCode(trim($part[0]));
+		$singleCost = $pLine['act_cost'] * $part[1];
+		$totalCost += $singleCost; 
+		echo $part[0]."({$part[2]}) x ".$part[1]." [{$singleCost}]<br />";
+		}
+	?></td>
+    <td><?php echo $totalCost; ?></td>
+    <td><?php echo $v["part_sum"][1]?></td>
+    <td><?php 
+	echo ($v["w_bonus"])?"yes":"no"
+	?></td>
+    <td><?php 
+	echo $v["repair_disc"];
+	?></td>
+    <td><?php 
+	echo $v["sales_disc"];
+	?></td>
+    <td><?php 
+	echo $v["repair_disc"] + $v["sales_disc"];
+	?></td>
+    <td><?php 
+	
+	echo $v["bonus_amt"];
+	?></td>
+	<td>
+	<span style="font-size:11px;">
+	<?php echo ($v["bonus_rule"][0])?"YES":"Contacts" ?> |
+	<?php echo ($v["bonus_rule"][1])?"YES":"Parts" ?> 
+	</span>
+	</td>
+  </tr>
+<?php }?>  
+<tr>
+<td>
+<?php
+echo $totalBonus;
+echo "    ---------   ";
+echo $tBRule;
+?>
+</td>
+</tr>
+</table>
+
+</body>
+</html>

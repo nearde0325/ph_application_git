@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link rel="stylesheet" href="/js/chosen/chosen2.css" />
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+
+#noreason{
+	}
+
+</style>
+
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1>Shop Sold Out Items Order (in Last 4 Weeks) </h1>
+
+* Warehouse do have Stock on this item
+<br />
+* Tick "Stop Sale" if you od not want to get the stock any more , you need to give us a reason for that
+<br />
+* An thumb image will show in the image column if image is available for this product, it also very normal if there is no picture there.<br />
+<br />
+<table width="800" border="0" cellspacing="1" cellpadding="5">
+  <form method="post" >
+    <tr>
+      <th scope="col">Image</th>
+      <th scope="col">BarCode</th>
+      <th scope="col">Description</th>
+      <th scope="col">Qty</th>
+      <th scope="col">Max Qty Sold<br />
+      <span style="font-size:10px;">(In last 4 Weeks)</span></th>
+      <th scope="col">Stop Sale</th>
+      <th scope="col">Stop Sale Reason</th>
+    </tr>
+    <?php foreach($this->sList as $k => $v) {?>
+    <tr>
+      <td><input type="hidden" id="id_extorder" name="id_ext_order[<?php echo $v["id_ext_order"]?>]" value="<?php echo $v["id_ext_order"]?>" />
+        <?php
+    $fileStr = getcwd()."/product_img/home_img/".trim($v["barcode"])."_0.jpg";
+	if(file_exists($fileStr)){
+	?>
+        <img src="/product_img/home_img/<?php echo trim($v["barcode"]) ?>_0.jpg" alt="" width="100" height="100">
+        <?php	
+		}
+	?></td>
+      <td><?php echo $v["barcode"]?></td>
+      <td><?php echo $v["description"]?></td>
+      <td><input type="text" name="qty[<?php echo $v["id_ext_order"]?>]" value="<?php echo $v["qty"]?>" style="width:50px;" /></td>
+      <td><?php echo $v["max_sold"]?></td>
+      <td><input type="checkbox" name="stop[<?php echo $v["id_ext_order"]?>]"  <?php echo ($v["stop"])?'checked="checked"':''; ?>  /></td>
+      <td><textarea style="width:150px;" rows="3" name="comment[<?php echo $v["id_ext_order"]?>]" title = "If you do not wish to get the item in, you need to give us a reason" ><?php echo $v["comment"]?></textarea></td>
+    </tr>
+    <?php  } ?>
+    <tr>
+      <td colspan="7" align="center">
+        <br />
+        Please input Your Name:
+        <label for="staff_name"></label>
+        <input type="text" name="staff_name" id="staff_name" value="<?php echo $staffName;?>"  />
+        <input type="hidden" name="id_sp_order" id="id_sp_order" value="<?php echo $idSpOrder?>" />
+        <br />
+        <br /></td>
+    </tr>
+    <tr>
+      <td colspan="7" align="center"><input name="btn_save_soldout" type="submit" id="btn_save_soldout" value="Save Sold Out Item Order" /></td>
+    </tr>
+  </form>
+</table>
+<br />
+<h1>Advanced Special Order (Exclude Sales This Week)</h1> 
+  <form method="post" >
+<p>  
+  <select name="add_part_code" id="add_part_code" class="chzn-select" >
+    <option value=""></option>
+    <?php foreach($this->pList as $prod ) {
+			
+			if($prod['title_product']!="" && substr($prod['code_product'],0,4)!="STA-"){
+			?>
+    
+    <option value="<?php echo $prod['id_product']?>">[<?php echo $prod['code_product']?>]   -  <?php echo $prod['title_product']?></option>
+    
+    <?php 
+			}} ?>
+  </select>
+  Qty: 
+<label for="textfield"></label>
+<input type="text" name="textfield" id="textfield" style="width:50px" /> 
+<br />
+<br />
+A 
+Brief Reason For This Order (e.g. Customer Reserved, Back Order ) <br />
+<br />
+<label for="textfield2"></label>
+<input type="text" name="textfield2" id="textfield2" style="width:400px;" />
+<input type="submit" name="btn_add" id="btn_add" value="Add To Special Order" />
+</p>
+<table width="800" border="0" cellspacing="1" cellpadding="5">
+
+    <tr>
+      <th scope="col">Image</th>
+      <th scope="col">BarCode</th>
+      <th scope="col">Description</th>
+      <th scope="col">Qty</th>
+      <th scope="col">Special Reason</th>
+    </tr>
+    <?php foreach($this->sList as $k => $v) {?>
+    <tr>
+      <td><input type="hidden" id="id_extorder2" name="id_extorder" value="<?php echo $v["id_ext_order"]?>" />
+        <?php
+    $fileStr = getcwd()."/product_img/home_img/".trim($v["barcode"])."_0.jpg";
+	if(file_exists($fileStr)){
+	?>
+        <img src="/product_img/home_img/<?php echo trim($v["barcode"]) ?>_0.jpg" alt="" width="100" height="100" />
+        <?php	
+		}
+	?></td>
+      <td><?php echo $v["barcode"]?></td>
+      <td><?php echo $v["description"]?></td>
+      <td><input type="text" name="qty[<?php echo $v["id_ext_order"]?>]2" value="<?php echo $v["qty"]?>" style="width:50px;" /></td>
+      <td><textarea style="width:150px;" rows="3" name="comment[<?php echo $v["id_ext_order"]?>]2" ><?php echo $v["comment"]?></textarea></td>
+    </tr>
+    <?php  } ?>
+    <tr>
+      <td colspan="5" align="center"><br />
+        Please input Your Name:
+        <label for="staff_name"></label>
+        <input type="text" name="staff_name2" id="staff_name" value="<?php echo $staffName;?>"  />
+        <input type="hidden" name="id_sp_order2" id="id_sp_order2" value="<?php echo $idSpOrder?>" />
+        <br />
+        <br /></td>
+    </tr>
+    <tr>
+      <td colspan="5" align="center"><input name="btn_save_soldout2" type="submit" id="btn_save_soldout2" value="Save Special Order" /></td>
+    </tr>
+
+</table>
+  </form>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+<script src="/js/chosen/chosen.jquery.js" type="text/javascript"></script>
+<script type="text/javascript"> 
+    var config = {
+      '.chzn-select': {allow_single_deselect:true},
+	  '.chzn-select': {search_contains: true},
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    };
+
+	
+  </script>
+</body>
+</html>

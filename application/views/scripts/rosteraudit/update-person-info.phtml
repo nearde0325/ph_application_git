@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<style type="text/css">
+.notice{
+position:absolute;
+width:100%;height:50px;top:0%;left:0%;
+    padding:16px;
+    border:2px solid #2266AA;
+	font-family:Arial, Helvetica, sans-serif;
+    background:#80FFFF;
+	text-align:center;
+	vertical-align:middle;
+	}
+</style>
+
+
+
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+.ipt{
+	width:200px;
+	}
+</style>
+
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<?php if(!$this->errorFlag){?>
+<form id="form1" name="form1" method="post" >
+<table width="600" border="0" cellspacing="0" cellpadding="10">
+  <tr>
+    <td colspan="2"><h2 style="color:#069"> (Basic Information) 
+    </h2>
+      <a href="/rosteraudit/extend-password" target="_blank">Click Here Extend Passowrd Expire Date</a></td>
+  </tr>
+  <tr>
+    <td style="width:200px;">Your Email <span style="font-size:12px;">(Read Only Field)</span>:</td>
+    <td>
+      <label for="email_addr"></label>
+      <input name="email_addr" type="text" class="ipt" id="email_addr" value="<?php echo $this->stLine['email_staff']; ?>"  />
+   </td>
+  </tr>
+  <tr>
+    <td>Given Names*:<br /></td>
+    <td><input name="given_name" type="text" class="ipt" id="given_name" value="<?php echo $this->stLine['first_name']; ?>" /></td>
+  </tr>
+  <tr>
+    <td>Surname*:<br /></td>
+    <td><input name="surname" type="text" class="ipt" id="surname" value="<?php echo $this->stLine['last_name']; ?>" /></td>
+  </tr>
+  <tr>
+    <td>Prefferred Name*:<br /></td>
+    <td><input name="pre_name" type="text" class="ipt" id="pre_name" value="<?php echo $this->nickName; ?>"  /></td>
+  </tr>
+  <tr>
+    <td>Date Of Birth* :</td>
+    <td>
+    <?php
+	$arrDob = explode("-",$this->dob);
+	$year = $arrDob[0];
+	$month = $arrDob[1];
+	$day = $arrDob[2];
+	?>
+      <select name="day" id="day">
+          <option value="01" <?php echo ($day == "01")?'selected="selected"':''; ?>  >01</option>
+          <option value="02" <?php echo ($day == "02")?'selected="selected"':''; ?>  >02</option>
+          <option value="03" <?php echo ($day == "03")?'selected="selected"':''; ?>  >03</option>
+          <option value="04" <?php echo ($day == "04")?'selected="selected"':''; ?>  >04</option>
+          <option value="05" <?php echo ($day == "05")?'selected="selected"':''; ?>  >05</option>
+          <option value="06" <?php echo ($day == "06")?'selected="selected"':''; ?>  >06</option>
+          <option value="07" <?php echo ($day == "07")?'selected="selected"':''; ?>  >07</option>
+          <option value="08" <?php echo ($day == "08")?'selected="selected"':''; ?>  >08</option>
+          <option value="09" <?php echo ($day == "09")?'selected="selected"':''; ?>  >09</option>
+          <option value="10" <?php echo ($day == "10")?'selected="selected"':''; ?>  >10</option>
+          <option value="11" <?php echo ($day == "11")?'selected="selected"':''; ?>  >11</option>
+          <option value="12" <?php echo ($day == "12")?'selected="selected"':''; ?>  >12</option>
+          <option value="13" <?php echo ($day == "13")?'selected="selected"':''; ?>  >13</option>
+          <option value="14" <?php echo ($day == "14")?'selected="selected"':''; ?>  >14</option>
+          <option value="15" <?php echo ($day == "15")?'selected="selected"':''; ?>  >15</option>
+          <option value="16" <?php echo ($day == "16")?'selected="selected"':''; ?>  >16</option>
+          <option value="17" <?php echo ($day == "17")?'selected="selected"':''; ?>  >17</option>
+          <option value="18" <?php echo ($day == "18")?'selected="selected"':''; ?>  >18</option>
+          <option value="19" <?php echo ($day == "19")?'selected="selected"':''; ?>  >19</option>
+          <option value="20" <?php echo ($day == "20")?'selected="selected"':''; ?>  >20</option>
+          <option value="21" <?php echo ($day == "21")?'selected="selected"':''; ?>  >21</option>
+          <option value="22" <?php echo ($day == "22")?'selected="selected"':''; ?>  >22</option>
+          <option value="23" <?php echo ($day == "23")?'selected="selected"':''; ?>  >23</option>
+          <option value="24" <?php echo ($day == "24")?'selected="selected"':''; ?>  >24</option>
+          <option value="25" <?php echo ($day == "25")?'selected="selected"':''; ?>  >25</option>
+          <option value="26" <?php echo ($day == "26")?'selected="selected"':''; ?>  >26</option>
+          <option value="27" <?php echo ($day == "27")?'selected="selected"':''; ?>  >27</option>
+          <option value="28" <?php echo ($day == "28")?'selected="selected"':''; ?>  >28</option>
+          <option value="29" <?php echo ($day == "29")?'selected="selected"':''; ?>  >29</option>
+          <option value="30" <?php echo ($day == "30")?'selected="selected"':''; ?>  >30</option>
+          <option value="31" <?php echo ($day == "31")?'selected="selected"':''; ?>  >31</option>
+        </select>
+      /
+      <select name="month" id="month">
+          <option value="01"  <?php echo ($month == "01")?'selected="selected"':''; ?>   >Jan.</option>
+          <option value="02"  <?php echo ($month == "02")?'selected="selected"':''; ?>   >Feb.</option>
+          <option value="03"  <?php echo ($month == "03")?'selected="selected"':''; ?>   >Mar.</option>
+          <option value="04"  <?php echo ($month == "04")?'selected="selected"':''; ?>   >Apr.</option>
+          <option value="05"  <?php echo ($month == "05")?'selected="selected"':''; ?>   >May</option>
+          <option value="06"  <?php echo ($month == "06")?'selected="selected"':''; ?>   >June</option>
+          <option value="07"  <?php echo ($month == "07")?'selected="selected"':''; ?>   >July</option>
+          <option value="08"  <?php echo ($month == "08")?'selected="selected"':''; ?>   >Aug.</option>
+          <option value="09"  <?php echo ($month == "09")?'selected="selected"':''; ?>   >Sept.</option>
+          <option value="10"  <?php echo ($month == "10")?'selected="selected"':''; ?>   >Oct.</option>
+          <option value="11"  <?php echo ($month == "11")?'selected="selected"':''; ?>   >Nov.</option>
+          <option value="12"  <?php echo ($month == "12")?'selected="selected"':''; ?>   >Dec.</option>
+        </select>
+/
+<input type="text" name="year" id="year" style="width:50px;" value="<?php echo $year;?>" /></td>
+  </tr>
+  <tr>
+    <td>Gender*:</td>
+    <td>
+      <select name="gender" id="gender">
+        <option value="Male" <?php echo ($this->stLine['gender']=='Male')?'selected="selected"':''?> >Male</option>
+        <option value="Female"  <?php echo ($this->stLine['gender']=='Female')?'selected="selected"':''?>  >Female</option>
+      </select></td>
+  </tr>
+  <tr>
+    <td>Address*:</td>
+    <td><label for="addr"></label>
+      <textarea name="addr" id="addr" cols="50" rows="3"><?php echo $this->stLine['addr_staff']; ?></textarea></td>
+  </tr>
+  <tr>
+    <td>Suburb*:</td>
+    <td><input name="suburb" type="text" class="ipt" id="suburb" value="<?php echo $this->stLine['suburb_staff']; ?>" /></td>
+  </tr>
+  <tr>
+    <td>State*:</td>
+    <td>
+      <select name="state" id="state">
+        <option value="SA"  <?php echo ($this->stLine['state_staff']=='SA')?'selected="selected"':''?> >SA</option>
+        <option value="VIC"  <?php echo ($this->stLine['state_staff']=='VIC')?'selected="selected"':''?>  >VIC</option>
+      </select></td>
+  </tr>
+  <tr>
+    <td>Postcode*:</td>
+    <td><input name="post_code" type="text" class="ipt" id="post_code" value="<?php echo $this->stLine['postcode']; ?>" /></td>
+  </tr>
+  <tr>
+    <td>Mobile No.:</td>
+    <td><input name="mobile_no" type="text" class="ipt" id="mobile_no" value="<?php echo $this->stLine['mobile_staff']; ?>" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><h2 style="color:#069"> (Optional Information)</h2></td>
+    </tr>
+  <tr>
+    <td>Tax File No.(TFN):</td>
+    <td><input name="tfn_no" type="text" class="ipt" id="tfn_no" value="<?php echo Model_EncryptHelper::getSslPassword($this->stLine['no_tfn']); ?>"/></td>
+  </tr>
+  <tr>
+    <td>Bank Account BSB:</td>
+    <td><input name="bank_bsb" type="text" class="ipt" id="bank_bsb" value="<?php echo Model_EncryptHelper::getSslPassword($this->stLine['bank_bsb']); ?>"/></td>
+  </tr>
+  <tr>
+    <td>Bank Account No.:</td>
+    <td><input name="bank_acc_no" type="text" class="ipt" id="bank_acc_no" value="<?php echo Model_EncryptHelper::getSslPassword($this->stLine['bank_acc_no']); ?>" /></td>
+  </tr>
+  <tr>
+    <td>Bank Account Name:</td>
+    <td><input name="bank_acc_name" type="text" class="ipt" id="bank_acc_name" value="<?php echo Model_EncryptHelper::getSslPassword($this->stLine['bank_acc_name']); ?>"/></td>
+  </tr>
+  <tr>
+    <td>Credit / Debit Card No.:</td>
+    <td><input name="card_no" type="text" class="ipt" id="card_no" value="<?php echo Model_EncryptHelper::getSslPassword($this->stLine['no_credit']); ?>"/></td>
+  </tr>
+  <tr>
+    <td>Medicare Card No.:</td>
+    <td><input name="medicare_no" type="text" class="ipt" id="medicare_no" value="<?php echo Model_EncryptHelper::getSslPassword($this->stLine['no_medicare']); ?>" /></td>
+  </tr>
+  <tr>
+    <td>Student Card No.:</td>
+    <td><input name="student_no" type="text" class="ipt" id="student_no" value="<?php echo Model_EncryptHelper::getSslPassword($this->stLine['no_student']); ?>"  /></td>
+  </tr>
+
+  <tr>
+    <td colspan="2" align="center" bgcolor="#CCCCCC"><h2 style="color:#069"> ( Personal ID )</h2></td>
+    </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Passport No.*:</td>
+    <td bgcolor="#CCCCCC"><input name="passport_no" type="text" class="ipt" id="passport_no" value="<?php echo Model_EncryptHelper::getSslPassword($this->stLine['no_passport']); ?>"  /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Driver's License No.*:</td>
+    <td bgcolor="#CCCCCC"><input name="driver_license" type="text" class="ipt" id="driver_license" value="<?php echo Model_EncryptHelper::getSslPassword($this->stLine['driver_license']); ?>" /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Visa Type*:</td>
+    <td bgcolor="#CCCCCC">
+    <?php
+    $visaType = Model_EncryptHelper::getSslPassword($this->stLine['visa_type']);
+	?>
+    <select name="visa_type" id="visa_type">    
+      <option value="International Student"  <?php echo ($visaType == 'International Student')?'selected="selected"':''?>  >International Student</option>
+      <option value="Working Holiday" <?php echo ($visaType == 'Working Holiday')?'selected="selected"':''?>  >Working Holiday</option>
+      <option value="Permanent Residency" <?php echo ($visaType == 'Permanent Residency')?'selected="selected"':''?> >Permanent Residency</option>
+      <option value="Australian Citizen Ship" <?php echo ($visaType == 'Australian Citizen Ship')?'selected="selected"':''?> >Australian Citizen Ship</option>
+      <option value="New Zealand Citien Ship" <?php echo ($visaType == 'New Zealand Citien Ship')?'selected="selected"':''?> >New Zealand Citizen Ship</option>
+      <option value="Temporary Residency" <?php echo ($visaType == 'Temporary Residency')?'selected="selected"':''?> >Temporary Residency</option>
+      <option value="Bridging Visa" <?php echo ($visaType == 'Bridging Visa')?'selected="selected"':''?> >Bridging Visa</option>
+      <option value="Other" <?php echo ($visaType == 'Other')?'selected="selected"':''?> >Other Visa With Work Permit</option>
+    </select></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Visa Expire Date*:<br />
+      <span style="font-size:12px;">[Write &quot;Permanent&quot; if there is no expire date]</span></td>
+    <td bgcolor="#CCCCCC"><input name="visa_date" type="text" class="ipt" id="visa_date" value="<?php echo Model_EncryptHelper::getSslPassword($this->stLine['visa_date']); ?>" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" bgcolor="#CCCCCC"><h2 style="color:#069"> ( Payment Type)</h2></td>
+    </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Card ID</td>
+    <td bgcolor="#CCCCCC"><label for="id_card"></label>
+      <input name="id_card" type="text" id="id_card" value="<?php echo $this->stLine['id_card']?>" /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Record ID (Bank):</td>
+    <td bgcolor="#CCCCCC"><input name="id_record_bank" type="text" id="id_record_bank" value="<?php echo $this->stLine['id_record']?>" /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Record ID (Cash):</td>
+    <td bgcolor="#CCCCCC"><input name="id_record_cash" type="text" id="id_record_cash" value="<?php echo $this->stLine['id_record_cash']?>" /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Type (A-F):</td>
+    <td bgcolor="#CCCCCC"><label for="id_package"></label>
+      <select name="id_package" id="id_package">
+      <optgroup label="Bank Group">
+      <?php 
+	  $arrType = array(1=>'A',2=>'B',3=>'C',4=>'D',5=>'E',6=>'F');
+	  $arrBank = array(1,3,4,6);
+	  $arrCash = array(2,5);
+	  foreach($arrBank as $idPackage ) {?>
+         <option value="<?php echo $idPackage?>" <?php echo ($this->stLine['id_package'] == $idPackage )?'selected="selected"':''; ?> ><?php echo $arrType[$idPackage];?></option>             
+      <?php }?>
+      </optgroup>
+<optgroup label="Cash Group">
+	 <?php foreach($arrCash as $idPackage ) {?>
+         <option value="<?php echo $idPackage?>" <?php echo ($this->stLine['id_package'] == $idPackage )?'selected="selected"':''; ?> ><?php echo $arrType[$idPackage];?></option>
+      <?php }?>      
+</optgroup>
+      </select></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Old Pay Rate:</td>
+    <td bgcolor="#CCCCCC"><label for="old_rate"></label>
+      <input name="old_rate" type="text" id="old_rate" value="<?php echo $this->stLine['old_rate']?>" /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Old Pay Rate Date:</td>
+    <td bgcolor="#CCCCCC"><input name="old_rate_date" type="text" id="old_rate_date" value="<?php echo $this->stLine['old_rate_date']?>" />
+      (yyyy-mm-dd)</td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">New Pay Rate:</td>
+    <td bgcolor="#CCCCCC"><input name="new_rate" type="text" id="new_rate" value="<?php echo $this->stLine['new_rate']?>" /></td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">New Pay Rate Date:</td>
+    <td bgcolor="#CCCCCC"><input name="new_rate_date" type="text" id="new_rate_date" value="<?php echo $this->stLine['new_rate_date']?>" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" bgcolor="#CCCCCC"><h2 style="color:#069"> ( Employee Type)</h2></td>
+    </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Is Leave</td>
+    <td bgcolor="#CCCCCC"><label for="select"></label>
+      <input type="radio" name="is_leave" id="radio" value="1" <?php echo ($this->stLine['leave'] == 1)?'checked="checked"':''; ?>   />
+      Current 
+      <input type="radio" name="is_leave" id="radio2" value="9" <?php echo ($this->stLine['leave'] == 9)?'checked="checked"':''; ?>/>
+      Leave</td>
+  </tr>
+  <tr>
+    <td bgcolor="#CCCCCC">Date Leave</td>
+    <td bgcolor="#CCCCCC"><input name="date_leave" type="text" id="date_leave" value="<?php echo $this->stLine['leave_date']?>" /></td>
+  </tr>   
+    
+  <tr>
+    <td colspan="2" align="center"><br />
+      <br /><input type="submit" name="btn_submit" id="btn_submit" value="Save Changes" /></td>
+  </tr>
+</table>
+ </form>
+<?php }?> 
+</body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>
+$(document).ready(function(){	
+	$('div[id^="notice_"]').fadeOut(2000);
+});
+</script>
+
+</html>

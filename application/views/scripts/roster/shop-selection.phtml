@@ -1,0 +1,77 @@
+<head>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 ,beforeShowDay: function(date){ return [date.getDay() == 1,""]}});
+	});
+	$(function() {
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 ,beforeShowDay: function(date){ return [date.getDay() == 0,""]}});
+	});	
+	</script>
+    
+<script language="javascript">
+function toggle(source) {
+  checkboxes = document.getElementsByName('shop_selection[]');
+  for(var i in checkboxes)
+    checkboxes[i].checked = source.checked;
+}
+</script>
+    
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<?php if(!$this->loginSuccess){?>
+<form name="form1" method="post" action="">
+  <label for="password"></label>
+  <input type="password" name="password" id="password">
+  <input type="submit" name="button" id="button" value="Submit">
+</form>
+<?php }
+else{
+?>
+<form name="form1" method="post" action="/roster/online-roster">
+<p>
+  <?php	
+foreach($this->spList as $key => $value){	
+?>
+  <input type="checkbox" name="shop_selection[]" value="<?=$value?>"> [<?=$value?>]<br />
+  <?php
+}
+ ?>
+  <br>
+  <br>
+  SELECT ALL <input type="checkbox" onclick="toggle(this)">
+  <br>
+  <br>
+  Begin of the Date (Please choose a Monday)
+  <input name="date_begin" id="date_begin" type="text">
+  </p>
+<p>End of the Date (Only Working For Attendance Check)
+  <input name="date_end" id="date_end" type="text">
+</p>
+<p>Check Attendance, Not Roster: Please Must Select Date Begin and Date End, Tick This Checkbox then Click Submit:
+  <input type="checkbox" name="check_att" id="check_att">
+  <br>
+  <br>
+  <br>
+  <input name="btn_shopselection" type="submit" value="Submit"> 
+  
+  
+</p>
+<p><br> 
+<h1>short Payment case</h1>
+<p><br>
+  <a href="/rosteraudit/manager-list-problems/token/<?php echo $this->idMgr; ?>" target="_blank">Create Case According Time Sheet</a><br>
+  <br>
+  <a href="/rosteraudit/create-case/token/<?php echo $this->idMgr; ?>" target="_blank">Create Stand Alone Case </a><br>
+  <br>
+  <a href="/rosteraudit/manager-case-control/token/<?php echo $this->idMgr; ?>" target="_blank">Manage Your Cases</a><br>
+</p>
+
+<?php }?>
+</form> 
+
+</body>
+

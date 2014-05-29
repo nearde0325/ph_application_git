@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<h2>Phone Collection Repair Bonus Structure Table</h2><br />
+<table width="800" border="1" cellspacing="1" cellpadding="5">
+  <tr>
+    <th scope="col">Category</th>
+    <th scope="col">Full Price Repair** Bonus</th>
+    <th scope="col">Discount Repair**Bonus</th>
+    <th scope="col">More than  $10.00 Discount</th>
+  </tr>
+<!--Org -->  
+<?php 
+if(!empty($this->bList)){
+	foreach($this->bList as $key => $v){	
+?>
+  <tr>
+    <td>
+	<?php echo $v['title_cate']?>
+    </td>
+    <td> $ <?php echo $v['full_price']?></td>
+    <td> $ <?php echo $v['dis_price']?></td>
+    <td> $ <?php echo $v['low_price']?> (No Bonus)</td>
+  </tr>
+<?php }
+}
+?>  
+
+</table>
+
+<p><b>** Full Price Repair----offer discount to customer within $0-$5.00 can be consider as Full Price Repair <br />
+  ** Discount Repair----offer discount to customer within $5.01-$10.00 will be consider as Discount Repair <br /></b>
+  <br />
+  If offer over $10.00  discount to customer,  no bonus will be paid out. <br />
+  <br />
+  <br />
+  * All the JobID need to be marked on clearly and match with the invoice number, otherwise no bonus will be paid out. <br />
+  * Case closed with no customer come back for refund or exchange 30 days after repair done <br />
+  * Bonus will not be paid for any warranty work/ 2nd time service for the same device <br />
+  * The repair technician should have the full respossiblity to take care of the customer's device and company's parts until the case closed <br />
+  * The Bonus will be paid to &quot;Repair by&quot; person. Please make sure it is correctly fill in. <br />
+</p>
+<p><br />
+</p>
+</body>
+</html>

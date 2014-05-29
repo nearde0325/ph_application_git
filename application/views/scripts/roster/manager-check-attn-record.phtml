@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 10px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 10px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+<style type="text/css"> @media print { body { display:none } } </style>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif" background="/images/bk-unoffical.png">
+<h1 style="color:#069">Unofficial Staff Attendance Record</h1>
+<p>(This Page is for manager to create Attendance Case Only, Please DO NOT PRINT OUT) </p>
+<p>*[N/A] Means not Log-in or Log-out Record<br />
+  **System will only register The First Time you log-in and The Last Time you log-out Time.
+</p>
+<table  border="1" cellspacing="0" cellpadding="0" style="font-size:22px">
+<tr>
+      <td style="width:200px">Date \ Shops</td>
+  <?php foreach($this->arrShop as $shop){?>
+    <td><?php echo $shop;?></td>
+  <?php }?>  
+  </tr> 
+ <?php foreach($this->arrDate as $dateToCheck){?> 
+  <tr>
+ 
+    <td><?php echo $dateToCheck;?></td>
+     <?php foreach($this->arrShop as $shop){?>
+    <td style="font-size:22px;"><?php 
+	$arrDis = $this->arrRes[$dateToCheck][$shop];
+	foreach($arrDis as $line){
+		echo $line;
+		}
+	?></td>
+  <?php }?> 
+ 
+  </tr>
+   <?php }?>  
+</table>
+
+
+</body>
+</html>

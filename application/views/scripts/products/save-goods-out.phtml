@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body>
+<h1>Goods Out Record(GO)</h1>
+
+<table width="600" border="1" cellspacing="0" cellpadding="15">
+  <tr>
+    <td><?php
+echo $date = date("Y-m-d H:i");
+?>
+ BY: 
+   <input name="" type="text" width="150"/>
+
+</td>
+  </tr>
+<?php
+foreach($_POST['upload'] as $key => $value){
+
+?>  
+  <tr>
+    <td>
+    <?php
+    $arrtmp = explode("[",$value);
+	echo $arrtmp[0];
+	echo " ----- x  ";
+	echo trim(str_replace("]","",$arrtmp[1]));
+	echo "<br />"	
+	?>
+    </td>
+  </tr>
+<?php
+}
+?>  
+  <tr>
+    <td>Phone Collection DataBase</td>
+  </tr>
+</table>
+
+</body>
+</html>

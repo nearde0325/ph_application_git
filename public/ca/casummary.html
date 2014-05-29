@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+body{
+	font-family:Arial;
+	}
+.top{
+	display:block;
+	width:170mm;
+	height:30mm;
+	margin-left:10mm;
+	margin-top:10mm;	
+	}
+.theborder{
+	display:block;
+	width:170mm;
+	height:220mm;
+	border:#888 1px solid;
+	margin-left:10mm;
+		
+	}
+.footer{
+	display:block;
+	width:170mm;
+	height:10mm;
+	margin-left:10mm;
+	}
+</style>
+
+</head>
+
+<body>
+<div class="top">
+<table width="640" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left" valign="top" style="width:50mm; height:10mm;">Branch:{_shopcode_}</td>
+    <td valign="top">&nbsp;</td>
+    <td align="left" valign="top" style="width:50mm; height:10mm;">Date:[{_date_}]{_day_}</td>
+  </tr>
+</table>
+<table width="640" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left" valign="top" style="width:50mm; height:8mm; border:#AAA dashed 2px; font-size:12px;">Affix EFPOS Recept Here</td>
+    <td valign="top"><br />
+      <br />
+      <br /></td>
+    <td align="left" valign="top" style="width:50mm; height:18mm;  border:#AAA dashed 2px; font-size:12px;">Affix Warranty Return Here</td>
+  </tr>
+</table>
+
+</div>
+<div class="theborder">
+<table width="640" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>
+    <table width="100%" cellspacing="2" cellpadding="0" >
+  <tr>
+    <td style="border-bottom:#000 1px solid; width:50%; text-align:center;" >Cash Sales</td>
+    <td style="border-bottom:#000 1px solid; width:50%; text-align:center;" >Electronic Cash Sales</td>
+  </tr>
+</table>    
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+      <tr>
+        <td style="width:50%; font-size:12px; vertical-align:top;">
+        <table width="100%" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td style="width:50%">Total Opening Cash</td>
+    <td align="right">{_toc_}$</td>
+    <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>CashOut</td>
+    <td align="right">{_cashout_}$</td>
+    <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Cash Bank in </td>
+    <td align="right">{_bank_}$</td>
+    <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Opening Cash In Till</td>
+    <td align="right">{_ocit_}$</td>
+    <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Total Expense</td>
+    <td align="right">{_exp_}$</td>
+    <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Total Closing Cash</td>
+    <td align="right">{_tcc_}$</td>
+    <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Total Cash Sales</td>
+    <td align="right">{_tcs_}$</td>
+    <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>For Tomorrow CahsOut</td>
+    <td align="right">{_ftco_}$</td>
+	<td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+        </table>
+     </td>
+        <td style="width:50%; font-size:12px;  vertical-align:top;">
+          <table width="100%" border="0" cellspacing="10" cellpadding="0">
+            <tr>
+              <td style="width:50%">Qty of Marchent Copy</td>
+              <td align="right">{_qmc_}</td>
+              <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td>Debit / CR Card Amount</td>
+              <td align="right">{_drcr_}$</td>
+              <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td>Amex Card Amount</td>
+              <td align="right">{_amex_}$</td>
+              <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td>Offline Voucher</td>
+              <td align="right">{_offline_}$</td>
+              <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td colspan="2" align="right">&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td colspan="2" align="right">&nbsp;</td>
+            </tr>
+            <tr>
+              <td>Total Electronic Cash</td>
+              <td align="right">{_tes_}$</td>
+              <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="3" style="border-bottom:#000 solid 1px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td>Credit Note :</td>
+              <td align="right">{_crn_}$</td>
+              <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td>Coupon: </td>
+              <td align="right">{_con_}$</td>
+              <td style="width:15px; border:#333 1px solid;">&nbsp;</td>
+            </tr>
+          </table>
+          </td>
+      </tr>
+    </table></td>
+  </tr>
+  
+  <tr>
+    <td>
+    <table width="100%" cellspacing="2" cellpadding="0" >
+  <tr>
+    <td style="border-bottom:#000 1px solid; width:50%; text-align:center;" >Total Net Sales</td>
+    <td style="border-bottom:#000 1px solid; width:50%; text-align:center;" >APOS Record</td>
+  </tr>
+    <tr>
+    <td style=" padding:5px; width:50%; text-align:center; font-weight:bold;" >{_tns_}$</td>
+    <td style=" padding:5px; width:50%; text-align:center; font-weight:bold;" >{_apos_}$</td>
+  </tr>
+</table>     
+    <table width="100%" cellspacing="2" cellpadding="0" >
+  <tr>
+    <td style="border-bottom:#000 1px solid; width:50%; text-align:center;" ><br />
+      Remark For Opening</td>
+    <td style="border-bottom:#000 1px solid; width:50%; text-align:center;" ><br />Remark For Closing
+</td>
+  </tr>
+</table>     
+    <table width="100%" cellspacing="2" cellpadding="0" >
+  <tr>
+    <td style="border:#888 1px solid; width:50%; height:180px; text-align:left; vertical-align:top; overflow:hidden; padding:5px; font-size:12px; word-wrap:break-word;word-break: break-all;
+table-layout: fixed;" >{_remarkopen_}</td>
+    <td style="border:#888 1px solid; width:50%; height:180px; text-align: left; vertical-align:top; overflow:hidden; padding:5px; font-size:12px;word-wrap:break-word;word-break: break-all;
+table-layout: fixed;" >{_remarkclose_}</td>
+  </tr>
+</table>      
+    
+
+    </td>
+  </tr>
+<tr>
+    <td>
+        <table width="100%" cellspacing="2" cellpadding="0" >
+  <tr>
+    <td style="border-bottom:#000 1px solid; width:50%; text-align:center;" ><br />
+      Expense Record</td>
+    </tr>
+</table>  
+    
+      <table width="100%" border="0" cellspacing="5" cellpadding="0" style="font-size:12px;">
+        <tr>
+          <td>Product Name</td>
+          <td>$Amount</td>
+          <td>Name/ Signicture</td>
+        </tr>
+        <tr>
+          <td>1){_subexp1_}</td>
+          <td>{_amtexp1_}</td>
+          <td style="border-bottom:#000 solid 1px;" >{_nameexp1_}</td>
+        </tr>
+        <tr>
+          <td>2){_subexp2_}</td>
+          <td>{_amtexp2_}</td>
+          <td style="border-bottom:#000 solid 1px;">{_nameexp2_}</td>
+        </tr>
+        <tr>
+          <td>3){_subexp3_}</td>
+          <td>{_amtexp3_}</td>
+          <td style="border-bottom:#000 solid 1px;">{_nameexp3_}</td>
+        </tr>
+        <tr>
+          <td>4){_subexp4_}</td>
+          <td>{_amtexp4_}</td>
+          <td style="border-bottom:#000 solid 1px;">{_nameexp4_}</td>
+        </tr>
+        <tr>
+          <td>5){_subexp5_}</td>
+          <td>{_amtexp5_}</td>
+          <td style="border-bottom:#000 solid 1px;">{_nameexp5_}</td>
+        </tr>
+        <tr>
+          <td>6){_subexp6_}</td>
+          <td>{_amtexp6_}</td>
+          <td style="border-bottom:#000 solid 1px;">{_nameexp6_}</td>
+        </tr>
+        <tr>
+          <td>Manager</td>
+          <td>&nbsp;</td>
+          <td style="border-bottom:#000 solid 1px;">{_magexp_}</td>
+        </tr>
+      </table></td>
+  </tr>  
+  
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+    <table width="100%" cellspacing="0" cellpadding="0" >
+  <tr>
+    <td style="border:#000 1px solid; width:50%; font-size:12px;" >Opening ID:{_openid_} </td>
+    <td style="border:#000 1px solid; width:50%; font-size:12px;" >Closing ID:{_closeid_} </td>
+  </tr>
+  <tr>
+    <td style="border:#000 1px solid; width:50%; font-size:12px;" >Opening Staff Name:{_opsn_} </td>
+    <td style="border:#000 1px solid; width:50%; font-size:12px;" >Closing ID:{_clsn_} </td>
+  </tr>  
+</table>    
+    </td>
+  </tr>  
+  <tr>
+    <td>
+    <table width="100%" cellspacing="0" cellpadding="0" border="0" >
+  <tr>
+    <td style="border:#000 1px solid; width:50%;" >{_date_} | {_day_} | Sign:_____________</td>
+    <td style="border:#000 1px solid; width:50%;" >Audit By: __________ Date : ____/__/__</td>
+  </tr>
+</table>    
+    </td>
+  </tr>   
+</table>
+</div>
+</body>
+</html>

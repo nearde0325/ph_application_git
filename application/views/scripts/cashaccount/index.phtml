@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>index</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<?php
+if(!$this->errorflag){
+?>
+<table width="700" border="0" cellspacing="5" cellpadding="5" align="center">
+<FORM> 
+  <tr>
+    <td align="center"><INPUT type="button" value="OPENING" onClick="window.open('/cashaccount/opening/shop/<?php echo $this->shophead;?>','mywindow','width=1020,height=800,scrollbars=yes,location=no')" style="width:200px;height:100px; font-size:25px;"></td>
+    <td align="center"><input type="button" value="CLOSING" onclick="window.open('/cashaccount/closing/shop/<?php echo $this->shophead;?>','mywindow','width=1220,height=800,scrollbars=yes,location=no')" style="width:200px;height:100px; font-size:25px;" /></td>
+    <td align="center"><input type="button" value="SUMMARY" onclick="window.open('/cashaccount/printsummary/shop/<?php echo $this->shophead;?>','mywindow','width=1020,height=800,scrollbars=yes,location=no,menubar=yes')" style="width:200px;height:100px; font-size:25px;" /></td>
+  </tr>
+    <tr>
+    <td colspan="3" align="center">
+    <INPUT type="button" value="I Went To &quot;Bank&quot; Today,NOT The CashOut" onClick="window.open('/cashaccount/i-went-to-bank-today/shop/<?php echo $this->shophead;?>','mywindow','width=1020,height=800,scrollbars=yes,location=yes')" style="width:600px;height:100px; font-size:25px;">
+    
+    </td>
+    </tr>
+  <tr>
+    <td colspan="3" align="center">Print Out The Templates and Attach Your Store Receipt(s)<br /></td>
+    </tr>
+   <tr>
+    <td align="center"><a href="/docs/bankincashout.pdf" target="_blank"><img src="/im/pdficon.png" alt="Download" border="0" /></a><br />
+      Download<br />
+      Bank In/Cash Out Receipts   <br /></td>
+    <td align="center"><a href="/docs/efpos.pdf" target="_blank"><img src="/im/pdficon.png" alt="Download" border="0" /></a><br />
+      Download<br />
+      EFPOS Machine Receipts</td>
+    <td align="center"><a href="/docs/expense.pdf" target="_blank"><img src="/im/pdficon.png" alt="Download" border="0" /></a><br />
+      Download<br />
+      Expense Receipts</td>
+    </tr>
+   <tr>
+     <td colspan="3">&nbsp;</td>
+   </tr>
+   <tr>
+     <td colspan="3"><a href="/docs/OnlineCashAccountToturial.doc" target="_blank">Click Here </a>to download the toturial of Online Cash Account Form</td>
+   </tr>
+   <tr>
+     <td colspan="3" align="center"><p>Last 7 Days Cash Account Summary<br />
+       (You may using your Excel File to fill in the Missing Cash Account)
+     </p></td>
+   </tr>
+   <tr>
+     <td colspan="3"><table width="100%" border="1" cellspacing="0" cellpadding="5">
+       <tr>
+         <th scope="col">Date</th>
+         <th scope="col">Opening </th>
+         <th scope="col">Closing</th>
+       </tr>
+       <?php foreach($this->arrStatus as $key => $v){?>
+       <tr>
+         <td><?php echo $key;?></td>
+         <td align="center"><?php 
+		 if($v[0]){ echo "It's Done!";}
+		 else{
+		?>	 
+        <INPUT type="button" value="Missing,Do It Today" onClick="window.open('/cashaccount/opening/shop/<?php echo $this->shophead;?>/missing_date/<?php echo $key;?>','mywindow','width=1020,height=800,scrollbars=yes,location=no')" style="width:150px;height:30px; background-color:#FF8080;">
+		<?php	 
+			 }
+		  ?></td>
+         <td align="center">
+         <?php 
+		 if($v[1]){ echo "It's Done!";}
+		 else{
+		?>	 
+        <INPUT type="button" value="Missing,Do It Today" onClick="window.open('/cashaccount/closing/shop/<?php echo $this->shophead;?>/missing_date/<?php echo $key;?>','mywindow','width=1220,height=800,scrollbars=yes,location=no')" style="width:150px;height:30px;background-color:#FF8080;">
+		<?php	 
+			 }
+		  ?>
+         </td>
+       </tr>
+       <?php }?>
+     </table></td>
+   </tr>
+  </FORM>   
+</table>
+<?php
+}
+else{
+	echo "ERROR OCCUR";
+	}
+?>
+
+
+</body>
+</html>

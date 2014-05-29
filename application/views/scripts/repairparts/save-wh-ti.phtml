@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<?php ob_start();?>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<h1>Warehouse Transfer To Shop ID:<?php echo $this->idShop;?><br />
+<?php echo $this->RKT?>
+</h1>
+
+<table width="600" border="1" cellspacing="0" cellpadding="15">
+  <tr>
+    <td>Date :<?php
+echo $date = date("Y-m-d H:i");
+?> Staff Record : 
+    <?php
+ if($_POST['upload']!=""){
+echo $_POST['staff_name']
+?>
+    Sign:___________</td>
+  </tr>
+  
+  <tr>
+    <td>
+    <table width="500" border="0" cellspacing="0" cellpadding="3">
+      <tr>
+        <td style="width:425px">Code</td>
+        <td align="center">Qty</td>
+      </tr>
+   <?php
+
+foreach($_POST['upload'] as $key => $value){
+     $arrtmp = explode("[",$value);
+
+?>   
+      <tr>
+        <td>[<?php echo $arrtmp[0]; ?>]
+                <?php
+        $rProducts = new Model_DbTable_Pr_Prproducts();
+		echo $rProducts->getProductDes(trim($arrtmp[0]));
+		?>
+        </td>
+        <td align="center"><?php echo trim(str_replace("]","",$arrtmp[1])); ?></td>
+      </tr>
+<?php
+
+ }
+}
+?>  
+    </table>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Phone Collection Phone Repair Parts DataBase</td>
+  </tr>
+</table>
+
+</body>
+<?php
+$strHtmlBody = ob_get_contents();
+$subject = "We have Allocated following Phone Repair Parts For you Shop, you will recieve them shortly";
+$mail = new Model_Emailshandler();
+
+$shopHead = "";
+switch($this->idShop){
+	case(1):{$shopHead="BSXP";break;}
+	case(2):{
+		$shopHead="CSIC";break;
+	}
+	case(3):{
+		$shopHead="FGIC";break;
+	}
+	case(4):{
+		$shopHead="BHPC";break;
+	}
+	case(5):{
+		$shopHead="HPIC";break;
+	}
+	case(6):{
+		$shopHead="CBPC";break;
+	}
+	case(7):{
+		$shopHead="WLIC";break;
+	}
+	case(8):{
+		$shopHead="EPPC";break;
+	}
+	case(9):{
+		$shopHead="WBPC";break;
+	}
+	case(10):{
+		$shopHead="NLPC";break;
+	}
+	case(11):{
+		$shopHead="DCIC";break;
+	}
+	default:{
+		$shopHead="HPPC";break;
+	}
+}
+
+$sh = new Model_DbTable_Shoplocation();
+$receiver = $sh->getShopMailByHead($shopHead);
+$managerEmail = $sh->getStoreManMailByHead($shopHead);
+
+
+$mail->sendNormalEmail($receiver, $subject, $strHtmlBody);
+$mail->sendNormalEmail($managerEmail, $subject, $strHtmlBody);
+$mail->sendNormalEmail("jeffrey.zhang@phonecollection.com.au", $subject, $strHtmlBody);
+
+?>
+</html>

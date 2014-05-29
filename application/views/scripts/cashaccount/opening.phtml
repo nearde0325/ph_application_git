@@ -1,0 +1,263 @@
+<?php
+header("Expires: Mon, 26 Jul 1970 05:00:00 GMT");      
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");      
+header("Cache-Control: no-cache, must-revalidate");      
+header("Pragma: no-cache");  
+//$shop_code = "BSPC";
+date_default_timezone_set('Australia/Melbourne'); 
+$dayToday = date("l",strtotime($this->dateToday));
+
+$dateToday = $this->dateToday;
+$timeNow = Model_DatetimeHelper::timeNow();
+
+$sh = new Model_DbTable_Shoplocation();
+$shopName = $sh->getNameByHead($this->shophead);
+
+$calFileName = "cal_open_0411.js";
+$valFileName = "valudate_open_0916.js";
+
+//yesterday closing 
+
+$caClosing = new Model_DbTable_Cashaccountclosing();
+$lastClosing = $caClosing->getLastBusDayClosing($this->shopHead, $dateToday);
+if(!$lastClosing){}
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Online Cash Account</title>
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="/js/scrollable.js"></script>
+<script type="text/javascript" src="/js/<?=$calFileName?>"></script>
+<link href="/css/cashaccountstyle.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<form id="form_cashaccount" name="form_cashaccount" method="post" action="/cashaccount/saveopening">
+<div id="main">
+
+	<div id="wizard">
+<span style="font-size:20px;; color:#036;" >Cash Account Opening [version 0.3]</span>
+<input class="btnother" type="reset" name="button5" id="button5" value="START OVER" style="float:right;line-height:20px;" />
+
+    	<ul id="status">
+			<li class="active"><strong>1.</strong>Staff Information</li>
+            <li><strong>2.</strong>Opening Cash In The Till</li>
+			<li><strong>3.</strong>Confirm Opening Balance</li>
+		</ul>
+        <div class="items">
+        
+        <div class="page">
+        	
+        <h3>STAFF INFORMATION<br/>
+        <em>Please fill in your information  below</em></h3>
+        <div class="container">
+        <p><label><strong> Shop Name: <?=$shopName["name_of_shop"]?></strong> [<?php echo $this->shophead;?>]</label> 
+        <input type="hidden" name="shop_code" id="shop_code" value="<?php echo $this->shophead;?>" />
+        </p>
+        <p><label> Current Date and Time From <strong>Server,Melbourne Time</strong></label>
+        <input class="disinput" type="text" name="date_record" id="date_record" readonly="readonly" value="<?php echo $dateToday?>"  />
+        <input class="disinput" type="text" name="time_record" id="time_record" readonly="readonly" value="<?php echo $timeNow?>"  />
+        <input class="disinput" type="text" name="day_record" id="day_record" value="<?php echo $dayToday?>" />
+        </p>
+        <p><label>Prepared By <a name="pb" title="Composory field,fill staff name who preapre for this form" style=" line-height:13px; vertical-align:middle; " ><img src="/im/help.jpg" width="17" height="17" border="0"/></a></label>
+          <input class="cominput" type="text" name="staff_name" id="staff_name"  /><span class="comred">*</span>
+        </p>
+        <p><label>Staff On Duty <a name="pb" title="Fill staff name(s) that 'On Duty' This Shift" style=" line-height:13px; vertical-align:middle; " ><img src="/im/help.jpg" width="17" height="17" border="0"/></a><span style="margin-left:165px;">Second Staff On Duty (If Applicable)</span></label>
+        <input class="cominput" type="text" name="staff_on_duty1" id="staff_on_duty1" /><span class="comred" style="margin-right:10px;">*</span> <input class="input" type="text" name="staff_on_duty2" id="staff_on_duty2" value="" />       
+        </p>
+        <p>
+        <input type="radio" name="check_dvr" id="check_dvr1" value="1" / >
+        I have Check the Video Recorder , it is in normal working condition at the moment.<br />
+        <input type="radio" name="check_dvr" id="check_dvr2" value="0">
+        The Video Recorder not in normal working condition,Or I can not tell if it is working (for various reason),<br />
+I will call Head Office to report the issue regarding the Video Recorder By Today. </p>
+        <p>
+        <?php 
+		if($this->syncError){
+		?>
+        <span style="color:red;">Please sync your APOS system after you finish Online Cash Account Opening, according record, synchronous may be failed yesterday. It may cause the inaccurate of your daily stock take list, when you finish sync APOS please inform Carla to re-generate your daily (Weekly) stock take list  </span>
+        <?php	
+			}
+		?>
+        </p>
+		</div>
+        	   <div class="error_inv" id="error_message_1">
+          		<span style="font-weight:bold;display:block; line-height:13px;" ><img src="/im/ca/error2.jpg" /> Error occur</span>
+                <span id="error_detail"></span>
+                </div>
+               <div class="btn_nav">
+                  <input type="button" class="next right" value="NEXT&raquo;" />
+               </div>
+        </div>
+        
+        <div class="page">
+        <h3>Cash In Till
+        <?php if(!$this->notFromYesterday){?>
+         The Closing Cash For yesterday is : $ <?php echo $this->cashclosing ?><br />
+         Yesterday Total Sales is : $ <?php echo $this->totalSales ?>
+        <?php } ?>
+        <br/><em>Please count the cash in till current time</em>,You may Press [Tab] Key for the next colume</h3>
+        <div class="container">
+        <table width="100%" border="0" cellspacing="1" cellpadding="0">      <tr>
+        <td>Denominations</td>
+        <td>Quantity*</td>
+        <td>Amount</td>
+      </tr>
+      <tr>
+        <td>$100.00</td>
+        <td><input class="sinput" name="qty_note_100" type="text" id="qty_note_100" value="0" onchange="calculateCashAmount(100,'qty_note_100','amount_note_100')" tabindex="1" /></td>
+        <td><input class="sinput"  name="amount_note_100" type="text" id="amount_note_100" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$50.00</td>
+        <td><input class="sinput"  name="qty_note_50" type="text" id="qty_note_50" value="0" onchange="calculateCashAmount(50,'qty_note_50','amount_note_50')" tabindex="2" /></td>
+        <td><input class="sinput"  name="amount_note_50" type="text" id="amount_note_50" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$20.00</td>
+        <td><input class="sinput"  name="qty_note_20" type="text" id="qty_note_20" value="0" onchange="calculateCashAmount(20,'qty_note_20','amount_note_20')" tabindex="3"  /></td>
+        <td><input class="sinput"  name="amount_note_20" type="text" id="amount_note_20" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$10.00</td>
+        <td><input class="sinput"  name="qty_note_10" type="text" id="qty_note_10" value="0" onchange="calculateCashAmount(10,'qty_note_10','amount_note_10')" tabindex="4" /></td>
+        <td><input class="sinput"  name="amount_note_10" type="text" id="amount_note_10" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$5.00</td>
+        <td><input class="sinput"  name="qty_note_5" type="text" id="qty_note_5" value="0" onchange="calculateCashAmount(5,'qty_note_5','amount_note_5')" tabindex="5" /></td>
+        <td><input class="sinput"  name="amount_note_5" type="text" id="amount_note_5" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$2.00</td>
+        <td><input class="sinput"  name="qty_coin_2" type="text" id="qty_coin_2" value="0" onchange="calculateCashAmount(2,'qty_coin_2','amount_coin_2')" tabindex="6" /></td>
+        <td><input class="sinput"  name="amount_coin_2" type="text" id="amount_coin_2" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$1.00</td>
+        <td><input class="sinput"  name="qty_coin_1" type="text" id="qty_coin_1" value="0" onchange="calculateCashAmount(1,'qty_coin_1','amount_coin_1')" tabindex="7" /></td>
+        <td><input class="sinput"  name="amount_coin_1" type="text" id="amount_coin_1" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$0.50</td>
+        <td><input class="sinput"  name="qty_coin_05" type="text" id="qty_coin_05" value="0" onchange="calculateCashAmount(0.5,'qty_coin_05','amount_coin_05')" tabindex="8"  /></td>
+        <td><input class="sinput"  name="amount_coin_05" type="text" id="amount_coin_05" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$0.20</td>
+        <td><input class="sinput"  name="qty_coin_02" type="text" id="qty_coin_02" value="0" onchange="calculateCashAmount(0.2,'qty_coin_02','amount_coin_02')" tabindex="9"  /></td>
+        <td><input class="sinput"  name="amount_coin_02" type="text" id="amount_coin_02" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$0.10</td>
+        <td><input class="sinput"  name="qty_coin_01" type="text" id="qty_coin_01" value="0" onchange="calculateCashAmount(0.1,'qty_coin_01','amount_coin_01')" tabindex="10"  /></td>
+        <td><input class="sinput"  name="amount_coin_01" type="text" id="amount_coin_01" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td>$0.05</td>
+        <td><input class="sinput"  name="qty_coin_005" type="text" id="qty_coin_005" value="0" onchange="calculateCashAmount(0.05,'qty_coin_005','amount_coin_005')" tabindex="11" /></td>
+        <td><input class="sinput"  name="amount_coin_005" type="text" id="amount_coin_005" value="0" readonly="readonly" />$</td>
+      </tr>
+      <tr>
+        <td ><input class="btnother" type="button" name="btn_cal_total_cash_in_till" id="btn_cal_total_cash_in_till" value="Calculate Total Opening Cash" tabindex="12" /><span id="sp_id_cal_bal" class="notclickyet" >&nbsp;<input id="id_cal_open_cash_in_till" type="hidden" value="0"></span></td>
+        <td><strong>Total Opening Cash:</strong></td>
+        <td><input type="text" name="total_open_cash" id="total_open_cash" value="0" class="disinput" />$</td>
+      </tr>
+<?php if($this->notFromYesterday){?>      
+      <tr>
+        <td colspan="3" ><span style="color:#FF0000; margin-top:5px;">We Can Not Detect Total Closing Cash Amount For Yesterday,Please Select The Reason</span></td>
+        </tr>
+      <tr>
+        <td ><input type="radio" name="r_shop_open" id="r_shop_not_open" value="1" />
+          <label for="radio">Shop Did Not Open Yesterday (Holiday /Scheduled Close)</label></td>
+        <td rowspan="2"><span id="last_bus_day">Yesterday  Closing Cash:</span></td>
+        <td rowspan="2"><input type="text" name="manual_input_cash_closing" id="manual_input_cash_closing" class = "input"/>
+          $</td>
+      </tr>
+      <tr>
+        <td ><input type="radio" name="r_shop_open" id="r_shop_did_open" value="2" />
+          Shop Opened Yesterday ,I Will Fill The Amount As Follow</td>
+        </tr>
+ <?php }?>     
+      
+        </table>
+</div>    
+        <div id="sp_open_close_not_match" class="error_inv">
+<span style="color:#f00;">*Total Opening Does Not Match The Closing Balance Yesterday,<strong>Please Count the Cash for THE SECOND TIME</strong><br />
+*Please <b>Only  Count the Cash for TWO TIMES</b>,if you believe your counting is correct,Please simply goto &quot;Next&quot; Page to Confirm it</span></div>
+      <div class="error_inv" id="error_message_2">
+          		<span style="font-weight:bold;display:block; line-height:13px;" ><img src="/im/ca/error2.jpg" /> Error occur</span>
+                <span id="error_detail_2"></span>
+                </div>         
+               <div class="btn_nav">
+                  <input type="button" class="prev" style="float:left" value="&laquo;PREV" />
+                  <input type="button" class="next right" value="NEXT&raquo;" />
+               </div>       
+        </div>  
+        
+        <div class="page">
+        <h3>Opening Balance<br/><em>Cash in Till at the begining of the Day</em></h3>
+        <div class="container">
+        <p>      
+        <table width="100%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td colspan="3" style="width:34%;">Now Please Take out $<input type="text" class="input"  name="cashout_amount" id="cashout_amount" value="0" /> 
+    From the Till,(Please Start from the Largest Note) <br />
+      <div class="alert-info">* DO NOT take any money from Bank In/ Cash Out Amount for Expenses/ Purchasing,take from Opening Cash (normally $300)<br />
+      *
+      If ACTUAL Bank In / Cash Out Amount is <strong>DIFFERENT FROM</strong> the Amount Above, Please Do Opening Again <strong>WITHIN TODAY</strong></div></td>
+    </tr>
+  <tr>
+    <td><input type="hidden"  name="close_balance_yesterday" id="close_balance_yesterday" value="<?php echo $this->cashclosing ?>"  readonly="readonly"/><input type="hidden"  name="close_balance_yesterday_init" id="close_balance_yesterday_init" value="<?php echo $this->cashclosing ?>"  readonly="readonly"/></td>
+    <td><input type="hidden"  name="opening_cash_in_till" id="opening_cash_in_till" value="0" /></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>      
+        <div style="margin-top:10px;">Now Choose Cash Out Or Bank In <span style="color:#F00; font-weight:bold; ">(Please Must Use The &quot;I Went To Bank Today&quot; Function By The End Of Today, If You Choose To Bank In Today,<a href="/docs/New%20Method%20to%20Recording%20Shop%20Bank%20In%20Detail.docx" target="_blank">Toturial</a> is Here)</span></div>
+        <table width="100%" border="0" cellspacing="2" cellpadding="2">
+  <tr>
+    <td style="width:34%;"><input name="cash_out_method" id="cash_out_method1" type="radio" value="1" /><label>Cash Out(Bring Back to Head Office)</label></td>
+    <td style="width:33%;"><input name="cash_out_method" id="cash_out_method2" type="radio" value="2" /><label>Bank In(Deposit into Bank)</label></td>
+    <td style="width:33%;"><input name="cash_out_method" id="cash_out_method3" type="radio" value="3" /><label>
+      Unnecessary (Only When &lt; $300)</label></td>
+  </tr>
+</table>
+
+        </p>
+   
+        <p>
+        <input type="checkbox" name="cash_in_the_till_match" id="cash_in_the_till_match" value="1" />
+        I Confirm Total Cash Amount Match The Closing Balance Yesterday / Last Business Day.<br />
+        <span id="sp_open_balance_not_match" >
+        <span style="font-weight:bold; color:#FF0000;">If the Total Cash Amount Can Not Match The Closing Balance Last Business Day,Do Not Tick the Checkbox,Remark The Follow Details.</span>
+        <textarea cols="70" rows="4" id="open_balance_not_match" name="open_balance_not_match">1) Did you count the cash for TWO TIMES and they are the same amount? Answer:
+2) Did you also do the closing Yesterday? Answer:
+        </textarea>
+        </span>
+        </p>        
+        </div>
+        	   <div class="error_inv" id="error_message_3">
+          		<span style="font-weight:bold;display:block; line-height:13px;" ><img src="/im/ca/error2.jpg" /> Error occur</span>
+                <span id="error_detail_3"></span>
+                </div>         
+               <div class="btn_nav">
+                  <input type="button" class="prev" style="float:left" value="&laquo;PREV" />
+                  <input type="button" class="next right" id="sub" value="CREATE OPENING SUMMARY" />
+               </div>      
+        </div>
+                  
+                  
+                          
+        </div>
+    
+    </div>
+</div>
+</form>
+<script type="text/javascript" src="/js/<?=$valFileName?>"></script>
+</body>
+</html>

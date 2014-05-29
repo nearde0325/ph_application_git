@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<h1>Warehouse Good Receive Record (GI)<br />
+ 
+ <?php echo $this->RGN;?>
+ <br />
+</h1>
+
+<table width="600" border="1" cellspacing="0" cellpadding="15">
+  <tr>
+    <td>Date :<?php
+echo $date = date("Y-m-d H:i");
+?> Staff Record : 
+    <?php
+if($_POST){	
+echo $_POST['staff_name']
+?>
+    Sign:___________</td>
+  </tr>
+  
+  <tr>
+    <td>
+    <table width="500" border="0" cellspacing="0" cellpadding="3" style="font-size:12px">
+
+  <tr>
+    <th bgcolor="#FFFFFF" style="width:150px;" scope="col" >BarCode</th>
+    <th bgcolor="#FFFFFF" style="width:20px;" scope="col" >Cate</th>
+    <th bgcolor="#FFFFFF" scope="col">Title</th>
+    <th bgcolor="#FFFFFF" style="width:40px;" scope="col" >Qty</th>
+  </tr>
+
+   <?php
+foreach($_POST['upload'] as $key => $value){
+     $arrtmp = explode("|",$value);
+
+?>   
+      <tr>
+        <td><?php echo $arrtmp[0]; ?></td>
+        <td><?php echo $arrtmp[1]; ?></td>
+        <td><?php echo $arrtmp[2]; ?></td>
+        <td align="center"><?php echo trim($arrtmp[3]); ?></td>
+      </tr>
+<?php
+}
+}
+?>  
+    </table>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Phone Collection Phone Repair Parts Record</td>
+  </tr>
+</table>
+
+</body>
+</html>

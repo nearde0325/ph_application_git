@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<h3>Import Stock</h3>
+<p>1. Import Warehouse Stock Old APOS Stock (R470)(Last Week from <?php echo Model_DatetimeHelper::getLastWeekMonday() ?> to <?php echo Model_DatetimeHelper::getLastWeekSunday() ?> ) <?php  if($this->skOldExist){ ?>	  
+<span class="label label-success">File Upload Success!!</span>
+<?php }?></p>
+<form action="/products/import-stock-old" method="post" enctype="multipart/form-data" name="form1" id="form1">
+  <input type="file" name="r470_old" id="r470_old" />
+  <input type="submit" name="button" id="button" value="GO" />
+</form>
+<p> 
+2. Import Warehouse Stock New APOS Stock
+     (R470)(Last Week from <?php echo Model_DatetimeHelper::getLastWeekMonday() ?> to <?php echo Model_DatetimeHelper::getLastWeekSunday() ?> )<?php  if($this->skNewExist){ ?>	  
+<span class="label label-success">File Upload Success!!</span>
+<?php }?> 
+<div class="alert alert-block ">
+							<button type="button" class="close" data-dismiss="alert">X</button>
+							<h4 class="alert-heading">Attention</h4>
+							<p>Please make sure Warehouse Stock has been adjust to 0 before you upload</p>
+						</div>
+    </p>
+<form action="/products/import-stock-new" method="post" enctype="multipart/form-data" name="form1" id="form2">
+  <input type="file" name="r470_new" id="r470_new" />
+  <input type="submit" name="button2" id="button2" value="GO" />
+  <br />
+</form>
+<p>  <br />
+  <br />
+<h3>Import Sales (R477/Sales Line)</h3><br />
+  1. Import Old Apos Shop Total Sales (Last Week from <?php echo Model_DatetimeHelper::getLastWeekMonday() ?> to <?php echo Model_DatetimeHelper::getLastWeekSunday() ?> ) 
+<?php  if($this->slOldExist){ ?>	  
+<span class="label label-success">File Upload Success!!</span>
+<?php }?>
+  <br />
+</p>
+<form action="/products/import-sales-old" method="post" enctype="multipart/form-data" name="form1" id="form3">
+  <label for="fileField3"></label>
+  <input type="file" name="sales_line_old" id="sales_line_old" />
+  <input type="submit" name="button3" id="button3" value="GO" />
+  <br />
+</form>
+<p>&nbsp; </p>
+<p>2.Import New Apos Shop Total Sales (Last Week from <?php echo Model_DatetimeHelper::getLastWeekMonday() ?> to <?php echo Model_DatetimeHelper::getLastWeekSunday() ?> )
+<?php  if($this->slNewExist){ ?>	  
+<span class="label label-success">File Upload Success!!</span>
+<?php }?>
+<br />
+</p>
+<form action="/products/import-sales-new" method="post" enctype="multipart/form-data" name="form1" id="form4">
+  <label for="fileField4"></label>
+  <input type="file" name="sales_line_new" id="sales_line_new" />
+  <input type="submit" name="button4" id="button4" value="GO" />
+  <br />
+</form>
+<br />
+<h3>Import Sales Man Sales</h3>
+<p>3. Import Old Apos Shop Sales Man Sales(Last Week from <?php echo Model_DatetimeHelper::getLastWeekMonday() ?> to <?php echo Model_DatetimeHelper::getLastWeekSunday() ?> )<?php  if($this->smOldExist){ ?>	  
+<span class="label label-success">File Upload Success!!</span>
+<?php }?> <br />
+
+<form action="/products/import-sales-man-old" method="post" enctype="multipart/form-data" name="form1" id="form4">
+  <label for="fileField4"></label>
+  <input type="file" name="sales_man_old" id="sales_man_old" />
+  <input type="submit" name="button4" id="button4" value="GO" />
+  <br />
+</form>
+  <br />
+  <br />
+  4. Import New Apos Shop Sales Man Sales(Last Week from <?php echo Model_DatetimeHelper::getLastWeekMonday() ?> to <?php echo Model_DatetimeHelper::getLastWeekSunday() ?> ) <?php  if($this->smNewExist){ ?>	  
+<span class="label label-success">File Upload Success!!</span>
+<?php }?>
+<br />
+<form action="/products/import-sales-man-new" method="post" enctype="multipart/form-data" name="form1" id="form4">
+  <label for="fileField4"></label>
+  <input type="file" name="sales_man_new" id="sales_man_new" />
+  <input type="submit" name="button4" id="button4" value="GO" />
+  <br />
+</form>
+<h3>Import Price</h3><br />
+1.Import Price File (importing)<br />
+</p>
+<form action="" method="post" enctype="multipart/form-data" name="form1" id="form5">
+  <label for="fileField5"></label>
+  <input type="file" name="fileField5" id="fileField5" />
+  <input type="submit" name="button5" id="button5" value="GO" />
+  <br />
+</form>
+<p>  <br />
+  2.Import RRP Price File
+    <br />
+</p>
+<form action="" method="post" enctype="multipart/form-data" name="form1" id="form6">
+  <label for="fileField6"></label>
+  <input type="file" name="fileField6" id="fileField6" />
+  <input type="submit" name="button6" id="button6" value="GO" />
+  <br />
+</form>
+<h3>Import China Order</h3>
+<form action="/products/import-china-order" method="post" enctype="multipart/form-data" name="form1" id="form6" target="_blank" >
+  <label for="fileField6"></label>
+  <input type="file" name="order_file" id="order_file" />
+  <input type="submit" name="button6" id="button6" value="GO" />
+  <br />
+</form>
+</body>
+</html>

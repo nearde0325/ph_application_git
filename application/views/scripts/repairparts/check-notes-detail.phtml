@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<?php $resList = $this->resList; 
+$prProduct = new Model_DbTable_Pr_Prproducts();
+
+
+?>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1><?php echo $this->idJob?><br />
+  <br />
+  To Shop ID:<?php echo $resList[0]["shop_code"]; ?> , On : <?php echo $resList[0]["date_move"]; ?> <?php echo $resList[0]["time_move"]; ?><br />
+  By: <?php echo $resList[0]["staff_name"]; ?>
+</h1>
+<table width="650" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <th scope="col">Code</th>
+    <th scope="col">Description</th>
+    <th scope="col">Qty</th>
+  </tr>
+  <?php foreach($resList as $key => $v){
+	 if($v['code_move']!=9){  
+	  ?>
+ 
+  <tr>
+    <td><?php 
+    $pLine = $prProduct->getProduct($v["id_product"]);
+    echo $pLine["code_product"];
+    ?></td>
+    <td style="font-size:12px;"><?php echo $pLine["title_product"]?></td>
+    <td><?php 
+	echo ($v['code_move']==6)?"- ":"";
+	echo $v["qty_product"]?></td>
+  </tr>
+  <?php
+	 }
+  
+   }?>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+	});
+	</script>
+<p><a href="/rosteraudit/check-all-names">Check Attendance By Names</a> | <a href="/rosteraudit/check-on-duty/shop/vic">VIC Shops</a> | <a href="/rosteraudit/check-on-duty/shop/sa">SA Shops<br />
+<br />
+</a></p>
+<?php
+date_default_timezone_set('Australia/Melbourne');
+$attRecord = new Model_DbTable_Roster_Attnrecord();
+$timeSheet = new Model_DbTable_Roster_Timesheet();
+$staffs =new Model_DbTable_Roster_Stafflogindetail();
+?>
+<a href="/rosteraudit/check-all-names">ALL</a>
+<?
+for($i=1;$i<27;$i++){
+?>
+<a href="/rosteraudit/check-roster-by-name/i/<?=$i?>"><?php echo chr($i +64)?></a> | 
+<?php	
+	}
+?>
+<?php if($this->showSlist){
+		
+$tmpArr = array();
+if($this->sList){
+foreach($this->sList as $k => $v){	
+	$tmpArr[$v["id"]] = Model_EncryptHelper::getSslPassword($v["n"]);
+	}
+}
+asort($tmpArr);	
+	?>
+<table width="1400" border="1" cellspacing="0" cellpadding="0">
+<tr>
+<td>
+<?php foreach($tmpArr as $k => $v){?>
+<div style="border:#ccc solid 2px; width:450px; margin:15px; padding:10px; display:inline-block; ">
+
+<a href="/rosteraudit/check-roster-by-name/std/<?=$k?>" style="color:#000;text-decoration:none"><h3><?=ucwords($v)?><em style="font-size:12px">()</em></h3></a>
+<?php 
+
+	$shList = $attRecord->getShopHeadByStaffId($k);
+	if(!empty($shList)){
+	foreach($shList as $sh){
+		echo Model_EncryptHelper::getSslPassword($sh["sh"]);
+		echo "<br />";
+	}
+	}
+	
+?>
+
+
+</div>
+<?php }?>
+</td>
+</tr>
+</table>
+<?php }?>
+
+<br />
+<br />
+<?php if($this->showDetail){ ?>
+<table width="1400" border="1" cellspacing="0" cellpadding="0">
+<tr>
+<td>
+<div style="border:#ccc solid 2px; width:450px; margin:15px; padding:10px; display:inline-block; ">
+<a target="_blank" href="/rosteraudit/update-person-info/stid/<?php echo base64_encode($this->idStaff); ?>"><img src="/im/user.png" border="0" /> </a> <img src="/im/dollar.jpg"  border="0"/>
+<h3><?=ucwords($this->staffName)?><em style="font-size:12px">(<?=ucwords($this->nickName)?>)</em>
+
+
+</h3>
+
+<span style="font-size:12px;">
+<?php 
+
+	$shList = $attRecord->getShopHeadByStaffId($this->idStaff);
+	if(!empty($shList)){
+	foreach($shList as $sh){
+		echo Model_EncryptHelper::getSslPassword($sh["sh"]);
+		echo " ";
+	}
+	}
+	
+?>
+</span>
+</div>
+<?php
+if($this->issu){
+ ?>
+<div style="width:500px; float:right;">
+<form action="/rosteraudit/insert-fake-attn-record" method="post" target="_blank" >
+  <p>INSERT FAKE RECORD: For This Staff<br />
+    <input type="hidden" name="staff_id" id="staff_id" value="<?php echo $this->idStaff;?>" />
+    <br />
+    
+    
+    Shop Code: <input name="shop_code" type="text" />
+  <br />
+  <br />
+    Date:
+  <input type="text" name="year" id="year" value="yyyy" style="width:50px;" /> 
+    -
+  <input type="text" name="month" id="month" value="mm" style="width:50px;" />
+    -
+  <input type="text" name="day" id="day" value="dd" style="width:50px;" /> 
+    (2013-09-09)<br />
+  <br />
+    Time:
+  <input type="text" name="hour" id="hour" value="hh" style="width:50px;" /> 
+    :
+  <input type="text" name="min" id="min" value="mm" style="width:50px;" /> 
+    (09:08),(17:59)<br />
+  <br />
+  <label for="status">On Off Duty:</label>
+  <select name="status" id="status">
+    <option value="ONDUTY">On-Duty</option>
+    <option value="OFFDUTY">Off---Duty</option>
+  </select>
+  <br />
+  <br />
+    <input type="submit" name="btn_insert" id="btn_insert" value="Insert Record" disabled="disabled" />
+    <br />
+    <br />
+    (Be Very Careful ,This will directly Insert Attendance Record)<br />
+    <br />
+    <label for="password"></label>
+    <input type="password" name="password" id="password" />
+    Input Password<br />
+<br />
+  </p>
+</form>
+</div>
+
+<?php }?>
+
+</td>
+</tr>
+  <tr>
+    <td align="left" valign="top">
+
+<form action="" method="post">     
+  Date Begin [yyyy-mm-dd]:
+    <input name="date_begin" id="date_begin" type="text" />  Date End:<input name="date_end" id="date_end" type="text" /> |  <input type="submit" name="button" id="button" value="Submit" />
+  </p>
+</form>
+
+<p>From Date 1 to Date 2 , Total Working days , Total Schedual Hour , Total Acutal Hour , Positive : Negative <br />
+</p>
+<table width="98%" border="0" cellspacing="1" cellpadding="10" bgcolor="#000000" style="margin:15px;">
+  <tr>
+    <th  rowspan="2" bgcolor="#FFFFFF" scope="col">Date</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Day</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Shop</th>
+    <th colspan="2" bgcolor="#FFFFFF" scope="col">Roster Time</th>
+    <th colspan="2" bgcolor="#FFFFFF" scope="col">Actual Log</th>
+    <th colspan="2" bgcolor="#FFFFFF" scope="col">Status</th>
+    <th colspan="3" bgcolor="#FFFFFF" scope="col">Shift Hours</th>
+    <th colspan="3" bgcolor="#FFFFFF" scope="col">Actual Hours</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Sat (AH)</th>
+    <th rowspan="2" bgcolor="#FFFFFF" scope="col">Sun (AH)</th>
+  </tr>
+    <tr>
+    <th bgcolor="#FFFFFF" scope="col">Start</th>
+    <th bgcolor="#FFFFFF" scope="col">End</th>
+    <th bgcolor="#FFFFFF" scope="col">Start</th>
+    <th bgcolor="#FFFFFF" scope="col">End</th>
+    <th bgcolor="#FFFFFF" scope="col">On</th>
+    <th bgcolor="#FFFFFF" scope="col">Off</th>
+    <th bgcolor="#FFFFFF" scope="col">&lt; 6PM</th>
+    <th bgcolor="#FFFFFF" scope="col">&gt; 6 PM</th>
+    <th bgcolor="#FFFFFF" scope="col">Total</th>
+    <th bgcolor="#FFFFFF" scope="col">&lt; 6 PM</th>
+    <th bgcolor="#FFFFFF" scope="col">&gt; 6 PM</th>
+    <th bgcolor="#FFFFFF" scope="col">Total</th>
+    </tr>
+    
+<?php 
+	$oldDate = "";
+	foreach($this->rList as $k => $vl){
+	//var_dump($vl);
+	$bgColor = 'style="background-color:#FFFFFF"';
+	
+	if($vl["day"]=="Sat" || $vl["day"]=="Sun" ){
+	$bgColor = 'style="background-color:#BBD7FF"';
+	}
+	?>   
+	
+ 
+    <tr style="font-size:13px;">
+    <td <?=$bgColor?> >
+	<?
+    if($vl["date"] !=$oldDate ){
+		echo $oldDate = $vl["date"];
+		}
+	?>
+    </td>
+    <td <?=$bgColor?> ><?=$vl["day"]?></td>
+    <td <?=$bgColor?> ><?=$vl["shophead"]?></td>
+    <td <?=$bgColor?> >
+	<?php 
+	if($vl["shophead"]=="ADPC" || $vl["shophead"] == "WLIC" || $vl["shophead"]=="CLPC" || $vl["shophead"] =="CLIC"){
+		date_default_timezone_set('Australia/Adelaide');
+		}
+	else{
+		date_default_timezone_set('Australia/Melbourne');
+		}	
+	echo ($vl["shift_begin"]=="")?"-":date("H:i",$vl["shift_begin"]);
+	?>
+    </td>
+    <td <?=$bgColor?> >
+    <?php 
+	echo ($vl["shift_end"]=="")?"-":date("H:i",$vl["shift_end"]);
+	?></td>
+    <td <?=$bgColor?> >
+    <?php 
+	echo ($vl["act_begin"]=="")?"-":date("H:i",$vl["act_begin"]);
+		echo ($vl["offline_begin"])?'<img src="/im/apos_logo" width="19" title="Offline Attendance" />':"";
+	?>
+    </td>
+    <td <?=$bgColor?> >
+    <?php 
+	echo ($vl["act_end"]=="")?"-":date("H:i",$vl["act_end"]);
+	echo ($vl["fake_act_end"])?'<img src="/im/man_insert.png" width="19" title="Super User Manual Insert" />':"";
+		echo ($vl["offline_end"])?'<img src="/im/apos_logo" width="19" title="Offline Attendance" />':"";
+	?>
+    </td>
+    <td <?=$bgColor?> >
+    <?php
+	//need extra job
+    switch($vl["status_begin"]){
+		case('0'):{echo '<img src="/im/glyphicons_ok.png" width="20"/>';break;}
+		case(START_EARLY):{echo '<img src="/im/glyphicons_thumbs_up.png" width="20"  />';break;}
+		case(START_LATE):{echo '<img src="/im/glyphicons_alarm.png"  width="20" />';break;}
+		case(START_NO_RECORD):{echo '<img src="/im/glyphicons_warning_sign.png"  width="20" />';break;}
+		case('-'):{echo "-"; break;}
+		};
+	?>
+    </td>
+    <td <?=$bgColor?> >
+    <?php
+    switch($vl["status_end"]){
+		case('0'):{echo '<img src="/im/glyphicons_ok.png" width="20"  />';break;}
+		case(FINISH_LATE):{echo '<img src="/im/glyphicons_thumbs_up.png" width="20"  />';break;}
+		case(FINISH_EARLY):{echo '<img src="/im/glyphicons_alarm.png" width="20"  />';break;}
+		case(FINISH_NO_RECORD):{echo '<img src="/im/glyphicons_warning_sign.png" width="20"  />';break;}
+		case('-'):{echo "-"; break;}
+		};
+    ?>
+    </td>
+    <td <?=$bgColor?> ><?=$vl["shift_normal_hour"]?></td>
+    <td <?=$bgColor?> ><?=$vl["shift_6pm_hour"]?></td>
+    <td <?=$bgColor?> >
+    <?php
+    echo (is_numeric($vl["shift_normal_hour"]) && is_numeric($vl["shift_normal_hour"]))?($vl["shift_normal_hour"] + $vl["shift_6pm_hour"]):"-";
+	
+	?>
+    </td>
+    <td <?=$bgColor?> ><?=$vl["act_normal_hour"]?></td>
+    <td <?=$bgColor?> ><?=$vl["act_6pm_hour"]?></td>
+    <td <?=$bgColor?> >
+    <?php
+    echo (is_numeric($vl["act_normal_hour"]) && is_numeric($vl["act_normal_hour"]))?($vl["act_normal_hour"] + $vl["act_6pm_hour"]):"-";
+	
+	?>
+    </td>
+    <td <?=$bgColor?> ><?=$vl["act_sat_hour"]?></td>
+    <td <?=$bgColor?> ><?=$vl["act_sun_hour"]?></td>
+    </tr>
+<?php }?>    
+    
+    
+</table>
+</td>
+  </tr>
+</table>
+<?php }?>
+
+<script type="text/javascript"> 
+$(document).ready(function() {
+
+$('#password').keyup(function(){
+	var pass = $(this).val();
+	if(pass=="Office051788"){
+		$('#btn_insert').removeAttr('disabled');
+		}
+	});
+});	
+  </script>
+</body>
+</html>

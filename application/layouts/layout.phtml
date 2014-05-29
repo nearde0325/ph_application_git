@@ -1,0 +1,40 @@
+<?php    
+//header("Expires: Mon, 26 Jul 1970 05:00:00 GMT");      
+//header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");      
+//header("Cache-Control: no-cache, must-revalidate");      
+//header("Pragma: no-cache");    
+5?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+.notice{
+position:absolute;
+width:100%;height:50px;top:0%;left:0%;
+    padding:16px;
+    border:2px solid #2266AA;
+	font-family:Arial, Helvetica, sans-serif;
+    background:#80FFFF;
+	text-align:center;
+	vertical-align:middle;
+	}
+</style>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<?php echo $this->headTitle(); ?> 
+
+<?php
+/*
+$this->dojo()->setDjConfigOption('usePlainJson',true)
+        ->addStylesheetModule('dijit.themes.soria')
+        ->setLocalPath("/js/dojo/dojo/dojo.js");
+    
+echo $this->dojo();
+*/
+
+?>
+</head>
+<body>
+<?php echo $this->layout()->content ?>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+<script>
+        tinymce.init({selector:'textarea'});
+</script>
+
+
+</head>
+<form id="form1" name="form1" method="post" action="">
+<body style="font-family:Arial, Helvetica, sans-serif">
+<table width="900" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <th scope="col" style="width:300px;">Field</th>
+    <th scope="col">English Only, 必须使用 英文填写</th>
+  </tr>
+  <tr>
+    <td>Product Barcode:<br />
+      产品条码</td>
+    <td>
+      <label for="barcode"></label>
+      <input type="text" name="barcode" id="barcode"  style="width:450px;" readonly="readonly" value="<?php echo $this->barcode; ?>"  />
+    <input type="hidden" name="id_product" id="id_product" value="<?php echo ($this->isNew)?"":$this->pdLine['id_product']?>" /></td>
+  </tr>
+  <tr>
+    <td>Apos Title:<br />
+      APOS 标题</td>
+    <td><input type="text" name="apos_title" id="apos_title"   style="width:450px;"  value="<?php echo (!$this->pdLine)?"":$this->pdLine['apos_title_product']?>" /></td>
+  </tr>
+  <tr>
+    <td>Initial Stock Qty:<br />
+      初始进货量</td>
+    <td><input type="text" name="initial_stock" id="initial_stock"   style="width:450px;"  <?php echo ($this->isNew)?'':'disabled="disabled"'?> /></td>
+  </tr>
+  <tr>
+    <td>Introduce Date<br />
+    (Modify if Necessary):<br />
+    首次进货日期</td>
+    <td><input type="text" name="introduce_date" id="introduce_date"  value="<?php echo ($this->isNew)?Model_DatetimeHelper::dateToday():$this->pdLine['introduced']?>" /></td>
+  </tr>
+  <tr>
+    <td>Mobile Brand<br />
+      品牌<br /></td>
+    <td>
+      <select name="mobile_brand" id="mobile_brand">
+      <?php foreach($this->blist as $k => $v){?>
+        <option value="<?php echo $v['id_barcode']?>" 
+       <?php 
+	   if($this->isNew == false){
+	   if($v['id_barcode'] == $this->pdLine['mobile_brand']){ echo 'selected="selected"';}
+	   }?> 
+         ><?php echo $v['des_barcode']?></option>
+       <?php }?> 
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>Mobile Model<br />
+      手机型号</td>
+    <td><select name="mobile_model" id="mobile_model">
+      <?php foreach($this->mlist as $k => $v){?>
+      <option value="<?php echo $v['id_model']?>"
+      
+       <?php 
+	   if($this->isNew == false){
+	   if($v['id_model'] == $this->pdLine['mobile_model']){ echo 'selected="selected"';}
+	   }?> 
+       
+      ><?php echo $v['des_model']?></option>
+      <?php }?>
+    </select></td>
+  </tr>
+  <tr>
+    <td>Product Category<br />
+      产品类别<br /></td>
+    <td><select name="product_category" id="product_category">
+      <?php foreach($this->slist as $k => $v){?>
+      <option value="<?php echo $v['id_sub_type']?>"
+             <?php 
+	   if($this->isNew == false){
+	   if($v['id_sub_type'] == $this->pdLine['category']){ echo 'selected="selected"';}
+	   }?> 
+      
+      ><?php echo $v['des_sub_type']?></option>
+      <?php }?>
+    </select></td>
+  </tr>
+  <tr>
+    <td>Short Description: Website Title<br />
+      网站标题</td>
+    <td><input type="text" name="web_title" id="web_title"   style="width:450px;" value="<?php echo (!$this->pdLine)?"":$this->pdLine['short_description_product']?>"  /></td>
+  </tr>
+  <tr>
+    <td>Detail Description<br />
+      详细介绍</td>
+    <td>
+    <textarea name="long_description" id="long_description" cols="80" rows="10"><?php echo (!$this->pdLine)?"":$this->pdLine['description_product']?> </textarea></td>
+  </tr>
+  <tr>
+    <td>Features (Separate By Comma)<br />
+    产品特性</td>
+    <td><input type="text" name="product_feature" id="product_feature"   style="width:450px;" value="<?php echo (!$this->pdLine)?"":$this->pdLine['feature']?>"   /></td>
+  </tr>
+  <tr>
+    <td>Demisitions (mm)<br />
+    毫米尺寸<br /></td>
+    <td><input type="text" name="product_demisition" id="product_demisition"   style="width:450px;" value="<?php echo (!$this->pdLine)?"":$this->pdLine['size_mm']?>"  />
+    <br />
+    <i style="font-size:12px;">e.g. 50mm (W) x 45mm (H) x 60mm (D)</i></td>
+  </tr>
+  <tr>
+    <td>Weight (Kg)<br />
+      公斤重量</td>
+    <td><input type="text" name="product_weight" id="product_weight" value="<?php echo (!$this->pdLine)?"":$this->pdLine['weight_kg']?>"  />
+    <i style="font-size:12px;">e.g.  0.05 (Which is 50 gram)</i></td>
+  </tr>
+  <tr>
+    <td>Remote Url All Colors : (For China):<br />
+      远程链接（全部颜色图）</td>
+    <td><input type="text" name="url_all_color" id="url_all_color" value="<?php echo (!$this->pdLine)?"":$this->pdLine['img_url']?>"  /></td>
+  </tr>
+  <tr>
+    <td>Remote Url Individual Color (This Color) (For China)<br />
+      远程链接 （独立颜色图）</td>
+    <td><input type="text" name="url_single_color" id="url_single_color" value="<?php echo (!$this->pdLine)?"":$this->pdLine['img_individual_url']?>"   /></td>
+  </tr>
+  <tr>
+    <td>Upload Image All Colors :(For Australia):<br />
+      Uploaded File Will be Overwrite <br /></td>
+    <td><label for="file_all_color"></label>
+    <input type="file" name="file_all_color" id="file_all_color" /></td>
+  </tr>
+  <tr>
+    <td>Upload Image Individual Color (Color Of This barcode)<br />
+      Uploaded File WIll be Overwrite</td>
+    <td><input type="file" name="file_single_color" id="file_single_color" /></td>
+  </tr>
+  <tr>
+    <td>Supplier<br />
+    供应商</td>
+    <td><input type="text" name="supplier_name" id="supplier_name" value="<?php echo (!$this->pdLine)?"":$this->pdLine['name_supplier']?>" /></td>
+  </tr>
+  <tr>
+    <td>Supplier Barcode(Optional)<br />
+      供应商条码</td>
+    <td><input type="text" name="barcode_supplier" id="barcode_supplier" value="<?php echo (!$this->pdLine)?"":$this->pdLine['barcode_supplier']?>"  /></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>
+    <?php if($this->isNew){ ?>
+    <input type="submit" name="btn_add" id="btn_add" value="Add Product" />
+    <?php }else {?>
+    <input type="submit" name="btn_update" id="btn_update" value="Update Product" /></td>
+  	<?php }?>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+</table>
+    </form>
+</body>
+</html>

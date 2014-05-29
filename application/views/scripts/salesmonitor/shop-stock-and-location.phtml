@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body><table width="700" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <td>CODE</td>
+    <td>DES</td>
+    <td>LOC</td>
+  </tr>
+<?php foreach($this->arrRes as $key => $v){?>  
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td><?php echo $v[1]?></td>
+    <td><?php echo $v[2]?></td>
+  </tr>
+<?php }?> 
+</table>
+
+</body>
+</html>

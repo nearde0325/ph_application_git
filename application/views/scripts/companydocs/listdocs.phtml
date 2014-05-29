@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html slick-uniqueid="3" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" dir="ltr" lang="en-gb">
+<head>
+<link rel="stylesheet" href="/css/menucss.css" type="text/css">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>New Products News Letter</title>
+<link href="/css/css.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/css/template_css.css" type="text/css">
+<link rel="stylesheet" href="/css/superfish.css" type="text/css">
+
+</head>
+<body>
+<div id="top_wrapper">
+  <div id="top"> 
+    <!-- logo --> 
+    <a title="Phone Collection" href="http://www.phonecollection.com.au/index.php"> <img id="logo" src="/im/logo_phonecollection.png" alt="Phone Collection" border="0"></a></div>
+  <div id="topmenu" style="background-color:#000;">
+    <ul class="menu sf-js-enabled">
+      <li class=" item-102 level1 "><a class="level1" href="http://115.64.171.97:1080/companydocs/anno"><span class="level1  menu-item">Company News and Announcement</span></a></li>   
+      <li class="parent  item-141 level1"><a class="level1 sf-with-ul" href="http://115.64.171.97:1080/companydocs/newsletter"><span class="level1 menu-item"> Product Information</span></a>
+      </li>
+      <li class="parent  item-141 level1"><a class="level1 sf-with-ul" href="http://115.64.171.97:1080/companydocs/promotions"><span class="level1 menu-item"> Promotions </span></a>
+      </li>      
+      <li class="parent  item-141 level1"><a class="level1" href="http://115.64.171.97:1080/companydocs/listdocs"><span class="level1 current active  menu-item">Company Documents</span></a></li>
+ <!--    
+      <li class=" item-176 level1 last "><a class="level1" href="http://www.phonecollection.com.au/index.php/contact-us"><span class="level1 menu-item">Contact Us</span></a></li>
+  
+ --> 
+    </ul>
+  </div>
+  <div id="topbottom"></div>
+</div>
+<div id="main">
+  <div id="contentfull">
+    <div id="system-message-container"> </div>
+    <div class="categories-list">
+      <div class="category-desc">
+      <h1>Company Documents</h1>
+<?php
+		date_default_timezone_set('Australia/Melbourne');
+	
+		$dateToday = date("Y-m-d");
+		
+		$theDoc = new Model_DbTable_Companydocuments();
+		
+		//var_dump($this->promotions);
+
+		foreach($this->categorylist as $key => $value){
+		
+?>      
+        <!--Title-->
+        <p><a name="<?php echo $value['id_cate']?>" ><h2 style=" margin-top:30px;" ><?php echo $value['title_cate']?></h2></a></p>
+        <ul>
+        <?php
+        $list = $theDoc->listDocByCategory($value['id_cate']);
+		foreach($list as $k => $v){
+		?>
+        <li style="margin-left:30px; margin-top:-5px;"><a href="/docs/<?php echo $v['attach_1_name']?>" target="_blank"><?php echo $v['title']?></a></li>
+        <?php
+		}
+		?>
+        </ul>     
+<?php
+		}
+?>            
+      </div>
+    </div>
+  </div>
+</div>
+<div id="bottom_wrapper">
+
+  <div id="footbottom">
+    <p id="cop">Copyright © Phone Collection 2013</p>
+    <!-- Link protected by copyright law. DO NOT REMOVE! --> 
+    
+  </div>
+  <p> </p>
+  <div style=" font-size: 10px; font-weight: normal; width:990px; text-align:left; margin-left:25%;  
+left:-495px;">The information contained in this website is for general 
+    information purposes only. The information is provided by Phone 
+    Collection and while we endeavour to keep the information up to date and
+    correct, we make no representations or warranties of any kind, express 
+    or implied, about the completeness, accuracy, reliability, suitability 
+    or availability with respect to the website or the information, 
+    products, services, or related graphics contained on the website for any
+    purpose. Any reliance you place on such information is therefore 
+    strictly at your own risk.</div>
+  <p></p>
+</div>
+</body>
+</html>

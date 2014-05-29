@@ -1,0 +1,394 @@
+<?php 
+date_default_timezone_set("Australia/Melbourne");
+ob_start();
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1>Shop Target Version 1 : <?php echo $this->dateBegin ?> to <?php echo $this->dateEnd ?></h1>
+** Please note this is a "FOR YOUR REFERENCE ONLY" version<br />
+<br />
+
+<?php
+$arrWeek = $this->arrWeek;
+$weeks = count($arrWeek);
+$stffInfo = new Model_DbTable_Roster_Stafflogindetail();
+?>
+<span style="background-color:#C90; width:20px; display:inline-block">&nbsp;&nbsp;&nbsp;</span> Just Miss
+<span style="background-color:#0F0; width:20px; display:inline-block">&nbsp;&nbsp;&nbsp;</span> Doing Great
+<span style="background-color:#C30; width:20px; display:inline-block">&nbsp;&nbsp;&nbsp;</span> Way Way Below
+<span style="background-color:#3CF; width:20px; display:inline-block">&nbsp;&nbsp;&nbsp;</span>
+Reach Target<br />
+<br />
+
+ <table width="1550" border="0" cellspacing="1" cellpadding="5">
+  <tr>
+    <td rowspan="2">Manager</td>
+    <td rowspan="2">Shop</td>
+    <td rowspan="2">Monthly Target<br />    </td>
+    <td colspan="3" align="center">
+      <?php
+    if(isset($arrWeek[0])){
+		echo $arrWeek[0]["date_begin"]." - ".$arrWeek[0]["date_end"];
+		}
+	?>
+    </td>
+    <td colspan="3" align="center">    <?php
+    if(isset($arrWeek[1])){
+		echo $arrWeek[1]["date_begin"]." - ".$arrWeek[1]["date_end"];
+		}
+	?></td>
+    <td colspan="3" align="center">    <?php
+    if(isset($arrWeek[2])){
+		echo $arrWeek[2]["date_begin"]." - ".$arrWeek[2]["date_end"];
+		}
+	?></td>
+    <td colspan="3" align="center">    <?php
+    if(isset($arrWeek[3])){
+		echo $arrWeek[3]["date_begin"]." - ".$arrWeek[3]["date_end"];
+		}
+	?></td>
+    <td colspan="2" align="center">    <?php
+    if(isset($arrWeek[4])){
+		echo $arrWeek[4]["date_begin"]." - ".$arrWeek[4]["date_end"];
+		}
+	?></td>
+  
+    <td>Monthly <br />
+    Actual</td>
+    <td>Bonus Achieve</td>
+      <!--
+    <td rowspan="2">Monthly <br />
+    Target</td>
+    <td rowspan="2">Total Bonus</td>
+    -->
+  </tr>
+  <tr>
+    <th colspan="2"  scope="col">Week1</th>
+    <th scope="col">Bonus</th>
+    <th colspan="2" scope="col">Week2</th>
+    <th scope="col">Bonus</th>
+    <th colspan="2" scope="col">Week3</th>
+    <th scope="col">Bonus</th>
+    <th colspan="2" scope="col">Week4</th>
+    <th scope="col">Bonus</th>
+    <th scope="col">Week5</th>
+    <th scope="col">Bonus</th>
+    <th scope="col">&nbsp;</th>
+    <th scope="col">&nbsp;</th>
+   </tr>
+ 
+<?php 
+$oldManager = 2;
+$bSum = 0;
+//$cot = 0;
+foreach($this->arrRes as $k => $v) {
+	$lineSum = 0;
+	$idManager = 0;
+	if($weeks == 4){
+		$lineSum = $v[13];
+		$idManager = $v[14];
+	}
+	else{
+		$idManager = $v[16];
+		$lineSum = $v[15];
+	}
+	
+	if(0){
+?>		
+<tr><td colspan = "21" align="right" >
+<?php echo $bSum; $oldManager = $idManager; $bSum = $lineSum; ?>
+</td></tr>
+<?php
+	}
+	else{
+		$bSum +=$lineSum;
+	}
+	//$cot++;
+	$target = 0;
+	$hitCot = 0;
+	if($weeks == 4){
+		$target = $v[11];
+		}
+	else{
+		$target = $v[13];
+		}
+	?>  
+    <tr>
+    <td><?php
+     	
+	$mgName = $stffInfo->getDetail($idManager); 
+	echo ucwords($mgName["ni"]);	
+		?></td>
+    <td><?php echo $v[0];?></td>
+    <td> $ <?php echo $target * $weeks;?></td>
+    <td><?php echo $v[2];?></td>
+    <td><span
+    <?php
+    $dif = $v[2] - $target;
+	$color = "";
+	if($dif > 1000){
+		$color = "background-color:#0F0;";
+		}
+	if($dif > -100 && $dif<=0){
+		$color = "background-color:#C90;";
+		}
+	if($dif < -1000){
+		$color = "background-color:#C30;";
+		}		
+	?>
+    style="font-size:10px;<?php echo $color;?>" >[<?php echo round($v[2] - $target,2); ?>]</span></td>
+    <td
+    <?php if($v[3] >0 ){
+		$hitCot++;
+		echo 'style="background-color:#3CF"';
+		}?>
+    ><?php //echo round($v[3],2); 
+		if($v[3] >0 ){
+		echo "Achieved";	
+		}
+		else{
+		echo "No";	
+		}
+	
+	?></td>
+    <td><?php echo $v[4];?></td>
+    <td><span
+        <?php
+    $dif = $v[4] - $target;
+	$color = "";
+	if($dif > 1000){
+		$color = "background-color:#0F0;";
+		}
+	if($dif > -100 && $dif<=0){
+		$color = "background-color:#C90;";
+		}
+	if($dif < -1000){
+		$color = "background-color:#C30;";
+		}		
+	?>
+    style="font-size:10px;<?php echo $color;?>" >[<?php echo round($v[4] - $target,2); ?>]</span></td>
+    <td
+        <?php if($v[5] >0 ){
+		$hitCot++;
+		echo 'style="background-color:#3CF"';
+		}?>
+    
+    ><?php //echo round($v[5],2);
+			if($v[5] >0 ){
+		echo "Achieved";	
+		}
+		else{
+		echo "No";	
+		}
+	?></td>
+    <td><?php echo $v[6];?></td>
+    <td><span
+        <?php
+    $dif = $v[6] - $target;
+	$color = "";
+	if($dif > 1000){
+		$color = "background-color:#0F0;";
+		}
+	if($dif > -100 && $dif<=0){
+		$color = "background-color:#C90;";
+		}
+	if($dif < -1000){
+		$color = "background-color:#C30;";
+		}		
+	?>
+    style="font-size:10px;<?php echo $color;?>" >[<?php echo round($v[6] - $target,2); ?>]</span></td>
+    <td
+        <?php if($v[7] >0 ){
+		$hitCot++;
+		echo 'style="background-color:#3CF"';
+		}?>
+    
+    ><?php //echo round($v[7],2);
+			if($v[7] >0 ){
+		echo "Achieved";	
+		}
+		else{
+		echo "No";	
+		}
+	?></td>
+    <td><?php echo $v[8];?></td>
+    <td><span
+        <?php
+    $dif = $v[8] - $target;
+	$color = "";
+	if($dif > 1000){
+		$color = "background-color:#0F0;";
+		}
+	if($dif > -100 && $dif<=0){
+		$color = "background-color:#C90;";
+		}
+	if($dif < -1000){
+		$color = "background-color:#C30;";
+		}		
+	?>
+    style="font-size:10px;<?php echo $color;?>" >[<?php echo round($v[8] - $target,2); ?>]</span></td>
+    <td
+       <?php if($v[9] >0 ){
+		$hitCot++;
+		echo 'style="background-color:#3CF"';
+		}?> 
+    
+    ><?php //echo round($v[9],2);
+			if($v[9] >0 ){
+		echo "Achieved";	
+		}
+		else{
+		echo "No";	
+		}
+	?></td>
+    <?php if($weeks == 4) {?>
+    <td>-</td>
+    <td>-</td>
+    
+    <!--
+    <td><?php echo $v[10]?></td>
+    <td><?php echo $v[12]?></td>
+    <td><?php echo round($v[13],2);?>[<?php echo $hitCot;?>]</td>
+    -->
+	<?php }else {?>
+    <td><?php echo $v[10]?><span
+    
+        <?php
+    $dif = $v[10] - $target;
+	$color = "";
+	if($dif > 1000){
+		$color = "background-color:#0F0;";
+		}
+	if($dif > -100 && $dif<=0){
+		$color = "background-color:#C90;";
+		}
+	if($dif < -1000){
+		$color = "background-color:#C30;";
+		}		
+	?>
+    
+    style="font-size:10px;<?php echo $color;?>" >[<?php echo round($v[10] - $target,2); ?>]</span></td>
+    <td
+        <?php if($v[11] >0 ){
+		$hitCot++;
+		echo 'style="background-color:#3CF"';
+		}?>
+    
+    ><?php //echo round($v[11],2)
+			if($v[11] >0 ){
+		echo "Achieved";	
+		}
+		else{
+		echo "No";	
+		}
+	
+	?></td>
+    
+    <!--
+    <td><?php echo $v[12]?></td>
+    <td><?php echo $v[14]?></td> 
+    <td><?php echo round($v[15],2);?>[<?php echo $hitCot;?>]</td> 
+    -->  
+    <?php } ?>
+<td>
+    $ <?php
+    if($weeks == 4){
+		echo $v[2] + $v[4] + $v[6] + $v[8];
+		}
+	else{
+		echo $v[2] + $v[4] + $v[6] + $v[8] + $v[10];
+		}	
+	
+	?>
+    
+    </td>    
+ <td>
+    <?php
+    if($weeks == 4){
+		if(( $v[2] + $v[4] + $v[6] + $v[8] - $target * $weeks)>=0){
+			echo "Achieved";
+			}
+		else{
+			echo "No";
+			}	
+		}
+	else{
+		if(( $v[2] + $v[4] + $v[6] + $v[8] + $v[10] - $target * $weeks)>=0){
+			echo "Achieved";
+			}
+		else{
+			echo "No";
+			}	
+		}	
+	
+	?>
+    
+    </td>    
+    
+    
+  </tr>
+<?php } ?> 
+<!--
+<tr><td colspan = "21" align="right" >Sum Of Bonus: $ 
+<?php echo round($bSum,2); ?>
+</td></tr>
+-->
+</table>
+
+</body>
+</html>
+<?php
+$mailbody = ob_get_contents();
+if($this->ifemail == "yes"){
+$mail = new Model_Emailshandler();
+
+$mail->sendNormalEmail($this->email,"Weekly Shop Target Summary Version 1.0", $mailbody);
+if($this->email == "phonecollection.au@gmail.com"){
+$mail->sendNormalEmail("admin@phonecollection.com.au","Weekly Shop Target Summary Version 1.0", $mailbody);	
+	}
+
+
+
+}

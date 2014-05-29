@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+<h1>
+Date: <?php echo $this->dateToday?><br /> 
+
+Category ID: <?php echo $this->idCate?><br /> 
+
+</h1>
+<?php
+foreach($this->cList as $key => $value){
+?>
+<a href="/repairparts/warehouse-stock-take/cate/<?=$value["id_cate"]?>"><?=$value["title_cate"]?></a> | 
+<?
+}
+?>
+<br />
+<br />
+<form id="form1" name="form1" method="post" action="">
+  <table width="850" border="1" cellspacing="0" cellpadding="5" bgcolor="#333333">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:150px" >Code</td>
+    <td bgcolor="#FFFFFF" style="width:350px" >Description</td>
+    <td bgcolor="#FFFFFF" style="width:50px" >SYS</td>
+    <td bgcolor="#FFFFFF" style="width:50px" >ACT</td>
+    <?php foreach($this->rActList as $k => $v){?>
+    <td bgcolor="#FFFFFF" style="width:50px" ><?php echo $v['title_category']?></td>
+    <?php }?>
+	<?php if($this->showPrice == "yes") {?>  
+    <td bgcolor="#FFFFFF" style="width:50px" >Act- Cost</td>
+    <?php } ?>
+  </tr> 
+<?php
+foreach($this->pList as $key => $v){
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF"><?php echo $v['code_product']?></td>
+    <td bgcolor="#FFFFFF">
+	<input type="text" name="des[<?php echo $v['id_product'] ?>]" id= "des[<?php echo $v['id_product'] ?>]" value="<?php echo trim($v['title_product']) ?>" style="width:100%"  />
+    </td>
+    <td bgcolor="#FFFFFF">
+    <?php
+    $rStock = new Model_DbTable_Pr_Prstock();
+	echo $rStock->getWarehouseStock($v['id_product']);
+	?>
+    </td>
+    <td bgcolor="#FFFFFF">&nbsp;</td>
+    <?php foreach($this->rActList as $kal => $val){?>
+    <td bgcolor="#FFFFFF"><input type="text" name="<?php echo $val['id_price_category'] ?>[<?php echo $v['id_product'] ?>]" id="<?php echo $val['id_price_category'] ?><?php echo $v['id_product'] ?>" style="width:100px;" value="<?php echo $v[$val['id_price_category']]?>" /></td>
+    <?php }?>
+  <?php if($this->showPrice == "yes") {?>  
+    <td bgcolor="#FFFFFF">
+    <input type="text" name="act_cost[<?php echo $v['id_product'] ?>]" id="act_cost<?php echo $v['id_product'] ?>" style="width:100px;" value="<?php echo $v["act_cost"]?>" />
+    
+    </td>
+  <?php } ?>
+  </tr>   
+<?php
+}
+?>
+</table> 
+
+Password: M... <input name="password" type="text" style="border:#f00 solid 1px;" /> Price will NOT BE SAVE if you don't type Password<br />
+<input name="submit" type="submit" value="Save" />
+</form>
+<script type="text/javascript">
+/*
+$('input:text[id^=price_a]').change(function(){	
+		//alert("only when it is text and it changed");
+		var id = $(this).attr("id");
+		var priceA = $(this).val();
+		
+		var line = id.substring(7);
+		
+		var priceB = parseInt(priceA *0.95);
+		var priceC = parseInt(priceA *0.9);
+		
+		$('#price_b' + line).val(priceB);
+	    $('#price_c' + line).val(priceC);		
+		
+});
+*/
+</script>
+</body>
+</html>

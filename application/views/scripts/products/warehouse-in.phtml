@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Warehouse Transfer IN </title>
+</head>
+<body>
+<h1>WareHouse IN (TI) Transfer Stock From WH to EC</h1>
+<?php
+//var_dump($_POST);
+$arrProducts = array();
+$end = 0;
+
+if($_POST){
+	//unset($arrProducts);
+	$arrProducts = unserialize(base64_decode(trim($_POST['saved_arr'])));
+	//echo $_POST['saved_arr'];
+	$end = count($arrProducts);
+	$tmpstr = trim($_POST['barcode_code'])."[".trim($_POST['barcode_qty'])."]";
+	$arrProducts[$end] = $tmpstr;
+	//var_dump($arrProducts);	
+	}
+if($_GET){
+	
+	$i = $_GET['rm'];
+	//echo $i;
+	$arrProducts = unserialize(base64_decode(trim($_GET['data'])));
+	array_splice($arrProducts,$i,1);
+	}	
+
+?>
+
+<table width="600" border="1" cellspacing="2" cellpadding="2">
+  <tr>
+    <td width="150">Records to Upload:</td>
+    <td><form id="form2" name="form2" method="post" action="/products/save-warehouse-in">
+    <input name="submit" value="UPLOAD TO DATABASE" type="submit" /><br />
+    Record To Upload to DB is<br /> 
+    <hr />
+    <?php
+	
+    foreach($arrProducts as $key => $value){
+			echo $value;
+			echo "<input type=\"hidden\" name=\"upload[]\" value=\"".$value."\" />";
+			echo "<a href=\"?rm=".$key."&data=".base64_encode(trim(serialize($arrProducts)))."\">Remove</a><br />";
+		}
+	
+	?> 
+    <br />
+
+    
+    </form></td>
+  </tr>
+  <tr>
+    <td>Scan BarCode:</td>
+    <td>
+    <form id="form1" name="form1" method="post" action="/products/warehouse-in">
+      <input type="text" name="barcode_code" id="barcode_code" /> 
+      Qty:
+[      
+<label for="textfield2"></label>
+      <input type="text" name="barcode_qty" id="barcode_qty" width="50" value="1" />
+      ]
+       <input type="hidden" name="saved_arr" id="saved_arr" value="<?php echo base64_encode(trim(serialize($arrProducts)));?>"/>
+      <input type="button" name="button" id="button" value="add Record" onclick="javascript:document.form1.submit();" />
+      </form>
+      </td>
+  </tr>
+</table>
+
+</body>
+</html>

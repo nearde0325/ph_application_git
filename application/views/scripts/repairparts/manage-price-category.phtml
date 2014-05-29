@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<form action="" method="post">
+<table width="1000" border="1" cellspacing="0" cellpadding="4">
+  <tr>
+    <th scope="col">Price Colume</th>
+    <th scope="col">Title To Staff</th>
+    <th scope="col">Comment To Your Self</th>
+    <th scope="col">Active To View</th>
+    <th scope="col">Active To Edit</th>
+    <th scope="col">Color</th>
+    <th scope="col">Position</th>
+  </tr>
+<?php foreach($this->pList as $key => $v) {?>  
+  <tr>
+    <td><input name="id_price_category[<?php echo $v['id_price_category']?>]" type="text" value="<?php echo $v['id_price_category']?>" readonly="readonly" /></td>
+    <td><input name="title_category[<?php echo $v['id_price_category']?>]" type="text" value="<?php echo $v['title_category']?>" /></td>
+    <td><input name="comment_category[<?php echo $v['id_price_category']?>]" type="text" value="<?php echo $v['comment_category']?>" /></td>
+    <td><input name="active[<?php echo $v['id_price_category']?>]" type="checkbox" value="1" <?php echo ($v['active'])?'checked="checked"':'';?> /></td>
+    <td><input name="active_edit[<?php echo $v['id_price_category']?>]" type="checkbox" value="1" <?php echo ($v['active_edit'])?'checked="checked"':'';?> /></td>
+    <td>
+      <input type="text" name="bk_color[<?php echo $v['id_price_category']?>]" id="bk_color" value="<?php echo $v['bk_color']?>" /></td>
+    <td><input type="text" name="order[<?php echo $v['id_price_category']?>]" id="order" value="<?php echo $v['order']?>" /></td>
+  </tr>
+<?php } ?> 
+</table><br />
+
+<input name="" type="submit" value="Save Change" />
+
+</form>
+
+</body>
+</html>

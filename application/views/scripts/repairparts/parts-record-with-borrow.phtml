@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Warehouse Transfer IN </title>
+<?php if(!$this->freeze){?>
+<script language="javascript">
+function enableUpload(){
+	document.getElementById("sub_upload").disabled = false;
+	}
+
+</script>
+<?php }?>
+<link rel="stylesheet" href="/js/chosen/chosen2.css" />
+
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+
+<h1>
+<?php 
+if(strtolower($this->idjob) == "parts"){
+	echo "Repair Parts Sales Record Without Job ID(GO)";
+}
+elseif(substr($this->idjob,0,1)=="8")
+{
+		echo "Repair Parts Borrow Without Job ID(GO)";
+	}
+else{
+		echo "Repair Parts Consumption Record(GO)";
+	}
+?>
+
+
+
+
+</h1>
+<p>
+<span style="color:#F00"><?php echo $this->errorMessage;?></span><br />
+  ***********************************<br />
+  1.Scan Barcode and Input the Qty<br />
+  2.Click 
+  &quot;Add Record&quot;<br />
+  3.You may Click The &quot;Remove&quot; Button if You Made Mistakes<br />
+  4.After All Record Scaned ,Fill In Your Name<br />
+5.Finally,Click &quot;Save These Records&quot;<br />
+  *********************************** <br />
+  If you Put &lt;0 Qty eg, -1,-2,NOW is Error Correction, <br />
+  it will INCREASE the Qty for your stock <br />
+  ***********************************
+  <br />
+</p>
+<p><br />
+  
+  <?php
+  /*
+                 <option value="20" >LU</option>
+                <option value="3" >STEVEN</option>
+          </optgroup>
+           <optgroup label="Other Shop">
+                <option value="17" >ADPC</option> 
+                <option value="1" >Bayside Shops</option> 
+                <option value="18" >BBPC</option>               
+                <option value="4" >BHPC</option>
+                <option value="6" >CBPC</option>
+                <option value="19" >CL Shops</option> 
+                <option value="2" >CSIC</option>
+                <option value="11" >DCIC</option>
+                <option value="8" >EPPC</option>
+                <option value="14" >FGIC</option> 
+                <option value="5" >HPIC</option>
+    		    <option value="12" >KCPC</option>
+                <option value="10" >NLPC</option>
+                <option value="15" >PMIC</option> 
+                <option value="13" >SLIC</option>
+                <option value="9" >WB Shops</option>
+                <option value="16" >WG Shops</option> 
+                <option value="7" >WLIC</option> 
+  */
+  
+ $arrRepairShops = array(
+ 	1 => 'Bayside Shops',
+	2 => 'HOPE',
+	3 => 'BRAIN',
+	4 => 'BHPC',
+	5 => 'HPIC',
+	6 => 'CBPC',
+	7 => 'WLIC',
+	8 => 'EPPC',
+	9 => 'WB Shops',
+	10 => 'NLPC',
+	11 => 'DCIC',
+	12 => 'KCPC',
+	13 => 'SLIC',
+	14 => 'FGIC',
+	15 => 'PMIC',
+	16 => 'WG Shops',
+	17 => 'ADPC',
+	18 => 'BBPC',
+	19 => 'CL Shops',
+	20 => 'LU [Tech]',
+	21 => 'BSIC'
+ 	); 
+$arrProducts = array();
+$end = 0;
+
+if($_POST){
+	//unset($arrProducts);
+	$arrProducts = unserialize(gzuncompress(base64_decode(trim($_POST['saved_arr']))));
+	//echo $_POST['saved_arr'];
+	$end = count($arrProducts);
+	$isBorrow = 0;
+	if(isset($_POST['is_borrow'])){
+		$isBorrow = 1;
+		}
+	$tmpArr = array(trim($_POST['barcode_code']),trim($_POST['barcode_qty']),$isBorrow,$_POST['shop_from']);
+	//$tmpstr = trim($_POST['barcode_code'])."[".trim($_POST['barcode_qty'])."]";
+	$arrProducts[$end] = $tmpArr;
+	//var_dump($arrProducts);	
+	}
+if(isset($_GET['rm'])){
+	
+	$i = $_GET['rm'];
+	//echo $i;
+	$arrProducts = unserialize(gzuncompress(base64_decode(trim($_GET['data']))));
+	array_splice($arrProducts,$i,1);
+	}	
+?>
+</p>
+<?php 
+if($this->freeze){
+?>
+<h1 style="color:#F00">Job Has Been Closed, Do Not Proceed</h1>
+<?php 
+}
+?>
+<table width="800" border="0" cellspacing="1" cellpadding="5" bgcolor="#333">
+<tr>
+    <td bgcolor="#FFFFFF">Scan Barcode Used:<br /></td>
+    <td bgcolor="#FFFFFF">
+    <form id="form1" name="form1" method="post" action="/repairparts/parts-record-with-borrow/shophead/<?php echo $this->shopHead?>/shop/<?php echo $this->idshop?>/jobid/<?php echo $this->idjob?>">
+  <select name="barcode_code" id="barcode_code" class="chzn-select" style="width:500px;" >
+  <option value=""></option>
+  <option value="SERVICE">SERVICE</option>
+  <?php foreach($this->pList as $rPart ) {?>
+  <option value="<?php echo $rPart['code_product']?>">[<?php echo $rPart['code_product']?>]   -  <?php echo $rPart['title_product']?></option>
+  <?php } ?>
+  </select>
+      <br />
+      <br />
+      Qty:
+[
+<label for="textfield2"></label>
+      <input type="text" name="barcode_qty" id="barcode_qty" width="50" value="1" />
+      ]
+       <input type="hidden" name="saved_arr" id="saved_arr" value="<?php echo base64_encode(gzcompress(trim(serialize($arrProducts))));?>"/>
+       <br />
+       <br />
+       <input name="is_borrow" type="checkbox" id="is_borrow" value="1" />
+       <label for="is_borrow"></label>
+       Tick Here if you borrow this part(s), you borrow it from <select name="shop_from">
+		  <optgroup label="Technician">
+                <option value="20" >LU</option>
+                <option value="3" >BRAIN</option>
+                <option value="2" >HOPE</option>
+          </optgroup>
+           <optgroup label="Other Shop">
+                <option value="17" >ADPC</option> 
+                <option value="1" >BSPC/BSXP</option> 
+                <option value="21" >BSIC</option> 
+                <option value="18" >BBPC</option>               
+                <option value="4" >BHPC</option>
+                <option value="6" >CBPC</option>
+                <option value="19" >CL Shops</option> 
+                <option value="11" >DCIC</option>
+                <option value="8" >EPPC</option>
+                <option value="14" >FGIC</option> 
+                <option value="5" >HPIC</option>
+    		    <option value="12" >KCPC</option>
+                <option value="10" >NLPC</option>
+                <option value="15" >PMIC</option> 
+                <option value="13" >SLIC</option>
+                <option value="9" >WB Shops</option>
+                <option value="16" >WG Shops</option> 
+                <option value="7" >WLIC</option>   
+           </optgroup>                   
+  				</select>
+       <br />
+       <br />
+<input type="button" name="button" id="button" value="Add Record" onclick="javascript:document.form1.submit();" />
+      </form>
+      </td>
+  </tr>
+  <tr>
+    <td width="150" bgcolor="#FFFFFF">Records to Upload:</td>
+    <td bgcolor="#FFFFFF"><form id="form2" name="form2" method="post" action="/repairparts/save-shop-go-with-borrow" >
+
+      <table width="100%" border="0" cellspacing="0" cellpadding="3">
+        <tr>
+          <td style="width:40%">Shop ID:</td>
+          <td><label for="id_shop"></label>
+            <input name="id_shop" type="text" id="id_shop" value="<?php echo $this->idshop ?>" readonly="readonly" /></td>
+        </tr>
+        <tr>
+          <td>
+          <?php 
+		  if(strtolower($this->idjob) == "parts"){ echo "APOS Invoice ID";}
+		  else{
+			  if(substr($this->idjob,0,1)== "8"){
+				  echo "Job ID For <b>Borrow</> Only";
+				  }
+			 else{
+				echo "Job ID:"; 
+				 }	  
+			  }
+		  ?>
+          </td>
+          <td>
+          <?php if(strtolower($this->idjob)  == "parts"){?>
+          <input name="id_job" type="text" id="id_job" value="L14"  />
+          <?php }
+		  else{
+		  ?>
+          <input name="id_job" type="text" id="id_job" value="<?php echo $this->idjob ?>" readonly="readonly" />
+           <?php }?>
+          </td>
+        </tr>
+        <tr>
+          <td>Staff Name:</td>
+          <td><input type="text" name="staff_name" id="staff_name" onchange="enableUpload()" />
+          
+            <input type="hidden" name="shop_head" id="shop_head" value="<?php echo $this->shopHead?>" /></td>
+        </tr>
+        <tr>
+          <td>If you Borrowed Any parts:<br />
+            Please input Attendance Password</td>
+          <td><label for="att_pass"></label>
+            <input type="password" name="att_pass" id="att_pass" /></td>
+        </tr>
+      </table>
+      <p>
+        
+        <input name="sub_upload" id="sub_upload" value="SAVE THESE RECORDS" type="submit" disabled="disabled" /><br />
+        </p>
+      <hr />
+        Part(s) Used
+		 Record
+        <hr />
+      <table width="100%" border="0" cellspacing="0" cellpadding="3" style="font-size:11px;">
+  <tr>
+    <td width="150">Code</td>
+    <td>Description(If you can not see the descripton, you barcode is incorrect)</td>
+    <td width="50">Qty</td>
+    <td width="50">Borrow</td>
+    <td width="100">FromShop</td>
+    <td width="50">Action</td>
+  </tr>
+      <?php
+	
+    foreach($arrProducts as $key => $value){
+			//echo $value;
+	//$valArr = explode("[",$value,2);
+	?>   
+  
+  <tr>
+    <td><?php echo $value[0]?></td>
+    <td><?php
+   $rProducts = new Model_DbTable_Pr_Prproducts();
+   echo $rProducts->getProductDes($value[0]); 
+	?>
+    </td>
+    <td>[<?php echo $value[1]?>]  Pcs</td>
+    <td><?php echo ($value[2])?'YES':'NO'?></td>
+    <td><?php echo ($value[2])?$arrRepairShops[$value[3]]:'-'?></td>
+    <td>
+      <?php 
+	echo "<input type=\"hidden\" name=\"upload[]\" value=\"".base64_encode(gzcompress(serialize($value)))."\" />";
+	echo "<a href=\"?rm=".$key."&data=".base64_encode(gzcompress(trim(serialize($arrProducts))))."\">Remove</a><br />";?></td>
+  </tr>
+<?php
+
+	}
+?>
+
+</table>
+    <br />
+    </form></td>
+  </tr>
+  
+</table> 
+    <script language="javascript">
+    document.getElementById('barcode_code').focus(); 
+    </script> 
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+<script src="/js/chosen/chosen.jquery.js" type="text/javascript"></script>
+<script type="text/javascript"> 
+    var config = {
+      '.chzn-select': {allow_single_deselect:true},
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    };
+  </script>   
+    
+</body>
+</html>

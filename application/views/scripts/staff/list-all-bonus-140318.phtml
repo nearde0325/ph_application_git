@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<link href="/css/1pxtable.css" rel="stylesheet" type="text/css" media="all" />
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<script>
+	$(function() {
+		$( "#paid_date_cash" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+		$( "#paid_date_bank" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+	});
+	</script>
+    
+<h3>Bonus Of This Month </h3>
+<p>Cash <br />
+</p>
+<form method="post" action="" >
+Bonus Paid On :
+<input name="paid_date" id="paid_date_cash" type="text" />
+<input type="submit" name="button" id="button" value="Submit" />
+<br />
+<br />
+<table width="1200" border="1" cellspacing="0" cellpadding="5" style="font-size:13px;">
+  <tr>
+    <td style="width:65px;">ID Bonus</td>
+    <td style="width:120px;">Staff</td>
+    <td style="width:150px;">Bonus Type</td>
+    <td style="width:100px;">Total Amt</td>
+    <td style="width:180px;">Period</td>
+    <td style="width:100px;">Will Pay On</td>
+    <td style="width:100px;">Paid On</td>
+    <td>Comment</td>
+  </tr>
+  <?php 
+  $stDetail = new Model_DbTable_Roster_Stafflogindetail();
+  $btype = new Model_Payroll_Staffbonustype();
+  
+  
+  foreach($this->bList as $k => $v){
+	if($v['pay_type'] == 1 && $v['hold_to_date']=='0000-00-00' ){
+		$btypeRow = $btype->getStaffbonustype($v['type_bonus']);
+		$sdRow = $stDetail->getDetail($v['id_staff']);
+		$nName = $sdRow['ni'];
+		$fName = Model_EncryptHelper::getSslPassword($sdRow['n']);
+		
+	  ?>
+  <tr>
+    <td><?php echo $v['id_bonus']?></td>
+    <td><?php echo ucwords($nName." <br />[ ".$fName." ]");?></td>
+    <td><?php echo $btypeRow['type_bonus']?></td>
+    <td align="left">$ <?php echo $v['amt_total_bonus']?></td>
+    <td><?php echo $v['period_bonus_begin']." to ".$v['Period_bonus_end'];?></td>
+    <td><?php echo $v['pay_date']?></td>
+    <td>
+    <?php  if($v['paid_date']==""){?>
+    <input type="checkbox" name="id_bonus[]" id="id_bonus<?php echo $v['id_bonus']?>" value="<?php echo $v['id_bonus']?>" />
+    <?php  }else{
+		echo $v['paid_date'];
+		}?>
+    </td>
+    <td><?php echo $v['detail_bonus']?></td>
+  </tr>
+ <?php 
+	}
+ }?> 
+</table>
+</form>
+<br />
+Bank
+<br />
+<br />
+<form method="post" action="" >
+Bonus Paid On :
+<input  name="paid_date" id="paid_date_bank" type="text" />
+<input type="submit" name="button" id="button" value="Submit" />
+<br />
+<br />
+
+<table width="1400" border="1" cellspacing="0" cellpadding="5" style="font-size:13px;">
+  <tr>
+    <td style="width:65px;">ID Bonus</td>
+    <td style="width:120px;">Staff</td>
+    <td style="width:150px;">Bonus Type</td>
+    <td style="width:100px;">Total Amt</td>
+    <td style="width:100px;">Pay Bank</td>
+    <td style="width:100px;">Super</td>
+    <td style="width:180px;">Period</td>
+    <td style="width:100px;">Will Pay On</td>
+    <td style="width:100px;">Paid On</td>
+    <td>Comment</td>
+  </tr>
+  <?php 
+  $stDetail = new Model_DbTable_Roster_Stafflogindetail();
+  $btype = new Model_Payroll_Staffbonustype();
+  
+  
+  foreach($this->bList as $k => $v){
+	if($v['pay_type'] == 2 && $v['hold_to_date']=='0000-00-00' ){
+		$btypeRow = $btype->getStaffbonustype($v['type_bonus']);
+		$sdRow = $stDetail->getDetail($v['id_staff']);
+		$nName = $sdRow['ni'];
+		$fName = Model_EncryptHelper::getSslPassword($sdRow['n']);
+		
+	  ?>
+  <tr>
+    <td><?php echo $v['id_bonus']?></td>
+    <td><?php echo ucwords($nName." <br />[ ".$fName." ]");?></td>
+    <td><?php echo $btypeRow['type_bonus']?></td>
+    <td align="left">$ <?php echo $v['amt_total_bonus']?></td>
+    <td align="left">$ <?php echo $v['amt_bank_bonus']?></td>
+    <td align="left">$ <?php echo $v['amt_bonus_super']?></td>
+    <td><?php echo $v['period_bonus_begin']." to ".$v['Period_bonus_end'];?></td>
+    <td><?php echo $v['pay_date']?></td>
+    <td> <?php  if($v['paid_date']==""){?>
+    <input type="checkbox" name="id_bonus[]" id="id_bonus<?php echo $v['id_bonus']?>" value="<?php echo $v['id_bonus']?>" />
+    <?php  }else{
+		echo $v['paid_date'];
+		}?></td>
+    <td><?php echo $v['detail_bonus']?></td>
+  </tr>
+ <?php 
+	}
+ }?> 
+</table>
+<form method="post" action="" >
+
+<h3>Hold Bonus Of This Month, Will Not Release And Show</h3>
+<p>Cash <br />
+</p>
+<table width="1400" border="1" cellspacing="0" cellpadding="5" style="font-size:13px;">
+  <tr>
+    <td style="width:65px;">ID Bonus</td>
+    <td style="width:120px;">Staff</td>
+    <td style="width:150px;">Bonus Type</td>
+    <td style="width:100px;">Total Amt</td>
+    <td style="width:180px;">Period</td>
+    <td style="width:100px;">Will Pay On</td>
+    <td style="width:100px;">Paid On</td>
+    <td style="width:100px;">Hold Until</td>
+    <td>Comment</td>
+    <td>Hold Reason</td>
+  </tr>
+  <?php 
+  $stDetail = new Model_DbTable_Roster_Stafflogindetail();
+  $btype = new Model_Payroll_Staffbonustype();
+  
+  
+  foreach($this->bList as $k => $v){
+	if($v['pay_type'] == 1 && $v['hold_to_date']!='0000-00-00' ){
+		$btypeRow = $btype->getStaffbonustype($v['type_bonus']);
+		$sdRow = $stDetail->getDetail($v['id_staff']);
+		$nName = $sdRow['ni'];
+		$fName = Model_EncryptHelper::getSslPassword($sdRow['n']);
+		
+	  ?>
+  <tr>
+    <td><?php echo $v['id_bonus']?></td>
+    <td><?php echo ucwords($nName." <br/> [ ".$fName." ]");?></td>
+    <td><?php echo $btypeRow['type_bonus']?></td>
+    <td align="left">$ <?php echo $v['amt_total_bonus']?></td>
+    <td><?php echo $v['period_bonus_begin']." to ".$v['Period_bonus_end'];?></td>
+    <td><?php echo $v['pay_date']?></td>
+    <td>&nbsp;</td>
+    <td><?php echo $v['hold_to_date']?></td>
+    <td><?php echo $v['detail_bonus']?></td>
+    <td><?php echo $v['hold_reason']?></td>
+  </tr>
+ <?php 
+	}
+ }?> 
+</table>
+<br />
+Bank
+<br />
+<br />
+<table width="1500" border="1" cellspacing="0" cellpadding="5" style="font-size:13px;">
+  <tr>
+    <td style="width:65px;">ID Bonus</td>
+    <td style="width:120px;">Staff</td>
+    <td style="width:150px;">Bonus Type</td>
+    <td style="width:100px;">Total Amt</td>
+    <td style="width:100px;">Pay Bank</td>
+    <td style="width:100px;">Super</td>
+    <td style="width:180px;">Period</td>
+    <td style="width:100px;">Will Pay On</td>
+    <td style="width:100px;">Paid On</td>
+    <td style="width:100px;">Hold Until</td>
+    <td>Comment</td>
+    <td>Hold Reason</td>
+  </tr>
+  <?php 
+  $stDetail = new Model_DbTable_Roster_Stafflogindetail();
+  $btype = new Model_Payroll_Staffbonustype();
+  
+  
+  foreach($this->bList as $k => $v){
+	if($v['pay_type'] == 2 && $v['hold_to_date']!='0000-00-00' ){
+		$btypeRow = $btype->getStaffbonustype($v['type_bonus']);
+		$sdRow = $stDetail->getDetail($v['id_staff']);
+		$nName = $sdRow['ni'];
+		$fName = Model_EncryptHelper::getSslPassword($sdRow['n']);
+		
+	  ?>
+  <tr>
+    <td><?php echo $v['id_bonus']?></td>
+    <td><?php echo ucwords($nName."<br /> [ ".$fName." ]");?></td>
+    <td><?php echo $btypeRow['type_bonus']?></td>
+    <td align="left">$ <?php echo $v['amt_total_bonus']?></td>
+    <td align="left">$ <?php echo $v['amt_bank_bonus']?></td>
+    <td align="left">$ <?php echo $v['amt_bonus_super']?></td>
+    <td><?php echo $v['period_bonus_begin']." to ".$v['Period_bonus_end'];?></td>
+    <td><?php echo $v['pay_date']?></td>
+    <td>&nbsp;</td>
+    <td><?php echo $v['hold_to_date']?></td>
+    <td><?php echo $v['detail_bonus']?></td>
+    <td><?php echo $v['hold_reason']?></td>
+  </tr>
+  <?php 
+	}
+ }?>
+</table>
+</body>
+</html>

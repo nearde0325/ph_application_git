@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+	});
+	</script>
+
+<form action="" method="post">
+  <p>Shopcode: <select name="shopcode"  id="shopcode">
+    
+    <?php foreach($this->list as $key => $v){ ?> 
+    <option value="<?php echo $v['name_shop_location_head']?>" 
+    <?php 
+	if($v['name_shop_location_head'] == $this->shopCode){echo 'selected="selected"';}
+	
+	?>
+    ><?php echo $v['name_shop_location_head']?></option>
+ <?php  } ?> 
+  
+</select>
+     
+  Date Begin [yyyy-mm-dd]:
+    <input name="date_begin" id="date_begin" type="text" />  Date End:<input name="date_end" id="date_end" type="text" /> |  <input type="submit" name="button" id="button" value="Submit" />
+  </p>
+</form>
+<br />
+<?php
+
+$caOpening = new Model_DbTable_Cashaccountopening();
+$caClosing = new Model_DbTable_Cashaccountclosing();
+
+
+if(!$_POST){
+?>
+<table width="500" border="0" cellspacing="1" bgcolor="#333333" cellpadding="0" style="text-align:center;">
+  <tr>
+    <td bgcolor="#FFFFFF">Shop Head</td>
+    <td bgcolor="#FFFFFF">Yesterday Closing<br />(NOT Last Business Day)<br/><?=$this->dateYesterday?></td>
+    
+    <td bgcolor="#FFFFFF">Today Opening<br /><?=$this->dateToday?></td>
+  </tr>
+<?php 
+//reset($this->list);
+foreach($this->list as $k => $value){
+?>
+  <tr>
+    <td bgcolor="#FFFFFF"><?=$value['name_shop_location_head']?></td>
+    <td bgcolor="#FFFFFF">
+    <?php 
+    $caClsResult = $caClosing->getActiveClosingByDate($value['name_shop_location_head'],$this->dateYesterday);
+    if(!$caClsResult) {echo '<img src="/im/error2.jpg" />';}
+    else{echo '<img src="/im/clicked.jpg" />';}
+    ?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php 
+    $caOpeResult = $caOpening->getActiveOpeningByDate($value['name_shop_location_head'],$this->dateToday);
+    if(!$caOpeResult) {
+    	echo '<img src="/im/error2.jpg" />';
+    }
+    else{echo '<img src="/im/clicked.jpg" />';
+    }   
+    
+    ?></td>
+  </tr>
+<?php 
+}
+?>
+</table>
+<?php }
+else{
+?>
+
+<table width="500" border="0" cellspacing="1" bgcolor="#333333" cellpadding="0" style="text-align:center;">
+  <tr>
+    <td bgcolor="#FFFFFF">Shop Head</td>
+    <td bgcolor="#FFFFFF">Opening</td>
+    <td bgcolor="#FFFFFF">Closing</td>
+  </tr>
+<?php
+foreach($this->arrDate as $k2 => $v2){
+?>
+  <tr>
+    <td bgcolor="#FFFFFF"><?=$v2?></td>
+    <td bgcolor="#FFFFFF">
+    <?php 
+    $caOpeR2 = $caOpening->getActiveOpeningByDate($_POST["shopcode"],$v2);
+    if(!$caOpeR2) {
+    	echo '<img src="/im/error2.jpg" />';
+    }
+    else{echo '<img src="/im/clicked.jpg" />';
+    }   
+    
+    ?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php 
+    $caClsR2 = $caClosing->getActiveClosingByDate($_POST["shopcode"],$v2);
+    if(!$caClsR2) {
+    	echo '<img src="/im/error2.jpg" />';
+    }
+    else{echo '<img src="/im/clicked.jpg" />';
+    }   
+    ?></td>
+  </tr>
+<?php
+}
+ ?>    
+</table>  
+<?php 
+}
+?>
+</body>
+</html>

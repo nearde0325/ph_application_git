@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+
+* Unmatch Invoice: Apos Invoice, The Type is EFTPOS, but we can not find Any Matching Amount of Commbiz entry within 2 mins. It may indicate Staff Type Cash Sales as EFTPOS<br />
+
+* Unmatch Receipt: We found a Commbiz Receipt that did NOT belong to any APOS EFTPOS Invoice within 2 mins.<br />
+
+* If you found both Unmatch Invoice and Unmatch receipt with same amount, only the time gap is larger than 2mins. It is possible Staff create invoice too early.<br />
+<br />
+
+
+<table  border="1" cellspacing="0" cellpadding="0" style="font-size:13px;">
+  <tr>
+    <td>&nbsp;</td>
+    <?php foreach($this->arrShop as $shop) {?>
+    <td>
+    <table width="100%" border="1" cellspacing="0" cellpadding="0">
+      <tr>
+        <td colspan="2"><?php echo $shop?></td>
+        </tr>
+      <tr>
+        <td style="width:200px;" >Unmatch Invoice</td>
+        <td style="width:200px;" >Unmatch Receipt</td>
+      </tr>
+    </table> 
+    </td>
+     <?php } ?>
+  </tr>
+  <?php foreach($this->arrDate as $date) {?>
+  <tr>
+    <td><?php echo $date;?></td>
+
+<?php foreach($this->arrShop as $shop) {?>
+    <td valign="top">
+    <table width="100%"  cellspacing="0" cellpadding="0">
+  <tr>
+    <td  style="width:200px; border-right:#000 solid 1px;"  ><?php $arrInv = unserialize(base64_decode($this->arrRes[$date][$shop][0]));
+	if(empty($arrInv)){echo " -- ";}
+	else{
+		$arrInvCk = array_chunk($arrInv,3);
+		foreach($arrInvCk as $key => $v2 ){
+			echo $v2[0]."<br />(".$v2[1].",$".$v2[2].")<br />";
+			}
+		}
+	 ?></td>
+    <td  style="width:200px;"  ><?php 
+	
+	$arrRec = unserialize(base64_decode($this->arrRes[$date][$shop][1]));
+	if(empty($arrRec)){echo " -- ";}
+	else{
+		$arrRecCk = array_chunk($arrRec,2);
+		foreach($arrRecCk as $key2 => $v3 ){
+			echo $v3[0].":($".$v3[1].")<br />";
+			}
+		}	
+	
+	
+	
+	
+	 ?></td>
+  </tr> 
+</table>
+</td>
+   <?php } ?>
+
+  </tr>
+  <?php } ?>
+  
+  
+</table>
+</body>
+</html>

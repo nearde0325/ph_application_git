@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<style type="text/css"> @media print { body { display:none } } </style>
+<body style="font-family:Arial, Helvetica, sans-serif" background="/images/bk-unoffical.png">
+<h1>My Roster In 4 Weeks</h1>
+
+Reference Only,please contact manager for confirmed Roster if any changes may occur<br />
+
+<br />
+<table width="750" border="0" cellspacing="1" cellpadding="15" bgcolor="#333333">
+  <tr>
+    <th bgcolor="#FFFFFF" scope="col">Shop</th>
+    <th bgcolor="#FFFFFF" scope="col">Date</th>
+    <th bgcolor="#FFFFFF" scope="col">Day</th>
+    <th bgcolor="#FFFFFF" scope="col">Shift Start</th>
+    <th bgcolor="#FFFFFF" scope="col">Shift End</th>
+  </tr>
+  <?php
+  if(!empty($this->tList)){
+  foreach($this->tList as $key => $v){
+	  $shopHead = $v["shop_head"];
+	  if($shopHead == "ADPC" || $shopHead == "CLPC" || $shopHead == "CLIC" || $shopHead == "WLIC"){
+		  date_default_timezone_set("Australia/Adelaide");
+		  }
+		else{
+		 date_default_timezone_set("Australia/Melbourne");
+		}	  
+	  
+	  $dateShift = date("Y-m-d",$v["arra_shift_begin"]);
+	  $dayShift = date("l",$v["arra_shift_begin"]);
+	  $shiftStart = date("H:i",$v["arra_shift_begin"]);
+	  $shiftEnd = date("H:i",$v["arra_shift_end"]); 
+	  
+	  if($shiftStart != "00:00" && $shiftEnd != "00:00" ){
+  ?>
+  <tr>
+    <td bgcolor="#FFFFFF"><?php echo $v["shop_head"]?></td>
+    <td bgcolor="#FFFFFF"><?php echo $dateShift; ?></td>
+    <td bgcolor="#FFFFFF"><?php echo $dayShift; ?></td>
+    <td bgcolor="#FFFFFF"><?php echo $shiftStart; ?></td>
+    <td bgcolor="#FFFFFF"><?php echo $shiftEnd; ?></td>
+  </tr>
+  <?php
+	  }
+  }
+  }
+  ?>
+  
+</table>
+</body>
+</html>

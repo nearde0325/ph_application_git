@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+/* <![CDATA[ */
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+/* ]]> */
+
+
+</style>
+<script>
+    function ConfirmBlock()
+    {
+      var x = confirm("Please Be Aware,You are about to lock yourself out of parts stock take, are you sure?");
+      if (x)
+          return true;
+      else
+        return false;
+    }
+</script> 
+
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1>Condition Pre Parts Stock Take</h1>
+<h2>Handle Issues Before Stock Take</h2>
+<div style="width:800px; border:#333 solid 1px; padding:15px;">
+If there are &quot;any&quot; job <u><b>without the parts record and do not set to "Not Start Yet"</b></u>, you will not able to proceed<br />
+If there are &quot;any&quot; job <u><b>with borrow parts that not been confirmed</b></u>, you will not able to proceed<br />
+<br />
+<div style="border:#F00 solid 2px; width:500px; padding:10px; font-weight:bold;">Current outstanding issues for your shop:</div><br />
+<br />
+<?php 
+if($this->errorMessage == ""){
+?>
+Good! You have no outstanding issues for you shop, you may proceed with next step
+<?php
+}
+else{
+	echo $this->errorMessage;
+	}
+?>
+<br />
+</div>
+<h2>Are You Qualified <br />
+</h2>
+<form method="post" action="" >
+<div style="width:800px; border:#333 solid 1px; padding:15px;"> 
+  <p>Your Attendance Password : 
+    <input type="password" name="pwd" id="pwd" />
+    <br />
+    <br />
+    Please Input Your Attendance Password to check if you are qualified to the Stock take<br />
+    <br />
+    <span style="font-size:12px;">
+    * You must be familiar with the repair parts if you want to do the stock take.<br />
+    * You will be requeg sted to <b>take full responsibility of the &quot;Accuracy&quot; of the stock take result</b>. If you are not confidence with the repair parts,<strong> Input Your Attendance Password and Click &quot;I am not familiar with the parts&quot;</strong>, your shop parts stock take and shop parts order will be postpone , you manager will be notified.<br />
+    <br />
+    <input type="checkbox" name="regern_stock" id="regern_stock" value="1" />
+    I need to re-generate the stock take list .<br />
+    (<b>Please pay very attention, Your Order of this week and stock take result wil be cleared if you tick this, you need to do all over again.</b>)<br />
+    <br />
+    </span>
+
+
+    <input type="submit" name="btn_begin" id="btn_begin" value="Yes I am confidance with the parts, BEGIN the stocktake now" style="background:#80FF80; font-size:13px; border:#060 2px solid;"
+    <?php
+    if($this->errorMessage != ""){
+		echo 'disabled="disabled"';
+		}
+	?>
+     />
+     
+         <br />
+    <br />
+    <input type="submit" name="btn_not_ok" id="btn_not_ok" value="No, I am not familiar with repair parts" style="background:#F99; font-size:13px; border:#900 2px solid;" onclick="return ConfirmBlock()" /> 
+
+  </p>
+
+</div>
+</form>
+
+<br />
+<br />
+<?php if($this->notPass){?>
+<div style="background:#F99; font-size:13px; border:#900 2px solid; width:828px; padding:10px" >
+<h2>Please Do Not Proceed The Stock Take </h2>
+
+I am sorry to inform you that your access to the parts stock take was been block ,please make sure you get fully trainning for the parts and apprival of the manager, the head office will unlock it for you.
+</div>
+<?php }?>
+</body>
+</html>

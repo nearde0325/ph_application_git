@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Online Phone Repair Lodgement System</title>
+<link href="/css/template.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<table width="600" border="0" cellspacing="0" cellpadding="10" align="center">
+<form id="form_step0" name="formstep0" method="post" action="/rma/fill">
+  <tr>
+    <td><a title="Phone Collection" href="http://www.newgenerationgroup.com.au/index.php"> <img id="logo" src="http://www.newgenerationgroup.com.au/images/logo-phone-collection.png" alt="Phone Collection" border="0" /></a></td>
+  </tr>
+  <tr>
+    <td class="theh1" >Phone Collection Phone Repair Online Form
+    <br />
+<?
+$agent = getenv("HTTP_USER_AGENT");
+//echo($agent);
+
+if (preg_match("/MSIE/i", $agent)) {
+    echo $result = "You are using Microsoft Internet Explorer Which I do Not Recommend, Please download and use Firefox instead!!";
+}else {
+    $result = "You are using $agent";
+
+}
+?>
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="middle"><span style="font-weight:bold;">IN VICTORIA</span></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td style="width:200px;"><span class="theh1" >Phone Collection</span></td>
+        <td style="line-height:30px; text-transform:capitalize;"><p><a href="/repaircenter/mainpage/shop/BSPC" >Bayside Phone Collection</a><br />
+          <a href="/repaircenter/mainpage/shop/BHPC">Boxhill Phone Collection</a><br />
+          <a href="/repaircenter/mainpage/shop/BBPC">Brimbank Phone Collection</a><br />
+          <a href="/repaircenter/mainpage/shop/COPC">Corio Phone Collection</a><br />
+          <a href="/repaircenter/mainpage/shop/CBPC">Cranbourne Phone Collection</a><br />       
+            <a href="/repaircenter/mainpage/shop/EPPC">Epping Phone Collection</a><br />
+            <a href="/repaircenter/mainpage/shop/FGPC">Fountain Gate Phone Collection</a><br />
+            <a href="/repaircenter/mainpage/shop/KCPC">Knox City Phone Collection</a><br />
+            <a href="/repaircenter/mainpage/shop/NLPC">Northland Phone Collection</a><br />
+            <a href="/repaircenter/mainpage/shop/PMPC">Parkmore Phone Collection</a><br />
+            <a href="/repaircenter/mainpage/shop/WBPC">Werribee Phone Collection</a><br />
+            <a href="/repaircenter/mainpage/shop/WGPC">Water Garden Phone Collection</a><br />          
+            <br />
+          </p></td>
+      </tr>
+      <tr>
+        <td style="width:200px;" ><span class="theh1" >iCollection</span></td>
+        <td  style="line-height:30px; text-transform:capitalize;"><a href="/repaircenter/mainpage/shop/BSIC">Bayside iCollection</a><br />
+          <a href="/repaircenter/mainpage/shop/SLIC">Southland iCollection</a><br />
+          <a href="/repaircenter/mainpage/shop/WGIC">Water Garden iCollection</a><br />
+          <a href="/repaircenter/mainpage/shop/WBIC">Werribee iCollection</a><br />          
+          <a href="/repaircenter/mainpage/shop/CSIC">Chadstone ICollection</a>*<br />
+          <a href="/repaircenter/mainpage/shop/DCIC">Doncaster iCollection</a>*<br />   
+          <a href="/repaircenter/mainpage/shop/PMIC">Parkmore iCollection</a>*<br /> 
+		  <a href="/repaircenter/mainpage/shop/BSXP">Bayside Xpress Repair</a>*<br />  
+          <a href="/repaircenter/mainpage/shop/FGIC">Fountain Gate iCollection</a>*<br />              
+          </td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td align="left" valign="middle"><span style="font-weight:bold;" >IN SOUTH AUSTRALIA</span></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td><a href="/repaircenter/mainpage/shop/ADPC">Arndale Phone Collection</a></td>
+        <td><a href="/repaircenter/mainpage/shop/CLPC">Colonnades Phone Collection</a><br />
+<br />
+<a href="/repaircenter/mainpage/shop/CLIC">Colonnades iCollection</a>*<br />   
+</td>
+        <td><a href="/repaircenter/mainpage/shop/WLIC">West Lake iCollection</a></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td><p>Copyright &copy; Phone Collection 2012<br />
+    *This form is designed for internal use only<br />
+    *Your IP address: recorderd as evidence<br />
+    *Do not use this form in any other circumstances , only use this form on the store computer<br />
+    *Should you have any problem , please call head office ASAP!</p>
+    <p>&nbsp;</p></td>
+  </tr>
+</form> 
+</table>
+</body>
+</html>

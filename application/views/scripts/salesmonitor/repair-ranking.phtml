@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif" >
+<table width="1000" border="0" cellspacing="1" cellpadding="5">
+  <tr>
+    <th rowspan="2" scope="col">Rank</th>
+    <th colspan="2" rowspan="2" scope="col">Shop</th>
+    <th colspan="2" scope="col"><?php echo $this->strLastWeek;?></th>
+    <th rowspan="2" style="background-color:#888;width:20px;" scope="col">&nbsp;</th>
+    <th colspan="2" scope="col"><?php echo $this->strWeekAgo;?></th>
+  </tr>
+  <tr>
+    <th scope="col">$Amount</th>
+    <th scope="col">Precent%</th>
+    <th scope="col">$Amount</th>
+    <th scope="col">Precent%</th>
+  </tr>
+<?php foreach($this->arrRes as $key => $v) {?>  
+  <tr>
+    <td><?php echo $key + 1?></td>
+    <td><?php echo $v[0]?></td>
+    <td><?php echo array_search($v[0],$this->shopArr) + 1; ?></td>
+    <td><?php echo round($v[1],2)?></td>
+    <td><?php echo round($v[2]*100,2)?> %</td>
+    <td style="background-color:#888;width:20px;" >&nbsp;</td>
+    <td><?php echo round($v[3],2)?></td>
+    <td><?php echo round($v[4]*100,2)?> %</td>
+  </tr>
+<?php }?>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<?php $thisMonday = Model_DatetimeHelper::getThisWeekMonday("");
+$rOrder = new Model_DbTable_Pr_Order();
+
+?>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1>Phone Parts Warehouse Main Page</h1>
+<p>Warehouse Only Functions</p>
+<table width="600" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <td ><a href="/repairparts/warehouse-goods-receive">Goods Receive From China</a></td>
+  </tr>
+  <tr>
+    <td><a href="/repairparts/stock-alert/cate/0" target="_blank">Stock Alert</a></td>
+  </tr>
+  <tr>
+    <td><a href="/repairparts/warehouse-stock-main">Print Bar Code Ware House</a></td>
+  </tr>
+  <tr>
+    <td><a href="/repairparts/stock-list-all/cate/0" target="_blank">Check All Stock </a></td>
+  </tr>
+  <tr>
+    <td><a href="/repairparts/part-move-history" target="_blank">Parts Movement History</a></td>
+  </tr>
+  <tr>
+    <td><a href="/repairparts/warehouse-stock-main">Warehouse Stock Take</a></td>
+  </tr>
+  <tr>
+    <td><a href="/repairparts/check-rgn-main" target="_blank">Check All [RGN] (Goods Receive)</a></td>
+  </tr>
+  <tr>
+    <td><a href="/repairparts/check-rkt-main" target="_blank">Check All [RKT] (Goods Transfer)</a></td>
+  </tr>
+  <tr>
+    <td><a href="/repairparts/check-ad-main" target="_blank">Check All [AD] (AI/AO Together) [AI][AO]</a></td>
+  </tr>
+  <tr>
+    <td><a href="/repairparts/check-sts-main" target="_blank">Check All [STS] </a>(Shop3 Brain to Other Shop Transfer, NO MORE )</td>
+  </tr>
+  <tr>
+    <td><a href="/repairparts/warehouse-stock-take/cate/0" target="_blank">Modify Price</a> | <a href="/repairparts/export-parts-price/yes/all" target="_blank">Export All Price</a></td>
+  </tr>
+  <tr>
+    <td><a href="http://192.168.1.124/repairparts/manage-price-category" target="_blank">Price Category</a></td>
+  </tr>
+</table>
+<p>Warehouse and Shop Share Function</p>
+<table width="1100" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <th scope="col">Shop</th>
+    <th scope="col">Transfer</th>
+    <th scope="col">Adjust</th>
+    <th scope="col">Summary</th>
+    <th scope="col">Move<br />
+      History</th>
+    <th colspan="2" scope="col">Order Pick Up</th>
+    <th colspan="2" scope="col">Order <br />
+      Dispatch</th>
+  </tr>
+  <tr>
+    <td>WH</td>
+    <td>&nbsp;</td>
+    <td><a href="/repairparts/warehouse-adjust-in" target="_blank">WH Adjust</a></td>
+    <td>&nbsp;</td>
+    <td colspan="5">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>[1] BSXP | BSPC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/1">(TI) Bayside </a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/1" target="_blank">Bayside </a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/1" target="_blank">Bayside</a><br /></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/1" target="_blank">Bayside</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD01<?php echo $thisMonday;?>" target="_blank">Bayside</a></td>
+    <td>
+    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD01{$thisMonday}");
+    if($oP){echo "V";}
+    ?>
+    
+    </td>
+    <td><a href="/repairparts/order-dispatch/pon/OD01<?php echo $thisMonday;?>" target="_blank">Bayside</a></td>
+        <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD01{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[2] HOPE( CSIC )</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/2">Transfer to CSIC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/2" target="_blank">CSIC</a></td>
+    <td>
+      <a href="/repairparts/shop-parts-summary/shop/2" target="_blank">CSIC
+      </a><br /></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/2" target="_blank">CSIC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD02<?php echo $thisMonday;?>" target="_blank">CSIC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD02{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD02<?php echo $thisMonday;?>" target="_blank">CSIC</a></td>
+        <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD02{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[3] BRAIN</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/3">Transfer to Brain</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/3" target="_blank">Brain</a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/3" target="_blank">Brain
+    </a><br /></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/3" target="_blank">Brain</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD03<?php echo $thisMonday;?>" target="_blank">Brain</a><a href="/repairparts/part-move-history-shop/shop/3" target="_blank"></a></td>
+    <td>&nbsp;</td>
+    <td><a href="/repairparts/order-dispatch/pon/OD03<?php echo $thisMonday;?>" target="_blank">Brain</a><a href="/repairparts/part-move-history-shop/shop/3" target="_blank"></a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>[4] BHPC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/4">Transfer to BHPC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/4">BHPC </a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/4">BHPC </a>
+      <br /></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/4" target="_blank">BHPC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD04<?php echo $thisMonday;?>">BHPC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD04{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD04<?php echo $thisMonday;?>" target="_blank">BHPC</a></td>
+           <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD04{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[5] HPIC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/5">Transfer to HPIC</a> <br /></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/5">HPIC </a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/5">HPIC </a>
+      <br /></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/5" target="_blank">HPIC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD05<?php echo $thisMonday;?>">HPIC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD05{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD05<?php echo $thisMonday;?>" target="_blank">HPIC</a></td>
+            <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD05{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[6] CBPC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/6">Transfer to CBPC</a></td>
+    <td>
+      <a href="/repairparts/shop-adjust-in/shop/6">CBPC </a> </td>
+    <td><a href="/repairparts/shop-parts-summary/shop/6">CBPC </a> 
+      <br /></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/6" target="_blank">CBPC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD06<?php echo $thisMonday;?>">CBPC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD06{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD06<?php echo $thisMonday;?>" target="_blank">CBPC</a></td>
+           <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD06{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[7] WLIC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/7">Transfer to WLIC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/7">WLIC </a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/7">WLIC </a>
+      <br /></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/7" target="_blank">SA Shops</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD07<?php echo $thisMonday;?>">SA Shops</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD07{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD07<?php echo $thisMonday;?>" target="_blank">SA Shops</a></td>
+            <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD07{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[8] EPPC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/8">Transfer to EPPC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/8">EPPC </a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/8">EPPC </a> 
+      <br /></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/8" target="_blank">EPPC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD08<?php echo $thisMonday;?>">EPPC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD08{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD08<?php echo $thisMonday;?>" target="_blank">EPPC</a></td>
+            <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD08{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[9] WB 2 Shops [PC]</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/9">Transfer to WB Shops</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/9">WB Shops </a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/9">WB Shops </a> 
+      <br /></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/9" target="_blank">WB Shops</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD09<?php echo $thisMonday;?>">WB Shops</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD09{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD09<?php echo $thisMonday;?>" target="_blank">WB Shops</a></td>
+           <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD09{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[10] NLPC</td>
+    <td><br />
+    <a href="/repairparts/transfer-parts-to-shop/shop/10">Transfer to NLPC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/10">NLPC </a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/10">NLPC </a> <br />
+    </td>
+    <td><a href="/repairparts/part-move-history-shop/shop/10" target="_blank">NLPC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD10<?php echo $thisMonday;?>">NLPC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD10{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD10<?php echo $thisMonday;?>" target="_blank">NLPC</a></td>
+            <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD10{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[11] DCIC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/11">Transfer to DCIC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/11">DCIC </a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/11">DCIC </a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/11" target="_blank">DCIC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD11<?php echo $thisMonday;?>">DCIC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD11{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD11<?php echo $thisMonday;?>" target="_blank">DCIC</a></td>
+            <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD11{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[12] KCPC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/12">Transfer to KCPC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/12">KCPC </a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/12">KCPC</a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/12" target="_blank">KCPC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD12<?php echo $thisMonday;?>">KCPC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD12{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD12<?php echo $thisMonday;?>" target="_blank">KCPC</a></td>
+            <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD12{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[13]SLIC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/13">Transfer to SLIC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/13">SLIC</a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/13">SLIC</a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/13" target="_blank">SLIC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD13<?php echo $thisMonday;?>">SLIC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD13{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD13<?php echo $thisMonday;?>" target="_blank">SLIC</a></td>
+            <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD13{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[14] FGIC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/14">Transfer to FGIC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/14">FGIC</a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/14">FGIC</a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/14" target="_blank">FGIC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD14<?php echo $thisMonday;?>">FGIC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD14{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD14<?php echo $thisMonday;?>" target="_blank">FGIC</a></td>
+            <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD14{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td>[15]PMIC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/15">Transfer to PMIC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/15">PMIC</a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/15">PMIC</a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/15" target="_blank">PMIC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD15<?php echo $thisMonday;?>">PMIC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD15{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD15<?php echo $thisMonday;?>" target="_blank">PMIC</a></td>
+            <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD15{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td height="20">[16]WGPC/IC [IC]</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/16">Transfer to WG Shops</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/16">WG Shops</a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/16">WG Shops</a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/16" target="_blank">WG Shops</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD16<?php echo $thisMonday;?>">WG Shops</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD16{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD16<?php echo $thisMonday;?>" target="_blank">WG Shops</a></td>
+            <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD16{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td height="10">[17]ADPC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/17">Transfer to ADPC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/17">ADPC</a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/17">ADPC</a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/17" target="_blank">ADPC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD17<?php echo $thisMonday;?>">ADPC</a></td>
+    <td>    <?php 
+    $oP = $rOrder->getByPONConfirmed("OD17{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD17<?php echo $thisMonday;?>" target="_blank">ADPC</a></td>
+            <td>
+    <?php 
+    $oP2 = $rOrder->getByPONSent("OD17{$thisMonday}");
+    if($oP2){echo "V";}
+    ?>
+    
+    </td>
+  </tr>
+  <tr>
+    <td height="5">[18]BBPC</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/18">Transfer to BBPC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/18">BBPC</a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/18">BBPC</a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/18" target="_blank">BBPC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD18<?php echo $thisMonday;?>">BBPC</a></td>
+    <td> <?php 
+    $oP = $rOrder->getByPONConfirmed("OD18{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD18<?php echo $thisMonday;?>" target="_blank">BBPC</a></td>
+    <td>    <?php 
+    $oP2 = $rOrder->getByPONSent("OD18{$thisMonday}");
+    if($oP2){echo "V";}
+    ?></td>
+  </tr>
+  <tr>
+    <td height="2">[19]CLPC (IC) [PC]</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/19">Transfer to CLPC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/19">CLPC</a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/19">CLPC</a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/19" target="_blank">CLPC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD19<?php echo $thisMonday;?>">CLPC</a></td>
+    <td> <?php 
+    $oP = $rOrder->getByPONConfirmed("OD19{$thisMonday}");
+    if($oP){echo "V";}
+    ?></td>
+    <td><a href="/repairparts/order-dispatch/pon/OD19<?php echo $thisMonday;?>" target="_blank">CLPC</a></td>
+    <td>    <?php 
+    $oP2 = $rOrder->getByPONSent("OD19{$thisMonday}");
+    if($oP2){echo "V";}
+    ?></td>
+  </tr>
+  <tr>
+    <td height="1">[20]WHLU</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/20">Transfer to WHLU</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/20">WHLU</a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/20">WHLU</a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/20" target="_blank">WHLU</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD20<?php echo $thisMonday;?>">WHLU</a></td>
+    <td>&nbsp;</td>
+    <td><a href="/repairparts/order-dispatch/pon/OD20<?php echo $thisMonday;?>" target="_blank">WHLU</a></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="2">[21] BSIC [NOT READY]</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/21">Transfer to BSIC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/21">BSIC</a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/21">BSIC</a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/21" target="_blank">BSIC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD21<?php echo $thisMonday;?>">BSIC</a></td>
+    <td>&nbsp;</td>
+    <td><a href="/repairparts/order-dispatch/pon/OD21<?php echo $thisMonday;?>" target="_blank">BSIC</a></td>
+    <td> <?php 
+    $oP2 = $rOrder->getByPONSent("OD21{$thisMonday}");
+    if($oP2){echo "V";}
+    ?></td>
+  </tr>
+  <tr>
+    <td height="3">[22] WGPC[NOT READY]</td>
+    <td><a href="/repairparts/transfer-parts-to-shop/shop/22">Transfer to WGPC</a></td>
+    <td><a href="/repairparts/shop-adjust-in/shop/22">WGPC</a></td>
+    <td><a href="/repairparts/shop-parts-summary/shop/22">WGPC</a></td>
+    <td><a href="/repairparts/part-move-history-shop/shop/22" target="_blank">WGPC</a></td>
+    <td><a href="/repairparts/pickup-slip-order/pon/OD22<?php echo $thisMonday;?>">WGPC</a></td>
+    <td>&nbsp;</td>
+    <td><a href="/repairparts/order-dispatch/pon/OD22<?php echo $thisMonday;?>" target="_blank">WGPC</a></td>
+    <td>&nbsp;</td>
+  </tr>  
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

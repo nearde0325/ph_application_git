@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 8px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+<style type="text/css"> @media print { body { display:none } } </style>
+<body style="font-family:Arial, Helvetica, sans-serif" background="/images/bk-unoffical.png">
+</head>
+
+<body style=" font-family:Arial, Helvetica, sans-serif">
+<h2>My Bonus Detail</h2>
+
+<?php 
+  $btype = new Model_Payroll_Staffbonustype();
+  
+?>
+<br />
+<table width="900" border="1" cellspacing="0" cellpadding="5" style="font-size:12px;">
+  <tr>
+    <td>My Bonus ID</td>
+    <td style="width:100px;" >Type</td>
+    <td style="width:200px;" >Period</td>
+    <td>Total Amount</td>
+    <td>Release Date</td>
+    <td style="width:200px;">Details</td>
+  </tr>
+<?php foreach($this->bList as $k=> $v){
+	$btypeRow = $btype->getStaffbonustype($v['type_bonus']);
+	?>
+  <tr>
+    <td><?php echo $v['id_bonus']?></td>
+    <td><?php echo $btypeRow['type_bonus']?></td>
+    <td><?php echo $v['period_bonus_begin']." TO ".$v["Period_bonus_end"]?></td>
+    <td>$ <?php echo $v['amt_total_bonus']?></td>
+    <td><?php echo $v['pay_date']?></td>
+    <td style="font-size:12px;"><?php echo $v['detail_bonus']?></td>
+  </tr>
+<?php }?>
+</table>
+</body>
+</html>

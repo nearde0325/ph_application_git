@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+<style type="text/css">
+.hasTooltip {
+    position:relative;
+}
+.hasTooltip span {
+    display:none;
+}
+
+.hasTooltip:hover span {
+    display:block;
+    background-color:#888;
+    border-radius:1px;
+    color:white;
+    box-shadow:1px 1px 2px gray;
+    position:absolute;
+    padding:5px;
+    top:0px;
+    left:45px;   
+    width:250px; /* I don't want the width to be too large... */
+	/*white-space: nowrap; */
+}	
+</style>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+	});
+	</script>
+<?php
+$caOpen = new Model_DbTable_Cashaccountopening();
+$list = $caOpen->listAllShopcode();
+$arrSummary = $this->arrSummary;
+$showLastDate = "";
+$product = new Model_DbTable_Productsva();
+?>
+Color Code : <span style="background-color:#FF8080;width:150px;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Error Occur | <span style="background-color:#DEB363;width:150px;">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+Need Your Attention  | <span style="background-color:#9CFECD;width:150px;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Everything Ok
+<form action="" method="post">
+  <p>Shopcode: <select name="shopcode"  id="shopcode">
+    
+    <?php foreach($list as $key => $v){ ?> 
+    <option value="<?php echo $v['shop_code_ca']?>" 
+    <?php 
+	if($v['shop_code_ca'] == $this->shopCode){echo 'selected="selected"';}
+	
+	?>
+    ><?php echo $v['shop_code_ca']?></option>
+ <?php  } ?> 
+  
+</select>
+     
+  Date Begin [yyyy-mm-dd]:
+    <input name="date_begin" id="date_begin" type="text" />  Date End:<input name="date_end" id="date_end" type="text" /> |  <input type="submit" name="button" id="button" value="Submit" />
+  </p>
+</form>
+<table width="1000" border="1" cellspacing="0" cellpadding="5" style=" border-color:#333;">
+  <tr>
+    <th style="width:200px;" scope="col">Date</th>
+    <th scope="col">Detail</th>
+  </tr>
+  <?php
+  $arrRes = $this->arrRes;
+  $arrList = $this->arrList;
+  $arrHis = array();
+   
+  if(!empty($this->arrRes)){
+  foreach($this->arrRes as $k1 => $v1) { ?>
+  <tr>
+    <td><?php echo $v1[0] ?></td>
+    <td style="padding:0px;"><?php
+    if($v1[1]){
+	?>
+    <table width="780" border="1" cellspacing="0" cellpadding="5">
+    <?php foreach($arrList[$k1] as $k2 => $v2){
+		//check if it should show or not 
+		$ifDif = false;
+		$ifHis = false;
+		$ifErr = false;
+		
+		$key_dif = array_search(trim($v2["barcode"]),$v1[2],true);
+		$key_his = array_search(trim($v2["barcode"]),$arrHis,true);
+		
+		//echo "For Barcode ".$v2["barcode"];
+		//var_dump($key_dif,$key_his);
+		//echo "<br />";
+		
+		if($key_dif !== false){
+			$ifDif = true;
+		}
+		if($key_dif !== false && $key_his === false){
+			//$ifHis = false;
+			//put into history
+			$arrHis[] = trim($v2["barcode"]);
+			$arrHis[] = $v2["date_take"];
+			$arrHis[] = $v2["qty_act"] - $v2["qty_sys"];
+			$arrHis[] = $v2["date_take"];
+			$arrHis[] = 1;
+			$arrHis[] = 0;
+			$arrHis[] = "";
+			}
+		if($key_his !== false){
+			$ifHis = true;
+			//replace date 
+			$lastDate = $arrHis[$key_his + 1];
+			$showLastDate = "";
+			$arrHis[$key_his + 1] = $v2["date_take"];
+			//check error 
+			$dif = $v2["qty_act"] - $v2["qty_sys"];
+			if($dif != $arrHis[$key_his + 2]){
+				$ifErr = true;
+				$showLastDate = "[".$lastDate."]";
+				$arrHis[$key_his + 2] = $dif;
+				$arrHis[$key_his + 5] += 1;
+				$arrHis[$key_his + 4] = 1;
+				$arrHis[$key_his + 6] .= $v2["date_take"]." | ";
+				}
+			else{
+				$arrHis[$key_his + 4] += 1;
+				}	
+			}	
+		//echo "IFDIFF---";
+		//var_dump($ifDif,$ifHis);
+		//echo "<br />";	
+		if($ifDif || $ifHis){		
+		?>  
+      <tr>
+        <td width="200" <?php if($ifHis) { echo 'style="color:#00f"';}?> ><?php echo $v2["barcode"];?></td>
+        <td <?php if($ifHis) { echo 'style="color:#00f"';}?> ><span style = "font-size:12px;" ><?php echo $product->getProductNameByCode($v2["barcode"]) ?></span></td>
+        <td width="200"
+        <?php
+			if($ifHis && !$ifErr) { echo 'style="color:#00f"';}
+			if($ifHis && $ifErr) { echo 'style="color:#f00"';}
+		?>
+        >Dif : <?php echo $v2["qty_act"] - $v2["qty_sys"]; ?> | Sys <?php echo $v2["qty_sys"]; ?> |Sa (<?php echo $v2["sales_yest"]?>) <span style="font-size:11px"><?php echo $showLastDate; ?></span></td>
+      </tr>
+    <?php 
+	
+	
+		}
+	
+	}?>  
+      
+    </table>
+    
+	
+	<?	
+		}
+	else{
+		
+		echo "Did Not Sumbit Result Yet!!";
+		}	
+	
+	?>
+    
+    
+    
+
+    
+    
+    </td>
+  </tr>
+  <?php
+  }
+  }
+  ?>
+  
+</table>
+<br />
+<br />
+<h1>Weekly Summary For Stock Take Difference</h1> 
+<table width="1000" border="1" cellspacing="0" cellpadding="5" style="font-size:12px;">
+  <tr>
+    <th scope="col">BarCode</th>
+    <th scope="col">Description</th>
+    <th scope="col">Date Init</th>
+    <th scope="col">Date Update</th>
+    <th scope="col">Consist- Counter</th>
+    <th scope="col">inConsist-Counter</th>
+    <th scope="col">Latest Dif</th>
+  </tr>
+<?php if(!empty($this->arrSummary)){
+	$arrHis = array_chunk($arrHis,7);
+	foreach($arrHis as $k3 => $v3){
+	?>  
+  <tr>
+    <td><?php echo $v3[0]?></td>
+    <td><?php
+   echo  $product->getProductNameByCode($v3[0]);
+    ?></td>
+   <td><?php echo $v3[3]?></td>
+   <td><?php echo $v3[1]?></td>
+   <td><?php echo $v3[4]?></td>
+   <td><?php echo $v3[5]."<br />".$v3[6]?></td>
+   <td><?php echo $v3[2]?></td>
+  </tr>
+<?php
+	}
+}
+?>  
+  
+</table>
+
+
+
+</body>
+</html>

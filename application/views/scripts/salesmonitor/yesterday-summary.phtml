@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<?php
+
+$dayToday = Model_DatetimeHelper::dayToday();
+
+?>
+<h1>Shop Daily Summary : <?php echo $this->dateToCheck ?></h1>
+*Re-Gen : Re Generate Yesterday's Sales , do it when shop did not sync the APOS Last Night 
+<table width="1600" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <th rowspan="2" scope="col">Shop</th>
+    <th colspan="2" scope="col">Attendance</th>
+    <th colspan="3" scope="col">Cash Account</th>
+    <th colspan="5" scope="col">Stock Take</th>
+    <th colspan="2" scope="col">Other</th>
+  </tr>
+  <tr>
+    <th scope="col" >Yesterday</th>
+    <th scope="col" >Today</th>
+    <th scope="col" ><?php echo $this->dateToCheckYesterday ?><br />
+    Closing</th>
+    <th scope="col" >Opening</th>
+    <th scope="col" >Sales $</th>
+    <th scope="col" >Sales Qty</th>
+    <th scope="col" >Submit</th>
+    <th scope="col" >Re-gen</th>
+    <th scope="col" >Weekly Sbt</th>
+    <th scope="col" >Weekly Re-gen</th>
+    <th scope="col" >Cam<br />
+      Err</th>
+    <th scope="col" >Sync</th>
+  </tr>
+<?php foreach($this->arrRes as $key => $v){?>    
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td>Off Duty: <?php echo $v[1]?><br />
+	<span style="font-size:12px">
+    <?php echo $v[2]?>
+    </span>
+</td>
+    <td>On Duty: <?php echo $v[3]?><br />
+	<span style="font-size:12px">
+    <?php echo $v[4]?>
+    </span>
+</td>
+    <td align="center" valign="middle"><?php echo $v[5]?></td>
+    <td align="center" valign="middle"><?php echo $v[6]?></td>
+    <td align="center" valign="middle">$ <?php echo $v[7]?></td>
+    <td align="center" valign="middle"><?php echo $v[8]?></td>
+    <td align="center" valign="middle"><a href="/salesmonitor/daily-stock-take-list/shop/<?php echo $v[0]?>" target="_blank" ><?php 
+	if($v[9]){
+		echo "<img src='/im/yes20.jpg' />";
+		}
+	else{
+		echo "<img src='/im/no20.jpg' />";
+		}	
+	?></a></td>
+    <td align="center" valign="middle">
+     <?php
+    $linkStr = "gen-shop-sales-old";
+	if($v[0] == "CBPC" || $v[0] == "BSXP" || $v[0] == "CLIC" || $v[0] == "CSIC"  || $v[0] == "DCIC"  || $v[0] == "FGIC" || $v[0] == "HPIC" || $v[0] == "PMIC" || $v[0] == "EPPC" ){
+		 $linkStr = "gen-shop-sales-new";
+		}
+	
+	?>
+    <a href="http://192.168.1.126/salesmonitor/<?php echo $linkStr?>/shop/<?php echo $v[0]?>" target="_blank">Click - &gt;<?php echo $v[0]?></a> 
+    </td>
+    <td align="center" valign="middle"><?php
+	
+	if($dayToday == 1){
+?>		
+<a href="/salesmonitor/show-weekly-stock-take-diff/shop/<?php echo $v[0]?>" target="_blank" ><?php 
+	if($v[10]){
+		echo "<img src='/im/yes20.jpg' />";
+		}
+	else{
+		echo "<img src='/im/no20.jpg' />";
+		}	
+	?></a>		
+		
+<?php		
+		}
+	
+	?></td>
+    <td align="center" valign="middle">
+    <a href="http://192.168.1.126/salesmonitor/weekly-stock-take-diff/shop/<?php echo $v[0]?>" target="_blank">Click - &gt;<?php echo $v[0]?></a> 
+    </td>
+    <td align="center" valign="middle">
+    <?php 
+	if($v[12]){
+		echo "<img src='/im/yes20.jpg' />";
+		}
+	else{
+		echo "<img src='/im/no20.jpg' />";
+		}	
+	?>
+    </td>
+    <td align="center" valign="middle">
+    <?php 
+	if(!$v[11]){
+		echo "<img src='/im/yes20.jpg' />";
+		}
+	else{
+		echo "<img src='/im/no20.jpg' />";
+		}	
+	?>
+    </td>
+  </tr>
+<?php } ?>  
+</table>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/css/template.css" rel="stylesheet" type="text/css" />
+<title>Online Phone Repair Lodgement System</title>
+</head>
+<body>
+<?php
+$idShop = 0;
+$rCenterMapping = $this->rCenterMapping;
+$shopHead = $this->shophead;
+
+$idShop = $rCenterMapping[$shopHead];
+$thisMonday = Model_DatetimeHelper::getThisWeekMonday("");
+
+?>
+ 
+  <br />
+<table width="800" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+  <td colspan="2" align="center">
+  Phone Collection Phone Repair Online Shop Main Page , you login as <br />
+  <br />
+<h1 class="theh1">  [<?php echo $this->shophead; ?>] <?php  echo $this->shopname['name_of_shop']; ?></h1> 
+  </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle"><img src="/css/cpinfo.jpg" width="100" height="100" /><br />
+    Check Price (Online Version)<br />
+    <strong style="color:red;">For Quick Access Repair Price , The button has been <br />
+    Move to &quot;Right Bottom Corner Of Company Info Pge&quot;</strong><br /></td>
+    <td align="center" valign="middle"><img src="/css/newjob.jpg" width="100" height="100" /><br />
+    <a href="/repaircenter/new/shop/<?php echo $this->shophead; ?>">New Job</a></td>
+  </tr>
+   <tr> 
+    <td align="center" valign="middle"><p>
+    <img src="/css/checkstatus.jpg" width="100" height="100" /><br />
+    <a href="/repaircenter/showstatus/shop/<?php echo $this->shophead; ?>">Check Status</a><br />
+    </p></td>
+  <td align="center" valign="middle"><p>
+  <img src="/css/history.jpg" width="100" /><br />
+  <a href="/repaircenter/showallhistory/shop/<?php echo $this->shophead; ?>" target="_blank" >Job History</a> <span style="background-color:#0F3;">(NOW AVAILABLE)</span><br />
+  </td>
+      
+  </tr>
+ <?php
+ if($idShop!= 99)
+ {	 
+ ?>  
+   <tr>
+     <td align="center" valign="middle"><img src="/css/parts.jpg" width="100" height="100" /><br />
+       Parts Consumption Record (JOB ID / IMEI / Device ID)
+       <br />
+<form id="form1" name="form1" method="post" action="/repaircenter/showstatusbyjobid">
+       <label for="id_job"></label>
+       <input type="text" name="id_job" id="id_job" style="width:250px;" />
+       <input type="hidden" name="shop_head" id="shop_head" value="<?php echo $this->shophead;?>" />
+       <br />
+       <input type="submit" name="go" id="go" value="GO TO THIS JOBID" />
+     </form>
+     
+<br />
+<a href="/repairparts/parts-record-with-borrow/shophead/<?php echo $this->shophead;?>/shop/<?php echo $idShop;?>/jobid/BORROWPARTS" target="_blank">Borrow Parts From Other Store (Without Job ID)</a><br />
+<br />
+<a href="/repairparts/parts-record-with-borrow/shophead/<?php echo $this->shophead;?>/shop/<?php echo $idShop;?>/jobid/parts" target="_blank">Parts Sales (Without Job ID / Service, Request APOS Invoice)</a><br />
+<br /></td>
+     
+          <td align="center" valign="middle"><img src="/css/faulty.jpg" width="100" height="100" /><br />
+     !! New !!Record Faulty Product<br />
+     if you record Faulty Products Now,<br />
+New RMA NO. will created For it<br />
+    
+     <form id="form2" name="form1" method="post" action="/repairparts/shop-faulty-product">
+       <input type="text" name="barcode_code" id="barcode_code" style="width:250px;" />
+       <input type="hidden" name="shop_head" id="shop_head" value="<?php echo $this->shophead;?>" />
+       <input type="hidden" name="id_shop" id="id_shop" value="<?php echo ($idShop == 99)?"":$idShop; ?>" />
+       <br />
+       <input type="submit" name="go2" id="go2" value="RECORD THIS BARCODE" />
+     
+     </form></td>
+
+   </tr>
+   <tr>
+     <td align="center" valign="middle"><a href="/repairparts/shop-stock-main/shop/<?php echo $idShop;?>"><img src="/css/stock.jpg" alt="" width="100" height="100" /><br />
+Stock &amp; BarCode
+</a></td>
+     <td align="center" valign="middle"><a href="/repairparts/shop-parts-summary/shop/<?php echo $idShop;?>"><img src="/css/total.jpg" alt="" width="100" height="100" /><br />
+     Weekly Summary</a></td>
+   </tr>
+   <tr>
+     <td align="center" valign="middle"><a href="/repairparts/parts-analysis/shop/<?php echo $idShop;?>"><br />
+      <img src="/css/analy.jpg" alt="" width="100" height="100" /><br />
+     Sales Analysis &amp; Return</a></td>
+     <td align="center" valign="middle"><a href="/repaircenter/pre-stock-take/shop/<?php echo $idShop;?>" target="_blank">New Online Order </a>
+     
+     
+       <br />
+       <br />
+     <a href="/repaircenter/order-confirm/pon/OD<?php echo str_pad($idShop,2,'0',STR_PAD_LEFT).$thisMonday;?>" target="_blank">Confirm Order ( Parts Qty Received) <br />
+     </a></td>
+   </tr>
+   <tr>
+     <td align="center" valign="middle" style="border:#F00 solid 2px; " ><p><a href="http://www.lost.amta.org.au/IMEI" target="_blank"><br />
+       </a></p>
+       <p style="font-weight:bold; color:#f00;">NEW!!</p>
+       <p><a href="http://www.lost.amta.org.au/IMEI" target="_blank"><img src="/css/checkimei.jpg" alt="" width="100" height="100" /></a><br />
+         <a href="http://www.lost.amta.org.au/IMEI" target="_blank"><br />
+         CHECK IMEI STATUS</a><br />
+         <br />
+         IDENTIFY IT AS A LOST OR STOLEN HANDSET<br />
+         <br />     
+         <br />
+     </p></td>
+     <td align="center" valign="middle">&nbsp;</td>
+   </tr>
+  
+ <?php
+		 }
+	 ?> 
+  <tr>
+  
+  <td align="center" valign="middle" colspan="2"><a href="/css/instruction.jpg" target="_blank" ><br />
+<h1>!!Please Check The New Released Screen Shot Toturial!!</h1></a><br />
+  
+
+  </td> 
+  </tr>
+
+ 
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

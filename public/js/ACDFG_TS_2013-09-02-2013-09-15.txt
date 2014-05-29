@@ -1,0 +1,356 @@
+Emp. Co./Last Name	Emp. First Name	Payroll Category	Date	Units	Start/Stop Time	Emp. Card ID	Emp. Record ID
+Mcmahon	Hope	Base Hourly	2/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Hope-FGIC	353
+Ye	Xiaoning	Base Hourly	2/09/2013	5	12:00-17:00[S]12:00-17:30[B]0.49	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	2/09/2013	2.25	15:15-17:30[S]15:15-17:30[B]0	Simon-DCIC	602
+Lee	Hang Seop	Base Salary Package	2/09/2013	4	10:00-14:00[S]10:00-14:30[B]0.49	Simon-DCIC	602
+Gong	Lei	Base Hourly	2/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Lei-BSXP	351
+Johansson	Tauii	Base Hourly	2/09/2013	6.79	10:12-17:00[S]09:00-17:30[B]0.49[LA]1.21	Tauii-PMIC	757
+Huang	Qinqi	Base Hourly	2/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Christina-CSIC	752
+Yu	Dabong	Base Hourly	2/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Terra-BH	369
+Chow	Ting Chou	Base Hourly	2/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Chow-EP	618
+Lam	Cam Trieu	Base Hourly	2/09/2013	8.75	09:00-17:45[S]09:00-18:15[B]0.49	Sophia-wgic	382
+Ramirez	Catherine Nataly	Base Hourly	2/09/2013	7.87	09:07-17:00[S]09:00-17:30[B]0.49[LA]0.13	Catherine-PMPC	816
+Ho	Wingchui	Base Hourly	2/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Catherine-WGIC	700
+Ko	Nakjun	Base Hourly	2/09/2013	8	09:30-17:30[S]09:30-18:00[B]0.49	Jun-CLIC	839
+Li	Qiyu	Base Hourly	2/09/2013	5	12:00-17:00[S]12:00-17:30[B]0.49	Kelly-EPPC	860
+Mcmahon	Hope	Base Hourly	3/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Hope-FGIC	353
+Ye	Xiaoning	Base Hourly	3/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	3/09/2013	2.5	10:45-13:15[S]10:45-13:15[B]0	Simon-DCIC	602
+Lee	Hang Seop	Base Salary Package	3/09/2013	1.89	15:06-17:00[S]15:00-17:00[B]0[LA]0.11	Simon-DCIC	602
+Gong	Lei	Base Hourly	3/09/2013	6	11:00-17:00[S]11:00-17:30[B]0.49	Lei-BSXP	351
+Johansson	Tauii	Base Hourly	3/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Tauii-PMIC	757
+Huang	Qinqi	Base Hourly	3/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Christina-CSIC	752
+Yu	Dabong	Base Hourly	3/09/2013	5	12:00-17:00[S]12:00-17:30[B]0.49	Terra-BH	369
+Yu	Dabong	Base Hourly	3/09/2013	2.5	09:00-11:30[S]09:00-11:30[B]0	Terra-BH	369
+Kennedy	Jade	Base Hourly	3/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Jade - FGIC	699
+Bethany	Andrew	Base Hourly	3/09/2013	4.5	13:00-17:30[S]13:00-17:30[B]0	Beth -NL	684
+Chow	Ting Chou	Base Hourly	3/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Chow-EP	618
+Xie	Xin	Base Salary Package	3/09/2013	5.5	12:15-17:45[S]12:15-18:15[B]0.49	Steven-DCIC	772
+Xie	Xin	Base Salary Package	3/09/2013	0.96	09:30-10:27[S]09:30-11:00[B]0[EL]0.54	Steven-DCIC	772
+Partington	Matilda	Base Hourly	3/09/2013	8	09:30-17:30[S]09:30-18:00[B]0.49	Matilda - CL	766
+Talent	Georgina Marie	Base Hourly	3/09/2013	8	09:30-17:30[S]09:30-18:00[B]0.49	Georgina - CLIC	767
+Lam	Cam Trieu	Base Hourly	3/09/2013	8.83	09:00-17:50[S]09:00-18:20[B]0.49	Sophia-wgic	382
+Ramirez	Catherine Nataly	Base Hourly	3/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Catherine-PMPC	816
+Ho	Wingchui	Base Hourly	3/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Catherine-WGIC	700
+Ibay	Neil Trixia	Base Hourly	3/09/2013	6.83	11:00-17:50[S]11:00-18:20[B]0.49	Trixie-WBIC	843
+Li	Qiyu	Base Hourly	3/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Kelly-EPPC	860
+Mcmahon	Hope	Base Hourly	4/09/2013	3.75	09:00-12:45[S]09:00-12:45[B]0	Hope-FGIC	353
+Ye	Xiaoning	Base Hourly	4/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	4/09/2013	2.29	15:12-17:30[S]14:30-17:30[B]0[LA]0.71	Simon-DCIC	602
+Lee	Hang Seop	Base Salary Package	4/09/2013	3.5	10:00-13:30[S]10:00-14:00[B]0.49	Simon-DCIC	602
+Gong	Lei	Base Hourly	4/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Lei-BSXP	351
+Jessica	Umbola	Base Hourly	4/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Jessica - PMIC	758
+Yu	Dabong	Base Hourly	4/09/2013	7.01	09:00-16:00[S]09:00-17:30[B]0.49[EL]0.99	Terra-BH	369
+Chow	Ting Chou	Base Hourly	4/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Chow-EP	618
+Xie	Xin	Base Salary Package	4/09/2013	8.5	09:00-17:30[S]09:00-18:00[B]0.49	Steven-DCIC	772
+Lee	Naomi	Base Hourly	4/09/2013	8	09:30-17:30[S]09:30-18:00[B]0.49	Naomi-CILC	687
+Ramirez	Catherine Nataly	Base Hourly	4/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Catherine-PMPC	816
+Ho	Wingchui	Base Hourly	4/09/2013	8.33	09:00-17:20[S]09:00-17:50[B]0.49	Catherine-WGIC	700
+Ko	Nakjun	Base Hourly	4/09/2013	8	09:30-17:30[S]09:30-18:00[B]0.49	Jun-CLIC	839
+Li	Qiyu	Base Hourly	4/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Kelly-EPPC	860
+Mcmahon	Hope	Base Hourly	5/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Hope-FGIC	353
+Ye	Xiaoning	Base Hourly	5/09/2013	1.75	16:15-18:15[S]16:15-18:15[B]0	Adele-BS	360
+Ye	Xiaoning	Base Hourly	5/09/2013	0.25	16:15-18:15[S]16:15-18:15[B]0	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	5/09/2013	2.25	10:45-13:00[S]10:45-13:00[B]0	Simon-DCIC	602
+Lee	Hang Seop	Base Salary Package	5/09/2013	3	15:00-19:30[S]15:00-19:30[B]0	Simon-DCIC	602
+Lee	Hang Seop	Base Salary Package	5/09/2013	1.5	15:00-19:30[S]15:00-19:30[B]0	Simon-DCIC	602
+Gong	Lei	Base Hourly	5/09/2013	6	12:00-20:30[S]12:00-21:00[B]0.49	Lei-BSXP	351
+Gong	Lei	Base Hourly	5/09/2013	2.5	12:00-20:30[S]12:00-21:00[B]0.49	Lei-BSXP	351
+Jessica	Umbola	Base Hourly	5/09/2013	5.5	09:00-14:30[S]09:00-15:00[B]0.49	Jessica - PMIC	758
+Johansson	Tauii	Base Hourly	5/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Tauii-PMIC	757
+Huynh	Hoang Vu	Base Hourly	5/09/2013	1	17:00-21:00[S]17:00-21:00[B]0	Hoang-PM	714
+Huynh	Hoang Vu	Base Hourly	5/09/2013	3	17:00-21:00[S]17:00-21:00[B]0	Hoang-PM	714
+Huang	Qinqi	Base Hourly	5/09/2013	4	14:00-20:30[S]14:00-21:00[B]0.49	Christina-CSIC	752
+Huang	Qinqi	Saturday Pay	5/09/2013	2.5	14:00-20:30[S]14:00-21:00[B]0.49	Christina-CSIC	752
+Yu	Dabong	Base Hourly	5/09/2013	7.9	09:06-17:00[S]09:00-17:30[B]0.49[LA]0.1	Terra-BH	369
+Edwards	Sarah	Base Hourly	5/09/2013	2.5	15:30-20:30[S]15:30-21:00[B]0.49	Sarah-CB	564
+Edwards	Sarah	Base Hourly	5/09/2013	2.5	15:30-20:30[S]15:30-21:00[B]0.49	Sarah-CB	564
+Chow	Ting Chou	Base Hourly	5/09/2013	6.5	09:00-15:30[S]09:00-16:00[B]0.49	Chow-EP	618
+Cicekdag	Busra	Base Hourly	5/09/2013	1.5	16:30-21:00[S]16:30-21:00[B]0	Busra - PM	590
+Cicekdag	Busra	Base Hourly	5/09/2013	3	16:30-21:00[S]16:30-21:00[B]0	Busra - PM	590
+Yuen	Joanne	Saturday Pay	5/09/2013	1.5	19:30-21:00[S]19:30-21:00[B]0	Joanne-KCPC	774
+Xie	Xin	Base Salary Package	5/09/2013	5.77	12:13-19:18[S]12:00-20:00[B]0.49[LA]0.23[EL]0.18	Steven-DCIC	772
+Xie	Xin	Base Salary Package	5/09/2013	1.32	12:13-19:18[S]12:00-20:00[B]0.49[LA]0.23[EL]0.18	Steven-DCIC	772
+Le	Phung	Base Hourly	5/09/2013	2	16:00-20:30[S]16:00-21:00[B]0.49	Cindy-EP	635
+Le	Phung	Saturday Pay	5/09/2013	2.5	16:00-20:30[S]16:00-21:00[B]0.49	Cindy-EP	635
+Zhao	Jian	Base Hourly	5/09/2013	6.5	09:30-16:00[S]09:30-16:30[B]0.49	Jason-WLIC	583
+Hou	Fu Qiang	Base Hourly	5/09/2013	4	14:30-21:00[S]14:30-21:30[B]0.49	Andrew-WLIC	738
+Hou	Fu Qiang	Base Hourly	5/09/2013	2.5	14:30-21:00[S]14:30-21:30[B]0.49	Andrew-WLIC	738
+Talent	Georgina Marie	Base Hourly	5/09/2013	4	14:30-21:00[S]14:30-21:30[B]0.49	Georgina - CLIC	767
+Talent	Georgina Marie	Base Hourly	5/09/2013	2.5	14:30-21:00[S]14:30-21:30[B]0.49	Georgina - CLIC	767
+Lee	Naomi	Base Hourly	5/09/2013	4.5	09:30-14:00[S]09:30-14:30[B]0.49	Naomi-CILC	687
+Lam	Cam Trieu	Base Hourly	5/09/2013	8.67	09:00-17:40[S]09:00-18:10[B]0.49	Sophia-wgic	382
+Ramirez	Catherine Nataly	Base Hourly	5/09/2013	7	09:00-16:00[S]09:00-16:30[B]0.49	Catherine-PMPC	816
+D'costa	Makayla	Base Hourly	5/09/2013	2	16:00-20:30[S]16:00-21:00[B]0.49	Makayla-NL	829
+D'costa	Makayla	Base Hourly	5/09/2013	2.5	16:00-20:30[S]16:00-21:00[B]0.49	Makayla-NL	829
+Geng	Qianhui	Base Hourly	5/09/2013	1	17:00-21:00[S]17:00-21:00[B]0	Roxy-BS	813
+Geng	Qianhui	Base Hourly	5/09/2013	3	17:00-21:00[S]17:00-21:00[B]0	Roxy-BS	813
+Schembri	Madeleine Kay	Base Hourly	5/09/2013	2	16:00-21:05[S]16:00-21:35[B]0.49	Maddie-WBIC	841
+Schembri	Madeleine Kay	Saturday Pay	5/09/2013	3.08	16:00-21:05[S]16:00-21:35[B]0.49	Maddie-WBIC	841
+Ho	Wingchui	Base Hourly	5/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Catherine-WGIC	700
+Ko	Nakjun	Base Hourly	5/09/2013	2	16:30-21:00[S]16:30-21:30[B]0.49	Jun-CLIC	839
+Ko	Nakjun	Base Hourly	5/09/2013	2.5	16:30-21:00[S]16:30-21:30[B]0.49	Jun-CLIC	839
+Ibay	Neil Trixia	Base Hourly	5/09/2013	4	14:00-20:30[S]14:00-21:00[B]0.49	Trixie-WBIC	843
+Ibay	Neil Trixia	Saturday Pay	5/09/2013	2.5	14:00-20:30[S]14:00-21:00[B]0.49	Trixie-WBIC	843
+Li	Qiyu	Base Hourly	5/09/2013	4	14:00-20:30[S]14:00-21:00[B]0.49	Kelly-EPPC	860
+Li	Qiyu	Base Hourly	5/09/2013	2.5	14:00-20:30[S]14:00-21:00[B]0.49	Kelly-EPPC	860
+Ye	Xiaoning	Base Hourly	6/09/2013	8.5	09:00-20:30[S]09:00-21:00[B]0.49	Adele-BS	360
+Ye	Xiaoning	Base Hourly	6/09/2013	2.5	09:00-20:30[S]09:00-21:00[B]0.49	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	6/09/2013	6.25	11:15-17:30[S]11:15-18:00[B]0.49	Simon-DCIC	602
+Gong	Lei	Base Hourly	6/09/2013	8.5	09:00-17:30[S]09:00-18:00[B]0.49	Lei-BSXP	351
+Jessica	Umbola	Base Hourly	6/09/2013	7.41	09:05-16:30[S]09:00-17:00[B]0.49[LA]0.09	Jessica - PMIC	758
+Johansson	Tauii	Base Hourly	6/09/2013	6.5	09:00-15:30[S]09:00-16:00[B]0.49	Tauii-PMIC	757
+Huynh	Hoang Vu	Base Hourly	6/09/2013	2	16:00-20:30[S]16:00-21:00[B]0.49	Hoang-PM	714
+Huynh	Hoang Vu	Base Hourly	6/09/2013	2.5	16:00-20:30[S]16:00-21:00[B]0.49	Hoang-PM	714
+Huang	Qinqi	Base Hourly	6/09/2013	6.75	10:45-17:30[S]10:45-18:00[B]0.49	Christina-CSIC	752
+Yu	Dabong	Base Hourly	6/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Terra-BH	369
+Kennedy	Jade	Base Hourly	6/09/2013	1	17:00-21:00[S]17:00-21:00[B]0	Jade - FGIC	699
+Kennedy	Jade	Base Hourly	6/09/2013	3	17:00-21:00[S]17:00-21:00[B]0	Jade - FGIC	699
+Chow	Ting Chou	Base Hourly	6/09/2013	5	13:00-20:30[S]13:00-21:00[B]0.49	Chow-EP	618
+Chow	Ting Chou	Base Hourly	6/09/2013	2.5	13:00-20:30[S]13:00-21:00[B]0.49	Chow-EP	618
+Cicekdag	Busra	Base Hourly	6/09/2013	1.5	16:30-21:00[S]16:30-21:00[B]0	Busra - PM	590
+Cicekdag	Busra	Base Hourly	6/09/2013	3	16:30-21:00[S]16:30-21:00[B]0	Busra - PM	590
+Yuen	Joanne	Base Hourly	6/09/2013	6.5	09:00-15:30[S]09:00-16:00[B]0.49	Joanne-KCPC	774
+Xie	Xin	Base Salary Package	6/09/2013	2.75	09:15-12:00[S]09:15-12:00[B]0	Steven-DCIC	772
+Xie	Xin	Base Salary Package	6/09/2013	0.4	12:50-13:15[S]12:45-13:15[B]0[LA]0.1	Steven-DCIC	772
+Xie	Xin	Base Salary Package	6/09/2013	3.5	14:30-20:00[S]14:30-20:30[B]0.49	Steven-DCIC	772
+Xie	Xin	Base Salary Package	6/09/2013	2	14:30-20:00[S]14:30-20:30[B]0.49	Steven-DCIC	772
+Le	Phung	Base Hourly	6/09/2013	1	17:00-20:30[S]17:00-21:00[B]0.49	Cindy-EP	635
+Le	Phung	Saturday Pay	6/09/2013	2.5	17:00-20:30[S]17:00-21:00[B]0.49	Cindy-EP	635
+Gracias	Damien Austin	Base Hourly	6/09/2013	4	14:00-20:30[S]14:00-21:00[B]0.49	Damien-WB	742
+Gracias	Damien Austin	Saturday Pay	6/09/2013	2.5	14:00-20:30[S]14:00-21:00[B]0.49	Damien-WB	742
+Partington	Matilda	Base Hourly	6/09/2013	8	09:30-17:30[S]09:30-18:00[B]0.49	Matilda - CL	766
+Talent	Georgina Marie	Base Hourly	6/09/2013	8	09:30-17:30[S]09:30-18:00[B]0.49	Georgina - CLIC	767
+Francis	Jessica	Base Hourly	6/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Jessica-WGIC	585
+Ramirez	Catherine Nataly	Base Hourly	6/09/2013	7	09:00-16:00[S]09:00-16:30[B]0.49	Catherine-PMPC	816
+Huynh	Kelvin	Base Hourly	6/09/2013	2	16:00-20:30[S]16:00-21:00[B]0.49	Kelvin-WGIC	820
+Huynh	Kelvin	Base Hourly	6/09/2013	2.5	16:00-20:30[S]16:00-21:00[B]0.49	Kelvin-WGIC	820
+D'costa	Makayla	Base Hourly	6/09/2013	2	16:00-20:30[S]16:00-21:00[B]0.49	Makayla-NL	829
+D'costa	Makayla	Base Hourly	6/09/2013	2.5	16:00-20:30[S]16:00-21:00[B]0.49	Makayla-NL	829
+Geng	Qianhui	Base Hourly	6/09/2013	1	17:00-21:00[S]17:00-21:00[B]0	Roxy-BS	813
+Geng	Qianhui	Base Hourly	6/09/2013	3	17:00-21:00[S]17:00-21:00[B]0	Roxy-BS	813
+Schembri	Madeleine Kay	Base Hourly	6/09/2013	1	17:00-21:00[S]17:00-21:00[B]0	Maddie-WBIC	841
+Schembri	Madeleine Kay	Saturday Pay	6/09/2013	3	17:00-21:00[S]17:00-21:00[B]0	Maddie-WBIC	841
+Cousins	Trent	Base Hourly	6/09/2013	3	15:00-20:30[S]15:00-21:00[B]0.49	Trent-SLIC	834
+Cousins	Trent	Base Hourly	6/09/2013	2.5	15:00-20:30[S]15:00-21:00[B]0.49	Trent-SLIC	834
+Ibay	Neil Trixia	Base Hourly	6/09/2013	6.5	09:00-15:30[S]09:00-16:00[B]0.49	Trixie-WBIC	843
+Li	Qiyu	Base Hourly	6/09/2013	6.5	09:00-15:30[S]09:00-16:00[B]0.49	Kelly-EPPC	860
+Mcmahon	Hope	Saturday Pay	7/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Hope-FGIC	353
+Ye	Xiaoning	Saturday Pay	7/09/2013	5.67	10:49-16:30[S]09:00-17:00[B]0.49[LA]1.83	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	7/09/2013	4.94	09:30-14:26[S]09:30-18:00[B]0.49[EL]3.06	Simon-DCIC	602
+Tran	Sarah	Saturday Pay	7/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Sarah-SLIC	543
+Huang	Qinqi	Saturday Pay	7/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Christina-CSIC	752
+Yu	Dabong	Saturday Pay	7/09/2013	6.5	11:00-17:30[S]11:00-18:00[B]0.49	Terra-BH	369
+Edwards	Sarah	Saturday Pay	7/09/2013	5.5	11:00-16:30[S]11:00-17:00[B]0.49	Sarah-CB	564
+Chow	Ting Chou	Saturday Pay	7/09/2013	4.13	12:22-16:30[S]12:00-17:00[B]0.49[LA]0.37	Chow-EP	618
+Sadat	Hjraan Minna	Saturday Pay	7/09/2013	4.31	12:11-16:30[S]12:00-17:00[B]0.49[LA]0.19	Minna-PMPC	750
+Cicekdag	Busra	Saturday Pay	7/09/2013	7.39	09:06-16:30[S]09:00-17:00[B]0.49[LA]0.11	Busra - PM	590
+Xie	Xin	Base Salary Package	7/09/2013	0.25	11:15-11:30[S]11:15-11:30[B]0	Steven-DCIC	772
+Zhao	Jian	Saturday Pay	7/09/2013	4.5	09:30-14:00[S]09:30-14:30[B]0.49	Jason-WLIC	583
+Talent	Georgina Marie	Saturday Pay	7/09/2013	7.5	09:30-17:00[S]09:30-17:30[B]0.49	Georgina - CLIC	767
+Lam	Cam Trieu	Saturday Pay	7/09/2013	8.42	09:00-17:25[S]09:00-17:55[B]0.49	Sophia-wgic	382
+Francis	Jessica	Saturday Pay	7/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Jessica-WGIC	585
+Huynh	Kelvin	Saturday Pay	7/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Kelvin-WGIC	820
+Schembri	Madeleine Kay	Saturday Pay	7/09/2013	6	10:00-16:00[S]10:00-16:30[B]0.49	Maddie-WBIC	841
+Ko	Nakjun	Saturday Pay	7/09/2013	7.5	09:30-17:00[S]09:30-17:30[B]0.49	Jun-CLIC	839
+Cousins	Trent	Saturday Pay	7/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Trent-SLIC	834
+Ibay	Neil Trixia	Saturday Pay	7/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Trixie-WBIC	843
+Li	Qiyu	Saturday Pay	7/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Kelly-EPPC	860
+Gong	Lei	Sunday Pay	8/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Lei-BSXP	351
+Tran	Sarah	Sunday Pay	8/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Sarah-SLIC	543
+Tran	Hong Nhung	Sunday Pay	8/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Lauren - PM	597
+Huynh	Hoang Vu	Sunday Pay	8/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Hoang-PM	714
+Yu	Dabong	Sunday Pay	8/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Terra-BH	369
+Kennedy	Jade	Sunday Pay	8/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Jade - FGIC	699
+Chow	Ting Chou	Sunday Pay	8/09/2013	6.25	10:15-16:30[S]10:00-17:00[B]0.49[LA]0.25	Chow-EP	618
+Sadat	Hjraan Minna	Sunday Pay	8/09/2013	4	13:00-17:00[S]13:00-17:00[B]0	Minna-PMPC	750
+Yuen	Joanne	Sunday Pay	8/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Joanne-KCPC	774
+Xie	Xin	Base Salary Package	8/09/2013	0.75	10:00-10:45[S]10:00-10:45[B]0	Steven-DCIC	772
+Xie	Xin	Base Salary Package	8/09/2013	4.4	12:05-16:30[S]11:30-17:00[B]0.49[LA]0.6	Steven-DCIC	772
+Le	Phung	Sunday Pay	8/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Cindy-EP	635
+Gracias	Damien Austin	Sunday Pay	8/09/2013	5	11:30-16:30[S]11:30-17:00[B]0.49	Damien-WB	742
+Hou	Fu Qiang	Sunday Pay	8/09/2013	5.4	11:36-17:00[S]11:30-17:30[B]0.49[LA]0.1	Andrew-WLIC	738
+Partington	Matilda	Sunday Pay	8/09/2013	5.5	11:30-17:00[S]11:30-17:30[B]0.49	Matilda - CL	766
+Lee	Naomi	Sunday Pay	8/09/2013	5.5	11:30-17:00[S]11:30-17:30[B]0.49	Naomi-CILC	687
+Lam	Cam Trieu	Sunday Pay	8/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Sophia-wgic	382
+Francis	Jessica	Sunday Pay	8/09/2013	3	10:00-13:00[S]10:00-13:00[B]0	Jessica-WGIC	585
+Huynh	Kelvin	Sunday Pay	8/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Kelvin-WGIC	820
+D'costa	Makayla	Sunday Pay	8/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Makayla-NL	829
+Geng	Qianhui	Sunday Pay	8/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Roxy-BS	813
+Cousins	Trent	Sunday Pay	8/09/2013	4.5	11:00-15:30[S]11:00-16:00[B]0.49	Trent-SLIC	834
+Li	Qiyu	Sunday Pay	8/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Kelly-EPPC	860
+Mcmahon	Hope	Base Hourly	9/09/2013	3.5	14:00-17:30[S]14:00-17:30[B]0	Hope-FGIC	353
+Mcmahon	Hope	Base Hourly	9/09/2013	4.41	09:05-13:30[S]09:00-13:30[B]0[LA]0.09	Hope-FGIC	353
+Ye	Xiaoning	Base Hourly	9/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	9/09/2013	6.89	10:06-17:00[S]10:00-17:30[B]0.49[LA]0.11	Simon-DCIC	602
+Gong	Lei	Base Hourly	9/09/2013	6	11:00-17:00[S]11:00-17:30[B]0.49	Lei-BSXP	351
+Johansson	Tauii	Base Hourly	9/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Tauii-PMIC	757
+Huang	Qinqi	Base Hourly	9/09/2013	6	11:00-17:00[S]11:00-17:30[B]0.49	Christina-CSIC	752
+Yu	Dabong	Base Hourly	9/09/2013	4	09:00-13:00[S]09:00-13:00[B]0	Terra-BH	369
+Chow	Ting Chou	Base Hourly	9/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Chow-EP	618
+Partington	Matilda	Base Hourly	9/09/2013	7.75	09:44-17:30[S]09:30-18:00[B]0.49[LA]0.25	Matilda - CL	766
+Lam	Cam Trieu	Base Hourly	9/09/2013	8.83	09:00-17:50[S]09:00-18:20[B]0.49	Sophia-wgic	382
+Ramirez	Catherine Nataly	Base Hourly	9/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Catherine-PMPC	816
+Ho	Wingchui	Base Hourly	9/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Catherine-WGIC	700
+Ko	Nakjun	Base Hourly	9/09/2013	0.12	11:38-11:45[S]11:30-11:45[B]0[LA]0.13	Jun-CLIC	839
+Li	Qiyu	Base Hourly	9/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Kelly-EPPC	860
+Mcmahon	Hope	Base Hourly	10/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Hope-FGIC	353
+Ye	Xiaoning	Base Hourly	10/09/2013	6	11:00-17:00[S]11:00-17:30[B]0.49	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	10/09/2013	6.65	10:21-17:00[S]10:15-17:30[B]0.49[LA]0.1	Simon-DCIC	602
+Gong	Lei	Base Hourly	10/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Lei-BSXP	351
+Johansson	Tauii	Base Hourly	10/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Tauii-PMIC	757
+Huang	Qinqi	Base Hourly	10/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Christina-CSIC	752
+Yu	Dabong	Base Hourly	10/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Terra-BH	369
+Kennedy	Jade	Base Hourly	10/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Jade - FGIC	699
+Bethany	Andrew	Base Hourly	10/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Beth -NL	684
+Chow	Ting Chou	Base Hourly	10/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Chow-EP	618
+Xie	Xin	Base Salary Package	10/09/2013	4.5	13:00-17:30[S]13:00-17:30[B]0	Steven-DCIC	772
+Xie	Xin	Base Salary Package	10/09/2013	0.66	11:05-11:45[S]11:00-11:45[B]0[LA]0.09	Steven-DCIC	772
+Talent	Georgina Marie	Base Hourly	10/09/2013	8	09:30-17:30[S]09:30-18:00[B]0.49	Georgina - CLIC	767
+Lam	Cam Trieu	Base Hourly	10/09/2013	8.25	09:00-17:15[S]09:00-17:45[B]0.49	Sophia-wgic	382
+Ramirez	Catherine Nataly	Base Hourly	10/09/2013	7.85	09:08-17:00[S]09:00-17:30[B]0.49[LA]0.15	Catherine-PMPC	816
+Ho	Wingchui	Base Hourly	10/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Catherine-WGIC	700
+Ibay	Neil Trixia	Base Hourly	10/09/2013	6.25	11:00-17:15[S]11:00-17:45[B]0.49	Trixie-WBIC	843
+Li	Qiyu	Base Hourly	10/09/2013	5	12:00-17:00[S]12:00-17:30[B]0.49	Kelly-EPPC	860
+Mcmahon	Hope	Base Hourly	11/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Hope-FGIC	353
+Ye	Xiaoning	Base Hourly	11/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	11/09/2013	1	17:00-18:30[S]17:00-18:30[B]0	Simon-DCIC	602
+Lee	Hang Seop	Base Salary Package	11/09/2013	0.5	17:00-18:30[S]17:00-18:30[B]0	Simon-DCIC	602
+Gong	Lei	Base Hourly	11/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Lei-BSXP	351
+Jessica	Umbola	Base Hourly	11/09/2013	3	13:00-16:00[S]13:00-16:00[B]0	Jessica - PMIC	758
+Johansson	Tauii	Base Hourly	11/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Tauii-PMIC	757
+Yu	Dabong	Base Hourly	11/09/2013	7.74	09:15-17:00[S]09:00-17:30[B]0.49[LA]0.26	Terra-BH	369
+Chow	Ting Chou	Base Hourly	11/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Chow-EP	618
+Xie	Xin	Base Salary Package	11/09/2013	5.5	12:00-17:30[S]12:00-18:00[B]0.49	Steven-DCIC	772
+Lee	Naomi	Base Hourly	11/09/2013	8	09:30-17:30[S]09:30-18:00[B]0.49	Naomi-CILC	687
+Lam	Cam Trieu	Base Hourly	11/09/2013	8.58	09:05-17:40[S]09:00-18:10[B]0.49[LA]0.08	Sophia-wgic	382
+Ramirez	Catherine Nataly	Base Hourly	11/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Catherine-PMPC	816
+Ho	Wingchui	Base Hourly	11/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Catherine-WGIC	700
+Ko	Nakjun	Base Hourly	11/09/2013	8	09:30-17:30[S]09:30-18:00[B]0.49	Jun-CLIC	839
+Li	Qiyu	Base Hourly	11/09/2013	5.18	11:49-17:00[S]09:00-17:30[B]0.49[LA]2.82	Kelly-EPPC	860
+Mcmahon	Hope	Base Hourly	12/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Hope-FGIC	353
+Ye	Xiaoning	Base Hourly	12/09/2013	4.5	13:30-18:30[S]13:30-19:00[B]0.49	Adele-BS	360
+Ye	Xiaoning	Base Hourly	12/09/2013	0.5	13:30-18:30[S]13:30-19:00[B]0.49	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	12/09/2013	6	09:00-15:00[S]09:00-15:30[B]0.49	Simon-DCIC	602
+Lee	Hang Seop	Base Salary Package	12/09/2013	1	17:00-20:00[S]17:00-20:00[B]0	Simon-DCIC	602
+Lee	Hang Seop	Base Salary Package	12/09/2013	2	17:00-20:00[S]17:00-20:00[B]0	Simon-DCIC	602
+Gong	Lei	Base Hourly	12/09/2013	6	12:00-20:30[S]12:00-21:00[B]0.49	Lei-BSXP	351
+Gong	Lei	Base Hourly	12/09/2013	2.5	12:00-20:30[S]12:00-21:00[B]0.49	Lei-BSXP	351
+Jessica	Umbola	Base Hourly	12/09/2013	5.5	09:00-14:30[S]09:00-15:00[B]0.49	Jessica - PMIC	758
+Johansson	Tauii	Base Hourly	12/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Tauii-PMIC	757
+Huynh	Hoang Vu	Base Hourly	12/09/2013	1	17:00-21:00[S]17:00-21:00[B]0	Hoang-PM	714
+Huynh	Hoang Vu	Base Hourly	12/09/2013	3	17:00-21:00[S]17:00-21:00[B]0	Hoang-PM	714
+Huang	Qinqi	Base Hourly	12/09/2013	4.5	13:30-20:30[S]13:30-21:00[B]0.49	Christina-CSIC	752
+Huang	Qinqi	Saturday Pay	12/09/2013	2.5	13:30-20:30[S]13:30-21:00[B]0.49	Christina-CSIC	752
+Yu	Dabong	Base Hourly	12/09/2013	7	09:00-16:00[S]09:00-16:30[B]0.49	Terra-BH	369
+Edwards	Sarah	Base Hourly	12/09/2013	2.5	15:30-20:30[S]15:30-21:00[B]0.49	Sarah-CB	564
+Edwards	Sarah	Base Hourly	12/09/2013	2.5	15:30-20:30[S]15:30-21:00[B]0.49	Sarah-CB	564
+Chow	Ting Chou	Base Hourly	12/09/2013	6.5	09:00-15:30[S]09:00-16:00[B]0.49	Chow-EP	618
+Cicekdag	Busra	Base Hourly	12/09/2013	1.5	16:30-21:00[S]16:30-21:00[B]0	Busra - PM	590
+Cicekdag	Busra	Base Hourly	12/09/2013	3	16:30-21:00[S]16:30-21:00[B]0	Busra - PM	590
+Xie	Xin	Base Salary Package	12/09/2013	0.5	10:30-11:00[S]10:30-11:00[B]0	Steven-DCIC	772
+Xie	Xin	Base Salary Package	12/09/2013	5.5	12:30-19:30[S]12:30-20:00[B]0.49	Steven-DCIC	772
+Xie	Xin	Base Salary Package	12/09/2013	1.5	12:30-19:30[S]12:30-20:00[B]0.49	Steven-DCIC	772
+Le	Phung	Base Hourly	12/09/2013	2	16:00-20:30[S]16:00-21:00[B]0.49	Cindy-EP	635
+Le	Phung	Saturday Pay	12/09/2013	2.5	16:00-20:30[S]16:00-21:00[B]0.49	Cindy-EP	635
+Zhao	Jian	Base Hourly	12/09/2013	8.5	09:30-21:00[S]09:30-21:30[B]0.49	Jason-WLIC	583
+Zhao	Jian	Base Hourly	12/09/2013	2.5	09:30-21:00[S]09:30-21:30[B]0.49	Jason-WLIC	583
+Talent	Georgina Marie	Base Hourly	12/09/2013	4	14:30-21:00[S]14:30-21:30[B]0.49	Georgina - CLIC	767
+Talent	Georgina Marie	Base Hourly	12/09/2013	2.5	14:30-21:00[S]14:30-21:30[B]0.49	Georgina - CLIC	767
+Lee	Naomi	Base Hourly	12/09/2013	4.5	09:30-14:00[S]09:30-14:30[B]0.49	Naomi-CILC	687
+Lam	Cam Trieu	Base Hourly	12/09/2013	8	09:09-17:10[S]09:00-17:40[B]0.49[LA]0.16	Sophia-wgic	382
+Francis	Jessica	Saturday Pay	12/09/2013	3	18:00-21:00[S]18:00-21:00[B]0	Jessica-WGIC	585
+Ramirez	Catherine Nataly	Base Hourly	12/09/2013	7	09:00-16:00[S]09:00-16:30[B]0.49	Catherine-PMPC	816
+D'costa	Makayla	Base Hourly	12/09/2013	2	16:00-20:30[S]16:00-21:00[B]0.49	Makayla-NL	829
+D'costa	Makayla	Base Hourly	12/09/2013	2.5	16:00-20:30[S]16:00-21:00[B]0.49	Makayla-NL	829
+Geng	Qianhui	Base Hourly	12/09/2013	1	17:00-21:00[S]17:00-21:00[B]0	Roxy-BS	813
+Geng	Qianhui	Base Hourly	12/09/2013	3	17:00-21:00[S]17:00-21:00[B]0	Roxy-BS	813
+Schembri	Madeleine Kay	Base Hourly	12/09/2013	2	16:00-20:30[S]16:00-21:00[B]0.49	Maddie-WBIC	841
+Schembri	Madeleine Kay	Saturday Pay	12/09/2013	2.5	16:00-20:30[S]16:00-21:00[B]0.49	Maddie-WBIC	841
+Ho	Wingchui	Base Hourly	12/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Catherine-WGIC	700
+Ko	Nakjun	Base Hourly	12/09/2013	2	16:30-21:00[S]16:30-21:30[B]0.49	Jun-CLIC	839
+Ko	Nakjun	Base Hourly	12/09/2013	2.5	16:30-21:00[S]16:30-21:30[B]0.49	Jun-CLIC	839
+Li	Qiyu	Base Hourly	12/09/2013	5	13:00-20:30[S]13:00-21:00[B]0.49	Kelly-EPPC	860
+Li	Qiyu	Base Hourly	12/09/2013	2.5	13:00-20:30[S]13:00-21:00[B]0.49	Kelly-EPPC	860
+Mcmahon	Hope	Base Hourly	13/09/2013	4	09:00-13:00[S]09:00-13:00[B]0	Hope-FGIC	353
+Mcmahon	Hope	Base Hourly	13/09/2013	3.5	13:30-17:00[S]13:30-17:00[B]0	Hope-FGIC	353
+Ye	Xiaoning	Base Hourly	13/09/2013	8.5	09:00-20:30[S]09:00-21:00[B]0.49	Adele-BS	360
+Ye	Xiaoning	Base Hourly	13/09/2013	2.5	09:00-20:30[S]09:00-21:00[B]0.49	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	13/09/2013	1.89	16:06-18:30[S]16:00-18:30[B]0[LA]0.11	Simon-DCIC	602
+Lee	Hang Seop	Base Salary Package	13/09/2013	0.5	16:06-18:30[S]16:00-18:30[B]0[LA]0.11	Simon-DCIC	602
+Lee	Hang Seop	Base Salary Package	13/09/2013	4.25	10:45-15:00[S]10:45-15:00[B]0	Simon-DCIC	602
+Gong	Lei	Base Hourly	13/09/2013	6	12:00-20:30[S]12:00-21:00[B]0.49	Lei-BSXP	351
+Gong	Lei	Base Hourly	13/09/2013	2.5	12:00-20:30[S]12:00-21:00[B]0.49	Lei-BSXP	351
+Johansson	Tauii	Base Hourly	13/09/2013	6.5	09:00-15:30[S]09:00-16:00[B]0.49	Tauii-PMIC	757
+Huynh	Hoang Vu	Base Hourly	13/09/2013	2	16:00-20:30[S]16:00-21:00[B]0.49	Hoang-PM	714
+Huynh	Hoang Vu	Base Hourly	13/09/2013	2.5	16:00-20:30[S]16:00-21:00[B]0.49	Hoang-PM	714
+Huang	Qinqi	Base Hourly	13/09/2013	6.5	09:00-15:30[S]09:00-16:00[B]0.49	Christina-CSIC	752
+Yu	Dabong	Base Hourly	13/09/2013	8	09:00-17:00[S]09:00-17:30[B]0.49	Terra-BH	369
+Kennedy	Jade	Base Hourly	13/09/2013	1	17:00-21:00[S]17:00-21:00[B]0	Jade - FGIC	699
+Kennedy	Jade	Base Hourly	13/09/2013	3	17:00-21:00[S]17:00-21:00[B]0	Jade - FGIC	699
+Chow	Ting Chou	Base Hourly	13/09/2013	5	13:00-20:30[S]13:00-21:00[B]0.49	Chow-EP	618
+Chow	Ting Chou	Base Hourly	13/09/2013	2.5	13:00-20:30[S]13:00-21:00[B]0.49	Chow-EP	618
+Cicekdag	Busra	Base Hourly	13/09/2013	1.5	16:30-21:00[S]16:30-21:00[B]0	Busra - PM	590
+Cicekdag	Busra	Base Hourly	13/09/2013	3	16:30-21:00[S]16:30-21:00[B]0	Busra - PM	590
+Yuen	Joanne	Base Hourly	13/09/2013	6.5	09:00-15:30[S]09:00-16:00[B]0.49	Joanne-KCPC	774
+Xie	Xin	Base Salary Package	13/09/2013	6.75	11:15-19:15[S]11:15-19:45[B]0.49	Steven-DCIC	772
+Xie	Xin	Base Salary Package	13/09/2013	1.25	11:15-19:15[S]11:15-19:45[B]0.49	Steven-DCIC	772
+Le	Phung	Base Hourly	13/09/2013	2	16:00-20:30[S]16:00-21:00[B]0.49	Cindy-EP	635
+Le	Phung	Saturday Pay	13/09/2013	2.5	16:00-20:30[S]16:00-21:00[B]0.49	Cindy-EP	635
+Partington	Matilda	Base Hourly	13/09/2013	8	09:30-17:30[S]09:30-18:00[B]0.49	Matilda - CL	766
+Talent	Georgina Marie	Base Hourly	13/09/2013	7.87	09:37-17:30[S]09:30-18:00[B]0.49[LA]0.13	Georgina - CLIC	767
+Francis	Jessica	Base Hourly	13/09/2013	7.89	09:06-17:00[S]09:00-17:30[B]0.49[LA]0.11	Jessica-WGIC	585
+Ramirez	Catherine Nataly	Base Hourly	13/09/2013	4.5	12:00-16:30[S]12:00-16:30[B]0	Catherine-PMPC	816
+Huynh	Kelvin	Base Hourly	13/09/2013	3	15:00-20:30[S]15:00-21:00[B]0.49	Kelvin-WGIC	820
+Huynh	Kelvin	Base Hourly	13/09/2013	2.5	15:00-20:30[S]15:00-21:00[B]0.49	Kelvin-WGIC	820
+D'costa	Makayla	Base Hourly	13/09/2013	2	16:00-20:30[S]16:00-21:00[B]0.49	Makayla-NL	829
+D'costa	Makayla	Base Hourly	13/09/2013	2.5	16:00-20:30[S]16:00-21:00[B]0.49	Makayla-NL	829
+Geng	Qianhui	Base Hourly	13/09/2013	1	17:00-21:00[S]17:00-21:00[B]0	Roxy-BS	813
+Geng	Qianhui	Base Hourly	13/09/2013	3	17:00-21:00[S]17:00-21:00[B]0	Roxy-BS	813
+Schembri	Madeleine Kay	Base Hourly	13/09/2013	1	17:00-21:00[S]17:00-21:00[B]0	Maddie-WBIC	841
+Schembri	Madeleine Kay	Saturday Pay	13/09/2013	3	17:00-21:00[S]17:00-21:00[B]0	Maddie-WBIC	841
+Ho	Wingchui	Base Hourly	13/09/2013	6.5	09:00-15:30[S]09:00-16:00[B]0.49	Catherine-WGIC	700
+Ko	Nakjun	Base Hourly	13/09/2013	5	12:30-17:30[S]12:30-18:00[B]0.49	Jun-CLIC	839
+Cousins	Trent	Base Hourly	13/09/2013	3	15:00-20:30[S]15:00-21:00[B]0.49	Trent-SLIC	834
+Cousins	Trent	Base Hourly	13/09/2013	2.5	15:00-20:30[S]15:00-21:00[B]0.49	Trent-SLIC	834
+Li	Qiyu	Base Hourly	13/09/2013	6.39	09:06-15:30[S]09:00-16:00[B]0.49[LA]0.11	Kelly-EPPC	860
+Mcmahon	Hope	Saturday Pay	14/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Hope-FGIC	353
+Ye	Xiaoning	Saturday Pay	14/09/2013	5.5	11:00-16:30[S]11:00-17:00[B]0.49	Adele-BS	360
+Lee	Hang Seop	Base Salary Package	14/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Simon-DCIC	602
+Tran	Sarah	Saturday Pay	14/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Sarah-SLIC	543
+Huang	Qinqi	Saturday Pay	14/09/2013	8.5	09:00-17:30[S]09:00-18:00[B]0.49	Christina-CSIC	752
+Edwards	Sarah	Saturday Pay	14/09/2013	5.5	11:00-16:30[S]11:00-17:00[B]0.49	Sarah-CB	564
+Chow	Ting Chou	Saturday Pay	14/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Chow-EP	618
+Sadat	Hjraan Minna	Saturday Pay	14/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Minna-PMPC	750
+Cicekdag	Busra	Saturday Pay	14/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Busra - PM	590
+Xie	Xin	Base Salary Package	14/09/2013	6.5	11:00-17:30[S]11:00-18:00[B]0.49	Steven-DCIC	772
+Gracias	Damien Austin	Saturday Pay	14/09/2013	7.75	09:00-16:45[S]09:00-17:15[B]0.49	Damien-WB	742
+Zhao	Jian	Saturday Pay	14/09/2013	4.5	09:30-14:00[S]09:30-14:30[B]0.49	Jason-WLIC	583
+Hou	Fu Qiang	Saturday Pay	14/09/2013	7.5	09:30-17:00[S]09:30-17:30[B]0.49	Andrew-WLIC	738
+Lee	Naomi	Saturday Pay	14/09/2013	7.5	09:30-17:00[S]09:30-17:30[B]0.49	Naomi-CILC	687
+Lam	Cam Trieu	Saturday Pay	14/09/2013	7.75	09:00-16:45[S]09:00-17:15[B]0.49	Sophia-wgic	382
+Francis	Jessica	Saturday Pay	14/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Jessica-WGIC	585
+Huynh	Kelvin	Saturday Pay	14/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Kelvin-WGIC	820
+D'costa	Makayla	Saturday Pay	14/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Makayla-NL	829
+Ho	Wingchui	Saturday Pay	14/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Catherine-WGIC	700
+Ko	Nakjun	Saturday Pay	14/09/2013	7.5	09:30-17:00[S]09:30-17:30[B]0.49	Jun-CLIC	839
+Cousins	Trent	Saturday Pay	14/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Trent-SLIC	834
+Li	Qiyu	Saturday Pay	14/09/2013	7.5	09:00-16:30[S]09:00-17:00[B]0.49	Kelly-EPPC	860
+Gong	Lei	Sunday Pay	15/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Lei-BSXP	351
+Tran	Sarah	Sunday Pay	15/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Sarah-SLIC	543
+Tran	Hong Nhung	Sunday Pay	15/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Lauren - PM	597
+Huynh	Hoang Vu	Sunday Pay	15/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Hoang-PM	714
+Chow	Ting Chou	Sunday Pay	15/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Chow-EP	618
+Sadat	Hjraan Minna	Sunday Pay	15/09/2013	4	13:00-17:00[S]13:00-17:00[B]0	Minna-PMPC	750
+Xie	Xin	Base Salary Package	15/09/2013	5	11:00-16:00[S]11:00-16:30[B]0.49	Steven-DCIC	772
+Le	Phung	Sunday Pay	15/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Cindy-EP	635
+Hou	Fu Qiang	Sunday Pay	15/09/2013	5.5	11:30-17:00[S]11:30-17:30[B]0.49	Andrew-WLIC	738
+Partington	Matilda	Sunday Pay	15/09/2013	5.5	11:30-17:00[S]11:30-17:30[B]0.49	Matilda - CL	766
+Talent	Georgina Marie	Sunday Pay	15/09/2013	5.5	11:30-17:00[S]11:30-17:30[B]0.49	Georgina - CLIC	767
+Lam	Cam Trieu	Sunday Pay	15/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Sophia-wgic	382
+Francis	Jessica	Sunday Pay	15/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Jessica-WGIC	585
+Huynh	Kelvin	Sunday Pay	15/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Kelvin-WGIC	820
+Geng	Qianhui	Sunday Pay	15/09/2013	4.5	12:00-16:30[S]12:00-17:00[B]0.49	Roxy-BS	813
+Schembri	Madeleine Kay	Sunday Pay	15/09/2013	4.58	11:30-16:04[S]11:30-17:00[B]0.49[EL]0.42	Maddie-WBIC	841
+Cousins	Trent	Sunday Pay	15/09/2013	4.5	11:00-15:30[S]11:00-16:00[B]0.49	Trent-SLIC	834
+Li	Qiyu	Sunday Pay	15/09/2013	6.5	10:00-16:30[S]10:00-17:00[B]0.49	Kelly-EPPC	860

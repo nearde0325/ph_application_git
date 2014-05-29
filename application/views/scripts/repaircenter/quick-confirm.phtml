@@ -1,0 +1,220 @@
+<?php
+ob_start();
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Job Confirmation</title>
+<style type="text/css">
+h2{ color:#004A6F; font-family:Arial; font-size:18px; line-height:20px;}
+body { font-family:Arial; font-size:13px;}
+.logoright{ display:block; float:right;}
+.rotate{ 
+-webkit-transform:  rotate(270deg);
+-moz-transform:  rotate(270deg);
+-o-transform:  rotate(270deg);
+writing-mode: rl-tb;
+}
+
+</style>
+</head>
+
+<body>
+<pre>
+<?php
+//var_dump($_POST);
+?>
+</pre>
+<?php
+if(!$this->errorflag){
+?>
+<h1 style="color:red;">Error Occur, Please fill ALL necessary information Correctly</h1>
+<?php	
+	}
+?>
+
+<table width="1005" border="0" cellspacing="1" cellpadding="0">
+  <tr>
+    <td>
+    
+    
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <table width="1000" border="1" cellspacing="0" cellpadding="5" align="left">
+  <tr>
+  <td colspan="3">
+  <div class="logoright"></div>
+  <b>Phone Collection / iCollection</b><br />
+  Shop Address:
+  <?php 
+  
+  $sh = new Model_DbTable_Shoplocation();
+  $shRow = $sh->getNameByHead($this->shopcode);
+  echo $shRow["shop_address"]." ".$shRow["shop_phone"];
+  ?>
+  <br />
+      Head Office Address: 5/103 Garden Rd,Clayton 3168 Ph: 03 9562 3882 Fax: 03 9562 3886<br />
+  </td>
+  </tr>
+  <tr>
+    <td colspan="3"><b>QUICK FORM CUSTOMER COPY </b><br /></td>
+  </tr>
+  <tr>
+   <td align="center" valign="middle" style="width:20px;"><span class="rotate">QUICK FORM CUSTOMER COPY </span></td>
+    <td valign="top" style="width:280px;">
+    <h3>Mobile Phone Details</h3>
+    Job ID: <?php echo $this->newjobid ?><br />      
+    Mobile Brand: <?php echo $this->brand ?><br />
+    Mobile Model: <?php echo $this->model ?> | Color: <?php echo $this->color?><br />
+    IMEI: <?php echo $this->imei ?> | PassCode: <?php echo $this->passcode ?><br />
+    Shop Code:[ <?php echo $this->shopcode ?>]<br />
+    Date &amp; Time: <?php echo $this->datetime ?><br />
+    <h3>Customer and Contacts</h3>
+Customer Name: <?php echo $this->cname ?> <br />
+Alternative Mobile Phone: <?php echo $this->cmobile ?> <br />
+Email: <?php echo $this->cemail ?><br />
+Pre-Fix Check </td>
+   
+    <td valign="top">
+    <h3>Terms and Conditions of the Service<br />
+    </h3>
+    <div style="font-size:10px;">
+      <ol>
+        <li>All assessment is based on final assessment by technician, our company will reserve the right to revoke the assessment or verify the price. Further notice will be given to customers.</li>
+        <li>If the phone/device cannot turn on or no display on the phone/device, our company will not have any liabilities to any other parts apart from the replaced parts and services. All other problems which occurs to the phone/device will be at customer's own cost. </li>
+        <li>Claim can only be made within 3 days after customers received the phone /device.</li>
+        <li>Phone Repair Service warranty applies when the exact same fault occurs or the replaced component fails within 90 days of receipt of repair, with the exception of liquid damaged phones / devices. Physical damage is not covered by warranty.</li>
+        <li>Phones that are faulty due to liquid ingress will have only 30 days warranty. This covers the specific component replaced or work done. There is no warranty for the failure of any additional components at a later stage. Furthermore, due to possible progressive corrosion, company does not accept responsibility for any further faults that may have occurred during the time between the quotation and the commencement of repairs.</li>
+        <li>DATA or Information may be LOST even in testing procedure for quotation. Please backup your data; Our company will not take any responsibility for data lost.</li>
+        <li>Company does not provide any warranty for any spare parts supplied by the dealer or customer. </li>
+        <li>The IMEI number will be changed when the phone's motherboard needs to be replaced.</li>
+        <li>Labor charges may also apply for any cancellation or reversals of repairs after confirmation to proceed with repair works. </li>
+        <li>No refund given for screen repairing service. Check the screen carefully on pick-up.</li>
+        <li>The company reserves the right to alter the terms &amp; conditions without prior notice and make the final decision in the event of any dispute. </li>
+        <li>For any circumstances the phone has been stolen, or lost in transit, the maximum payout for that particular phone is AU$100.</li>
+      </ol>
+</div>   
+    </td>
+  </tr>
+  </table>
+    
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="padding:3px;"><img src="/im/cut.jpg" /><img src="/im/cut.jpg" /><img src="/im/cut.jpg" /><img src="/im/cut.jpg" /></td>
+  </tr>
+  <tr>
+    <td>
+ <table width="1000" border="1" cellspacing="0" cellpadding="5" align="left"> 
+ <tr>
+    <td colspan="2"><b>Quick Form SHOP COPY ,Fill in Necessary Information On this Paper, and Complete the Formal Job Application Form Before Coustomer Return</b></td>
+  </tr>
+  <tr>
+   <td valign="top" style="width:450px;">
+    <h3>Mobile Phone Details</h3>
+    Job ID: <?php echo $this->newjobid ?><br />      
+    Mobile Brand: <?php echo $this->brand ?><br />
+    Mobile Model: <?php echo $this->model ?> Color: <?php echo $this->color?><br />
+    IMEI: <?php echo $this->imei ?> | PassCode: <?php echo $this->passcode ?><br />
+    Repair Type Choise<br />
+    <div style="border:1px black solid;  width:350px;"> <?php echo $this->repairtype ?><br />
+    </div>
+    <br />
+	DETAILS:<br />
+	<div style="border:1px black solid; width:350px;"> <br />
+      <br />
+      <br />
+	</div> 
+	Quotation Type :  	<br />
+	Quotation	Price : <?php echo $this->price ?><br />
+	Invoice ID(If Paid): 
+    <h3>Customer and Contacts</h3>
+Customer Name: <?php echo $this->cname ?> Email: <?php echo $this->cemail ?><br />
+Home Phone: <?php echo $this->cphone ?> Alternative Mobile Phone: <?php echo $this->cmobile ?><br />
+Pick Up Detail:<?php echo $this->pickupdetail ?><br />
+Shop Code:[ <?php echo $this->shopcode ?>] Staff Name: <?php echo $this->staffname ?> Date &amp; Time: <?php echo $this->datetime ?><br />
+
+</td>
+    <td valign="top">
+    <table width="100%" border="1" cellspacing="0" cellpadding="5">
+      <tr>
+        <td align="center" style="width:50px;"><p><b style="font-size:16px;">( 1 )<br />
+          D<br />
+          R<br />
+          O<br />
+          P<br />
+          <br />
+          O<br />
+          F<br />
+          F</b>
+        </p></td>
+        <td valign="top"> <b style="font-size:13px;"> I have read, fully understand and accept the terms and conditions stated in the above&quot; quick form customer copy&quot; section of the form. I am hereby authorized the phone collection to proceed the service. <br />
+  <br /></b>
+          <p style="border:#333 dashed 2px; padding:10px; font-size:18px;">Please Attach <u>Customer Signed</u> Terms And Conditions Form Here </p></td>
+      </tr>
+      <tr>
+        <td align="center" bgcolor="#999999" style=" border-top:#000 solid 3px;"><b style="font-size:16px;" >( 2 )<br />
+          P<br />
+          I<br />
+          C<br />
+          K<br />
+          <br />
+          U<br />
+          P</b></td>
+        <td bgcolor="#999999" style=" border-top:#000 solid 3px;"><b><label for="checkbox6">I  <b><u>confirm</u></b> the phone / device has been repaired.<br />
+        I am <b><u>satisfied with the service</u></b> conducted on the device. <br />
+        </label>I understood  and agreed with the warranty terms and conditions stated for this service, will  accept and follow the Phone Collection warranty procedure.<br /></b>
+      <br />
+<b>
+Customer Signature:___________________________________________ <br />
+<br />
+Date(Pick Up After Service):_____________________________________ <br />
+</b></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="left" bgcolor="#999999" style=" border-top:#000 solid 3px;">Handled By (Staff Name) _____________________Job Closed:  YES  / NO (circle) </td>
+        </tr>
+    </table>
+</td>
+  </tr>
+ </table>   
+    
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+     <table width="1000" border="1" cellspacing="0" cellpadding="5" align="left">
+
+  <td align="center">&nbsp;</td>
+  </tr> 
+ </table>  
+    
+    
+    </td>
+  </tr>
+</table>
+
+
+   
+
+
+
+
+</body>
+</html>
+<?php
+$idJob = $this->newjobid;
+$shop = $this->shopcode;
+file_put_contents(getcwd()."/repairjob/".$shop."/".$idJob.".html", ob_get_contents());
+ob_end_flush();
+
+?>

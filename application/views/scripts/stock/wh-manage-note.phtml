@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+.noborder{
+	border-top-width:0px;
+	border-bottom-width:0px;
+	
+	}
+.withborder{
+	border-top-width:1px;
+	border-bottom-width:0px;
+	}	
+#lean_overlay {
+    position: fixed;
+    z-index:100;
+    top: 0px;
+    left: 0px;
+    height:100%;
+    width:100%;
+    background: #000;
+    display: none;
+} 
+
+.btn_act{
+
+    width: 600px;
+    padding-bottom: 2px; 
+	display:none;
+	background: #FFF;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.7); -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.7); -moz-box-shadow: 0 0px 4px rgba(0,0,0,0.7);      
+}
+.btn_edit{
+
+    width: 600px;
+    padding-bottom: 2px; 
+	display:none;
+	background: #FFF;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.7); -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.7); -moz-box-shadow: 0 0px 4px rgba(0,0,0,0.7);      
+}
+.btn_com{
+
+    width: 600px;
+    padding-bottom: 2px; 
+	display:none;
+	background: #FFF;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.7); -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.7); -moz-box-shadow: 0 0px 4px rgba(0,0,0,0.7);      
+}
+.btn_delete{
+
+    width: 600px;
+    padding-bottom: 2px; 
+	display:none;
+	background: #FFF;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.7); -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.7); -moz-box-shadow: 0 0px 4px rgba(0,0,0,0.7);      
+}
+</style>
+<script language="javascript"> 
+function toggle(str,str2) {
+	var ele = document.getElementById(str);
+	var text = document.getElementById(str2);
+	if(ele.style.display == "") {
+    		ele.style.display = "none";
+			text.innerHTML = "Show";
+  	}
+	else {
+		ele.style.display = "";
+		text.innerHTML = "Hide";
+	}
+} 
+</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.leanModal.min.js"></script>
+<script type="text/javascript">
+			$(function() {
+    			$('a[rel*=leanModal]').leanModal({ top : 200, closeButton: ".modal_close" });		
+			});
+		</script>
+</head>
+<?php
+
+$sh = new Model_DbTable_Shoplocation();
+$sList = $sh->listHead();
+?>
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+<form id="form1" name="form1" method="post" action="/stock/save-add-note">
+  KA/KT Number:
+  <label for="note_number"></label>
+  <input type="text" name="note_number" id="note_number" />
+  Select Shop 
+  <label for="shop_head"></label>
+  <select name="shop_head" id="shop_head">
+<?php foreach ($sList as $v) {?>  
+    <option value="<?=$v["name_shop_location_head"]?>"><?=$v["name_shop_location_head"]?></option>
+<?php }?>
+    </select>
+  Create By
+  <input type="text" name="staff_name" id="staff_name" /> 
+<input type="submit" name="button" id="button" value="Add" /><br /> 
+</form>
+<br />
+<table style="width:1480px" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <td rowspan="2" style="width:150px">Shop Head</td>
+    <td rowspan="2" style="width:150px">KA / KT Note</td>
+    <td rowspan="2" style="width:30px">&nbsp;</td>
+    <td rowspan="2" align="center" valign="top" style="width:180px"><img src="/im/newkakt.png" title="New KA/KT Note Created" width="150" height="20" /></td>
+    <td rowspan="2" align="center" valign="top" style="width:180px"><img src="/im/waitingwhfixerror.png" title="Waiting Warehouse Fix Error" width="150" height="20" /></td>
+    <td colspan="2" align="center" valign="top" style="width:180px"><img src="/im/waitingshopconfirm_wh.png" title="Waiting Shop Confirm WH Modification" width="150" height="20" /></td>
+    <td rowspan="2" align="center" valign="top" style="width:180px"><img src="/im/waitingactivate.png" title="Waiting WH to Activate" width="150" height="20" /></td>
+    <td rowspan="2" align="center" valign="top" style="width:180px"><img src="/im/whactivated.png" title="Warehouse Activated" width="150" height="20" /></td>
+    <td rowspan="2" align="center" valign="top" style="width:180px">Actions</td>
+  </tr>
+  <tr>
+    <td align="center" style="width:50px">We Do Nothing</td>
+    <td align="center" style="width:50px">We Fix Error</td>
+  </tr>
+  <?php
+	$oldHead = "" ;
+  foreach($this->resultList as $v2) {?>
+   
+  <tr>
+    <td 
+<?php
+$result = ($oldHead==$v2["shop_head"])?'class="noborder"':'class="withborder"';
+echo $result;
+?>  >
+<?php if($oldHead!=$v2["shop_head"]) {?>
+<a href="#" title="<?=$v2["shop_head"]?>"><?php echo $v2["shop_head"]?>
+<?php }else { echo "&nbsp;";} $oldHead = $v2["shop_head"];  ?>
+</td>
+    <td>[<a id="txt<?=$v2["id"]?>" href="javascript:toggle('dT<?=$v2["id"]?>','txt<?=$v2["id"]?>');">Show</a>] <?=$v2["note_number"]?> 
+    <?php
+    if(strtolower(substr($v2["note_number"],0,2))=="kt"){
+	?>
+    <a href="http://192.168.1.126/stock/get-kt-detail/ktno/<?php echo trim($v2["note_number"]); ?>/shop/<?php echo trim($v2["shop_head"]); ?>" target="_blank">GATHER DETAIL</a>
+    <?php
+	}
+	?>
+    </td>
+    <td>
+<?php
+if($v2["date_delivery"]!=""){
+	
+echo '<img src="/im/shipment.png" title="'.$v2["date_delivery"].' '.$v2["time_delivery"].'" />'; 	
+	}
+else{
+	echo "&nbsp;";
+	}	
+
+?>    
+    </td>
+    <td align="center" valign="middle"><?php if($v2["last_status"]==1){ ?><img src="/im/ind_new.png" border="0" /><?php }?></td>
+    <td align="center" valign="middle"><?php if($v2["last_status"]==4){ ?><img src="/im/ind_errfix.png" border="0" /><?php }?></td>
+    <td align="center" valign="middle"><?php if($v2["last_status"]==5){ ?><img src="/im/ind_confirm.png" border="0" /><?php }?></td>
+    <td align="center" valign="middle"><?php if($v2["last_status"]==7){ ?><img src="/im/ind_confirm.png" border="0" /><?php }?></td>
+    <td align="center" valign="middle"><?php if($v2["last_status"]==2){ ?><img src="/im/ind_act.png" border="0" /><?php }?></td>
+    <td align="center" valign="middle"><?php if($v2["last_status"]==99){ ?><img src="/im/ind_acted.png" border="0" /><?php }?></td>
+    <td align="center" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+      <td align="center"><a href="/repairparts/order-activation/pon/<?php echo trim($v2["note_number"]); ?>" target="_blank">Active Parts</a></td>
+        <td align="center"><a id="go" rel="leanModal" name="signup" href="#btn_act<?=$v2["id"]?>"><img src="/im/btn_act.png" height="20"  border="0" title="Activation"/></a>
+        <div id="btn_act<?=$v2["id"]?>" class="btn_act">        
+		<div style=" background-color:#97C0FF; display:block">
+		<span style="float:left">KA/KT ACTIVATION</span> <span style="float:right;"><a class="modal_close" href="#">Close</a></span><br />
+		</div>
+        <div style="background-color:#EEE; display:block"><br />
+
+        <form action="/stock/save-status-change" method="post">
+        Confirm you want to active the Note: <?=$v2["note_number"]?> <br />
+		For Shop:[<?=$v2["shop_head"]?>]<br />
+		Input your Name:<input name="staff_name_act" type="text" /> <br />
+		<textarea name="comm_act" style="width:80%" rows="2"></textarea><br />
+
+        <input type="hidden" name="id_note_act" value="<?=$v2["id"]?>" />
+		
+        <input name="btn_activation" type="submit" value="Activate It!" />
+        </form>
+        <br />
+        </div>
+</div>
+        </td>
+        
+        <td align="center"><a id="go" rel="leanModal" name="signup" href="#btn_edit<?=$v2["id"]?>"><img src="/im/btn_edit.gif" height="20"  border="0" title = "Fixing Error"/></a>
+        	<div id="btn_edit<?=$v2["id"]?>" class="btn_edit">        
+		<div style=" background-color:#F90; display:block">
+		<span style="float:left">CHANGE KA/KT STATUS</span> <span style="float:right;"><a class="modal_close" href="#">Close</a></span><br />
+		</div>
+        <div style="background-color:#EEE; display:block; text-align:left;"><br />
+
+        <form action="/stock/save-status-change" method="post">
+        Do you find the Error in the Note: <?=$v2["note_number"]?> <br />
+		For Shop:[<?=$v2["shop_head"]?>]<br />
+		
+        <input type="hidden" name="id_note_edit" value="<?=$v2["id"]?>" /> 
+        <input name="status_code_edit" type="radio" value="7" />Yes , I found the Error and Fix it already<br />
+
+        <input name="status_code_edit" type="radio" value="5" />No, I found Nothing wrong on my part,must be shop make the mistake<br />
+
+        Your Comment:<br />
+<textarea name="comment_edit" cols="" rows="5" style="width:80%"></textarea><br />
+		Input your Name:<input name="staff_name_edit" type="text" /><br />
+        <input name="btn_edit" type="submit" value="Confirm Change" />
+        </form>
+        <br />
+        </div>			
+</div>
+        </td>
+        <td align="center"><a id="txt<?=$v2["id"]?>" href="javascript:toggle('dT<?=$v2["id"]?>','txt<?=$v2["id"]?>');"><img src="/im/btn_com.png" height="20"  border="0" title = "Comment n Detail"/></a></td>
+        <td align="center"><a id="go" rel="leanModal" name="signup" href="#btn_delete<?=$v2["id"]?>"><img src="/im/btn_delete.gif" height="20"  border="0" title="Cancel"/></a>
+        <div id="btn_delete<?=$v2["id"]?>" class="btn_delete">        
+		<div style=" background-color:#666; display:block">
+		<span style="float:left">CANCEL KA/KT NOTE</span> <span style="float:right;"><a class="modal_close" href="#">Close</a></span><br />
+		</div>
+        <div style="background-color:#EEE; display:block"><br />
+
+        <form action="/stock/save-status-change" method="post">
+        Do You Really Want to Cancel the the Note: <?=$v2["note_number"]?> <br />
+		For Shop:[<?=$v2["shop_head"]?>]<br />
+        Input your Name:<input name="staff_name_can" type="text" /><br />
+
+        <input type="hidden" name="id_note_can" value="<?=$v2["id"]?>" /> 
+		You will not able to Undo the Cancel of KA/KT Note, You need to Create New Entry in the System Again.<br />
+
+        <input name="btn_can" type="submit" value="Confirm to Cancel this KA / KT" />
+        </form>
+        <br />
+        </div>
+</div>        
+        
+        
+        
+        
+        
+        </td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr id="dT<?=$v2["id"]?>" style="display:none;">
+  <td class="noborder" >&nbsp;</td>
+  <td colspan="9" valign="top" >
+  <?php
+  $krecord = new Model_DbTable_Products_Stock_Kaktstatusrecord();
+  $recordList = $krecord->listRecordByID($v2["id"]);
+  //var_dump($recordList);
+  ?>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <?php foreach($recordList as $v3) { ?>
+  <tr>
+    <td style="background-color:#EFEFEF; ">
+    <span style="width:50px;display:inline-block;margin-left:10px;">
+    <?php
+    switch($v3["code_status"]){
+    	case(1):{
+    		echo '<img src="/im/ind_new.png" border="0" />';break;}
+    	case(2):{
+    		echo '<img src="/im/ind_act.png" border="0" />';break;
+    	}
+    	case(4):{
+    		echo '<img src="/im/ind_errfix.png" border="0" />';break;
+    	}
+    	case(5):{
+    		echo '<img src="/im/ind_confirm.png" border="0" />[NO]';break;
+    	}
+    	case(7):{
+    		echo '<img src="/im/ind_confirm.png" border="0" />[ER]';break;
+    	}
+    	case(21):{
+    		echo '<img src="/im/com_sm.png" border="0" />[WH]';break;
+    	}
+		case(31):{
+    		echo '<img src="/im/com_sm.png" border="0" />[SH]';break;
+    	}		
+    	case(99):{
+    		echo '<img src="/im/ind_acted.png" border="0" />';break;
+    	}
+    	case(100):{
+    		echo 'Canceled';break;
+    	}
+    }
+    ?>
+    </span> -- On 
+    <?=$v3["date_change"]?> -- <?=$v3["time_change"]?> -- By --<?=$v3["staff_name"]?>
+    </td>
+  </tr>
+  <tr style="background-color:#FEFEFE; ">
+    <td style="padding-left:20px;"><?php if($v3["comment"]!= null){echo nl2br($v3["comment"]);}?></td>
+  </tr>
+  <?php }?>
+  </table>
+Input Your Comment Here(This will not change any status, just add comment in)<br />
+<form id="form2" name="form2" method="post" action="/stock/save-status-change">
+  <textarea name="comm_wh" id="comm_wh" rows="2" style="width:80%"></textarea>
+  <br />
+  <br />
+  Staff Name: 
+  <input type="text" name="staff_name_wh" id="staff_name_wh" /> 
+  <input type="hidden" name="id_note_comm_wh" value="<?=$v2["id"]?>" /> 
+  <input name="btn_comment_wh" type="submit" value="Add Comment" />
+
+</form>
+<br />
+</td>
+  </tr>  
+  <?php } ?>
+
+</table>
+
+</body>
+</html>

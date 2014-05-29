@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+
+<?php
+if($_POST){	
+?>
+<h1>ERROR Correction For Job ID:<?php echo $_POST['id_job']?></h1><br />
+*You may print this page out or close the window.
+<table width="600" border="1" cellspacing="0" cellpadding="15">
+  <tr>
+    <td>Date :<?php
+echo $date = date("Y-m-d H:i");
+?> Staff Record : 
+    <?php
+
+echo $_POST['staff_name']
+?>
+    Sign:___________</td>
+  </tr>
+  
+  <tr>
+    <td>
+    <table width="500" border="0" cellspacing="0" cellpadding="3">
+      <tr>
+        <td style="width:425px">Code</td>
+        <td align="center">Qty</td>
+      </tr>
+   <?php
+foreach($_POST['upload'] as $key => $value){
+     $arrtmp = explode("[",$value);
+
+?>   
+      <tr>
+        <td><?php echo $arrtmp[0]; ?></td>
+        <td align="center"><?php echo trim(str_replace("]","",$arrtmp[1])); ?></td>
+      </tr>
+<?php
+}
+
+?>  
+    </table>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Phone Collection Phone Repair Parts DataBase</td>
+  </tr>
+</table>
+<?php
+}
+?>
+</body>
+</html>

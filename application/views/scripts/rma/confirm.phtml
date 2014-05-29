@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Review and Submit</title>
+</head>
+<body>
+<pre>
+<?php
+//var_dump($_POST);
+$error_flag = 0;
+$headFaultyReason = 0;
+$psd="";
+$crd="";
+$ino="";
+?>
+</pre>
+<h1 align="center"> New RMA Lodgement Summary </h1>
+<table width="1000" border="1" cellspacing="0" cellpadding="0" align="center" style="border:#333 1px solid;">
+<form action="/rma/uploadresult" method="post">
+  <tr>
+    <td style="width:200px; text-align:right; padding-right:10px;">Shop Name:</td>
+    <td>
+    [<?php echo $_POST['shop_head'];?>]
+    <?php 
+	$shopLocation = new Model_DbTable_Shoplocation();
+	$shopName = $shopLocation->getNameByHead($_POST['shop_head']);
+	echo $shopName['name_of_shop'];	
+	?>
+    <input type="hidden" name="shop_head" id="shop_head" value="<?php echo $_POST['shop_head'] ?>" /></td>
+  </tr>
+  <tr>
+    <td style="width:200px; text-align:right; padding-right:10px;">Staff Name:</td>
+    <td><?php echo $_POST['staff_name'];?>
+      <input type="hidden" name="staff_name" id="staff_name" value="<?php echo $_POST['staff_name'] ?>" /></td>
+  </tr>
+  <tr>
+    <td style="width:200px; text-align:right; padding-right:10px;">Product Code:</td>
+    <td><?php echo $_POST['product_code'];?>
+      <input type="hidden" name="product_code" id="product_code" value="<?php echo $_POST['product_code'] ?>" /></td>
+  </tr>
+  <tr>
+    <td style="width:200px; text-align:right; padding-right:10px;">Product Name:</td>
+    <td><?php 
+	if(trim($_POST['product_name'])=="Input Product Name"){
+		$error_flag =1;
+		echo "<span style=\"color:#F00;\">Incorrect input!! Product Name Must be Filled By Yourself if Product Code Not found in the System</span>";
+		}
+	else{	
+		echo $_POST['product_name'];
+	}
+	
+	?>
+      <input type="hidden" name="product_name" id="product_name" value="<?php echo $_POST['product_name'] ?>" /></td>
+  </tr>
+  <tr>
+    <td style="width:200px; text-align:right; padding-right:10px;">Faulty Source:</td>
+    <td><?php 
+	if(isset($_POST['faulty_source'])){
+	//echo $_POST['faulty_source'];
+	if($_POST['faulty_source']== 1){
+		echo "New Faulty Product";
+		}
+	elseif($_POST['faulty_source']== 2){
+		echo "Returned Product";
+		}	
+	}
+	else{
+		$error_flag = 1;
+		}
+	?>
+      <input type="hidden" name="faulty_source" id="faulty_source" value="<?php echo $_POST['faulty_source'] ?>" /></td>
+  </tr>
+  <tr>
+    <td style="width:200px; text-align:right; padding-right:10px;">Faulty Reason Code:</td>
+    <td><?php 
+	
+	if(isset($_POST['faulty_reason'])){
+		
+	$headFaultyReason =substr($_POST['faulty_reason'],0,1);
+	
+	if(intval($headFaultyReason)<=2 && intval($headFaultyReason)!= $_POST['faulty_source']){
+		
+		$error_flag = 1;	
+		echo "<span style=\"color:#F00;\">Incorrect Choice!! Faulty reason you selected did not match the faulty source you selected !!</span>";
+		}
+	else{
+		
+		echo $_POST['faulty_reason'];
+		
+		}	
+	// get faulty description 
+	}
+	else{
+		$error_flag = 1;
+		echo "<span style=\"color:#F00;\">Incorrect Choice!! You Must Select One Faulty Reason Please</span>";
+		}
+	?>
+      <input type="hidden" name="faulty_reason" id="faulty_reason" value="<?php echo $_POST['faulty_reason'] ?>" /></td>
+  </tr>
+  <tr>
+    <td style="width:200px; text-align:right; padding-right:10px;">Product Sales Date:</td>
+    <td><?php 
+	if($headFaultyReason == 2 and $_POST['product_sale_date'] == ""){
+		
+		$error_flag = 1;
+		echo "<span style=\"color:#F00;\">Incorrect Input!!Sales Date Must be Included for Return Products</span>";
+		}
+	else{
+		echo $_POST['product_sale_date'];
+		$psd = $_POST['product_sale_date'];
+		}		
+	if($headFaultyReason == 1 ){
+		echo "N/A";
+		$psd = "";
+		}
+	?>
+      <input type="hidden" name="product_sale_date" id="product_sale_date" value="<?php echo $psd;?>" /></td>
+  </tr>
+  <tr>
+    <td style="width:200px; text-align:right; padding-right:10px;">Customer Return Date:</td>
+    <td><?php 
+	if($headFaultyReason == 2 and $_POST['customer_return_date'] == ""){
+		
+		$error_flag = 1;
+		echo "<span style=\"color:#F00;\">Incorrect Input!!Customer Return Date Must be Included for Return Products</span>";
+		}
+	else{
+		echo $_POST['customer_return_date'];
+		$crd = $_POST['customer_return_date'];
+		}		
+	if($headFaultyReason == 1 ){
+		echo "N/A";
+		$crd = "";
+		}
+	?>  
+    <input type="hidden" name="customer_return_date" id="customer_return_date" value="<?php echo $crd; ?>" /></td>
+  </tr>
+  <tr>
+    <td style="width:200px; text-align:right; padding-right:10px;">Invoice Number:</td>
+    <td><?php 
+	if(( $_POST['invoice_number_faulty'] == "" && ($headFaultyReason == 1||$headFaultyReason == 3 )) ||( $_POST['invoice_number'] == "" && $headFaultyReason == 2)){
+		
+		$error_flag = 1;
+		echo "<span style=\"color:#F00;\">Incorrect Input!!<br />Invoice Number Must be Filled In regardless New Faulty Or Returned Faulty</span>";
+		
+		}
+	else{
+			if($headFaultyReason == 1||$headFaultyReason == 3 ){
+				echo $_POST['invoice_number_faulty'];
+				$ino = $_POST['invoice_number_faulty'];
+				}		
+			else{		
+				echo $_POST['invoice_number'];
+				$ino = $_POST['invoice_number'];				
+				}
+		
+		$firstLetters = substr(trim($ino),0,2);
+		$restLetters = substr(trim($ino),1);
+		if((strtolower($firstLetters)!="l1" && strtolower($firstLetters)!="c1" ) || !is_numeric($restLetters)){
+		$error_flag = 1;
+		echo "<span style=\"color:#F00;\">Incorrect APOPS Invoice Number Format, 100% Discount Invoice Number Must be input before proceed</span>";			
+			
+			
+			}	
+		}		
+
+	?>      
+    <input type="hidden" name="invoice_number" id="invoice_number" value="<?php echo $ino;?>" /></td>
+  </tr>
+  <tr>
+    <td style="width:200px; text-align:right; padding-right:10px;">Staff Comment On This Case:</td>
+    <td><?php echo $_POST['faulty_comment'];?>
+      <input type="hidden" name="faulty_comment" id="faulty_comment" value="<?php echo $_POST['faulty_comment'];?>" /></td>
+  </tr>
+   <tr>
+    <td style="width:200px; text-align:right; padding-right:10px;">Server Time :</td>
+    <td>
+    <?php
+	date_default_timezone_set('Australia/Melbourne');
+    //echo "Date: ".date("Y-m-d");
+	echo date("jS,M,")." This week is week ".date("W")." of year :".date("Y");
+	echo "<br />Today is ".date("l"). ", time now : ".date("H:i");	
+	?> 
+    <input type="hidden" name="week_of_year_faulty" id="week_of_year_faulty" value="<?php echo date("W");?>" /> 
+    <input type="hidden" name="year_faulty" id="year_faulty" value="<?php echo date("Y");?>" /> 
+    <input type="hidden" name="date_faulty" id="date_faulty" value="<?php echo date("Y-m-d");?>" /> 
+    <input type="hidden" name="time_faulty" id="time_faulty" value="<?php echo date("H:i");?>" /> 
+    </td>
+  </tr>
+   <tr>
+     <td style="width:200px; text-align:right; padding-right:10px;">Quantity:</td>
+     <td>[Only Screen Protector Accept Multi Quantity Lodgement at the moment]<br />
+     <input name="product_qty" type="text" value="1" style="width:30px;" />
+     </td>
+   </tr> 
+   <tr>
+    <td colspan="2" style="width:200px; text-align:center;"><br />
+      * I already double checked all information <br />
+      * if you see Red Color Line in the Summary and The "Confirm and Submit" button turns grey and NOT clickable, <br />
+      it indicated that there are Error(s), and can not proceed. <br />  
+      <script type="text/javascript"> function goBack() { window.history.back() } </script>    
+      <input type="button" name="button2" id="button2" value="Go Back" onclick="goBack()" /> &nbsp;
+      <input type="submit" name="button" id="button" value="Confirm and Submit"  
+      <?php 
+	  
+	  	if($error_flag) echo "disabled=\"disabled\"";
+	  ?>     
+       /></td>
+    </tr>  
+ </form> 
+</table>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<?php ob_start(); ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<?php
+$rPro = new Model_DbTable_Pr_Prproducts();
+?>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h2>Repair Parts Stock Take DIfference (Actual - System) on <?php echo Model_DatetimeHelper::dateToday(); ?></h2>
+<table width="850" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <th scope="col">Code</th>
+    <th scope="col">Des</th>
+    <th scope="col">Act</th>
+    <th scope="col">Sys</th>
+    <th scope="col">Difference</th>
+    <th scope="col">RRP</th>
+    <th scope="col">Sub Total</th>
+  </tr>
+<?php 
+	$subTotal = 0;
+	$staff = 0;
+	$stInfo = new Model_DbTable_Roster_Stafflogindetail();
+if(!isset($this->prDiff['Message'])){	
+	foreach($this->prDiff as $difRow) {
+		$staff = $difRow['staff_name_stocktake'];
+		$stLine = $stInfo->getDetail($staff);
+			
+	?>  
+  <tr>
+    <td><input name ="code_product[]" value="<?php echo $difRow['code_product']?>" type="hidden" /><?php echo $difRow['code_product']?></td>
+    <td><?php echo $rPro->getProductDes($difRow['code_product']); ?></td>
+    <td align="center"><?php echo $difRow['qty_onhand_cf']; ?></td>
+    <td align="center"><?php echo $difRow['qty_onhand']; ?></td>
+    <td><input name ="qty_diff[]" value="<?php echo ($difRow['qty_onhand_cf'] - $difRow['qty_onhand']);?>" type="text" style="width:50px;" /> </td>
+    <td><?php $rPline = $rPro->getProductByCode($difRow['code_product']); echo $rPline['price_a']; 
+	$subTotal += $rPline['price_a'] * ($difRow['qty_onhand_cf'] - $difRow['qty_onhand']);
+	  ?></td>
+      <td><?php $rPline = $rPro->getProductByCode($difRow['code_product']); 
+	 echo $rPline['price_a'] * ($difRow['qty_onhand_cf'] - $difRow['qty_onhand']);
+	  ?></td>
+  </tr>
+<?php }?>  
+  <tr>
+  	<td colspan="6" align="right">
+   By: <?php echo $stLine['ni']?>  
+    </td>
+    <td align="right">Total: 
+   $  <?php echo $subTotal;?></td>
+  </tr>
+<?php  }
+else{
+ ?>  
+  <tr>
+  	<td colspan="6" align="right">
+   <?php echo $this->prDiff['Message'];?>  
+    </td>
+    <td align="right">&nbsp;</td>
+  </tr>  
+<?php }?>  
+</table>
+
+
+</body>
+</html>
+<?php
+$mailbody = ob_get_contents();
+if($this->email=="yes"){
+	$mail = new Model_Emailshandler();
+
+$mail->sendNormalEmail($this->emailAddr,"Repair Parts Stock Take Resport", $mailbody);
+	}
+
+?>

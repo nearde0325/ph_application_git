@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Upload Img/ Update Details</title>
+</head>
+<body>
+<h1> 上传图片 及更新细节 </h1>
+<p>**这部分工作最好是在订好了条码之后立刻完成
+  但是你可以在任何时候回来完成这个工作<br />
+** 这个页面会搜寻同一系列不同颜色的所有条码，并列在下面，如果你看到下面已经没有链接 或者<br />
+</p>
+<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
+  <p>产品中文名称(你现在可以添加颜色 或者花纹的名称):</p>
+
+
+  <input name="chinese_name" type="text" id="chinese_name" size="100" />
+
+<p><br />
+  添加或修改供货商条码： 如果供货商对不同颜色使用不同条码（可以留空）</p>
+<p>
+  <input type="text" name="barcode_supplier" id="barcode_supplier" />
+  <br />
+  上传样品小图 （是否有图），上传/拍摄 小图完毕请刷新本页</p>
+<p>
+  <label for="fileField"></label>
+  <input type="file" name="fileField" id="fileField" />
+  <br />
+  <br />
+点击此链接拍摄小图，拍摄小图时候 请带条码</p>
+<p>
+  <input type="submit" name="button" id="button" value="Submit" />
+  <br />
+  <br />
+  <br />
+  <br />
+</p>
+</form>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1>Back Order List</h1>
+<table width="1100" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <th scope="col">Order</th>
+    <th scope="col">Barcode</th>
+    <th scope="col">Des</th>
+    <th scope="col">Wh</th>
+    <th scope="col">Count</th>
+    <th scope="col">Shops</th>
+  </tr>
+<?php foreach($this->arrBackOrder as $k => $v){?>  
+  <tr>
+    <td><?php echo $k+1;?></td>
+    <td><?php echo $v[0];?></td>
+    <td><?php echo $v[3];?></td>
+    <td><?php echo (int)$v[4];?></td>
+    <td><?php echo $v[1];?></td>
+    <td style="font-size:13px;"><?php echo $v[2];?></td>
+  </tr>
+ <?php }?> 
+</table><br />
+<br />
+<h1>Possible Order List</h1>
+<table width="1100" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <th scope="col">Order</th>
+    <th scope="col">Barcode</th>
+    <th scope="col">Des</th>
+    <th scope="col">Wh</th>
+    <th scope="col">Count</th>
+    <th scope="col">Shops</th>
+  </tr>
+<?php foreach($this->arrPossibleOrder as $k => $v){?>  
+  <tr>
+    <td><?php echo $k+1;?></td>
+    <td><?php echo $v[0];?></td>
+    <td><?php echo $v[3];?></td>
+    <td><?php echo (int)$v[4];?></td>
+    <td><?php echo $v[1];?></td>
+    <td style="font-size:13px;"><?php echo $v[2];?></td>
+  </tr>
+ <?php }?> 
+</table><br />
+<br />
+<h1>Stop Sale List</h1>
+<table width="1100" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <th scope="col">Order</th>
+    <th scope="col">Barcode</th>
+    <th scope="col">Des</th>
+    <th scope="col">Wh</th>
+    <th scope="col">Count</th>
+    <th scope="col">Shops</th>
+  </tr>
+<?php foreach($this->arrStopOrder as $k => $v){?>  
+  <tr>
+    <td><?php echo $k+1;?></td>
+    <td><?php echo $v[0];?></td>
+    <td><?php echo $v[3];?></td>
+    <td><?php echo (int)$v[4];?></td>
+    <td><?php echo $v[1];?></td>
+    <td style="font-size:13px;"><?php echo $v[2];?></td>
+  </tr>
+ <?php }?> 
+</table><br />
+<br />
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h2>Add New Bonus For : <?php echo ucwords($this->stDetail['first_name']." ".$this->stDetail['last_name'])." [".$this->stDetail['id_card']."]"; ?></h2>
+   <form id="form1" name="form1" method="post" action="">
+  <table width="900" border="1" cellspacing="0" cellpadding="15" style="font-size:13px;">
+  <tr>
+    <td style="width:300px;">Type:
+   
+        <label for="bonus_type"></label>
+        <select name="bonus_type" id="bonus_type">
+        <?php foreach($this->bTypeList as $k => $v){?>
+          <option  value="<?php echo $v['id']?>" <?php echo ($v['id']== $this->payType)?'selected="selected"':'' ?>><?php echo $v['type_bonus']?></option>
+        <?php }?>
+        </select>
+        <br />
+<br />
+      For Shop: 
+      <label for="shop_code"></label>
+      <input type="text" name="shop_code" id="shop_code" /> 
+      <br />
+      (For Stock Lost )</td>
+    <td><p>Period:  
+        <input type="text" name="period_begin" id="period_begin" value="<?php echo $this->periodBegin?>" />
+        <em>To</em>
+<input type="text" name="period_end" id="period_end" value="<?php echo $this->periodEnd?>" />
+    </p></td>
+  </tr>
+  <tr>
+    <td>Detail:<br /></td>
+    <td><textarea name="detail_bonus" id="detail_bonus" rows="3" style="width:450px;"></textarea></td>
+  </tr>
+  <tr>
+    <td>Payment:
+    	
+      
+      <br />
+      <input type="radio" name="pay_type" id="pay_type1" value="1"
+       <?php 
+	  if($this->stDetail['id_package'] == 2 || $this->stDetail['id_package'] == 5 )
+	  { echo 'checked="checked"';}
+	  ?> 
+       />
+
+        Cash
+        <br />
+        <input type="radio" name="pay_type" id="pay_type2" value="2"
+            <?php 
+	  if($this->stDetail['id_package'] != 2 && $this->stDetail['id_package'] != 5 )
+	  { echo 'checked="checked"';}
+	  ?>   
+        
+         />
+Bank</td>
+    <td>Total Amount:
+      <input type="text" name="amt_total" id="amt_total" />
+      $</td>
+  </tr>
+  <tr>
+    <td>Cash Amt
+      <input type="text" name="amt_cash" id="amt_cash" />
+$</td>
+    <td>Bank Amt :
+      <input type="text" name="amt_bank" id="amt_bank" />
+$ Super 
+      <input type="text" name="amt_super" id="amt_super" />
+$</td>
+  </tr>
+  <tr>
+    <td>Will Release</td>
+    <td><input type="text" name="pay_date" id="pay_date" value="<?php echo ($this->payType == 4 || $this->payType == 5 )?$this->periodEnd:$this->payDate?>" /></td>
+  </tr>
+  <tr>
+    <td>Will Not Release, Hold And Notify Until</td>
+    <td><input type="text" name="hold_to_date" id="hold_to_date" /></td>
+  </tr>
+  <tr>
+    <td>Hold Reason</td>
+    <td><textarea name="hold_reason" cols="80" rows="3" id="hold_reason"></textarea></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">Please double check every detail then click submit, you may delete it if you made mistakes<br />
+      <input type="submit" name="button" id="button" value="Submit" /><br /></td>
+  </tr>
+</table>
+  </form>
+<p>  <br />
+</p>
+<script language="javascript">
+$(document).ready(function() {
+		$("#amt_total").change(function(){
+		var total = parseFloat($("#amt_total").val());
+	if($("#pay_type1").is(":checked") ){
+			$("#amt_cash").val(total.toFixed(2));
+			$("#amt_bank").val(0);
+			$("#amt_super").val(0);
+		}
+	if($("#pay_type2").is(":checked") ){
+			$("#amt_cash").val(0);
+			var amtBank = (total - total*0.0925).toFixed(2);
+			var amtSuper = (total*0.0925).toFixed(2)
+			$("#amt_bank").val(amtBank);
+			$("#amt_super").val(amtSuper);
+		}		
+		
+		
+	});
+		$( "#period_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+		$( "#period_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+		$( "#pay_date" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+		$( "#hold_to_date" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+
+	
+});
+</script>
+</body>
+</html>

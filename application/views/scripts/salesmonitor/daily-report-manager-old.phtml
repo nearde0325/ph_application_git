@@ -1,0 +1,222 @@
+<?php 
+date_default_timezone_set("Australia/Melbourne");
+ob_start();
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+<style type="text/css">
+.graph {
+background-color: #C8C8C8;
+border: solid 1px black;
+}
+.graph td {
+font-family: verdana, arial, sans serif;
+}
+.graph thead th {
+border-bottom: double 3px black;
+font-family: verdana, arial, sans serif;
+padding: 1em;
+}
+.graph tfoot td {
+border-top: solid 1px #999999;
+font-size: x-small;
+text-align: center;
+padding: 0.5em;
+color: #666666;
+}
+.bar {
+background-color: white;
+text-align: right;
+border-left: solid 1px black;
+padding-right: 0.5em;
+width: 400px;
+}
+.bar div {
+border-top: solid 2px #0077DD;
+background-color: #004080;
+border-bottom: solid 2px #002266;
+text-align: right;
+color: white;
+float: left;
+padding-top: 0;
+height: 1em;
+}
+body {
+background-color: white;
+}
+</style>
+
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+<h1>Weekly Shops Progress Summary</h1>
+
+** The "*" means we successfully gathered sales data from the apos, "-" means no data gathered.  <br />
+
+
+<table width="1000" border="0" cellspacing="1" cellpadding="5">
+  <tr>
+    <th scope="col">Shop</th>
+    <th scope="col">Target</th>
+    <th scope="col">Progress %</th>
+    <th scope="col"> Total (So far)</th> 
+    <th scope="col">Remain<br />
+ <span style="font-size:10px;"><?php echo date("l")?> - Sunday </span>
+    </th>
+    <th scope="col">Daily Target</th>
+    <th scope="col">Days**</th>        
+    <th scope="col">2Days Ago</th>
+    <th scope="col">Yesterday</th>
+  </tr>
+  <?php foreach($this->arrRes as $k => $v){?>
+  <tr>
+    <td><?php echo $v["shop"]?></td>
+    <td>$ <?php echo $v["target"]?></td>
+    <td><?php echo $v["percent"]?> %</td>
+    <td>$ <?php echo $v["week_total"]?></td>
+    <td>$ <?php echo $v["remain"]?></td>
+    <td>$ <?php echo $v["daily_target"]?></td>
+    <td>
+	<?php
+		foreach($v["week_days"] as $days){
+			echo ($days==0)?"-":"*";
+			}
+    
+	?></td>   
+    <td>$ <?php echo $v["2days"]?></td>
+    <td>$ <?php echo $v["yesterday"]?></td>
+  </tr>
+  <?php }?>
+</table><br />
+If you can not see the progress bar chart below ,please let me know<br />
+<br />
+
+<table width="700" cellspacing="6" cellpadding="0" class="graph" style="background-color: #C8C8C8;
+border: solid 1px black;">
+      <thead>
+        <tr><th colspan="3" style="border-bottom: double 3px black;
+font-family: verdana, arial, sans serif;
+padding: 1em;">Your Shops Progress</th></tr>
+      </thead>
+      <tbody>
+    <?php foreach($this->arrRes as $k => $v){?>    
+        <tr>
+          <td width="150"><?php echo $v["shop"]?>($ <?php echo $v["target"]?>)</td><td width="400"  style="background-color: white;
+text-align: right;
+border-left: solid 1px black;
+padding-right: 0.5em;
+width: 400px;"> 
+
+
+<div style="border-top: solid 2px #0077DD;
+background-color: #004080;
+border-bottom: solid 2px #002266;
+text-align: right;
+color:white;
+float: left;
+padding-top: 0;
+height: 1em; width: <?php echo $v["percent"]?>%;" >
+
+
+<?php echo $v["percent"]?>%</div>$ <?php echo $v["remain"]?>
+<br />
+
+
+</td><td>$ <?php echo $v["daily_target"]?> <span style="font-size:10px; font-style:italic;">/pre day</span></td>
+        </tr>
+   <?php }?>
+
+      </tbody>
+      <tfoot>
+        <tr><td colspan="3" style="border-top: solid 1px #999999;
+font-size: x-small;
+text-align: center;
+padding: 0.5em;
+color: #666666;">2013 July</td></tr>
+      </tfoot>
+    </table>
+</body>
+</html>
+<?php
+$mailbody = ob_get_contents();
+if($this->ifemail == "yes"){
+$mail = new Model_Emailshandler();
+$mail->sendNormalEmail($this->email,"Weekly Shop Sales Progress Summary Version 1.0", $mailbody);
+}
+?>

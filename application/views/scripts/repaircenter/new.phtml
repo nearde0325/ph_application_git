@@ -1,0 +1,481 @@
+<?php
+header("Expires: Mon, 26 Jul 1970 05:00:00 GMT");      
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");      
+header("Cache-Control: no-cache, must-revalidate");      
+header("Pragma: no-cache");
+?>
+<!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<link href="/css/jquery.idealforms.css" rel="stylesheet" media="screen"/>
+<title>Phone Collection Mobile Repair Online Lodgement Form</title>
+<style type="text/css">
+h2{ color:#004A6F; font-family:Arial; font-size:18px; line-height:20px;}
+body { font-family:Arial; font-size:13px;}
+.logoright{ display:block; float:right;}
+
+</style>
+</head>
+<body>
+<form id="my-form" action="/repaircenter/confirmquote/shop/<?php echo $this->shophead;?>/newjobid/<?php echo $this->newjobid;?>" method="post">
+<table width="810" border="0" cellspacing="10" cellpadding="0" align="center">
+
+  <tr>
+    <td colspan="2" align="center">
+<h1 style="font-size:22px;">Mobile Phone Repair Form ,**JOB ID: <?php echo $this->newjobid ?></h1></td>
+  </tr>
+  <tr>
+    <td colspan="2"><table width="810" border="0" cellspacing="10" cellpadding="0">
+      <tr>
+        <td>
+        
+        <h2>Staff Name:</h2>  
+        <div><input type="text" name="staff_name" id="staff_name" /></div>     
+     
+        </td>
+        <td><h2>Date Time:<br />
+          [
+          <?php
+          date_default_timezone_set('Australia/Melbourne');
+		  echo $dateToday = date("Y-m-d");		  
+		  echo $timeNow = date(" H:i"); 
+		  ?>
+          ]
+        </h2></td>
+        <td><h2>Shop Code:<br />
+          [<?php echo $this->shophead;?>]
+          <div>
+          <input type="hidden" name="shop_code" />
+        </div>	
+        </h2></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <div>
+      <label ><b>Brand:</b></label>
+      <select name="mobile_brand" id="mobile_brand">
+        <option value="Apple">Apple</option>
+        <option value="Samsung">Samsung</option>
+        <option value="HTC">HTC</option>
+        <option value="Nokia">Nokia</option>
+        <option value="Motorola">Motorola</option>
+        <option value="Sony">Sony</option>
+        <option value="Other">Other</option>
+    </select>
+    </div>
+    <div>
+    <label><b style="margin-bottom:5px; padding-bottom:5px;">Model:</b><span style="font-size:11px; font-style:inherit;">(choose from the list, you MUST choose correct model)<br></span></label>
+      <select name="mobile_model" id="mobile_model">
+      <?php
+	  $cateModel = new  Model_DbTable_Pr_Categorymodel();
+	  $cList = $cateModel->listAll();
+	  foreach($cList as $row){
+	  ?>
+      <option value="<?php echo $row['mobile_model']?>"><?php echo $row['mobile_model']?></option>
+      <?php }?>
+      </select>
+      </div>
+      <div><label>
+<span style="font-size:11px; font-style:inherit;">
+      (Input your own if you choose &quot;NOT IN THE LIST&quot;)<br>
+    </span></label><input type="text" name="mobile_model_other" id="mobile_model_other" /></div>
+    <div><label><b>Color:</b><span style="font-size:11px; font-style:inherit;">(Choose from list or input your own)</span></label><input type="text" name="mobile_color" id="mobile_color" /></div>   
+    <div><label><b>IMEI Or Device S/N:<span style="font-size:11px; font-style:inherit;">(ONLY Accept Upper Case or Digits )</span></b></label><input type="text" name="mobile_imei" id="mobile_imei" /></div> 
+    <div id="imei_check" style="color:#C00"></div> 
+    <div><label><b>Confirm IMEI (S/N):</b></label><input type="text" name="confirm_imei" id="confirm_imei" /></div>
+    <div style="font-size:12px">
+<b>Locate IMEI:</b>
+ <br />
+ Press *#06# If Mobile Phone Still able to turn on <br />
+ (<b>Please do NOT try to turn on Water Damaged Device</b>)
+ <br />
+ * For iPhone 3/4/5 Please Check Sim Card Tray <br />
+ * For Other Mobile Phone Please Check The Battery bay<br />
+ * For iPad/iPod Please Input Device <b>S/N on The Back of Device</b>
+ </div>  
+	<!--
+    <div><label>Parts Selection:</label>
+      <select name="parts_select" id="parts_select">
+        <option value="genuine">Genuine Parts[If Available]</option>
+        <option value="Aftermarket">After Market Parts</option>
+    </select>
+    </div>  
+    -->
+     </td>
+    <td valign="top">
+    <div id="repair_types">
+    <label for="repair_type6"><b>Repair Type</b></label>
+    <label for="repair_type0"><input name="repair_type[]" value="Glass Digitizer Replacement"  type="checkbox" id="repair_type0" />Glass/Digitizer Replacement - If your glass is broken or touch sensor stop working</label>
+    <label for="repair_type1"><input name="repair_type[]" value="LCD Replacement"  type="checkbox" id="repair_type1" />LCD Replacement - If the picture is not showing /If only a white screen is showing / If there is a crack in the picture</label>
+    <label for="repair_type2"><input name="repair_type[]" value="iPhone Home Button Replacement" id="repair_type2" type="checkbox" />iPhone Home Button Replacement - If the home buttons is not working or not working intermittently<br />
+      </label>
+      <label for="repair_type3"><input name="repair_type[]" value="iPhone Battery Replacement" id="repair_type3" type="checkbox" />iPhone Battery Replacement - If the battery can not lasting one day<br />
+      </label>      
+      <label for="repair_type4"><input name="repair_type[]" value="Switches Flex Replacment" id="repair_type4" type="checkbox" />Switches Flex Replacment - Power/Mute/Volume switches are not working.<br />
+      </label>
+      
+      <label for="repair_type5"><input name="repair_type[]" value="Power Jacket" id="repair_type5" type="checkbox" />Power Jacket
+      </label>
+      
+    <label for="repair_type6"><input name="repair_type[]" value="Water Damage Assessment" id="repair_type6" type="checkbox" />Water Damage Assessment</label>
+    <label for="repair_type7"><input name="repair_type[]" value="Other" id="repair_type7" type="checkbox" />Other, Or more complex</label>
+    </div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2"><label for="textarea"><h2>Device Pass Code</h2>
+    <img src="/images/passcode.jpg" /><br>
+<br>
+
+    </label>
+      <textarea name="mobile_passcode" id="mobile_passcode" cols="100" rows="1" style="width:800px;"></textarea>
+      
+      </td>
+  </tr>  
+  <tr>
+    <td colspan="2"><label for="textarea"><h2>Detail Issue Description</h2></label>
+      <textarea name="issue_detail" id="issue_detail" cols="100" rows="5" style="width:800px;"></textarea>
+      
+      </td>
+  </tr>
+  
+  <tr>
+    <td colspan="2"><h2>Customer Contacts Make Sure Fill At Least 2 Contact Methods</h2></td>
+  </tr>
+  <tr>
+    <td colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="10">
+      <tr>
+        <td><div><label for="textfield2"><b>Customer Name</b></label>
+          <input type="text" name="customer_name" id="customer_name" >
+        </div></td>
+        <td><div><label for="textfield2"><b>Email Address</b></label>
+          <input type="text" name="customer_email" id="customer_email" >
+        </div></td>
+      </tr>
+      <tr>
+        <td><div><label for="textfield2"><b>Home Phone</b></label>
+          <input type="text" name="customer_homephone" id="customer_homephone" ></div></td>
+        <td><div>
+          <label for="textfield2"><b>Other Mobile</b></label>
+          <input type="text" name="customer_mobile" id="customer_mobile" ></div></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="2"><label for="textarea">
+    <h2>Customer Estimate Pickup Date and Time With Detail Instruction</h2>
+    </label>
+      <textarea name="pickup_detail" id="pickup_detail" cols="100" rows="2" style="width:800px;"></textarea>
+      
+      </td>
+  </tr> 
+  
+  <!-- 
+  <tr>
+    <td colspan="2" align="left" valign="middle"><h2>Location and Time:(Please Ignore This For Now, Under Development)</h2></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left" valign="middle">
+    <div><label>Choose Location:</label>
+    <label><input type="radio" name="loca_choice"  value="inspection" disabled  />Replacement Parts Is Ready In Shop,I am Able to Fix It On Spot</label>
+    <label><input type="radio" name="loca_choice"  value="inspection" disabled  />Replacement Parts Is Ready In Shop, ETA for Technician is On <br /><input type="text" name="eta_tech" id="eta_tech" / > <button id="btn_check" name="btn_check" type="button">Check </button></label>
+    <label><input type="radio" name="loca_choice"  value="inspection" disabled  />Will Send the Phone To Technician,Customer Will Come Pickup on<br />(Please Allocate Reasonable Timeframe for Repair and Transfer)<input type="text" name="eta_cust" id="eta_cust" / ></label> 
+    </div>
+    </td>
+  </tr> 
+  -->
+      
+  <tr>
+    <td colspan="2" align="left" valign="middle"><h2>Quotations Adn Warranty For JOB ID: <?php echo $this->newjobid ?></h2></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left" valign="middle">
+    <div><label><b>Status:</b></label>
+            <label><input type="radio" name="quot_choice"  value="inspection"  />I can NOT find the price on Price List File </label>
+            <label><input type="radio" name="quot_choice"  value="instant" />I CAN find the price on Price List File, so I quote on-the-spot</label>
+    </div>
+    <div><label><b>Warranty Tems:</b></label>
+    <select name="warr_term" id="warr_term">
+      <option value="7" selected>7 Days Warranty</option>
+      <option value="30">30 Days Warranty</option>
+    </select>
+    
+    </div>
+        <div><label><b>Extended Warranty:</b></label>
+    <select name="ext_warr" id="ext_warr">
+     <option value="0" selected>No Extended Warranty</option>
+      <option value="30">30 Days Extended Warranty</option>
+      <option value="60">60 Days Extended Warranty</option>
+      <option value="90">90 Days Extended Warranty</option>
+    </select>
+    
+    </div>
+<div>
+ <label><b>Extended Warranty Price:  $</b> </label><input type="text" name="warr_price" id="warr_price" />
+</div> 
+<div>
+ <label><b>Total Quotation Price:  $</b> <br>
+<span style="font-size:12px">Include Extended Warranty Price</span></label><input type="text" name="quot_price" id="quot_price" />
+</div> 
+<div>
+ <label><b>APOS Invoice No.:</b><span style="font-size:12px;">(If Paid, 7 Digits After L13)</span> </label>
+ <input type="text" name="quot_invoice" id="quot_invoice" />
+</div>
+    </div>         
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left" valign="middle"><h2>MAKE SURE all information you filled are correct.</h2>
+    <span style="font-size:12px">
+      *you should not modify again ater submition. <br>
+      **
+      If you made mistakes, cancel the job and create new one instead
+    </span>  
+      </td>
+  </tr>
+  <tr>
+    <td colspan="2"><br>      
+      <div>
+        <button type="submit" id="submit">Submit</button>
+        
+        <button id="reset" type="button">Reset</button>
+      </div>
+      
+      </td>
+  </tr>
+</table>
+</form>
+
+
+<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.min.js"></script>
+<script src="/js/min/jquery.idealforms.min.js"></script>
+<script>
+
+
+function checkPass(strText) {
+strText = strText.toUpperCase();
+strText = strText.replace(/[ ]/g, "");
+var str1 = "0123456789012345678909876543210";
+var str2 = "0987654321098765432101234567890";
+var str3 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var str4 = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
+if (str1.indexOf(strText) > -1 || str2.indexOf(strText) > -1 || str3.indexOf(strText) > -1 || str4.indexOf(strText) > -1) {
+return false
+}
+var strlength = strText.length;
+for (i = 0; i < strlength-1; i++) {
+var v1=strText.charAt(i);
+var v2=strText.charAt(i+1);
+if (v1 != v2) {
+return true;
+}
+}
+return false;
+}
+
+
+  var users = ['admin', 'user'];
+
+  var options = {
+
+     inputs:{
+	 'staff_name': {
+       	 filters: 'required min',
+       	 data: {
+        	  min: 2
+        	   },
+		 errors:{
+		      min: 'Please input your name',	
+			}
+         },
+	 'pickup_detail': {
+       	 filters: 'required min',
+       	 data: {
+        	  min: 2
+        	   },
+		 errors:{
+		      min: 'Please Input The Estimate Customer Pickup Time',	
+			}
+         },		 
+	 'customer_name': {
+       	 filters: 'required min',
+       	 data: {
+        	  min: 2
+        	   },
+		 errors:{
+		      min: 'Please input customer name'	
+			}
+         },		 
+	 'mobile_model': {
+       	 filters: 'required min',
+       	 data: {
+        	  min: 2
+        	   },
+		 errors:{
+		      min: 'Moble Model Must input'	
+			}
+         },			 
+	 'mobile_imei': {
+       	 filters: 'requried min max',
+       	 data: {
+			  min : 12,
+			  max : 15
+			  
+        	   },
+		 errors:{
+		      min: 'You can NOT submit the form if IMEI or Serial No. Incorrect',
+			  max: 'You can NOT submit the form if IMEI or Serial No. Incorrect',
+			}			
+         },
+
+	 'mobile_passcode': {
+       	 filters: 'required min',
+       	 data: {
+        	  min: 2
+        	   },
+		 errors:{
+		      min: 'Input Device Pass Code, Input ***** if NO Pass Code '	
+			}			
+         },		 
+	 'quot_price':{
+		 filters: 'number',
+		 },
+	 'quot_invoice':{
+		 filters: 'digits min',
+		 data:{
+			 min: 7		 
+			 },
+		 errors:{			 
+			
+			 min:'Input 7 Digits Numbers on the APOS invoice After the L12'
+
+			 } 
+		 
+		 },	 		 
+	 'confirm_imei': {
+       	 filters: 'equalto',
+       	 data: {
+        	  equalto:'#mobile_imei' 
+        	   },
+		 errors:{
+		      equalto: 'IMEI NOT MATCH'	
+			}
+         },	 
+	 'button': {
+       	 value: 'reset'
+         },	 
+	 'repair_type[]': {
+       	 filters: 'min',
+       	 data: {
+        	  min:1 
+        	   },
+		 errors:{
+		      equalto: 'Choose At Least One Error'	
+			}
+         }		 		 		 	 
+	 }
+  };
+
+var $idealform = $('#my-form').idealforms(options);
+    $idealform.setFieldOptions('shop_code',{value:'<?php echo $this->shophead;?>'});
+
+  $('#reset').click(function(){
+    $idealform.reset().fresh().focusFirst()
+  });
+
+  $idealform.focusFirst();
+
+
+ $(function() {
+var availableTags = [
+"iPhone 3G",
+"iPhone 3GS",
+"iPhone 4G",
+"iPhone 4S",
+"iPhone 5",
+"iPhone 5S",
+"iPhone 5C",
+"iPod Touch 3",
+"iPod Touch 4",
+"iPod Touch 5",
+"iPod Touch 6",
+"iPad 2",
+"iPad 3",
+"iPad 4",
+"iPad 5",
+"iPad Mini",
+"Galaxy S1 i9000",
+"Galaxy S2 i9100",
+"Galaxy S3 i9300",
+"Galaxy S3 4G i9305",
+"Galaxy S4 9500",
+"Galaxy S4 4G i9505",
+"Galaxy S5",
+"Galaxy Nexus",
+"Galaxy Note 1 n7000",
+"Galaxy Note 2 n7100",
+"Galaxy Note 2 4G n7105",
+"HTC OneX"
+];
+
+var availColor = [
+"Black",
+"White",
+"Sliver",
+"Blue",
+"Golden",
+"Grey",
+"Pink",
+"Red",
+"Orange",
+"Green",
+"Yellow"
+];
+
+$( "#mobile_color" ).autocomplete({
+source: availColor
+});
+
+$( "#eta_cust" ).datepicker({ dateFormat: "yy-mm-dd"});
+$( "#eta_tech" ).datepicker({ dateFormat: "yy-mm-dd"});
+
+$( "#mobile_imei").keyup(function(){
+	
+	var imei = $(this).val();
+	var model = $("#mobile_model").val();
+	var pass = false;
+	
+	if(/^iPad/gi.test(model) || /^iPod/gi.test(model)){
+		pass = (/[A-Z0-9]{12}$/.test(imei) && checkPass(imei)) ;
+		//alert("PD");	
+		}
+	else{
+		pass = (/^(\d){15}$/.test(imei) && checkPass(imei));
+		//pass = ;
+		}		
+	if(pass){			
+		$('#submit').removeAttr('disabled');
+		$("#imei_check").html('');		
+	}
+	else{
+		$('#submit').attr('disabled','disabled');
+	    $("#imei_check").html('IMEI/SN Check Failed,Can Not Submit!!');
+	}
+	});
+
+});
+
+
+
+</script>
+</body>
+</html>

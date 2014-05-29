@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+#a { text-decoration:none;}
+</style>
+</head>
+<body style="font:12px Arial;">
+<h1>News To Active</h1>
+
+<p>**For provent Error, you should double check the News you want to Release Before Active it<br />
+  **If Error Occured , DELETE IT and do it again.<br />
+** ONLY AFTER Active, the news will be show into the &quot;News Flash&quot; Block on the Company Home Page and The Article will be visible in the Page<br />
+** You can NOT delete it after you Active it.
+<br />
+  <br />
+</p>
+<h3>Announcement</h3>
+ <?php if(isset($this->rowsnews)){
+	 
+	 
+	 ?>  
+<table width="600" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <td>ID</td>
+    <td>Attach 1</td>
+    <td>Attach2</td>
+    <td>Attach3</td>
+    <td>Action</td>
+  </tr>
+<?php 
+	foreach($this->rowsnews as $key => $value){
+?>  
+  <tr>
+    <td><?php echo  $value['id']?></td>
+    <td><a href="/docs/<?php echo  $value['attach_1_name']?>" target="_blank" ><?php echo  $value['attach_1_name']?></a></td>
+    <td><a href="/docs/<?php echo  $value['attach_2_name']?>" target="_blank" ><?php echo  $value['attach_2_name']?></a></td>
+    <td><a href="/docs/<?php echo  $value['attach_3_name']?>" target="_blank" ><?php echo  $value['attach_3_name']?></a></td>
+    <td>
+    <form name="myform1">
+<input type="button" value="Active" 
+onClick="if(confirm('Double Checked Already? so Active News!'))
+ window.location.href = '/companydocs/make-active?token=P3JVF4DU5EDN8S&id=<?php echo  $value['id']?>'
+else alert('Canceled');">
+|    
+<input type="button" value="Delete" 
+onClick="if(confirm('Sure Want to Delete this News?'))
+ window.location.href = '/companydocs/delete-news?token=WAXN6BE79H4E&id=<?php echo  $value['id']?>'
+else alert('Delete Canceled');">
+</form>
+    
+ 
+    
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5">
+    Title:<?php echo  $value['title_news']?><br />
+	Content:<br />
+    <?php echo  $value['content_news']?>
+    </td>
+  </tr>
+<?php
+
+	}
+?>
+
+</table>
+<?php 
+
+}
+?>
+
+  <br />
+<h3>News Letter</h3>
+ <?php if(isset($this->rowsnewslettr)){
+	 
+	 
+	 ?>  
+<table width="600" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <td>ID</td>
+    <td>Attach 1</td>
+    <td>Attach2</td>
+    <td>Attach3</td>
+    <td>Action</td>
+  </tr>
+<?php 
+	foreach($this->rowsnewslettr as $key => $value){
+?>  
+  <tr>
+    <td><?php echo  $value['id']?></td>
+    <td><a href="/docs/<?php echo  $value['attach_1_name']?>" target="_blank" ><?php echo  $value['attach_1_name']?></a></td>
+    <td><a href="/docs/<?php echo  $value['attach_2_name']?>" target="_blank" ><?php echo  $value['attach_2_name']?></a></td>
+    <td><a href="/docs/<?php echo  $value['attach_3_name']?>" target="_blank" ><?php echo  $value['attach_3_name']?></a></td>
+    <td>
+    <form name="myform1">
+<input type="button" value="Active" 
+onClick="if(confirm('Double Checked Already? so Active News!'))
+ window.location.href = '/companydocs/make-active?token=P3JVF4DU5EDN8S&id=<?php echo  $value['id']?>'
+else alert('Canceled');">
+|    
+<input type="button" value="Delete" 
+onClick="if(confirm('Sure Want to Delete this News?'))
+ window.location.href = '/companydocs/delete-news?token=WAXN6BE79H4E&id=<?php echo  $value['id']?>'
+else alert('Delete Canceled');">
+</form>
+    
+ 
+    
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5">
+    Title:<?php echo  $value['title_news']?><br />
+	Content:<br />
+    <?php echo  $value['content_news']?>
+    </td>
+  </tr>
+<?php
+
+	}
+?>
+
+</table>
+<?php 
+
+}
+?>
+
+  <br />
+<h3>Promotion</h3>
+ <?php if(isset($this->rowspromotion)){
+	 
+	 
+	 ?>  
+<table width="600" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <td>ID</td>
+    <td>Attach 1</td>
+    <td>Attach2</td>
+    <td>Attach3</td>
+    <td>Action</td>
+  </tr>
+<?php 
+	foreach($this->rowspromotion as $key => $value){
+?>  
+  <tr>
+    <td><?php echo  $value['id']?></td>
+    <td><a href="/docs/<?php echo  $value['attach_1_name']?>" target="_blank" ><?php echo  $value['attach_1_name']?></a></td>
+    <td><a href="/docs/<?php echo  $value['attach_2_name']?>" target="_blank" ><?php echo  $value['attach_2_name']?></a></td>
+    <td><a href="/docs/<?php echo  $value['attach_3_name']?>" target="_blank" ><?php echo  $value['attach_3_name']?></a></td>
+    <td>
+    <form name="myform1">
+<input type="button" value="Active" 
+onClick="if(confirm('Double Checked Already? so Active News!'))
+ window.location.href = '/companydocs/make-active?token=P3JVF4DU5EDN8S&id=<?php echo  $value['id']?>'
+else alert('Canceled');">
+|    
+<input type="button" value="Delete" 
+onClick="if(confirm('Sure Want to Delete this News?'))
+ window.location.href = '/companydocs/delete-news?token=WAXN6BE79H4E&id=<?php echo  $value['id']?>'
+else alert('Delete Canceled');">
+</form>
+    
+ 
+    
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5">
+    Title:<?php echo  $value['title_news']?><br />
+	Content:<br />
+    <?php echo  $value['content_news']?>
+    </td>
+  </tr>
+<?php
+
+	}
+?>
+
+</table>
+<?php 
+
+}
+?>
+
+  <br />
+</body>
+</html>

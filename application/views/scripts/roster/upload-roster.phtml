@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:13px;">
+Dear Manager , Thank you for you time uploading roster 
+  for shop <h2>&quot;<?=$this->shopHead?>&quot;</h2>
+  
+    <?php
+  if($this->lastLog){
+	  $k = $this->lastLog;
+	  echo "<b>* File was last uploaded on: ".$k[0]["upload_date"]." ".$k[0]["upload_time"]." By ".$k[0]["manager_name_log"]."</b>";
+	  }
+  
+  ?>
+<h1>New Roster Template Available for Download</h1>
+Click Link below to download roster template:
+<br />
+<br />  
+<a href="/docs/AprilMayRoster2013Template.xls" target="_blank" >AprilMayRoster2013Template.xls</a><br />
+<br />  
+<a href="/docs/MayJuneRoster2013Template.xls" target="_blank" >MayJuneRoster2013Template.xls</a><br />  
+<br />
+(<strong>Please Also EDIT your online Roster after your upload the excel roster for May &amp; June</strong>)<br />
+<?php
+if($this->shopHead!="" && strlen($this->shopHead)==4){
+?>  
+<h1>Upload Roster File Here</h1> 
+<form action="/roster/save-upload" method="post" enctype="multipart/form-data">
+Your Name:<br />
+<input type="text" name="manager_name" id="manager_name" />
+<input type="hidden" name="shop_head" id="shop_head" value="<?=$this->shopHead?>" />
+<input type="hidden" name="ip" id="ip" value="<?=$this->ip?>" />
+<input type="hidden" name="os" id="os" value="<?=$this->os?>" />
+<br />
+Choose File:
+<br />
+<input type="file" name="upload_file" id="upload_file" />
+<br />
+<br />
+<input type="submit" name="button" id="button" value="Submit" />
+</form>
+<?php
+}
+?>  
+  <h3>What you can do</h3>
+* Upload the roster unlimited times and we will only use the lastest one you uploaded.<br />
+  * Upload anytime. There is no time restrictions on when you can upload.<br />
+ <h3> What you should NOT do</h3>
+*Upload file at your home (at the moment).<br />
+  *Upload file other than  Excel File.<br />
+<br />
+  <br />
+
+
+</body>
+</html>

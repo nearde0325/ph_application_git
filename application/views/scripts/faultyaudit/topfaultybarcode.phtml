@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial;">
+<h1>Faulty BarCode Summary <?php echo $_POST['date_begin'] ?>  to <?php echo $_POST['date_end'] ?> </h1>
+<?php 
+//var_dump($this->topnum);
+//var_dump($this->fproducts);
+$counter = 0;
+$topnum = 999;
+if($this->topnum !=0){
+	$topnum = $this->topnum;
+	}
+	
+	$w4DateBegin =  new DateTime(date("Y-m-d",strtotime(trim($_POST['date_begin']))));
+	date_sub($w4DateBegin ,date_interval_create_from_date_string('28 days'));
+	$w4Begin = date_format($w4DateBegin ,'Y-m-d');
+	
+	$w4DateEnd =  new DateTime(date("Y-m-d",strtotime(trim($_POST['date_end']))));
+	date_sub($w4DateEnd ,date_interval_create_from_date_string('28 days'));
+	$w4End = date_format($w4DateEnd ,'Y-m-d');
+		
+	
+?>
+<table width="888" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <td bgcolor="#FFFFFF">BarCode</td>
+    <td bgcolor="#FFFFFF">PCs</td>
+    <td bgcolor="#FFFFFF">- 4Weeks PCs (<?php echo $w4Begin." to ".$w4End; ?>)</td>    
+    <td bgcolor="#FFFFFF">Top Shop</td>
+    <td bgcolor="#FFFFFF">PCs</td>
+
+  </tr>
+<?php 
+$fProduct = new Model_DbTable_Faultyproduct();
+foreach($this->fproducts as $key => $value){
+if($counter < $topnum){
+	
+	$pTitle = $fProduct->findFaultyProductName($value['product_code_faulty'],$_POST['date_begin'],$_POST['date_end']);
+	$topShop = $fProduct->singleBarCodeTopShop($value['product_code_faulty'],$_POST['date_begin'],$_POST['date_end']);
+	//find 4 weeks ago 
+		
+	
+	$pcs4Weeks = $fProduct->singleBarCodeByDate($value['product_code_faulty'],$w4Begin,$w4End);
+	
+	?>  
+  <tr>
+    <td bgcolor="#FFFFFF"><a href="/faultyaudit/faultybarcodedetail?product_code=<?php echo $value['product_code_faulty']?>&date_begin=<?php echo $_POST['date_begin']?>&date_end=<?php echo $_POST['date_end']?>" title="<?php echo $pTitle; ?>" ><?php echo $value['product_code_faulty']?></a></td>
+    <td bgcolor="#FFFFFF"><?php echo $value["SUM(`faulty_qty`)"];?>
+    <?php 
+    if(($value["SUM(`faulty_qty`)"] - $pcs4Weeks[0]["SUM(`faulty_qty`)"]) >= trim($_POST['incr'])){
+    ?>
+    <img src="/im/incr.jpg" />
+    <?php 
+    }
+    ?>
+    </td>
+    <td bgcolor="#FFFFFF"><?php echo $pcs4Weeks[0]["SUM(`faulty_qty`)"];?></td>    
+    <td bgcolor="#FFFFFF"><?php echo $topShop[0]["shopcode_faulty"];?></td>
+    <td bgcolor="#FFFFFF"><?php echo $topShop[0]["SUM(`faulty_qty`)"];?></td>
+
+  </tr>
+<?php
+	}
+$counter++;	
+}
+?>  
+  
+  <tr>
+    <td bgcolor="#FFFFFF">BarCode</td>
+    <td bgcolor="#FFFFFF">PCs</td>
+    <td bgcolor="#FFFFFF">- 4Weeks PCs</td>
+    <td bgcolor="#FFFFFF">Top Shop</td>
+    <td bgcolor="#FFFFFF">Pcs</td>
+
+  </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<?php
+//var_dump($this->list);
+?>
+<table width="800" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="3">Status for Job ID:<?php echo $this->list[0]['id_job']?></td>
+  </tr>
+<?php
+foreach($this->list as $k => $v) 
+ {
+ ?> 
+  <tr>
+    <td><?php echo $v['time_record']?></td>
+    <td>By :<?php echo $v['staff_record']?></td>
+    <td>
+    [<?php echo $v['id_status']?>]
+    <?php
+    $newStatus = new Model_DbTable_Jobstatus();
+	echo $newStatus->getStatusDes($v['id_status']);
+	?>
+    </td>
+  </tr>
+<?
+ }
+?>  
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

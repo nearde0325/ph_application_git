@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/1pxtable.css" rel="Stylesheet" />	
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<pre>
+<?php // var_dump($this->arrStaff); ?>
+</pre>
+<h2>New Staff Not In Myob File</h2>
+<form method="post" action="/roster/new-staff-verify" >
+<table width="1200" border="1" cellspacing="0" cellpadding="5" style="font-size:14px;">
+
+  <tr>
+  	<th scope="col">ID</th>
+    <th scope="col">Full Name<br />
+      [Lower Case]</th>
+    <th scope="col">Dob</th>
+    <th scope="col">Nick Name</th>
+    <th scope="col">Last Name<br />
+      <span style="font-size:12px;">[First Letter Upper]</span></th>
+    <th scope="col">First Name<br />
+      <span style="font-size:12px;">[One Word, First Letter Upper Case]</span></th>
+    <th scope="col">Myob ID Card<br />
+      <span style="font-size:12px;">[nickname-SHOP]</span></th>
+    <th scope="col">Type</th>
+    <th scope="col">Tick to<br />
+      Process</th>
+  </tr>
+  <?php foreach($this->arrStaff as $key => $v){?>
+  <tr>
+  	<td><?php echo $v['id'];?></td>
+    <td><?php echo $fullName = Model_EncryptHelper::getSslpassword($v["n"])?></td>
+    <td><?php echo date("Y-m-d",Model_EncryptHelper::getSslpassword($v["d"]))?></td>
+    <td><input name="nick_name[<?php echo $v["id"]?>]" id="nick_name" type="text" value="<?php echo ucwords(trim($v["ni"]))?>" /></td>
+    <?php $arrName = explode(" ",$fullName);?>
+    <td><input name="last_name[<?php echo $v["id"]?>]" type="text" value="<?php echo ucwords($arrName[1])?>"  /></td>
+    <td><input name="first_name[<?php echo $v["id"]?>]" type="text" value="<?php echo ucwords($arrName[0])?>" /></td>
+    <td><input type="text" name="id_card[<?php echo $v["id"]?>]" id="id_card" /></td>
+    <td><label for="select"></label>
+      <select name="type[<?php echo $v["id"]?>]" id="type">
+        <option value="1">A</option>
+        <option value="2">B</option>
+        <option value="3">C</option>
+        <option value="4">D</option>
+        <option value="5">E</option>
+        <option value="6">F</option>
+        <option value="7">G</option>
+      </select></td>
+    <td><input type="checkbox" name="act[<?php echo $v["id"]?>]" id="act" value="<?php echo $v["id"]?>" /></td>
+  </tr>
+<?php }?>
+
+</table><br />
+
+<input name="sb_start" type="submit" value="I have Finish Add Staff Into MYOB, Employee Files Also Exported" />
+</form>
+
+
+</body>
+</html>

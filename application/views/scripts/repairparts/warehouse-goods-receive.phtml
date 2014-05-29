@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Warehouse Transfer IN </title>
+<script language="javascript">
+function enableUpload(){
+	document.getElementById("sub_upload").disabled = false;
+	}
+
+</script>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+
+<h1>Goods Receive From CHINA For WareHouse (GI)</h1>
+<p>***********************************<br />
+  1.Scan Barcode and Input the Qty<br />
+  2.Click 
+  &quot;Add Record&quot;<br />
+  3.You may Click The &quot;Remove&quot; Button if You Made Mistakes<br />
+  4.After All Record Scaned ,Fill In Your Name<br />
+  5.Finally,Click &quot;Save These Records&quot;
+  <br />
+*********************************** </p>
+<p>1. Scan the Barcode and <br />
+  
+  <?php
+$arrProducts = array();
+$end = 0;
+
+$rProduct = new Model_DbTable_Pr_Prproducts();
+
+if($_POST){
+	//unset($arrProducts);
+	$arrProducts = unserialize(base64_decode(trim($_POST['saved_arr'])));
+	//echo $_POST['saved_arr'];
+	$end = count($arrProducts);
+	$tmpstr = trim($_POST['barcode_code'])."|".trim($_POST['category'])."|".trim($_POST['title_product'])."|".trim($_POST['barcode_qty']);
+	
+	if(trim($_POST['category'])=="" || trim($_POST['title_product'])==""){
+		
+		$idPro = $rProduct->getProductID(trim($_POST['barcode_code']));
+		//$pLine = $rProduct->getProduct($idPro);
+		$pLine = $rProduct->find($idPro);		
+		$tmpstr = trim($_POST['barcode_code'])."|".trim($pLine['id_cate'])."|".trim($pLine['title_product'])."|".trim($_POST['barcode_qty']);
+		}
+	
+	
+	$arrProducts[$end] = $tmpstr;
+	//var_dump($arrProducts);	
+	}
+if($_GET){
+	
+	$i = $_GET['rm'];
+	//echo $i;
+	$arrProducts = unserialize(base64_decode(trim($_GET['data'])));
+	array_splice($arrProducts,$i,1);
+	}	
+
+?>
+  
+</p>
+<table width="800" border="0" cellspacing="1" cellpadding="5" bgcolor="#333">
+  <tr>
+    <td bgcolor="#FFFFFF">New Product Title<br /></td>
+    <td rowspan="3" bgcolor="#FFFFFF" style="padding:0px;"><form id="form1" name="form1" method="post" action="/repairparts/warehouse-goods-receive">
+    <table width="100%" border="0" cellspacing="1" cellpadding="5">
+  <tr>
+    <td>
+      <input name="title_product" type="text" id="title_product" size="50"  />
+      (Empty for Old)<br /></td>
+  </tr>
+  <tr>
+    <td><input type="text" name="category" id="category" /> 
+     <span style="font-size:12px;"> IP3 (0)  | IP4 (1) | IP5 (2) |ITO (3) | IPD (4) | SII (5) | S3 (6) | SO (7) | HTC(8) | NOKIA (9)</span></td>
+  </tr>
+  <tr>
+    <td><input type="text" name="barcode_code" id="barcode_code" />
+Qty:
+      [
+  <label for="textfield2"></label>
+  <input type="text" name="barcode_qty" id="barcode_qty" width="50" value="1" />
+]
+<input type="hidden" name="saved_arr" id="saved_arr" value="<?php echo base64_encode(trim(serialize($arrProducts)));?>"/>
+<input type="button" name="button" id="button" value="Add Product" onclick="javascript:document.form1.submit();" /></td>
+  </tr>
+</table></form></td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">Category</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF">Scan BarCode:</td>
+  </tr>
+  <tr>
+    <td width="150" bgcolor="#FFFFFF">Records to Upload:</td>
+    <td bgcolor="#FFFFFF"><form id="form2" name="form2" method="post" action="/repairparts/save-wh-gi">
+      
+       
+        <h2>Record For Save into Database</h2> 
+      <hr />
+      
+      <table width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#666666" style="font-size:12px;">
+  <tr>
+    <th bgcolor="#FFFFFF" style="width:150px;" scope="col" >BarCode</th>
+    <th bgcolor="#FFFFFF" style="width:20px;" scope="col" >Cate</th>
+    <th bgcolor="#FFFFFF" scope="col">Title</th>
+    <th bgcolor="#FFFFFF" style="width:40px;" scope="col" >Qty</th>
+    <th bgcolor="#FFFFFF" style="width:40px;" scope="col" >Act</th>
+  </tr>
+    <?php
+	
+    foreach($arrProducts as $key => $value){
+	$arrTmp = explode("|",$value);
+	?>
+  <tr>
+    <td bgcolor="#FFFFFF"><?php echo $arrTmp[0];?></td>
+    <td bgcolor="#FFFFFF"><?php echo $arrTmp[1];?></td>
+    <td bgcolor="#FFFFFF"><?php echo $arrTmp[2];?></td>
+    <td bgcolor="#FFFFFF"><?php echo $arrTmp[3];?></td>
+    <td bgcolor="#FFFFFF"><?php
+    echo "<input type=\"hidden\" name=\"upload[]\" value=\"".$value."\" />";
+			echo "<a href=\"?rm=".$key."&data=".base64_encode(trim(serialize($arrProducts)))."\">Remove</a>";
+	?></td>
+  </tr>
+    <?php	
+		}
+	?> 
+    </table>
+    <br />
+ <label for="staff_name"></label>
+        Staff Name:
+        <input type="text" name="staff_name" id="staff_name" onchange="enableUpload()" />
+        <br />
+        <br />
+  <input name="sub_upload" id="sub_upload" value="SAVE INTO DATABASE" type="submit" disabled="disabled" /><br />
+        <br />
+    
+    </form></td>
+  </tr>
+
+</table>
+    <script language="javascript">
+    document.getElementById('barcode_code').focus(); 
+    </script> 
+</body>
+</html>

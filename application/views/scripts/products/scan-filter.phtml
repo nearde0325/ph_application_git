@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>black white list</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<form action="" method="post">
+<p>
+<h2>*White List ( Use , separate each keyword)</h2>
+Item have key words in "White List" will be PICKUP even item have keywords in Black List
+</p>( Exception List)
+<p>
+  <label for="white_list"></label>
+  <textarea name="white_list" id="white_list" cols="100" rows="5"><?php echo $this->whiteList?></textarea>
+<p>
+<h2>*Black List( Use , separate each keyword)</h2>
+Item have key words in "Black List" will be IGNORED, even condition match<br />
+
+<textarea name="black_list" id="black_list" cols="100" rows="5"><?php echo $this->blackList?></textarea>
+</p>
+
+<br />
+<br />
+<br />
+<input type="submit" name="button" id="button" value="Save" />
+</form>
+</body>
+</html>

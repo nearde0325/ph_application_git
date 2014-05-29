@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1>Items Your Shop Sold Out in Last 4 Weeks </h1>
+<p><a href="/products/stop-sale-list/shop/<?php echo $this->shop?>" target="_blank">Your Stop Sale List</a> | <a href="/products/back-order-list/shop/<?php echo $this->shop?>" target="_blank">Your Back Order List</a></p>
+<p><br />
+</p>
+<h3>Please Order Before This Sunday , The Page will be blank from Next Monday</h3>
+* Warehouse do have Stock on this item<br />
+* Tick "Stop Sale"
+if you od not want to get the stock any more , you need to give us a reason for that<br />
+* If there are image for this item , an thumb image will show in the image column, it also very normal if there are no picture there.
+<table width="800" border="0" cellspacing="1" cellpadding="5">
+  <form method="post" >
+  <tr>
+    <th scope="col">Image</th>
+    <th scope="col">BarCode</th>
+    <th scope="col">Description</th>
+    <th scope="col">Qty</th>
+    <th scope="col">Top Sales</th>
+    <th scope="col">Stop Sale</th>
+    <th scope="col">Stop Sale Reason</th>
+  </tr>
+<?php foreach($this->sList as $k => $v) {?>  
+  <tr>
+    <td>
+    <input type="hidden" id="id_extorder" name="id_ext_order[<?php echo $v["id_ext_order"]?>]" value="<?php echo $v["id_ext_order"]?>" />
+    <?php
+    $fileStr = getcwd()."/product_img/home_img/".trim($v["barcode"])."_0.jpg";
+	if(file_exists($fileStr)){
+	?>
+    <img src="/product_img/home_img/<?php echo trim($v["barcode"]) ?>_0.jpg" width="100" height="100"  / >    
+    <?php	
+		}
+	?>
+    </td>
+    <td><?php echo $v["barcode"]?></td>
+    <td><?php echo $v["description"]?></td>
+    <td><input type="text" name="qty[<?php echo $v["id_ext_order"]?>]" value="<?php echo $v["qty"]?>" style="width:50px;" /></td>
+    <td><?php echo $v["max_sold"]?></td>
+    <td><input type="checkbox" name="stop[<?php echo $v["id_ext_order"]?>]"  <?php echo ($v["stop"])?'checked="checked"':''; ?>  /></td>
+    <td><textarea style="width:150px;" rows="3" name="comment[<?php echo $v["id_ext_order"]?>]" ><?php echo $v["comment"]?></textarea></td>
+  </tr>
+<?php  } ?> 
+<tr>
+<td colspan="7" align="left"><h1>Special Order</h1>
+  <ul>
+    <li>
+    If you have anything you want to specially order from warehouse for you shop, please input the product Barcode and Qty in the block below<br />
+    <br />
+    </li>
+    <li>The products you ordered must <u>exist barcode</u> in our APOS system, if you want to order some product line that we currently do not have , using the "Inquiry New Products" Form in the Company Information Page<br />
+      <br />
+    </li>
+    <li><b>Please bear in mind,you DO NOT NEED to order products sold CURRENT WEEK.</b>
+      <br />
+      <br />
+    </li>
+    <li>You may input as many words as you wish in the block below, there is words no limits </li>
+  </ul></td>
+</tr>
+<tr>
+  <td colspan="7" align="center">
+  <?php
+  $idSpOrder = 0;
+  $staffName = "";
+  $spOrder = "";
+   
+  if($this->soLine){
+	  $soLine = $this->soLine;
+	  $idSpOrder = $soLine['id_order'];
+	  $staffName = $soLine['staff_name'];
+	  $spOrder = $soLine['order_comment'];
+	  }
+  ?>
+  <label for="special_order">Example: </label>
+    8806085580695 x 1pcs, SAI9500HC101-12 x 3pcs<br />
+    <textarea name="special_order" id="special_order" cols="90" rows="8"><?php echo $spOrder;?></textarea>
+    <br />
+    <br />
+    Input Your Name:
+    <label for="staff_name"></label>
+    <input type="text" name="staff_name" id="staff_name" value="<?php echo $staffName;?>"  />
+    <input type="hidden" name="id_sp_order" id="id_sp_order" value="<?php echo $idSpOrder?>">
+    <br />
+<br />
+    <span style="font-size:12px;">Product in APOS Only,Do not order Current Week Sold Product, Do not Order Stationary, Do not Order Repair Parts Here</span></td>
+</tr>
+<tr>
+  <td colspan="7" align="center"><input name="submit" type="submit" /></td>
+</tr> 
+  </form>
+</table>
+</body>
+</html>

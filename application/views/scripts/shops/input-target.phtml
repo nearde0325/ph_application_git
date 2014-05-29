@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1>INPUT Shop Weekly Target </h1>
+<table width="950"  cellspacing="1" cellpadding="5">
+<form method="post" >
+  <tr>
+    <th scope="col">Shop</th>
+    <th scope="col">Date Begin</th>
+    <th scope="col">Date End</th>
+    <th scope="col">Target</th>
+  </tr>
+<?php
+$shopArr = array("ADPC","BBPC","BHPC","BSPC","BSIC","CBPC","CLPC","EPPC","KCPC","NLPC","PMPC","SLIC","WBPC","WBIC","WLIC","WGIC","WGPC","CSIC","CLIC","DCIC","PMIC","BSXP","FGIC","HPIC");
+		
+		
+foreach($shopArr as $key => $v){
+?>  
+  <tr>
+    <td>
+      <input type="text" name="shop_code[<?php echo $key?>]" id="shop_code<?php echo $key?>" value="<?php echo trim($v)?>" readonly="readonly" /></td>
+    <td>
+    <?php
+	if($key==0){
+	 ?>
+      <input type="text" name="date_begin" id="date_begin" />
+    <?php } ?>  
+      </td>
+    <td>
+    <?php
+	if($key==0){
+	 ?>
+    <input type="text" name="date_end" id="date_end" />
+    
+     <?php } ?>  
+    </td>
+    <td>
+      <input type="text" name="target[<?php echo $key?>]" id="target<?php echo $key?>" />
+      $</td>
+  </tr>
+<?php }?>  
+<tr>
+<td colspan="4" align="center" valign="middle">Password: 
+  <label for="password"></label>
+  <input type="password" name="password" id="password" />
+   <input type="submit" name="button" id="button" value="Submit" /></td>
+</tr>
+</form>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

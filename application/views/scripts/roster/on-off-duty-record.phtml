@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<?php
+$status = 1;
+if(!$this->errorFlag){
+?>
+<table width="500" border="0" cellspacing="0" cellpadding="10" align="center">
+  <tr>
+    <td align="center"><br />
+      you status now is
+      <?php
+      if(isset($_POST["btn_on_duty"]) && $_POST["btn_on_duty"] =="On Duty" ){
+		  $status = 1; 
+	  ?>
+      <span style="color:#060; border:#030 solid 1px; padding:5px; background-color:#89EB96">On Duty</span>
+      <?php 
+	  }
+	 elseif(isset($_POST["btn_off_duty"]) && $_POST["btn_off_duty"] =="Off Duty" ){
+	 $status = 2; 
+	 ?>
+      <span style="color:#900; border:#300 solid 1px; padding:5px; background-color:#FCB1B4">Off Duty</span> changed on:
+      <?php }
+	 
+	  ?>
+      <br />
+      <br />
+      <span style="font-size:27px">
+      <?php
+     echo Model_DatetimeHelper::dateToday();
+	 echo " ";
+	 if($_POST["shophead"]=="ADPC" || $_POST["shophead"]=="CLPC" || $_POST["shophead"]=="WLIC" || $_POST["shophead"]=="CLIC"){
+		 date_default_timezone_set('Australia/Adelaide');
+		 echo date("H:i:s");
+		 }
+	else{	 
+	 echo Model_DatetimeHelper::timeNow();
+	}
+	 ?>
+      </span></td>
+  </tr>
+  <?php if(!$this->shiftRecord){?>
+  <tr>
+    <td bgcolor="#FEDADD" style="border:#603 1px solid;" align="center" >Shift NOT Arranged<br />
+      Please Input your Shift in This Shop:<strong>
+      <?=trim($_POST["shophead"])?>
+      </strong> for TODAY ONLY<br />
+      <br />
+      <form action="" method="post">
+      
+      
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tr>
+          <th scope="col">Shift Start</th>
+          <th scope="col"><label for="select"></label>
+            <select name="shift_start_hour" id="shift_start_hour">
+              <option value="07">07</option>
+              <option value="08">08</option>
+              <option value="09" selected="selected">09</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>              
+            </select>
+            :
+            <select name="shift_start_min" id="shift_start_min">
+              <option value="00">00</option>
+              <option value="15">15</option>
+              <option value="30">30</option>
+              <option value="45">45</option>
+            </select></th>
+          <th scope="col">Shift End</th>
+          <th scope="col"><select name="shift_end_hour" id="shift_end_hour">
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17" selected="selected">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+          </select>
+          :
+          <select name="shift_end_min" id="shift_end_min">
+            <option value="00">00</option>
+            <option value="15">15</option>
+            <option value="30" selected="selected">30</option>
+            <option value="45">45</option>
+            <option value="59">59</option>
+          </select></th>
+        </tr>
+        <tr>
+        <td colspan="4" align="center"><br />
+        
+        
+        <input name="std" type="hidden" value="<?=$this->staffId?>" />
+        <input name="shophead" type="hidden" value="<?=trim($_POST["shophead"])?>"  />
+        <input name="on_off_status" type="hidden" value="<?=$status?>" />
+        <input name="event_time" type="hidden" value="<?=$this->eventTime?>">
+        <input name="btn_save_shift" type="submit" value="Save" /></td>
+        </tr>
+      </table>
+      </form>
+      </td>
+  </tr>   
+<?php }?>  
+</table>
+<?php 
+//var_dump($this->needExplainOn);
+//var_dump(($this->shiftRecord && $this->needExplainOn));
+if($this->shiftRecord && $this->needExplainOn) {?>
+<table width="500" border="0" cellspacing="0" cellpadding="10" align="center">
+  <tr>
+    <td bgcolor="#FEDADD" style="border:#603 1px solid;" align="center">
+    <form id="form1" name="form1" method="post" action="">
+  <label for="staff_comment"><br />
+    Hi,  you came little bit early, right? Would you like tell me what it is for?<br />
+    <br />
+  </label>
+  <textarea name="staff_comment" id="staff_comment" style="width:95%" rows="4"></textarea>
+  <br />
+
+  <input name="std" type="hidden" value="<?=$this->staffId?>" />
+  <input name="shophead" type="hidden" value="<?=trim($_POST["shophead"])?>"  />
+  <input name="come_really_early_time" type="hidden" value="<?=$this->comeReallyEarlyTime?>"  />
+  <input name="id_timesheet" type="hidden" value="<?=$this->timeSheetID?>"  />
+  <input type="submit" name="btn_event_explain" id="btn_event_explain" value="Save" />
+  <br />
+
+</form></td>
+  </tr>
+</table>
+<?php }?>
+<br />
+<br />
+<?php if($this->shiftRecord && $this->notifyManager) {?>
+<table width="500" border="0" cellspacing="0" cellpadding="10" align="center">
+  <tr>
+ <td bgcolor="#FCFAA9" style="border:#603 1px solid;" align="center">     
+ 
+ <?php switch($this->lateTime){
+     case(1):{echo "Bad traffic… I knew, don't worry this is only the first time you late this week.";break;}
+     case(2):{echo "Ok…this is already the second time you login late this week, should you have any problems or technical issue, you need to let us know.";break;}
+	 case(3):{echo "I am sorry but this is the third time you late this week, you manger has been notified ";break;} 
+	 case(4):{echo "This is the 4th Time you late this time,my assumption is system error";break;} 
+	 case(5):{echo "This is the 5th Time you late this time,my assumption is system error";break;} 
+	 case(6):{echo "This is the 6th Time you late this time,my assumption is system error";break;}
+	 case(7):{echo "This is the 7th Time you late this time,my assumption is system error";break;}  
+ }?>    
+ </td>
+  </tr>
+</table>
+
+<?php }?>
+<?php if($this->shiftRecord && $this->needBreakOff) {?>
+<table width="500" border="0" align="center" cellpadding="10" cellspacing="0">
+  <tr>
+    <td bgcolor="#FEDADD" style="border:#603 1px solid;" align="center"><form id="form2" name="form1" method="post" action="">
+ How long did you take you break in this shift?<br /><br />
+ <div style="text-align:left; margin-left:20px;">
+          <input type="radio" name="break_time" id="break_time" value="<?=BREAK_30_MIN?>" />
+          I took 30 mins break<br />
+          <input type="radio" name="break_time" id="no_break" value="<?=BREAK_NO_BREAK?>" />
+          I did not take any break because this shift is less than 5 hours<br /> 
+ 
+ </div>
+
+          <br />
+          <?php if($this->needExplainOff){
+		
+		if($this->leaveEarlyNormal){
+			echo "It seems you leave little bit early than the schedule, would you like to inform me what is about?  ";
+			echo '<input name="ind_leave_early" value="'.FINISH_EARLY.'" type="hidden" />';
+			}   
+	   if($this->leaveReallyLate){
+		   echo '<input name="ind_leave_late" value="'.FINISH_REALLY_LATE.'"  type="hidden" />';
+		   echo 'What a day!! I understand you must be hurry for home, but could you tell me what kept you so late? Many Thanks :)';
+		   }
+	   
+	   ?> 
+			<br />
+
+          <textarea name="staff_comment" id="staff_comment" style="width:95%" rows="4"></textarea>
+          <br />
+          <br />
+		  <?php }?>
+          <input name="std" type="hidden" value="<?=$this->staffId?>" />
+          <input name="shophead" type="hidden" value="<?=trim($_POST["shophead"])?>"  />
+          <input name="time_leave_event" type="hidden" value="<?=$this->timeLeaveEvent?>"  />
+          <input name="id_timesheet" type="hidden" value="<?=$this->timeSheetID?>"  />
+          
+          <input type="submit" name="btn_break_time" id="btn_break_time" value="Save" />
+          
+  
+    </form></td>
+  </tr>
+</table>
+<?php }?>
+<table width="500" border="0" cellspacing="0" cellpadding="10" align="center" style="border:#060 1px solid;">
+  <tr>
+    <td align="center" bgcolor="#C6FCC5"><?=$this->message ?>
+      <br />
+      <br />
+     <?php if($this->shiftRecord) {
+		 $row = $this->shiftRecord
+		 ?>
+      Your Shift &quot;Arranged &quot;in This Shop: <strong><?=trim($_POST["shophead"])?>
+      </strong> for TODAY as below<br />
+      <br />
+      <table width="100%" border="0" cellspacing="0" cellpadding="5" align="center">
+        <tr>
+          <th scope="col">Shift Start</th>
+          <th scope="col"><label for="select2"></label>
+          <?php 
+		  if($_POST["shophead"]=="ADPC" || $_POST["shophead"]=="CLPC" || $_POST["shophead"]=="WLIC" || $_POST["shophead"]=="CLIC"){
+		  date_default_timezone_set('Australia/Adelaide');
+		  }
+		  else{
+			  
+		   date_default_timezone_set('Australia/Melbourne');
+		  }
+		  ?>
+          
+            
+           <?php echo  date("H:i",$row["shift_begin"]);  ?>           </th>
+          <th scope="col">Shift End</th>
+          <th scope="col">
+          <?php echo  date("H:i",$row["shift_end"]);  ?>           </th>
+        </tr>
+        <tr>
+          <td colspan="4" align="center">You may not change it Here<br />
+            <br />
+          <?php if($this->showBreakMessage){?>
+          <div style="width:90%; border:#060 solid 2px; padding:10px; color:#030;" >
+          <h3>You are entitled to have a break</h3>
+          Dear staff,please be notified according fair work's regulation, you are entitle to have a break if you working longer than <strong>5 hours </strong>.According our company policy, the break time is mandatory, please refer latest our company document for detail</div>
+          <?php }?>
+          <br /></td>
+        </tr>
+      </table>
+            
+<?php }?>  
+<br />
+<br />
+
+
+    <a href="/cpInfo/hp_<?php echo (trim($_POST["shophead"]) == "WHPC")?'COPC':trim($_POST["shophead"]);?>.php#c">Return to Company Information Page</a>   
+    <br /><br />
+
+   <em style="font-size:11px; color:#444;">Dear staff,the time we gathered is from the server not the computer you are using, the message is based on the time you click the &quot;On Duty&quot; and &quot;Off Duty&quot; button, if you are experiencing technical difficulties , please notify head office for technical support immediatelly<br /></em>
+    
+    </td>
+  </tr>
+</table>
+<?php 
+}
+
+if($this->errorFlag){
+?>
+<table width="500" border="0" cellspacing="0" cellpadding="10" align="center" style="border:#603 1px solid;">
+  <tr>
+    <td align="center" bgcolor="#FEDADD"><?=$this->errorMessage ?></td>
+  </tr>
+</table>
+<?php 
+}
+?>
+</body>
+</html>

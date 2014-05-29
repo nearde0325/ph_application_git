@@ -1,0 +1,115 @@
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 ,beforeShowDay: function(date){ return [date.getDay() == 1,""]}});
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 ,beforeShowDay: function(date){ return [date.getDay() == 0,""]}});
+	});
+	</script>
+<body style="font-family:Arial, Helvetica, sans-serif">    
+<form action="" method="get">
+  <p>Begin 
+    <input name="date_begin" id="date_begin" type="text">
+    
+  </p>
+  <p>End 
+    <input name="date_end" id="date_end" type="text">
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    <input type="submit" name="button" id="button" value="Submit">
+  </p>
+</form>
+Missing Shop<br />
+<?php
+date_default_timezone_set('Australia/Melbourne');
+$stDetail= new Model_DbTable_Roster_Stafflogindetail();
+var_dump($this->missingShops);
+?>
+<br />
+<br />
+
+<table width="1300" border="0" cellspacing="1" cellpadding="5" bgcolor="#333333">
+  <tr>
+    <th bgcolor="#FFFFFF" scope="col">Staff</th>
+    <th bgcolor="#FFFFFF" scope="col">Shop</th>
+    <th bgcolor="#FFFFFF" scope="col">Date</th>
+    <th bgcolor="#FFFFFF" scope="col">Man Confirm<br />
+    Begin</th>
+    <th bgcolor="#FFFFFF" scope="col">Man Confirm<br />
+    End</th>
+    <th bgcolor="#FFFFFF" scope="col">Staff Fill<br />
+    Begin</th>
+    <th bgcolor="#FFFFFF" scope="col">Staff Fill<br />
+    End</th>
+    <th bgcolor="#FFFFFF" scope="col">Actual On</th>
+    <th bgcolor="#FFFFFF" scope="col">Actual Off</th>
+    <th bgcolor="#FFFFFF" scope="col">Adjustment</th>
+  </tr>
+<?php 
+foreach($this->arrResult as $key => $v){
+	$errArr = explode(",",$v["error"]);
+?>  
+  <tr>
+    <td bgcolor="#FFFFFF"><?php
+    
+    $stDLine = $stDetail->getDetail($v["id_staff"]);
+    
+    if($stDLine["ni"]!=""){
+    	echo ucwords($stDLine["ni"]);
+    } 
+    else{
+		echo ucwords(Model_EncryptHelper::getSslPassword($stDLine["n"]));
+    }
+	?></td>
+    <td bgcolor="#FFFFFF"><?=$v["shop_head"]?></td>
+    <td bgcolor="#FFFFFF"><?php echo  date("Y-m-d",$v["confirm_shift_begin"])?></td>
+    <td bgcolor="#FFFFFF"><?php echo date("H:i",$v["confirm_shift_begin"])?></td>
+    <td bgcolor="#FFFFFF"><?php echo date("H:i",$v["confirm_shift_end"])?></td>
+    <td
+    <?php echo $color1 =(date("H:i",$v["confirm_shift_begin"]) != date("H:i",$v["shift_begin"]))?'bgcolor="#55AAFF"':'bgcolor="#FFFFFF"';
+	?>
+    ><?php echo date("H:i",$v["shift_begin"])?></td>
+    <td
+    <?php echo $color2 =(date("H:i",$v["confirm_shift_end"]) != date("H:i",$v["shift_end"]))?'bgcolor="#55AAFF"':'bgcolor="#FFFFFF"';
+	?>
+    ><?php echo date("H:i",$v["shift_end"])?></td>
+    <td 
+    <?php echo $color3 =( (date("H:i",$v["on_duty"]) <= date("H:i",$v["confirm_shift_begin"])) && $v["on_duty"]!="" )?'bgcolor="#318E67"':'bgcolor="#DEB363"';
+	?>
+    ><?php  echo $actOn = ($v["on_duty"]== "")?"":date("H:i",$v["on_duty"]) ?></td>
+    <td 
+    <?php echo $color1 =((date("H:i",$v["off_duty"]) >=  date("H:i",$v["confirm_shift_end"])) && $v["on_duty"]!="")?'bgcolor="#318E67"':'bgcolor="#DEB363"';
+	?>
+    
+    ><?php  echo $actOff = ($v["off_duty"]== "")?"":date("H:i",$v["off_duty"]) ?></td>
+    <td bgcolor="#FFFFFF" >
+      <form name="form1" method="post" action="/rosteraudit/list-problems?date_begin=<?=$_GET["date_begin"]?>&date_end=<?=$_GET["date_end"]?>">
+      <input name="id_sheet" value="<?=$v["id_sheet"]?>" type="hidden" />
+      <?php 
+	  $adjhour = ($v["admin_adjust"] != null )?$v["admin_adjust"]/3600:0;
+	  //$adjhour = ($v["admin_adjust"] != null )?$v["admin_adjust"]%3600:0;
+	  //$adjmin =($v["admin_adjust"] != null )?($v["admin_adjust"] - $adjhour*3600)%60:0; 
+	  ?>
+      <input name="adj_hrs" type="text" id="adj_hrs" style="width:30px" value="<?=$adjhour?>">
+      hrs
+      <!--<input name="adj_min" type="text" id="adj_min" style="width:30px" value="<?=$adjmin?>">
+      mins-->
+      <input name="" type="submit" value="ok">
+          <?php 
+	if($v["admin_adjust"] != null ){
+	?>
+    <img src="/im/clicked.jpg" height="15" width="20" />
+    <?php	
+		}
+	?>
+    </form>
+
+    </td>
+  </tr>
+<?php 
+}
+?>  
+</table>
+</body>

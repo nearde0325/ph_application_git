@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:11px;">
+<h3><?=$this->fslNo?>
+<br />
+Credit Note [<?=$_POST["credit_note"]?>] ,Received on date: <?=$this->date?> Sign By:__________________ </h3>
+<?php
+$tmpArr = array();
+$faultyProduct = new Model_DbTable_Faultyproduct();
+$fStatus = new Model_DbTable_Faulty_Status();
+foreach($_POST["arr_action"] as $k => $v){
+$fpRow = $faultyProduct->getFaultyProduct($v);	
+$tmpArr[] = trim(strtoupper($fpRow["product_code_faulty"]));
+}
+$arrResult = array_count_values($tmpArr);
+ksort($arrResult);
+?>
+<table width="650" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>ID</td>
+    <td>BarCode</td>
+    <td style="width:350px;">Name</td>
+    <td style="width:50px;">Qty</td>
+    <td style="width:50px;">Sp RMA ID</td>
+  </tr>
+<?php 
+foreach($_POST["arr_action"] as $k => $v){
+	$fpRow = $faultyProduct->getFaultyProduct($v);	
+?>
+  <tr>
+    <td><?=$v?></td>
+    <td>
+    <?php 
+	echo trim(strtoupper($fpRow["product_code_faulty"]));
+	?>
+    </td>
+    <td><?php
+    echo $faultyProduct->findFaultyProductName(trim(strtoupper($fpRow["product_code_faulty"])),"2012-01-01",$this->date);
+	?></td>
+    <td><?=$fpRow["faulty_qty"]?></td>
+    <td>
+    <?php
+    $st = $fStatus->getSupplierRma($v);
+	echo $st["sp_rma"];
+	?>
+    </td>
+  </tr>
+<?php }?>
+</table>
+</body>
+</html>

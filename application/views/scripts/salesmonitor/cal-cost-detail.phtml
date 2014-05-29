@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+
+<h2>Cost Summary (Will take about 1-2 mins)</h2>
+<form action="" method="post">
+  <label for="textfield"></label>
+  Date Begin:<input type="text" name="textfield" id="textfield" />
+  Week Choice: Next 4 Weeks 
+  <input name="" type="submit" />
+</form>
+<br />
+<table width="1000" border="1" cellspacing="1" cellpadding="5">
+  <tr>
+    <th scope="col">Barcode</th>
+    <th scope="col" width="200">Des</th>
+    <th scope="col">Unit/P</th>
+    <th scope="col">Qty</th>
+    <th scope="col">Net/Total</th>
+    <th scope="col">Act/Total</th>
+    <th scope="col">Unit/Cot</th>
+    <th scope="col">Total /Cost</th>
+    <th scope="col">%</th>
+  </tr>
+<?php 
+$pro = new Model_DbTable_Productsva();
+foreach($this->arrCanCal as $key => $v){?> 
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td><?php 
+    echo $pro->getProductNameByCode($v[0]);
+    ?></td>
+    <td><?php 
+    echo $v[1];
+    ?></td>
+    <td><?php echo (int)$v[2]?></td>
+    <td><?php echo $v[1] * $v[2]?></td>
+    <td><?php echo $v[3]?></td>
+    <td>$<?php echo round($v[4],2)?> (<?php echo $v[5] ?>)</td>
+    <td>$<?php echo round($v[4] * $v[2],2)?></td>
+    <td><?php 
+    if($v[3]>0){
+    echo Round($v[4] * $v[2] / $v[3] * 100,2);
+    } ?>%</td>
+  </tr>
+<?php }?>  
+</table>
+
+</body>
+</html>

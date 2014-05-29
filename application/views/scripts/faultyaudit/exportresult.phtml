@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<?php 
+function getDirectoryList ($directory)
+{
+
+	// create an array to hold directory list
+	$results = array();
+
+	// create a handler for the directory
+	$handler = opendir($directory);
+
+	// open directory and walk through the filenames
+	while ($file = readdir($handler)) {
+
+		// if file isn't this directory or its parent, add it to the results
+		if ($file != "." && $file != "..") {
+			$results[] = $file;
+		}
+
+	}
+
+	// tidy up: close the handler
+	closedir($handler);
+
+	// done!
+	return $results;
+
+}
+
+$fProduct = new Model_DbTable_Faultyproduct();
+
+date_default_timezone_set('Australia/Melbourne');
+$dateToday = date("Y-m-d");
+
+
+$w4DateEnd =  new DateTime(date("Y-m-d",strtotime($dateToday)));
+date_sub($w4DateEnd ,date_interval_create_from_date_string('28 days'));
+$dateBegin = date_format($w4DateEnd ,'Y-m-d');
+
+$dateRangeRow = $fProduct->getAuditDate($dateBegin, $dateToday);
+//var_dump($dateRangeRow);
+
+?>
+<body  style="font-family:Arial;">
+<form id="form1" name="form1" method="post" action="">
+<span style="color:#999; font-size:12px;">Date Range of Audit Date within 4 Weeks include Today:</span><br />
+<br />
+
+Start Date(Inc) :
+<select name="date_begin" id="date_begin">
+<?php 
+foreach($dateRangeRow as $key => $value){
+?>
+<option value="<?php echo $value['audit_date']?>"><?php echo $value['audit_date']?></option>
+<?php	
+}
+?>
+</select>
+End Date(Inc) :
+<select name="date_end" id="date_end">
+<?php 
+foreach($dateRangeRow as $key => $value){
+?>
+<option value="<?php echo $value['audit_date']?>"><?php echo $value['audit_date']?></option>
+<?php	
+}
+?>
+</select>
+<input type="submit" name="button" id="button" value="create" />
+<br />
+<br />
+</form>
+<br />
+File For Download:<hr/>
+<?php
+$arrFiles = getDirectoryList (getcwd().'/rmaexport/'); 
+
+$arrFileOrders = array(); 
+
+//var_dump($arrFiles);
+
+foreach ($arrFiles as $key => $value){
+	$intTime = filemtime(getcwd().'/rmaexport/'.$value);
+	$arrFileOrders[$intTime] = $value;
+	
+	}
+krsort($arrFileOrders);
+//var_dump($arrFileOrders);	
+foreach ($arrFileOrders as $k2 => $v2){
+	$arrFN = explode(".",$v2);
+	if($arrFN[1] == "csv"){
+		echo "<a href=\"/rmaexport/./$v2\">".$v2."</a> - ";
+		echo "<a href=\"/rmaexport/delfile.php?fne=".$v2."\" target=\"_blank\"> DELETE </a>";
+		echo "<br />";	
+	}
+	
+}
+
+
+/*
+ * 	$arrFN = explode(".",$value);
+	if($arrFN[1] == "csv"){
+		echo "<a href=\"/rmaexport/./$value\">".$value."</a> - ";
+		echo "<a href=\"/rmaexport/delfile.php?fne=".$value."\" target=\"_blank\"> DELETE </a>";
+		echo "<br />";
+ * 
+ * 
+ * */	
+	
+?>
+
+</body>
+</html>

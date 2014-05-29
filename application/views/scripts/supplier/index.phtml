@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8 " />
+<title>Supplier Names</title>
+</head>
+<body>
+供货商名称,如果希望添加供货商 请 点击 <a href="/supplier/add-supplier">这里</a> | 添加<a href="/supplier/list-sample">样品 </a>（如果样品来自新的供货商，请添加供货商）<br />
+<br />
+<table width="600" border="1" cellspacing="2" cellpadding="2">
+  <tr>
+    <td bgcolor="#CCCCCC">ID</td>
+    <td bgcolor="#CCCCCC">全称</td>
+    <td bgcolor="#CCCCCC">简写</td>
+  </tr>
+<?php
+foreach($this->supplierlist as $key => $value){
+?>
+  <tr>
+    <td><?php echo $value['id_supplier'];?>
+    </td>
+    <td><?php echo $value['title_supplier'];?></td>
+    <td><?php echo $value['short_title'];?></td>
+  </tr>
+<?php
+}
+?>    
+  <tr>
+    <td bgcolor="#CCCCCC">ID</td>
+    <td bgcolor="#CCCCCC">全称</td>
+    <td bgcolor="#CCCCCC">简写</td>
+  </tr>
+</table>
+
+
+</body>
+</html>

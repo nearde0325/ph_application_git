@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+/* <![CDATA[ */
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+/* ]]> */
+
+
+</style>
+<link rel="stylesheet" href="/js/chosen/chosen2.css" />
+<script>
+function show(){
+document.getElementById('begin_st').style.display = null;
+}
+</script>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<?php $oList = $this->oList; ?>
+
+<h1>Repair Parts Order Stock Take (Finish Before Ordering)</h1>
+<h2>Are you confidence to recognize all the repair parts?<br />
+</h2>
+
+    <input type="submit" name="button" id="button" value="No, I am not familiar with repair parts, I will call my manager" style="background:#F99; font-size:18px; border:#900 2px solid;" />
+
+  <input type="submit" name="button2" id="button2" value="Yes, Begin the stocktake now" style="background:#80FF80; font-size:18px; border:#060 2px solid;" onclick="show();" 
+  <?php echo ($this->errorMessage == "")?'':'disabled="disabled"'?>
+   /><br />
+
+<?php 
+if($this->errorMessage == ""){
+?>	
+Good!! You have fix all the Errors ,You Must <a href="/repairparts/last-week-parts-sales/shop/<?php echo $this->idShop;?>">Click this Link &quot;ONCE&quot; </a>Then Begin The Stock Take<br />
+
+<?php	
+	}
+else{
+echo "Please Fixing The Following Errors:<br />".$this->errorMessage;	
+	}	
+
+?><br />
+
+<form id="form1" name="form1" method="post" action="">
+
+<h1>No.: <?php echo $oList[0]["part_order_number"]; ?><input type="hidden" name="part_order_number" value="<?php echo $oList[0]["part_order_number"]; ?>" /><br />
+<?php 
+	$rOrder = new Model_DbTable_Pr_Order();
+?>
+
+</h1>
+
+<ul>
+  </ul>
+  <table width="880" cellspacing="1" cellpadding="0" id="begin_st" style="display:none;">
+      
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Part</th>
+      <th colspan="2"  style="width:300px;" scope="col">Description</th>
+      <th scope="col">Stock<br />
+      On Hand       <span style="font-size: 12px"> </span></th>
+      <th scope="col">
+        Actual Stock<br />
+        On Hand       <span style="font-size:8px"></span></th>
+    </tr>
+  <?php 
+	$rProduct = new Model_DbTable_Pr_Prproducts();
+
+ foreach($this->oList as $orderRow) {
+	 if($orderRow["code_product"]!="SERVICE"){
+	 ?> 
+  <tr>
+    <td><?php echo $orderRow["id_product"]?></td>
+    <td><?php echo $orderRow["code_product"]?></td>
+    <td colspan="2"><span style="font-size:12px;"><?php echo $rProduct->getProductDes($orderRow["code_product"])?></span></td>
+    <td align="center"><?php echo $orderRow["qty_onhand"]?></td>
+    <td align="center">
+      <input type="text" name="qty_onhand_cf[<?php echo $orderRow["id_order"]?>]" id="qty_onhand_cf<?php echo $orderRow["id_order"]?>" style="width:50px;" value="<?php echo $orderRow["qty_onhand_cf"]?>" /></td>
+    </tr>
+  <?php } } ?> 
+  <?php
+?> 
+  <tr>
+    <td colspan="6" align="right" style="padding:20px;" ><label for="staff_name"></label>
+    Your Attendance Password:
+        <input type="password" name="staff_name_stocktake" id="staff_name_stocktake" /><input type="hidden" name="arr_ext_order" id="arr_ext_order" value="<?php echo $this->arrExtOrder;?>" /> 
+      <br />
+      
+      
+      <br />
+      <?php if($this->resultPass){?>
+       <input name="btn_save_st" type="submit" id="btn_save_st" value="Save Stock Take Result,Send To Manager" />
+      <?php }else{ ?>
+       <h2>You Must Finish Record All Your Repair Job Parts Record Or Set The Job To "NOT START YET" Status To Keep The Accurate Of the Stock Take. You will Not able to Proceed to Next Step Before You Finish That Part, Please go to your repair center to finish parts record First (For All repair Job)</h2>    
+      <?php }?>
+      &nbsp;&nbsp;&nbsp; <br /></td>
+    </tr>
+  
+</table>
+ </form>
+</body>
+</html>

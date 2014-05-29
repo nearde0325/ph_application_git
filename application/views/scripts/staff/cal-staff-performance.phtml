@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+		<script type="text/javascript" language="javascript" src="/js/jquery.js"></script>
+<!--<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>-->
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+
+		<script type="text/javascript" language="javascript" src="/js/jquery.dataTables.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function() {
+				$('#example').dataTable( {
+					"sPaginationType": "full_numbers",
+					"iDisplayLength": -1,
+					"aLengthMenu": [[50,100,200, -1], [50, 100, 200, "All"]]
+				});
+			} );
+		</script>
+
+		<style type="text/css" title="currentStyle">
+			@import "/css/demo_page.css";
+			@import "/css/demo_table.css";
+		</style>
+        
+<style type="text/css">
+.hasTooltip {
+    position:relative;
+}
+.hasTooltip span {
+    display:none;
+}
+
+.hasTooltip:hover span {
+    display:block;
+    background-color:#888;
+    border-radius:1px;
+    color:white;
+    box-shadow:1px 1px 2px gray;
+    position:absolute;
+    padding:5px;
+    top:0px;
+    left:45px;   
+    width:250px; /* I don't want the width to be too large... */
+	/*white-space: nowrap; */
+}	
+</style>
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+	});
+	</script>
+<H1>Staff Performance Step 1</H1>
+<h3>
+<?php
+echo "SHOP: ".$this->shop." ".$this->dateBegin." - ".$this->dateEnd;
+?>
+</h3>
+<form action="" method="post">
+  <p>Shop: <select name="shop"  id="shop">
+    
+    <?php 
+	$shopArr = array("ADPC","BBPC","BHPC","BSPC","BSIC","CBPC","CLPC","EPPC","KCPC","NLPC","PMPC","SLIC","WBPC","WBIC","WLIC","WGIC","WGPC","CSIC","CLIC","DCIC","PMIC","BSXP","FGIC","HPIC");
+	foreach($shopArr as $v){ ?> 
+    <option value="<?php echo $v?>" 
+    <?php 
+	if($v == $this->shop){echo 'selected="selected"';}
+	?>
+    ><?php echo $v ?></option>
+ <?php  } ?> 
+</select>
+     
+  Date Begin [yyyy-mm-dd]:
+    <input name="date_begin" id="date_begin" type="text" />  Date End:<input name="date_end" id="date_end" type="text" /> |  <input type="submit" name="button" id="button" value="Submit" />
+  </p>
+</form>
+<h1>Summary List </h1>
+<table width="1000" border="0" cellspacing="1" cellpadding="5">
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Name</th>
+    <th scope="col">Total Sales</th>
+    <th scope="col">Total Hr</th>
+    <th scope="col">Total Unit</th>
+    <th scope="col">Tol Invoices</th>
+
+  </tr>
+<?php foreach($this->arrRes as $v){?>  
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td><?php echo $v[1]?></td>
+    <td>$ <?php echo $v[2]?></td>
+    <td><?php echo ($v[3] > 0)?$v[3]:" - "?></td>
+    <td><?php echo (int) $v[4]?></td>
+    <td><?php echo $v[5]?></td>
+  </tr>
+<?php }?>  
+</table>
+<h1>Performance KPI List </h1>
+<div style="width:1200px; text-align:left;">
+<table width="1000" border="0" cellspacing="1" cellpadding="5" id="example">
+<thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Name</th>
+    <th scope="col">Sales /Hr</th>
+    <!--<th scope="col">Unit /Hr</th>-->
+    <th scope="col">Invoices /Hr</th>
+    <th scope="col">Sales /Invos</th>
+    <th scope="col">Unit /Invos</th>
+  </tr>
+ </thead>
+ <tbody> 
+<?php foreach($this->arrRes2 as $v2) {?>  
+  <tr>
+    <td><?php echo ($v2[0] > 0)?$v2[0]:" - "?></td>
+    <td><?php echo $v2[1] ?></td>
+    <td><?php echo ($v2[2] > 0)?$v2[2]:" - "?></td>
+    <!--<td><?php echo ($v2[3] > 0)?$v2[3]:" - "?></td>-->
+    <td><?php echo ($v2[4] > 0)?$v2[4]:" - "?></td>
+    <td><?php echo ($v2[5] > 0)?$v2[5]:" - "?></td>
+    <td><?php echo ($v2[6] > 0)?$v2[6]:" - "?></td>
+  </tr>
+<?php }?>  
+</tbody>
+</table>
+</div>
+<p>&nbsp;</p>
+</body>
+</html>

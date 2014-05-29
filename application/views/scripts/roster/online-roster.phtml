@@ -1,0 +1,652 @@
+<?php
+header("Expires: Mon, 26 Jul 1970 05:00:00 GMT");      
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");      
+header("Cache-Control: no-cache, must-revalidate");      
+header("Pragma: no-cache"); 
+?>
+<style>
+.addstaff{
+	display:none;
+	}
+#scrollDiv{position:fixed;left:50px;top:10px; width:720px; background-color:#EEEEEE; padding:10px;}
+* html #scrollDiv{ width:720px; top:expression(eval(document.body.scrollTop)); background-color:#EEEEEE; padding:10px;}
+
+#scrollDiv2{position:fixed;left:790px;top:10px; width:650px; background-color:#EEEEEE; padding:10px;}
+* html #scrollDiv2{ width:650px; top:expression(eval(document.body.scrollTop)); background-color:#EEEEEE; padding:10px;}
+
+.attn{
+	background-color:#FF8080;	
+}
+</style>
+
+<?php 
+date_default_timezone_set('Australia/Melbourne');
+
+$stDetail = new Model_DbTable_Roster_Stafflogindetail();
+$opnHr = new Model_DbTable_Roster_Shopopenhour();
+
+
+$jsFile = "roster_js_0527.js";
+$exceed_flag = false;
+$viewArrResult = $this->arrResultLive;
+$totalHours = 0;
+$hourLimits = 0;
+
+ ?>
+<link rel="stylesheet" href="/js/chosen/chosen.css" />
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<?php if($this->su =="unlimiteds"){ ?>
+<div id="scrollDiv2">
+<form action="/roster/save-su-timesheet" method="post" target="_blank" >
+<table width="800" border="0" cellspacing="1" cellpadding="10" bgcolor="#000000">
+    <tr>
+      <th bgcolor="#FFFFFF" scope="col">Staff Name</th>
+      <th bgcolor="#FFFFFF" scope="col">Shop Code </th>
+      <th bgcolor="#FFFFFF" scope="col">Date</th>
+      <th bgcolor="#FFFFFF" scope="col">Shift Begin</th>
+      <th bgcolor="#FFFFFF" scope="col">Shift End</th>
+    </tr>
+    <tr>
+    <td colspan="5" bgcolor="#999999"><span style="font-size:12px;">If The Staff Name is not selected, the corresponse shift time will be ignored</span></td>
+    </tr>
+  <tr>
+    <td bgcolor="#FFFFFF"><select name="staff_name_1" data-placeholder="Staff Name" class="chzn-select" style="width:200px" id="staff_name_1">
+      <option value=""></option>
+      <?php foreach($this->stList as $k => $v) {?>
+      <option value="<?=$v["id"]?>">
+        <?=ucwords($v["ni"])?>
+        .
+        <?=chr($v["il"]+64)?> ( <?=ucwords(Model_EncryptHelper::getSslPassword($v["n"]))?> )
+        </option>
+      <?php } ?>
+    </select></td>
+    <td bgcolor="#FFFFFF"><label for="select2"></label>
+      <select name="shop_code" id="shop_code">
+        <option value="" selected >-Shop-</option>
+        <option value="ADPC">ADPC</option>
+        <option value="BBPC">BBPC</option>
+        <option value="BHPC">BHPC</option>
+        <option value="BSPC">BSPC</option>
+        <option value="BSIC">BSIC</option>
+        <option value="BSXP">BSXP</option>
+        <option value="CBPC">CBPC</option>
+        <option value="CLPC">CLPC</option>
+        <option value="CLIC">CLIC</option>
+        <option value="CSIC">CSIC</option> 
+        <option value="DCIC">DCIC</option>
+        <option value="EPPC">EPPC</option>
+        <option value="FGIC">FGIC</option>
+        <option value="HPIC">HPIC</option>
+        <option value="KCPC">KCPC</option>
+        <option value="NLPC">NLPC</option>
+        <option value="PMPC">PMPC</option>
+        <option value="PMIC">PMIC</option>
+        <option value="SLIC">SLIC</option>
+        <option value="WBPC">WBPC</option>
+        <option value="WBIC">WBIC</option>
+        <option value="WGPC">WGPC</option>
+        <option value="WGIC">WGIC</option>
+        <option value="WLIC">WLIC</option>
+        
+        <option value="HPPC">HPPC</option> 
+      </select></td>
+    <td bgcolor="#FFFFFF"><label for="date"></label>
+      <input name="date" type="text" id="date" value="2013-00-00"></td>
+    <td bgcolor="#FFFFFF"><label for="select"></label>
+      <select name="shift_start_hour_1" id="shift_start_hour_1">
+   	   <option value="00">00</option>
+       <option value="01">01</option>
+       <option value="02">02</option>
+       <option value="03">03</option>
+       <option value="04">04</option>
+       <option value="05">05</option>
+       <option value="06">06</option>
+        <option value="07">07</option>
+        <option value="08">08</option>
+        <option value="09" selected="selected">09</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        </select>
+      <strong>:
+        <select name="shift_start_min_1" id="shift_start_min_1">
+          <option value="00" selected="selected" >00</option>
+          <option value="01" selected="selected" >01</option>
+          <option value="00">05</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+          <option value="30">30</option>
+          <option value="35">35</option>
+          <option value="40">40</option>
+          <option value="45">45</option>
+          <option value="50">50</option>
+          <option value="55">55</option>
+        </select>
+      </strong></td>
+    <td bgcolor="#FFFFFF"><select name="shift_end_hour_1" id="shift_end_hour_1">
+   	   <option value="00">00</option>
+       <option value="01">01</option>
+       <option value="02">02</option>
+       <option value="03">03</option>
+       <option value="04">04</option>
+       <option value="05">05</option>
+       <option value="06">06</option>
+        <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17" selected="selected">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+    </select><strong>:</strong> <select name="shift_end_min_1" id="shift_end_min_1">
+          <option value="00">00</option>
+          <option value="00">05</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+          <option value="30" selected="selected" >30</option>
+          <option value="35">35</option>
+          <option value="40">40</option>
+          <option value="45">45</option>
+          <option value="50">50</option>
+          <option value="55">55</option>
+      <option value="59">59</option>
+    </select></td>
+  </tr>
+  <tr>
+    <td colspan="5" bgcolor="#FFFFFF"><strong>
+      <input type="submit" name="button" id="button" value="Submit">
+      Be Very Careful of This Extra Hour , WIll Add Directly, NO any checking 
+        
+    </strong><strong></strong></td>
+  </tr>
+  </table>
+
+
+</form>
+</div>
+<?php } ?>
+<form name="form_main" method="post" action="" id="form_main">
+
+<br>
+<br>
+<div id="scrollDiv">
+  <table width="600" border="0" cellspacing="1" cellpadding="10" bgcolor="#000000">
+    <tr>
+      <th bgcolor="#FFFFFF" scope="col">Staff Name</th>
+      <th bgcolor="#FFFFFF" scope="col">Shift Begin</th>
+      <th bgcolor="#FFFFFF" scope="col">Shift End</th>
+    </tr>
+    <tr>
+    <td colspan="3" bgcolor="#999999"><span style="font-size:12px;">If The Staff Name is not selected, the corresponse shift time will be ignored</span></td>
+    </tr>
+  <tr>
+    <td bgcolor="#FFFFFF"><select name="staff_name_1" data-placeholder="Staff Name" class="chzn-select" style="width:200px" id="staff_name_1">
+      <option value=""></option>
+      <?php foreach($this->stList as $k => $v) {?>
+      <option value="<?=$v["id"]?>">
+        <?=ucwords($v["ni"])?>
+        .
+        <?=chr($v["il"]+64)?> ( <?=ucwords(Model_EncryptHelper::getSslPassword($v["n"]))?> )
+        </option>
+      <?php } ?>
+    </select></td>
+    <td bgcolor="#FFFFFF"><label for="select"></label>
+      <select name="shift_start_hour_1" id="shift_start_hour_1">
+       <option value="07">07</option>
+        <option value="08">08</option>
+        <option value="09" selected="selected">09</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+      </select>
+      <strong>:
+      <select name="shift_start_min_1" id="shift_start_min_1">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+      </select>
+      </strong></td>
+    <td bgcolor="#FFFFFF"><select name="shift_end_hour_1" id="shift_end_hour_1">
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17" selected="selected">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+    </select><strong>:</strong> <select name="shift_end_min_1" id="shift_end_min_1">
+      <option value="00">00</option>
+      <option value="15">15</option>
+      <option value="30" selected="selected">30</option>
+      <option value="45">45</option>
+      <option value="59">59</option>
+    </select></td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF"><select name="staff_name_2" data-placeholder="Staff Name" class="chzn-select" style="width:200px" id="staff_name_2">
+      <option value=""></option>
+      <?php foreach($this->stList as $k => $v) {?>
+      <option value="<?=$v["id"]?>">
+        <?=ucwords($v["ni"])?>
+        .
+        <?=chr($v["il"]+64)?> ( <?=ucwords(Model_EncryptHelper::getSslPassword($v["n"]))?> )
+        </option>
+      <?php } ?>
+    </select></td>
+    <td bgcolor="#FFFFFF"><select name="shift_start_hour_2" id="shift_start_hour2">
+           <option value="07">07</option>
+        <option value="08">08</option>
+      <option value="09" selected="selected">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+    </select>
+      <strong>:
+      <select name="shift_start_min_2" id="shift_start_min_2">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+      </select>
+      </strong></td>
+    <td bgcolor="#FFFFFF"><select name="shift_end_hour_2" id="shift_end_hour2">
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17" selected="selected">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+    </select>
+      <strong>:</strong>
+      <select name="shift_end_min_2" id="shift_end_min_2">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30" selected="selected">30</option>
+        <option value="45">45</option>
+        <option value="59">59</option>
+      </select></td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF"><select name="staff_name_3" data-placeholder="Staff Name" class="chzn-select" style="width:200px" id="staff_name-3">
+      <option value=""></option>
+      <?php foreach($this->stList as $k => $v) {?>
+      <option value="<?=$v["id"]?>">
+        <?=ucwords($v["ni"])?>
+        .
+        <?=chr($v["il"]+64)?> ( <?=ucwords(Model_EncryptHelper::getSslPassword($v["n"]))?> )
+        </option>
+      <?php } ?>
+    </select></td>
+    <td bgcolor="#FFFFFF"><select name="shift_start_hour_3" id="shift_start_hour3">
+           <option value="07">07</option>
+        <option value="08">08</option>
+      <option value="09" selected="selected">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+    </select>
+      <strong>:
+      <select name="shift_start_min_3" id="shift_start_min_3">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+      </select>
+      </strong></td>
+    <td bgcolor="#FFFFFF"><select name="shift_end_hour_3" id="shift_end_hour3">
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17" selected="selected">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+      <option value="21">21</option>
+      <option value="22">22</option>
+      <option value="23">23</option>
+    </select>
+      <strong>:</strong>
+      <select name="shift_end_min_3" id="shift_end_min_3">
+        <option value="00">00</option>
+        <option value="15">15</option>
+        <option value="30" selected="selected">30</option>
+        <option value="45">45</option>
+        <option value="59">59</option>
+      </select></td>
+  </tr>
+</table>
+<div style="float:right; margin-top:-200px;">
+ <input name="btn_addto" type="submit" value="Add To Table">
+</div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br><br>
+<br>
+<?php 
+$arrDate = $this->arrDate;
+foreach($this->spList as $k => $shop) { 
+$totalHoursApp =0;
+
+?>  
+<br>
+<br>
+
+
+
+<table border="0" cellspacing="1" cellpadding="10" bgcolor="#666666">
+    <tr>
+      <th bgcolor="#FFFFFF" scope="col" style="width:20px;">&nbsp;</th>
+      <?php for($i = 0; $i < 7; $i++){?>
+      <th bgcolor="#FFFFFF" scope="col" style="width:70px;"><input name="choice[<?=$k?>][<?=$i?>]" type="checkbox" id="choice" value="1" class="add_staff">
+      <img src="/im/addstaff.png"></th>
+      <th align="left" bgcolor="#FFFFFF" scope="col" style="width:380px;"><?php echo date("l",strtotime($arrDate[$i]))?><br>
+      <?=$arrDate[$i]?>
+      <span style="text-align:right; float: right;"><?=$shop?></span>
+      
+      </th>
+      <?php }?>      
+    </tr>
+    <tr>
+      <td bgcolor="#FFFFFF" height="100"><?=$shop?></td>
+
+
+
+<?php 
+$totalHours = 0;
+$appr = 0;
+ for($i=0;$i<7;$i++){?>
+      
+      <td colspan="2" bgcolor="#FFFFFF" style="padding:5px; vertical-align:top">
+	  <table width="410" border="0" cellspacing="1" cellpadding="5" bgcolor="#CCC" style="font-size:12px;">
+  <tr>
+    <th bgcolor="#FFFFFF"><span style="font-size:11px;">Staff</span></th>
+    <th bgcolor="#FFFFFF"><span style="font-size: 11px">Begin</span></th>
+    <th bgcolor="#FFFFFF"><span style="font-size:11px;">End</span></th>
+    <th bgcolor="#FFFFFF"><span style="font-size:11px;">Break<br></span><span style="font-size:8px;">(min)</span></th>
+    <th bgcolor="#FFFFFF"><span style="font-size:11px;">Total<br></span><span style="font-size:8px;">(hr)</span></th>
+    <th colspan="2" bgcolor="#FFFFFF"><span style="font-size:11px">Action</span></th>
+</tr>
+	  <?php
+	
+	  if(isset($viewArrResult[$k][$i]) && $viewArrResult[$k][$i]!=""){
+		$cot = 0;
+		$errFlag = false;
+		foreach($viewArrResult[$k][$i] as $key =>$v){
+			
+			if(isset($v[9])){
+				$appr = $v[9];
+				}
+			
+			if(!$v[8]){
+			//var_dump($shop,$i);
+			$openHour = $opnHr->getShopOpenTimeDay($shop,$i+1);
+			$closeHour = $opnHr->getShopCloseTimeDay($shop,$i+1);				
+			//var_dump($openHour);
+			
+			$arrOpenHour = explode(":",$openHour);
+			$arrCloseHour = explode(":",$closeHour);
+			
+			
+			if(($v[1]!=0 && $v[2]!=0) &&(($v[1]*100+ $v[2]) < ($arrOpenHour[0]*100 + $arrOpenHour[1]))){
+				
+				$exceed_flag = true;
+				
+				$v[1] = $arrOpenHour[0];
+				$v[2] = $arrOpenHour[1];
+				
+				}
+		   if(($v[3]*100 + $v[4]) > ($arrCloseHour[0]*100 + $arrCloseHour[1])){
+				
+				$exceed_flag = true;
+				
+				$v[3] = $arrCloseHour[0];
+				$v[4] = $arrCloseHour[1];
+				}			
+			}
+		if(strpos($v[5],"new")!== false && $v[1]=="00"){
+			//do nothing 
+			$errFlag = true;
+		}	
+		
+		if(!$errFlag){	
+		?>  
+        <?
+       $stDetailLine = $stDetail->getDetail($v[0]);		
+		?>   
+    
+
+  <tr>
+    <td bgcolor="#FFFFFF"><?=ucwords($stDetailLine["ni"])?>
+               .
+               <?=chr($stDetailLine["il"]+64)?>
+               <?php if($v[8]){?>
+               <br>
+<img src="/im/appd.jpg" alt="Head Office Pre-Approved" border="0" title="Head Office Pre-Approved" ><?php }?>
+              <input type="hidden" name="arr_Detail[<?=$k?>][<?=$i?>][<?=$cot?>][0]" id="staff_id<?=$v[5]?>" value="<?=$v[0]?>" ></td>
+    <td align="center" bgcolor="#FFFFFF">
+      <input type="text" name="arr_Detail[<?=$k?>][<?=$i?>][<?=$cot?>][1]" id="shift_begin_hour<?=$v[5]?>"  style="border: #CCC 1px solid; width:20px;" value="<?=$v[1]?>"   />
+      <input type="hidden" id="bksbh<?=$v[5]?>" value="<?=$v[1]?>" /> 
+      <b>:</b> 
+      <input type="text" name="arr_Detail[<?=$k?>][<?=$i?>][<?=$cot?>][2]" id="shift_begin_min<?=$v[5]?>" style="border: #CCC 1px solid; width:20px;" value="<?=$v[2]?>"    />
+      <input type="hidden" id="bksbm<?=$v[5]?>" value="<?=$v[2]?>" />
+      </td>
+    <td align="center" bgcolor="#FFFFFF">
+      <input type="text" name="arr_Detail[<?=$k?>][<?=$i?>][<?=$cot?>][3]" id="shift_end_hour<?=$v[5]?>" style="border: #CCC 1px solid; width:20px;" value="<?=$v[3]?>"   / > <input type="hidden" id="bkseh<?=$v[5]?>" value="<?=$v[3]?>" />
+      <b>:</b> <input type="text" name="arr_Detail[<?=$k?>][<?=$i?>][<?=$cot?>][4]" id="shift_end_min<?=$v[5]?>" style="border: #CCC 1px solid; width:20px;" value="<?=$v[4]?>"   > <input type="hidden" id="bksem<?=$v[5]?>" value="<?=$v[4]?>" />      </td>
+    <td align="center" bgcolor="#FFFFFF">
+      <input type="hidden" name="arr_Detail[<?=$k?>][<?=$i?>][<?=$cot?>][5]" value="<?=$v[5]?>"> 	
+      <input type="text" name="arr_Detail[<?=$k?>][<?=$i?>][<?=$cot?>][6]" id="shift_break<?=$v[5]?>" style="border: #CCC 1px solid; width:20px;"   value="<?=$v[6]?>"  / ><input type="hidden" id="bksbk<?=$v[5]?>" value="<?=$v[6]?>" /></td>
+    <td align="center" bgcolor="#FFFFFF">
+      <input type="text" name="arr_Detail[<?=$k?>][<?=$i?>][<?=$cot?>][7]" id="shift_total_hours<?=$v[5]?>" readonly="readonly" style="width:25px;" value="<?=$v[7]?>">
+      <input type="hidden" id="bksth<?=$v[5]?>" value="<?=$v[7]?>" />
+      <input type="hidden" name="arr_Detail[<?=$k?>][<?=$i?>][<?=$cot?>][8]" value="<?=$v[8]?>" />
+      </td>
+    <td align="center" bgcolor="#FFFFFF" style="width:40px;">
+      <img src="/im/cf.png" alt="Edit" width="16" height="16" border="0" title="Edit" >
+      <input name="shift_confirm<?=$v[5]?>" type="checkbox" id="shift_confirm<?=$v[5]?>" class="shift_confirm" value="<?=$v[5]?>" title="Confirm" checked="checked" <?php if($v[8]){echo 'disabled="disabled"'; }?>   />
+    </td>
+    <td align="center" bgcolor="#FFFFFF" style="width:40px;"><img src="/im/rm.png" alt="Remove" width="16" height="16" border="0" title="Remove" >
+      <input name="shift_remove<?=$v[5]?>" type="checkbox" id="shift_remove<?=$v[5]?>2" class="shift_remove" value="<?=$v[5]?>" title="Remove" <?php if($v[8]){echo 'disabled="disabled"'; }?>  />
+   </td>
+  </tr>
+		<?php
+				if($v[8]){
+			$totalHoursApp += $v[7];
+			}
+			else{
+		$totalHours += $v[7];		
+				}
+		$cot++;	
+			}  
+		}
+		  } 
+		?>  
+</table>
+</td>
+<?php }?>
+    </tr>
+  </table>
+<p>Total Shift Hours:
+  <input type="text" name="week_total_hour[<?=$k?>]" id="week_total_hour_<?=$k?>" style="width:100px;" value="<?=$totalHours?>" />
+<i>(hrs)</i>
+
+<br>
+Exclude Special Approved Hrs : <?php echo $totalHoursApp;  ?>
+<br />
+
+<input type="submit" name="recal" id="recal" value="Click Re-Calculate Every Time After You Remove Staff Shift" />
+<br />Total Shift Budgets:
+<?php 
+$sh = new Model_DbTable_Shoplocation();
+$hourLimits = $sh->getShopLimits($shop);	
+?>
+<input type="text" name="week_budget_hour[<?=$k?>]" id="week_budget_hour_<?=$k?>" style="width:100px;" value="<?=$hourLimits?>" 
+<?php 
+if($totalHours > $hourLimits){
+?>
+class="attn"  
+<?	
+	}
+?>
+ />
+(If you over your weekly Shift Hour Budget , you need to get Head Office Approval Frist, Click The button and Send Carla To Request Approval)<br>
+  <br>
+  
+   <?php 
+ if($totalHours > $hourLimits ){
+	 switch($appr){
+		 case(1): {echo "<span style=\" background-color:#00AA00;\">Over Budget Approved</span>";break;}
+		 case(-2): {echo "<span style=\" background-color:#FF0000;\">Over Budget Rejected</span>";break;}
+		 case(-1): {echo "<span style=\" background-color:#FFFF00;\">Waiting Approval</span>";break;}
+		 default: {break;}
+		 }
+	 
+	 ?>
+   <br>
+   Reason Why We Need Extra Hours:
+   <br>
+ <textarea name="reason[<?=$k?>]" id="reason_<?=$k?>" cols="100" rows="7">Monday:
+Tuesday:
+Wednesday:
+Thursday:
+Friday:
+Saturday:
+Sunday:
+</textarea>
+<br>
+
+ <?php
+ }
+ ?>    
+  
+  
+  
+  <?php 
+  }?>  
+  </p>
+<p>
+<input name="shops" type="hidden" value="<?=$this->shops?>" />
+<input name="date_begin" type="hidden" value="<?=$this->dateBegin?>" />
+  
+
+  <input type="submit" name="btn_final_arrange" id="btn_final_arrange"
+  
+   <?php 
+ if($totalHours > $hourLimits ){
+	 ?>
+   value="EXCEED BUDGET, SAVE ARRANGE AND WAITING FOR APPROVAL"  
+   <?php 	  
+	 }
+   else{ echo ' value="ARRANGE ALL SHIFT"';	  
+	 }
+  ?>   
+      />
+      
+   <?php 
+ if( ($totalHours > $hourLimits) && $this->su == "unlimiteds" ){
+	 ?><br>
+<br>
+
+   <input type="submit" value= "Approve The Roster" name="su_final_arrange_app" id="su_final_arrange_app" />
+   <input type="submit" value= "Reject The Roster" name="su_final_arrange_rej" id="su_final_arrange_rej" />    
+   <?php }?>         
+  <br>
+</p>
+</form>
+<?php if($exceed_flag) {?>
+  <script type="text/javascript">
+  alert("The roster time that you have allocated has exceed the shopping center normal working hours, therefore it will be revised according shoppping center trading hours, if you need extra working hours to do stock take, or other emergency shop maintainence which has to do on after business hours, please contact head office to approve that , the head office staff will help you to adjust the roster , they can input the the time you requested,please do not do it by yourself. ");
+   </script>
+<?php }?>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+  <script src="/js/chosen/chosen.jquery.js" type="text/javascript"></script>
+  <script type="text/javascript"> 
+    var config = {
+      '.chzn-select': {allow_single_deselect:true},
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    };
+  </script>
+  <script src="/js/<?=$jsFile?>" type="text/javascript"></script>
+</body>  

@@ -1,0 +1,39 @@
+<?php 
+date_default_timezone_set("Australia/Melbourne");
+ob_start();
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<h1> Sold Out Item Still Not Handled ( 20~30 is Acceptable )</h1>
+<table width="600" border="1" cellspacing="0" cellpadding="15" >
+  <tr>
+    <td>Shop</td>
+    <td>Still Missing</td>
+  </tr>
+  <?php foreach($this->arrRes as $shop => $qty){?>
+  <tr>
+    <td><?php echo $shop?></td>
+    <td><?php echo $qty?></td>
+  </tr>
+  <?php }?>
+</table>
+</body>
+</html>
+<?php
+
+$mailbody = ob_get_contents();
+
+if($this->email == "yes"){
+	
+	$mail = new Model_Emailshandler();
+
+	$mail->sendNormalEmail("jeffrey.zhang@phonecollection.com.au","Last Week Sold Out Still Not Finish" , $mailbody);
+	$mail->sendNormalEmail("phonecollection.au@gmail.com","Last Week Sold Out Still Not Finish", $mailbody);
+	
+	}
+?>

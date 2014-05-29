@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body>
+
+Please find the following Products in the DB and Using Products Stock Adjust Function to Adjust the Stock <br />
+<?php echo date("Y-m-d");?>
+<hr/>
+
+<?php
+		$products = new Model_DbTable_Productsva();
+		$pStocks = new Model_DbTable_Productstock();
+
+
+if(isset($this->newinproducts)){
+	
+	foreach($this->newinproducts as $key => $value){
+		$prodrow = $products->getProduct($value);
+		echo $value." - ";
+		?>
+		<img src="/barcode/barcode-gd.php?sno=<?php echo $prodrow['code_product'];?>" />
+        <?php
+		echo $prodrow['code_product']." - ";
+		echo " [ ".$prodrow['title_product']." ] - ";
+		$pStkrow = $pStocks->getStock($value);
+		echo "Qty:".$pStkrow['stock_ec'];		
+		echo "<br />";
+		
+		}	
+	
+	}
+
+
+?>
+</body>
+</html>

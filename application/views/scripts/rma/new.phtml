@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>New RMA Lodgement Step 1</title>
+<link href="/css/template.css" rel="stylesheet" type="text/css" />
+<?php
+date_default_timezone_set('Australia/Melbourne');
+
+$thisYear = date("Y");
+$thisWeek = date("W");
+$lastYear = intval($thisYear)-1;
+$lastWeek = 0;
+$twoWeek = 0;
+$yearToUse = 0;
+$yearToUse2 = 0;
+if(intval($thisWeek)>2){
+		
+	$lastWeek = intval($thisWeek) - 1;
+	$twoWeek = intval($thisWeek)  -2;	
+	$yearToUse2 = $yearToUse = $thisYear;
+	}
+if(intval($thisWeek)==2){
+	$lastWeek = 1;
+
+	//$newDate = strtotime("31 December $lastYear");
+	
+	$twoWeek = 53;
+	$yearToUse = $thisYear;
+	$yearToUse2 = $thisYear -1 ;
+
+	}
+if(intval($thisWeek)==1){
+	
+	$lastWeek = 53;
+	$twoWeek = 52;
+	$yearToUse = $yearToUse2 = $thisYear -1 ;
+	}		
+
+
+?>
+</head>
+<body>
+<table width="600" border="0" cellspacing="0" cellpadding="10" align="center">
+<form id="form_step0" name="formstep0" method="post" action="/rma/fill">
+  <tr>
+    <td colspan="2"><a title="Phone Collection" href="http://www.newgenerationgroup.com.au/index.php"> <img id="logo" src="http://www.newgenerationgroup.com.au/images/logo-phone-collection.png" alt="Phone Collection" border="0" /></a></td>
+  </tr>
+  <tr>
+    <td colspan="2" class="theh1" >Phone Collection Online RMA Lodgement Form<br />
+      
+ 
+    <br /></td>
+  </tr>
+  <tr>
+    <td align="right" style="width:200px;">Shop Name You Login As: </td>
+    <td>
+      <input type="hidden" name="shophead" id="hiddenField" value="<?php echo $this->shophead;?>"  />
+      <span style="font-weight:bold"><?php echo $this->shopname;?></span>
+   </td>
+  </tr>
+  <tr>
+    <td align="right">Type Your Name Here <b style="color:#FF0000;">First*</b></td>
+    <td>
+      <input type="text" name="staffname" id="textfield3" /></td>
+  </tr>  
+  <tr>
+    <td align="right" valign="middle"><span style="font-weight:bold; line-height:30px;">Scan Barcode Here:</span></td>
+    <td><input type="text" name="productcode" id="textfield2" />
+      <span style="font-weight:bold; line-height:30px;"><img src="/css/scan.jpg" width="30" height="30" /></span></td>
+  </tr>
+
+  <tr>
+    <td colspan="2" align="center" valign="middle">
+      <input type="submit" name="button" id="button" value="Continue &gt;&gt;" />
+</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" valign="middle">Prepare Document For Driver Pickup<br />
+      <br />
+<table width="100%" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+          <th width="50%"><a href="/rma/printsummary/shop/<?php echo $this->shophead;?>/week/last" target="_blank">Print <b>Last</b> Week Faulty for Return</a> </th>
+          <th><a href="/rma/printsummary/shop/<?php echo $this->shophead;?>/week/this" target="_blank">Check <b>This</b> Week Faulty</a></th>
+        </tr>
+        <?php if($this->rCenterKey) {?>
+        <tr>
+          <td colspan="2" align="center"><a href="/repairparts/shop-parts-summary/shop/<?=$this->rCenterKey?>/custpart/yes" target="_blank">Print Last Week Customer Parts (Mobile Repair Part)</a></td>
+          </tr>
+        <?php }?>
+  </table>
+     </td>
+  </tr>
+  <tr>
+    <td colspan="2"><p>Copyright &copy; Phone Collection 2012<br />
+    *This form is designed for internal use only<br />
+    *Your IP address: recorderd as evidence<br />
+    *Do not use this form in any other circumstances , only use this form on the store computer<br />
+    *Should you have any problem , please call head office ASAP!</p>
+    <p>&nbsp;</p></td>
+  </tr>
+</form> 
+</table>
+</body>
+</html>

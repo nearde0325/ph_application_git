@@ -1,0 +1,52 @@
+<?php
+date_default_timezone_set("Australia/Melbourne");
+ob_start();
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+Sales Summary <?php echo $this->dateBegin?> To <?php echo $this->dateEnd?> <br />
+<br />
+<table width="600" border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <td align="center">Shop</td>
+    <td align="center">Total</td>
+  </tr>
+  <?php 
+  
+  $totalAmt = 0;
+  foreach($this->arrRes as $v){?>
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td> $ <?php echo $v[1];
+	$totalAmt += $v[1];
+	
+	?></td>
+  </tr>
+   <?php }?> 
+   <tr>
+   <td>Total:</td>
+   <td>$ <?php echo $totalAmt;?></td>
+   </tr>
+</table>
+
+</body>
+</html>
+<?php
+$mailbody = ob_get_contents();
+if($this->email == "yes"){
+$mail = new Model_Emailshandler();
+
+$mail->sendNormalEmail("admin@phonecollection.com.au","Sales Summary From ".$this->dateBegin." To ".$this->dateEnd, $mailbody);
+$mail->sendNormalEmail("office@phonecollection.com.au","Sales Summary From ".$this->dateBegin." To ".$this->dateEnd, $mailbody);	
+	
+
+
+
+}
+?>

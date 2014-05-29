@@ -1,0 +1,77 @@
+<?php    
+header("Expires: Mon, 26 Jul 1970 05:00:00 GMT");      
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");      
+header("Cache-Control: no-cache, must-revalidate");      
+header("Pragma: no-cache");    
+?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="refresh" content="15">
+<title>Untitled Document</title>
+
+<script language="javascript"> 
+function toggle(str) {
+	var ele = document.getElementById(str);
+	//var text = document.getElementById("displayText");
+	if(ele.style.display == "block") {
+    		ele.style.display = "none";
+		//text.innerHTML = "show";
+  	}
+	else {
+		ele.style.display = "block";
+		//text.innerHTML = "hide";
+	}
+} 
+</script>
+
+</head>
+
+<body style="margin:0; font-family:Arial, Helvetica, sans-serif;font-size:12px">
+ Your Shop Password<br>
+<strong> [ <?=$this->shoppassword?> ]</strong>
+<table width="200" border="0" cellspacing="1" cellpadding="0" align="left">
+<?php foreach($this->kList as $v){?>  
+  <tr>
+  <td rowspan="3" align="center" valign="top"><a target="_blank" href="/stock/check-shop-kakt/shop/<?=$this->shopHead?>"><img src="/im/<?php echo strtolower(substr(trim($v["note_number"]),0,2)); ?>.png" width="40" height="50" border="0" /></a></td>
+  <td align="left" valign="top"><?php echo $v["note_number"]?></td>
+  </tr>
+<?php if($v["date_delivery"]!=""){  ?> 
+  <tr>
+    <td align="left" valign="top"><img src="/im/shipment.png" width="20" height="20" /> : <?php echo $v["date_delivery"]." ".$v["time_delivery"]?></td>
+  </tr>
+<?php }
+else{ ?>
+  <tr>
+    <td align="left" valign="top"><img src="/im/shipment.png" width="20" height="20" /> : 
+    [<a id="txt" href="javascript:toggle('dT<?=$v["id"]?>');">Waiting Driver Arrive</a>]
+    <div id="dT<?=$v["id"]?>" style="display: none">
+    <form action="" method="post">
+    <input name="driver" type="password" size="5" />
+    <input name="id_record" type="hidden" value="<?=$v["id"]?>" />
+    <input name="go" type="submit" value="GO"  />
+    </form>
+    </div>
+    </td>
+  </tr>
+<?php }
+$status = "";
+switch($v["last_status"]){
+	case(1):$status ="newkakt";break;
+	case(2):$status ="waitingactivate";break;
+	case(99):$status ="whactivated";break;
+	case(4):$status ="waitingwhfixerror";break;
+	case(5):$status ="waitingshopconfirm";break;
+	case(7):$status ="waitingshopconfirm";break;	
+}
+?>    
+  <tr>
+    <td align="left" valign="top"><img src="/im/<?=$status?>.png" width="150" height="20" /></td>
+  </tr>
+  <tr>
+<?php }?>  
+   
+</table> 
+</body>
+</html>

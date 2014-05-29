@@ -1,0 +1,688 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+<style type="text/css">
+.noborder{
+	border-top-width:0px;
+	border-bottom-width:0px;
+	
+	}
+.withborder{
+	border-top-width:1px;
+	border-bottom-width:0px;
+	}	
+#lean_overlay {
+    position: fixed;
+    z-index:100;
+    top: 0px;
+    left: 0px;
+    height:100%;
+    width:100%;
+    background: #000;
+    display: none;
+} 
+
+.btn_act{
+
+    width: 600px;
+    padding-bottom: 2px; 
+	display:none;
+	background: #FFF;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.7); -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.7); -moz-box-shadow: 0 0px 4px rgba(0,0,0,0.7);      
+}
+.btn_edit{
+
+    width: 900px;
+    padding-bottom: 2px; 
+	display:none;
+	background: #FFF;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.7); -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.7); -moz-box-shadow: 0 0px 4px rgba(0,0,0,0.7);      
+}
+.btn_com{
+
+    width: 600px;
+    padding-bottom: 2px; 
+	display:none;
+	background: #FFF;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.7); -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.7); -moz-box-shadow: 0 0px 4px rgba(0,0,0,0.7);      
+}
+.btn_delete{
+
+    width: 600px;
+    padding-bottom: 2px; 
+	display:none;
+	background: #FFF;
+    border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.7); -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.7); -moz-box-shadow: 0 0px 4px rgba(0,0,0,0.7);      
+}
+</style>
+
+
+<script language="javascript"> 
+function toggle(str,str2) {
+	var ele = document.getElementById(str);
+	var text = document.getElementById(str2);
+	if(ele.style.display == "") {
+    		ele.style.display = "none";
+			text.innerHTML = "Show";
+  	}
+	else {
+		ele.style.display = "";
+		text.innerHTML = "Hide";
+	}
+} 
+</script>
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+<script type="text/javascript" src="/js/jquery.leanModal.min.js"></script>
+<script type="text/javascript">
+			$(function() {
+    			$('a[rel*=leanModal]').leanModal({ top : 200, closeButton: ".modal_close" });		
+			});
+		</script>
+
+<script>
+	$(function() {
+		$( "#date_will_pay" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+	});
+</script>
+
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<?php //var_dump($this->openCase);
+
+$ts = new Model_DbTable_Roster_Timesheet();
+$attd = new Model_DbTable_Roster_Attnrecord();
+$attCaseRecord = new Model_DbTable_Roster_Attcaserecord();
+
+$stDetail = new Model_DbTable_Roster_Stafflogindetail();
+
+
+
+$arrShopList = $this->arrShopList;
+
+$arrViewShop = $arrShopList[$this->mgrID];				
+//var_dump($arrShopList,$arrViewShop,$this->mgrID);
+?>
+<h1>Opening Case</h1>
+Calculator:<br />
+<br />
+<b><i>From :</i></b>
+<input name="cald_start_hour" type="text" id="cald_start_hour" style="width:50px" /><b>:</b><input name="cald_start_min" type="text" id="cald_start_min" style="width:50px" />
+<b><i>To</i></b>
+<input name="cald_end_hour" type="text" id="cald_end_hour" style="width:50px;" /><b>:</b><input name="cald_end_min" type="text" id="cald_end_min" style="width:50px;" /><b> = </b><input name="calh_total_hour" type="text" id="calh_total_hour" style="width:50px;" />
+<i>(hrs)</i> <b> + </b>  
+<input name="calh_hour_2" type="text" id="calh_hour_2" style="width:50px;" />
+<i>(hrs)</i>  <b> = </b>
+ <input name="calh_hour_sum" type="text" id="calh_hour_sum" style="width:50px;" />
+<i>(hrs)</i>
+ <br />
+ <br />
+
+<table width="1500" border="1" cellspacing="1" cellpadding="0" style="font-size:13px;">
+  <tr>
+    <th rowspan="2" scope="col">Case ID</th>
+    <th rowspan="2" scope="col">Shop</th>
+    <th rowspan="2" scope="col">Manager</th>
+    <th rowspan="2" scope="col">Staff</th>
+    <th rowspan="2" scope="col">Date</th>
+    <th colspan="3" rowspan="2" scope="col">Shift</th>
+    <th colspan="2" rowspan="2" scope="col">Actual Record</th>
+    <th rowspan="2" scope="col">Bk</th>
+    <th rowspan="2" scope="col">Problem</th>
+    <th rowspan="2" scope="col">Allocate Hrs</th>
+    <th rowspan="2" scope="col">Paid Hrs</th>
+    <th rowspan="2" scope="col">Short Hrs</th>
+    <th colspan="2" scope="col">Evidence</th>
+    <th colspan="3" scope="col">Status</th>
+    <th rowspan="2" scope="col">Detail</th>
+    <th rowspan="2" scope="col" style="width:150px;">Action</th>
+  </tr>
+  <tr>
+    <th scope="col">On Duty</th>
+    <th scope="col">Off Duty</th>
+    <th scope="col">Create</th>
+    <th scope="col">Request</th>
+    <th scope="col">Provided</th>
+  </tr>
+  
+<?php
+if(!empty($this->openCase)){
+ foreach($this->openCase as $k => $v) {
+	
+	date_default_timezone_set("Australia/Melbourne");
+	
+	if($v['shop_code']=="ADPC" || $v['shop_code']=="CLPC" || $v['shop_code']=="CLIC" || $v['shop_code']=="WLIC"){
+
+		date_default_timezone_set("Australia/Adelaide");
+	}
+	
+	$sysShiftStart = " - ";
+	$sysShiftEnd = " - ";
+	$attOnDuty = " - ";
+	$attOffDuty = " - ";
+	
+	//check case self case  or 
+	if(substr($v['case_id_case'],0,2) == "CA"){
+
+		$tsRow = $ts->listShiftByStaffIdByDateByShop($v['id_staff'], $v['shop_code'],$v['shift_date'],$v['shift_date']);
+		$attRow = $attd->getFirstOnLastOffDuty($v['id_staff'],$v['shift_date'],Model_EncryptHelper::sslPassword($v['shop_code']));
+		
+		//var_dump($tsRow,$attRow);
+	}	
+	if(in_array($v['shop_code'],$arrViewShop,true)){
+		
+	?>  
+  <tr>
+    <td rowspan="2"><?php echo $v['case_id_case']?></td>
+    <td rowspan="2"><?php echo $v['shop_code']?></td>
+    <td rowspan="2"><?php 
+    $mgrDetail = $stDetail->getDetail($v['id_manager']);
+    echo ($mgrDetail['ni']=="")?Model_EncryptHelper::getSslpassword($mgrDetail['n']):$mgrDetail['ni'];
+    ?></td>
+    <td rowspan="2"><?php 
+    $mgrDetail = $stDetail->getDetail($v['id_staff']);
+    echo ($mgrDetail['ni']=="")?Model_EncryptHelper::getSslpassword($mgrDetail['n']):$mgrDetail['ni'];
+    ?></td>
+    <td rowspan="2"><?php echo $v['shift_date']?></td>
+    <td>SYS:</td>
+    <td><?php echo (isset($tsRow['confirm_shift_begin']))?date("H:i",$tsRow['confirm_shift_begin']):"X"; ?></td>
+    <td><?php echo (isset($tsRow['confirm_shift_end']))?date("H:i",$tsRow['confirm_shift_end']):"X"; ?></td>
+    <td><?php echo (isset($attRow) && $attRow[0])?date("H:i",$attRow[0]):' X '; ?></td>
+    <td><?php echo (isset($attRow)  && $attRow[1] )?date("H:i",$attRow[1]):' X '; ?>
+    </td>
+    <td>
+    F:<?php echo (isset($tsRow))?(int)$tsRow['break_time']/60:"X"; ?>
+    S:<?php echo ($v['hour_request']>=9.5)?'30':'0'; ?>
+    </td>
+    <td rowspan="2">
+    <?php 
+    
+    // 1. WRONG SHIFT
+	if(isset($tsRow) && isset($attRow)){ 
+    if( (int) date("H",$tsRow['confirm_shift_begin'])!= (int)$v['man_shift_begin_hour'] ||
+    	(int) date("i",$tsRow['confirm_shift_begin'])!= (int)$v['man_shift_begin_min'] ||
+    	(int) date("H",$tsRow['confirm_shift_end'])!= (int)$v['man_shift_end_hour'] ||
+    	(int) date("i",$tsRow['confirm_shift_end'])!= (int)$v['man_shift_end_min']
+    ){
+    	
+    	echo 'WRONG SHIFT<br />';
+    }
+    
+    // 2. MISSING ATTN
+    if( $attRow[0]=="" || $attRow[1]=="" 
+    ){
+    	echo 'MISSING RECORD<br />';
+    }
+	}
+	else{
+		
+		echo "STAND ALONE CASE ";
+		 
+		}
+    
+    ?>
+    </td>
+    <td rowspan="2"><?php echo $v['hour_request']?></td>
+    <td rowspan="2"><?php echo $v['hour_allocate']?></td>
+    <td rowspan="2"><?php echo $v['hour_request'] - $v['hour_allocate'] ?></td>
+    <td>F:<?php echo ($v['link_image_open'])?'<a href="'.$v["link_image_open"].'" target="_blank">View</a>':' - ';?></td>
+    <td>F:<?php echo ($v['link_image_close'])?'<a href="'.$v["link_image_close"].'" target="_blank">View</a>':' - ';?></td>
+    <td rowspan="2" align="center">
+    <?php
+    $lastStatus = $attCaseRecord->lastStatus($v['id_case']);
+	if($lastStatus['id_status'] == 1){ echo '<img src="/im/ind_new.png" border="0" />'; }
+	?>
+    </td>
+    <td rowspan="2" align="center"><?php
+    if($lastStatus['id_status'] == 4){ echo '<img src="/im/ind_req.png" border="0" />'; }
+	?></td>
+    <td rowspan="2" align="center">
+    <?php
+    if($lastStatus['id_status'] == 5){ echo '<img src="/im/ind_prv.png" border="0" />'; }
+	?>
+    </td>
+    <td rowspan="2">[<a id="txt<?=$v["id_case"]?>" href="javascript:toggle('dT<?=$v["id_case"]?>','txt<?=$v["id_case"]?>');">Show</a>]</td>
+    <td rowspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>
+    <a id="go" rel="leanModal" name="request" href="#btn_upd<?=$v["id_case"]?>">Upload File </a>
+        <div id="btn_upd<?=$v["id_case"]?>" class="btn_act">        
+		<div style=" background-color:#97C0FF; display:block">
+		<span style="float:left">More Information</span> <span style="float:right;"><a class="modal_close" href="#">[ X ]</a></span><br />
+		</div>
+        <div style="background-color:#EEE; display:block"><br />
+
+        <form action="/rosteraudit/save-upload" method="post" enctype="multipart/form-data" >
+        Here is more information regarding this case <br /><br />
+		Input Staff Name:  <input name="staff_name" type="text" /> <br /><br />
+
+       	Comment / Detail explaination of the case:<br /> 
+		<textarea name="comment" style="width:80%" rows="2"></textarea><br />
+
+        <input type="hidden" name="id_case" value="<?=$v["id_case"]?>" />
+        <input type="hidden" name="id_mgr" value="<?=$this->mgrID?>" />
+		<input name="upload_file" type="file" />
+        
+        <input name="btn_request" type="submit" value="Send Request" />
+        </form>
+        <br />
+        </div>
+</div>
+    </td>
+    <td><div id="btn_acc<?=$v["id_case"]?>" class="btn_edit">        
+      <div style=" background-color:#97C0FF; display:block">
+		<span style="float:left">ACCEPT</span> <span style="float:right;"><a class="modal_close" href="#">[ X ]</a></span><br />
+		</div>
+        <div style="background-color:#EEE; display:block; padding:"><br />
+
+        <form action="/rosteraudit/save-accept" method="post">
+        I have seen all the proofs and would Like to Accept The Case <br /><br />
+
+		Input Head Office Staff Name: <input name="staff_name" type="text" /> <br /><br />
+		
+        I will process the payment on <input name="date_will_pay" type="text" id="date_will_pay" value="" /><br />
+        Changes will be Be Allocated is :<br />
+        <table width="800" border="1" cellspacing="0" cellpadding="2">
+  <tr>
+    <td rowspan="2">Roster Change</td>
+    <td>ShiftBegin</td>
+    <td>Shift End</td>
+    <td>New Shift Begin</td>
+    <td>New Shift End</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><?php echo date("H:i",$tsRow['confirm_shift_begin']) ?></td>
+    <td><?php echo date("H:i",$tsRow['confirm_shift_end']) ?></td>
+    <td><?php echo $v['man_shift_begin_hour']?> : <?php echo $v['man_shift_begin_min']?> </td>
+    <td><?php echo $v['man_shift_end_hour']?> : <?php echo $v['man_shift_end_min']?> </td>
+  	<td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td rowspan="2">Attn Record Change</td>
+    <td>On Duty</td>
+    <td>Off Duty</td>
+    <td>New On Duty</td>
+    <td >New Off Duty</td>
+  	<td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><?php echo ($attRow[0])?date("H:i",$attRow[0]):' X ' ?></td>
+    <td><?php echo ($attRow[1])?date("H:i",$attRow[1]):' X ' ?></td>
+    <td><?php echo $v['staff_shift_begin_hour']?> : <?php echo $v['staff_shift_begin_min']?> </td>
+    <td><?php echo $v['staff_shift_end_hour']?> : <?php echo $v['staff_shift_end_min']?> </td>
+  <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td rowspan="2">Short Hours</td>
+    <td>Normal Hours</td>
+    <td>After 6PM</td>
+    <td>Saturday Hours</td>
+    <td>Sunday Hours</td>
+    <td>Holiday Hours</td>
+  </tr>
+  <tr>
+    <td><input name="normal_hour" id="normal_hour" type="text"  value="0" /> </td>
+    <td><input name="pm6_hour" id="pm6_hour" type="text"  value="0" /> </td>
+    <td><input name="saturday_hour" id="saturday_hour" type="text"  value="0" /></td>
+    <td><input name="sunday_hour" id="sunday_hour" type="text"  value="0" /></td>
+    <td><input name="holiday_hour" id="holiday_hour" type="text"  value="0" /></td>
+  </tr>
+</table>
+
+Comment / Detail
+<textarea name="comment" style="width:80%" rows="2"></textarea><br />
+        <input type="hidden" name="id_case" value="<?=$v["id_case"]?>" />
+		
+        <input name="btn_activation" type="submit" value="Accept It!" />
+        </form>
+        <br />
+        </div>
+</div>
+    
+    
+    </td>
+    <td>
+     <a id="go" rel="leanModal" name="request" href="#btn_rej<?=$v["id_case"]?>">Cancel Case</a>
+        <div id="btn_rej<?=$v["id_case"]?>" class="btn_com">        
+		<div style=" background-color:#97C0FF; display:block">
+		<span style="float:left">Cancel The Case</span> <span style="float:right;"><a class="modal_close" href="#">[ X ]</a></span><br />
+		</div>
+        <div style="background-color:#EEE; display:block"><br />
+
+        <form action="/rosteraudit/save-cancel" method="post">
+        I will cancel the case. <br /><br />
+		For the following Reason <br />
+<br />
+
+		Manager Name: <input name="staff_name" type="text" /> <br /><br />
+		Reason / Comment Of Cancel Case
+		<textarea name="comment" style="width:80%" rows="2"></textarea><br />
+
+        <input type="hidden" name="id_case" value="<?=$v["id_case"]?>" />
+        <input type="hidden" name="id_mgr" value="<?=$this->mgrID?>" />
+		
+        <input name="btn_rej" type="submit" value="Cancel It!" />
+        </form>
+        <br />
+        </div>
+</div>
+    
+    </td>
+  </tr>
+</table>
+</td>
+  </tr>
+  <tr>
+    <td>IPT:</td>
+    <td><?php echo $v['man_shift_begin_hour']?> : <?php echo $v['man_shift_begin_min']?> </td>
+    <td><?php echo $v['man_shift_end_hour']?> : <?php echo $v['man_shift_end_min']?> </td>
+    <td><?php echo $v['staff_shift_begin_hour']?> : <?php echo $v['staff_shift_begin_min']?> </td>
+    <td><?php echo $v['staff_shift_end_hour']?> : <?php echo $v['staff_shift_end_min']?> </td>
+    <td>F:<?php echo $v['break_first_min']?> S: <?php echo $v['break_second_min']?> </td>
+    <td>IN:<?php echo ($v['offline_inv_on'])?$v['offline_inv_on']:' - ';?></td>
+    <td>IN:<?php echo ($v['offline_inv_off'])?$v['offline_inv_off']:' - ';?></td>
+  </tr>
+<tr>
+<td colspan="22" style="padding:0px;">
+<div id="dT<?=$v["id_case"]?>" style="display:none;" >
+
+<h3>Reasons Why can Not Provide Footage:</h3>
+<div>
+<?php echo $v['reason_comment']?>
+</div>
+<h3>Detail Explainations:</h3>
+<div>
+<?php echo $v['detail_explain']?>
+</div>
+<h3>Comment &amp; Conversion</h3>
+
+------------------------------------------------------------------------------------------
+<hr/>
+<?php 
+
+
+$recordList = $attCaseRecord->getCaseHistory($v["id_case"]);
+?>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-width: 0px;">
+  <?php foreach($recordList as $v3) { ?>
+  <tr>
+    <td style="background-color:#EFEFEF; ">
+    <span style="width:50px;display:inline-block;margin-left:10px;">
+    <?php
+    switch($v3["id_status"]){
+    	case(1):{
+    		echo '<img src="/im/ind_new.png" border="0" />';break;}
+    	case(4):{
+    		echo '<img src="/im/ind_req.png" border="0" />';break;
+    	}
+    	case(5):{
+    		echo '<img src="/im/ind_prv.png" border="0" />';break;
+    	}
+    	case(9):{
+    		echo '<img src="/im/com_sm.png" border="0" />[MR]';break;
+    	}
+		case(10):{
+    		echo '<img src="/im/com_sm.png" border="0" />[ADM]';break;
+    	}		
+    	case(80):{
+    		echo '<img src="/im/ind_acc.png" border="0" />';break;
+    	}
+    	case(90):{
+    		echo '<img src="/im/ind_rej.png" border="0" />';break;
+    	}
+    }
+    ?>
+    </span> -- On 
+    <?=$v3["date_change"]?> -- <?=$v3["time_change"]?> -- By --<?
+	if(is_numeric($v3["staff_name"])){
+		$mgrDetail = $stDetail->getDetail($v3["staff_name"]);
+    echo ($mgrDetail['ni']=="")?Model_EncryptHelper::getSslpassword($mgrDetail['n']):$mgrDetail['ni'];	
+	}
+	else{
+		echo 	$v3["staff_name"];
+	}
+    ?>
+    </td>
+  </tr>
+  <tr style="background-color:#FEFEFE; ">
+    <td style="padding-left:20px;"><?php if($v3["comment"]!= null){echo nl2br($v3["comment"]);}?></td>
+  </tr>
+  <?php if($v3["link_img_upload"]!= null) {?>
+  <tr style="background-color:#FEFEFE; ">
+    <td style="padding-left:20px;">Attachement : <a href="<?php echo $v3["link_img_upload"]; ?>" target="_blank" >Click Here </a></td>
+  </tr> 
+  <?php }}?>
+  </table>
+  
+------------------------------------------------------------------------------------------------------
+<hr />
+
+<form id="form2" name="form2" method="post" action="/rosteraudit/save-add-comm-manager">
+  <textarea name="comm_mgr" id="comm_mgr" rows="2" style="width:80%"></textarea>
+  <br />
+  <br />
+  Staff Name: 
+  <input type="text" name="staff_name_mgr" id="staff_name_mgr" /> 
+  <input type="hidden" name="id_case" value="<?=$v["id_case"]?>" /> 
+  <input type="hidden" name="id_mgr" value="<?=$this->mgrID?>" />
+  <input name="btn_comment_mgr" type="submit" value="Add Comment" />
+
+</form>
+
+
+</div>
+</td>
+</tr>  
+<?php } } }?>  
+  
+  
+</table>
+
+
+
+
+<h1>Payment Pending Case</h1>
+<table width="1300" border="0" cellspacing="0" cellpadding="0" style="font-size:12px;">
+  <tr>
+    <th scope="col" align="center">Case ID</th>
+    <th scope="col" align="center">Shop</th>
+    <th scope="col" align="center">Manager</th>
+    <th scope="col" align="center">Staff</th>
+    <th scope="col" align="center">Date</th>
+    <th scope="col" align="center">Allocated Hours</th>
+    <th scope="col" align="center">Paid Hours</th>
+    <th scope="col" align="center">Short Hours</th>
+    <th  align="center" scope="col">Accept Hrs </th>
+    <th scope="col" align="center">Pay Date</th>
+  </tr>
+  <?php
+  if(!empty($this->waitCase)){
+foreach($this->waitCase as $v2){
+	if(in_array($v2['shop_code'],$arrViewShop,true)){
+?>  
+  <tr>
+    <td><?php echo $v2['case_id_case']?></td>
+    <td><?php echo $v2['shop_code']?></td>
+    <td><?php 
+    $mgrDetail = $stDetail->getDetail($v2['id_manager']);
+    echo ($mgrDetail['ni']=="")?Model_EncryptHelper::getSslpassword($mgrDetail['n']):$mgrDetail['ni'];
+    ?></td>
+    <td><?php 
+    $mgrDetail = $stDetail->getDetail($v2['id_staff']);
+    echo ($mgrDetail['ni']=="")?Model_EncryptHelper::getSslpassword($mgrDetail['n']):$mgrDetail['ni'];
+    ?></td>
+    <td><?php echo $v2['shift_date']?></td>
+    <td><?php echo $v2['hour_request']?></td>
+    <td><?php echo $v2['hour_allocate']?></td>
+    <td><?php echo $v2['hour_request'] - $v2['hour_allocate'] ?></td>
+    <td><?php echo $v2['hour_allocate_normal'] + $v2['hour_allocate_6pm'] + $v2['hour_allocate_sat'] + $v2['hour_allocate_sun'] + $v2['hour_allocate_pholiday']?></td>
+    <td><?php echo $v2['pay_on']?></td>
+  </tr>
+<?php }}}?>
+</table>
+<h1>Rejected/Canceled Case History</h1>
+
+<table width="1300" border="0" cellspacing="0" cellpadding="0" style="font-size:12px;">
+  <tr>
+    <th scope="col" align="center">Case ID</th>
+    <th scope="col" align="center">Shop</th>
+    <th scope="col" align="center">Manager</th>
+    <th scope="col" align="center">Staff</th>
+    <th scope="col" align="center">Date</th>
+    <th scope="col" align="center">Allocated Hours</th>
+    <th scope="col" align="center">Paid Hours</th>
+    <th scope="col" align="center">Short Hours</th>
+    <th  align="center" scope="col">Reject Date</th>
+    <th  align="center" scope="col">Reject Comment</th>
+  </tr>
+  <?php
+if(!empty($this->rejectCase)){  
+foreach($this->rejectCase as $v3){
+	if(in_array($v3['shop_code'],$arrViewShop,true)){
+?>
+  <tr>
+    <td><?php echo $v3['case_id_case']?></td>
+    <td><?php echo $v3['shop_code']?></td>
+    <td><?php 
+    $mgrDetail = $stDetail->getDetail($v3['id_manager']);
+    echo ($mgrDetail['ni']=="")?Model_EncryptHelper::getSslpassword($mgrDetail['n']):$mgrDetail['ni'];
+    ?></td>
+    <td ><?php 
+    $mgrDetail = $stDetail->getDetail($v3['id_staff']);
+    echo ($mgrDetail['ni']=="")?Model_EncryptHelper::getSslpassword($mgrDetail['n']):$mgrDetail['ni'];
+    ?></td>
+    <td><?php echo $v3['shift_date']?></td>
+    <td><?php echo $v3['hour_request']?></td>
+    <td><?php echo $v3['hour_allocate']?></td>
+    <td><?php echo $v3['hour_request'] - $v3['hour_allocate'] ?></td>
+    <td><?php echo $v3['dicision_date']?></td>
+    <td><?php 
+	$comm = $attCaseRecord->rejectComment($v3['id_case']);
+	
+	echo $comm; 
+
+	?></td>
+  </tr>
+  <?php }}}?>
+</table>
+<h1>Closed Case History</h1>
+<table width="1300" border="0" cellspacing="0" cellpadding="0" style="font-size:12px;">
+  <tr>
+    <th scope="col" align="center">Case ID</th>
+    <th scope="col" align="center">Shop</th>
+    <th scope="col" align="center">Manager</th>
+    <th scope="col" align="center">Staff</th>
+    <th scope="col" align="center">Date</th>
+    <th scope="col" align="center">Allocated Hours</th>
+    <th scope="col" align="center">Paid Hours</th>
+    <th scope="col" align="center">Short Hours</th>
+    <th  align="center" scope="col">Accept Hrs</th>
+    <th scope="col" align="center">Paid Date</th>
+    <th scope="col" align="center">cheque No</th>
+  </tr>
+  <?php
+  if(!empty($this->paidCase)){
+foreach($this->paidCase as $v4){
+	if(in_array($v4['shop_code'],$arrViewShop,true)){
+?>
+  <tr>
+    <td><?php echo $v4['case_id_case']?></td>
+    <td><?php echo $v4['shop_code']?></td>
+    <td><?php 
+    $mgrDetail = $stDetail->getDetail($v4['id_manager']);
+    echo ($mgrDetail['ni']=="")?Model_EncryptHelper::getSslpassword($mgrDetail['n']):$mgrDetail['ni'];
+    ?></td>
+    <td><?php 
+    $mgrDetail = $stDetail->getDetail($v4['id_staff']);
+    echo ($mgrDetail['ni']=="")?Model_EncryptHelper::getSslpassword($mgrDetail['n']):$mgrDetail['ni'];
+    ?></td>
+    <td><?php echo $v4['shift_date']?></td>
+    <td><?php echo $v4['hour_request']?></td>
+    <td><?php echo $v4['hour_allocate']?></td>
+    <td><?php echo $v4['hour_request'] - $v4['hour_allocate'] ?></td>
+    <td><?php echo $v4['hour_allocate_normal'] + $v4['hour_allocate_6pm'] + $v4['hour_allocate_sat'] + $v4['hour_allocate_sun'] + $v4['hour_allocate_pholiday']?></td>
+    <td><?php echo $v4['pay_on']?></td>
+    <td>
+    <?php 
+	if($v4['cheque_no']!=""){
+		echo $v4['cheque_no'];
+		}
+	?>
+    </td>
+  </tr>
+  <?php }}}?>
+</table>
+<script language="javascript" >
+
+$(document).ready(function() {
+	
+	$('input[id^="cald"]').change(function(){
+		
+	var startHour =  parseFloat($("#cald_start_hour").val()); 
+	var startMin =  parseFloat($("#cald_start_min").val());
+	var endHour =  parseFloat($("#cald_end_hour").val());
+	var	endMin =  parseFloat($("#cald_end_min").val());
+	var totalHour = 0;
+	totalHour = Math.round(((endHour - startHour) + (endMin-startMin)/60 ) * 100 )/100;
+	$("#calh_total_hour").val(totalHour.toFixed(2));		
+		});
+	$('input[id^="calh"]').change(function(){
+		var hour1 = parseFloat($("#calh_total_hour").val());
+		var hour2 = parseFloat($("#calh_hour_2").val());
+		var sumHour = 0;
+		sumHour = hour1 + hour2;
+		//alert(sumHour);
+		$("#calh_hour_sum").val(sumHour.toFixed(2));
+		});	
+		
+		
+});
+  </script>
+</body>
+</html>

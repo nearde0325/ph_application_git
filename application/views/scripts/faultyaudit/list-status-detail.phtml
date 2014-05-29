@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<table width="650" border="1" cellspacing="0" cellpadding="5">
+  <tr>
+    <td>Date</td>
+    <td>RMA ID</td>
+    <td>BarCode</td>
+    <td>Product Name</td>
+    <td>Qty</td>
+    <td>Stff</td>
+    <td>Sp RMA(Opt)</td>
+    <td>Tracking(Opt)</td>
+    <td>Credit Note(Opt)</td>
+  </tr>
+<?php
+//$date = "";
+//$code = "";
+$rma = new Model_DbTable_Faultyproduct();
+
+foreach($this->list as $k => $v){
+	$fpt =$rma->getFaultyProduct($v["id_rma"]);	
+?>  
+  <tr>
+    <td><?=$v["date_record"]?></td>
+    <td><?=$v["id_rma"]?></td>
+    <td><?=$fpt["product_code_faulty"]?></td>
+    <td><?=$fpt["product_name_faulty"]?></td>
+    <td><?=$fpt["faulty_qty"]?></td>
+    <td><?=$v["staff_name"]?></td>
+    <td><?=$v["sp_rma"]?></td>
+    <td><?=$v["post_tracking"]?></td>
+    <td><?=$v["credit_note"]?></td>
+  </tr>
+<?php
+}
+?>
+</table>
+</body>
+</html>

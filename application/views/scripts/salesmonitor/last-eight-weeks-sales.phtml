@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+		<?php
+		 $arrSales = $this->arrSales;
+		 foreach($this->shopArr as $key => $value){ ?>  
+        var data<?php echo $key?> = google.visualization.arrayToDataTable([
+          ['Week', 'Sales', 'Average'],
+		  <?php 
+		  for($i=0;$i<8;$i++){?>   
+    ['<?php echo Model_DatetimeHelper::adjustWeeks("add",$this->beginMonday,$i)." - ".Model_DatetimeHelper::adjustWeeks("add",$this->beginSunday,$i);  ?>',
+	<?php echo $arrSales[$key][$i + 1];?> ,
+	<?php echo round(($arrSales[$key][1] + $arrSales[$key][2] + $arrSales[$key][3] + $arrSales[$key][4] + $arrSales[$key][5] + $arrSales[$key][6] + $arrSales[$key][7] + $arrSales[$key][8])/8,2); ?>
+	],
+<?php }?>
+        ]);
+        var options<?php echo $key?> = {
+          title: '<?php echo $value?> Sales Performance'
+        };
+		var chart<?php echo $key?> = new google.visualization.LineChart(document.getElementById('chart_div<?php echo $key?>'));
+		chart<?php echo $key?>.draw(data<?php echo $key?>, options<?php echo $key?>);
+		<?php }?>
+      }
+    </script>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1>Last 8 Weeks Sales</h1>
+<table width="1300" border="0" cellspacing="1" cellpadding="5">
+  <tr>
+    <th scope="col">Shop\Weeks</th>
+<?php for($i=0;$i<8;$i++){?>   
+    <th scope="col"><?php echo Model_DatetimeHelper::adjustWeeks("add",$this->beginMonday,$i)." - ".Model_DatetimeHelper::adjustWeeks("add",$this->beginSunday,$i);  ?></th>
+<?php }?>
+ 	<th scope="col">Average</th>	
+  </tr>
+
+<?php foreach($this->arrSales as $k => $v){?>
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td><?php echo $v[1]?></td>
+    <td><?php echo $v[2]?></td>
+    <td><?php echo $v[3]?></td>
+    <td><?php echo $v[4]?></td>
+    <td><?php echo $v[5]?></td>
+    <td><?php echo $v[6]?></td>
+    <td><?php echo $v[7]?></td>
+    <td><?php echo $v[8]?></td>
+    <td><?php echo Round(($v[1] + $v[2] + $v[3] + $v[4] + $v[5] + $v[6] + $v[7] + $v[8])/8,2)?></td>
+  </tr>    
+<?php }?>
+    
+
+</table>
+<?php foreach($this->shopArr as $k2 => $v2){?>
+    <div id="chart_div<?php echo $k2?>" style="width: 900px; height: 500px;"></div>
+<?php }?>
+</body>
+</html>

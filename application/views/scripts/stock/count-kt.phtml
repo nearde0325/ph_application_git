@@ -1,0 +1,232 @@
+<?php 
+header("Expires: Mon, 26 Jul 1970 05:00:00 GMT");      
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");      
+header("Cache-Control: no-cache, must-revalidate");      
+header("Pragma: no-cache"); 
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script language="javascript" >
+$(document).ready(function() {
+$('#form1').bind("keyup keypress", function(e) {
+  var code = e.keyCode || e.which; 
+  if (code  == 13) {               
+    e.preventDefault();
+	$('#input_qty_show').focus();
+	$('#input_qty_show').select();
+    return false;
+  }  
+  if (code  == 17) { 	                
+    e.preventDefault();
+    $('#form1').submit();
+  }  
+});
+});
+</script>
+
+<script language="javascript">
+function getfocus(){
+	document.getElementById('input_field').select();
+	document.getElementById('input_field').focus();;
+	}
+</script>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;" onload="getfocus()">
+<form method="post" id="form1" >
+<h1>Online KT Transfer Note Counter<br />
+  <?php echo $this->ktNo; ?>
+  <br />
+</h1>
+<h2>[Auto Save Function Enabled]</h2>
+<table width="800" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="width:150px;">Scan Result:</td>
+    <td><b><?php
+	$multiQty = false;
+	if($_POST && !isset($_POST["btn_cancel"])){
+		$arrOrgSearch = unserialize(gzuncompress(base64_decode($this->arrOrg)));
+		$barCode = trim($this->inputBarcode);
+		$key = array_search($barCode,$arrOrgSearch,true);
+		echo "[".$arrOrgSearch[$key]."] ".$arrOrgSearch[$key + 1]." x [".$arrOrgSearch[$key + 3 ]."]";
+		if($arrOrgSearch[$key + 2 ] > $arrOrgSearch[$key + 3] ){
+				$multiQty = true;
+			}
+		else{
+				$multiQty = false;
+			}
+			
+		if($arrOrgSearch[$key + 4 ] <= 0 ){
+			echo "<img src= '/images/puton.png'>";
+			}		
+		}
+	else{
+		echo "Product Name x[0] pieces";	
+	}	
+    
+	?></b></td>
+  </tr>
+  <tr>
+    <td align="right"><img src="<?php echo (!$multiQty)?'/images/bcode.jpg':'/images/number.jpg';?>"  height="60" /></td>
+    <td><input name="org_list" type="hidden" value="<?php echo $this->arrOrg;?>" />
+    <input name="input_barcode" type="hidden" value="<?php echo $this->inputBarcode;?>" />
+    <input name="input_qty" type="hidden" value="<?php echo $this->inputQty;?>" />
+    <input type="text" name="input_field" id="input_field" style="font-size:36px; width:320px;" value="<?php 
+	if($multiQty){
+		echo trim($this->inputBarcode);
+	}
+	 ?>"  />
+    <span style="font-size:36px;"  > x </span> <input name="input_qty_show" type="text" id="input_qty_show" style="font-size:36px; width:80px;" value="1"  />
+    <span style="font-size:28px;"  > Pcs </span>
+    <input type="submit" name="btn_input_text" id="btn_input_text" value="Press 'Ctrl' Key To Continue" style="font-size:36px; background-color:#080;" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top"><h3><?php echo (!$multiQty)?'Scan Another Product Barcode':'Key-in Qty Then Press Enter Again<br/>  Or You Can Scan Barcode of Another Product ,<br />You can Scan "'.$this->inputBarcode.'" Anytime Later'; ?></h3><span style="font-size:12px;"><br />
+      Scan barcode or keyin quantity, <br />
+      * If you found out the quantity mistake later, scan the barcode and input negative number(-) for correct errors<br />
+      * you may also click the &quot;Cancel Last Input&quot; button
+      <br />
+      You may scan same or different product barcode anytime</span> <br />
+      <br /></td>
+    </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td><input type="submit" name="btn_cancel" id="btn_cancel" value="Cancel Last Input" style="font-size:28px; background-color:#C66;" /></td>
+  </tr>
+</table>
+<br />
+
+<h3 style="background-color:#CCC;">Un-Counted / Un-Found Barcode </h3>
+
+<table width="800" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="width:150px;">Barcode</td>
+    <td  style="width:500px;">Product</td>
+    <td>Sent</td>
+    <td>Receive</td>
+    <td>Diff</td>
+    <td>Shelf</td>
+  </tr>
+ <?php foreach($this->arrUnCount as $k0 => $v){?> 
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td><?php echo $v[1]?></td>
+    <td><?php echo $v[2]?></td>
+    <td><?php echo $v[3]?></td>
+    <td><?php echo (($v[3] - $v[2])>0)?"+":""?><?php echo $v[3] - $v[2]?></td>
+    <td><?php echo ($v[4] <= 0)?"<img src='/im/yes20.jpg'>":" "; ?></td>
+  </tr>
+ <?php }?> 
+</table>
+
+
+<h3 style="background-color:#09F;">Found Extra / <span style="background-color:#8080FF;">Unexpected</span> Than KT  </h3>
+<table width="800" border="1" cellspacing="0" cellpadding="0" style="background-color:#C4DEFB">
+  <tr>
+    <td style="width:150px;">Barcode</td>
+    <td  style="width:500px;">Product</td>
+    <td>Sent</td>
+    <td>Receive</td>
+    <td>Diff</td>
+    <td>Shelf</td>
+  </tr>
+ <?php foreach($this->arrExtra as $k0 => $v){?> 
+  <tr>
+    <td <?php if($v[2] == 0){echo ' bgcolor="#8080FF"';}?> ><?php echo $v[0]?></td>
+    <td <?php if($v[2] == 0){echo ' bgcolor="#8080FF"';}?> ><?php echo $v[1]?></td>
+    <td <?php if($v[2] == 0){echo ' bgcolor="#8080FF"';}?> ><?php echo $v[2]?></td>
+    <td <?php if($v[2] == 0){echo ' bgcolor="#8080FF"';}?> ><?php echo $v[3]?></td>
+    <td <?php if($v[2] == 0){echo ' bgcolor="#8080FF"';}?> ><?php echo (($v[3] - $v[2])>0)?"+":""?><?php echo $v[3] - $v[2]?></td>
+    <td <?php if($v[2] == 0){echo ' bgcolor="#8080FF"';}?> ><?php echo ($v[4] <= 0)?"<img src='/im/yes20.jpg'>":" "; ?></td>
+  </tr>
+ <?php }?> 
+</table>
+
+<h3 style="background-color:#FC0;">Found Less Than KT </h3>
+<table width="800" border="1" cellspacing="0" cellpadding="0" style="background-color:#FFFFB0">
+  <tr>
+    <td style="width:150px;">Barcode</td>
+    <td  style="width:500px;">Product</td>
+    <td>Sent</td>
+    <td>Receive</td>
+    <td>Diff</td>
+    <td>Shelf</td>
+  </tr>
+ <?php foreach($this->arrShort as $k0 => $v){?> 
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td><?php echo $v[1]?></td>
+    <td><?php echo $v[2]?></td>
+    <td><?php echo $v[3]?></td>
+    <td><?php echo (($v[3] - $v[2])>0)?"+":""?><?php echo $v[3] - $v[2]?></td>
+    <td><?php echo ($v[4] <= 0)?"<img src='/im/yes20.jpg'>":" "; ?></td>
+  </tr>
+ <?php }?> 
+</table>
+
+<h3 style="background-color:#090;">Found Quantity is  Correct  </h3> 
+<table width="800" border="1" cellspacing="0" cellpadding="0" style="font-size:12px;background-color:#C8FF9F">
+  <tr>
+    <td style="width:150px;">Barcode</td>
+    <td  style="width:500px;">Product</td>
+    <td>Sent</td>
+    <td>Receive</td>
+    <td>Diff</td>
+    <td>Shelf</td>
+  </tr>
+ <?php foreach($this->arrCorrect as $k0 => $v){?> 
+  <tr>
+    <td><?php echo $v[0]?></td>
+    <td><?php echo $v[1]?></td>
+    <td><?php echo $v[2]?></td>
+    <td><?php echo $v[3]?></td>
+    <td><?php echo (($v[3] - $v[2])>0)?"+":""?><?php echo $v[3] - $v[2]?></td>
+    <td><?php echo ($v[4] <= 0)?"<img src='/im/yes20.jpg'>":" "; ?></td>
+  </tr>
+ <?php }?> 
+</table>
+</form>
+</body>
+
+</html>

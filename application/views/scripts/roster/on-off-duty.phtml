@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+.invishift{
+	display:none;
+	}
+</style>
+<script language="javascript">
+function show(){
+	var attri = document.getElementById('change_shift');
+	
+	//alert(attri.getAttribute('class'));
+	//alert(attri.getAttribute('className'));
+	attri.setAttribute('className','');
+	//document.getElementById("change_shift").setAttribute('class','');
+	
+	}
+</script>
+
+<script type="text/javascript">
+<!--
+function myPopup() {
+window.open( "http://<?php echo $_SERVER['HTTP_HOST'];?>/companydocs/news-must-see/is/<?php echo base64_encode($this->stID);?>/pv/highlight" )
+}
+//-->
+</script>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif" >
+
+<?php
+if(!$this->errorFlag){
+?>
+<table width="650" border="0" cellspacing="0" align="center" cellpadding="0">
+  <tr>
+    <td>Thanks for login : <?=ucwords($this->staffName)?> login at  <?=$this->shopHead?> 
+   &nbsp; <a href="/roster/check-my-roster/staff/<?php echo base64_encode(Model_EncryptHelper::sslPassword($this->stID)) ?>" target="_blank">Check My Roster For Next 4 Weeks </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle">
+<?php 
+if($this->birthday){
+?> 
+<img src="/im/happy.jpg" />
+<?php
+}?>   
+   </td>
+  </tr>
+  <tr>
+    <td>Status last changed on :
+    <?php
+ echo $this->onOffDuty;
+ ?></td>
+  </tr>
+  <tr>
+    <td align="center">
+    <?php
+    if($this->shopHead == "ADPC" || $this->shopHead == "WLIC" ||$this->shopHead == "CLPC" ||$this->shopHead == "CLIC" ){ echo "Adelaide ";} else{ echo "Melbourne ";}
+	?>
+      Time Now is <br />
+      <br />  
+      <div id="txt" style="font-size:36px; color:#036;" ><?php  
+	  date_default_timezone_set('Australia/Melbourne');
+	  if($this->shopHead == "ADPC" || $this->shopHead == "WLIC" ||$this->shopHead == "CLPC" ||$this->shopHead == "CLIC" ){
+		  date_default_timezone_set('Australia/Adelaide');
+		  echo date("H:i:s");
+		  }
+	 else{	  
+	 echo  Model_DatetimeHelper::timeNow();
+	 }
+	   ?></div>
+	<br />
+      *Status will NOT CHANGE until you click the button<br />
+</td>
+  </tr>
+  <tr>
+    <td align="center">
+      <form id="form1" name="form1" method="post" action="/roster/on-off-duty-record">   
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="middle">
+    <input type="hidden" name="std" id="std" value="<?=$this->stID?>" />
+    <br />
+    <span style="font-size:88px" ><input style="font-size:33px;color:#060; border:#030 solid 1px; padding:5px; background-color:#89EB96" type="submit" name="btn_on_duty" id="btn_on_duty" value="On Duty" onclick="myPopup()" /></span></td>
+    <td align="center" valign="middle">
+    <input type="hidden" name="shophead" id="shophead" value="<?=$this->shopHead?>" />
+    <br />
+<input style="font-size:33px; color:#900; border:#300 solid 1px; padding:5px; background-color:#FCB1B4" type="submit" name="btn_off_duty" id="btn_off_duty" value="Off Duty"
+<?php if($this->firstLoginToday){?> disabled="disabled"<?php }?> /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" valign="middle"><iframe frameborder="0" width="500" height="50" src="/companydocs/news-must-see/is/<?php echo base64_encode($this->stID);?>" align="middle" scrolling="no" ></iframe>&nbsp;</td>
+    </tr>
+    </table>
+      </form>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <?php
+      if($this->shiftToday){
+	  $shiftToday = $this->shiftToday;
+	  ?>
+      <table width="500" border="0" cellspacing="1" cellpadding="10">
+        <tr>
+          <th scope="col">Pre-arranged  Shift For You In This Shop Today</th>
+        </tr>
+        <tr>
+          <td style="width:90%; border:#060 solid 1px; padding:10px; color:#030;" bgcolor="#C6FCC5" align="center" >
+          <table width="90%" border="0" cellspacing="1" cellpadding="10">
+<tr>
+          <th scope="col">Shift Start</th>
+          <th scope="col">
+            
+           <?php echo  date("H:i",$shiftToday["shift_begin"]);  ?>           </th>
+          <th scope="col">Shift End</th>
+          <th scope="col">
+          <?php echo  date("H:i",$shiftToday["shift_end"]);  ?>           </th>
+        </tr>
+</table>
+          <a href="javascript:show()" >
+          <div style="color:#C00"><strong><br />
+          Click Here If The Shift Time is Wrong, Do it Now<br/> <span style="font-size:13px;">WAIT FOR Shift Time Change Take Place,<br /> Then Click On / Off Duty</span></strong></div></a>
+          <br />
+          <div class="invishift" id="change_shift" >
+          <form  method="post" action="">
+            <table width="100%" border="0" cellspacing="0" cellpadding="10" align="center" bgcolor="#FEDADD">
+            <tr>
+            <th colspan="4">This Is My Correct Shift Time</th>
+            </tr>
+              <tr>
+                <th scope="col">Shift Start</th>
+                <th scope="col"><label for="select"></label>
+                  <select name="shift_start_hour" id="shift_start_hour">
+                    <option value="09" selected="selected">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                  </select>
+                  :
+                  <select name="shift_start_min" id="shift_start_min">
+                    <option value="00">00</option>
+                    <option value="15">15</option>
+                    <option value="30">30</option>
+                    <option value="45">45</option>
+                  </select></th>
+                <th scope="col">Shift End</th>
+                <th scope="col"><select name="shift_end_hour" id="shift_end_hour">
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17" selected="selected">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                </select>
+                  :
+                  <select name="shift_end_min" id="shift_end_min">
+                    <option value="00">00</option>
+                    <option value="15">15</option>
+                    <option value="30" selected="selected">30</option>
+                    <option value="45">45</option>
+                    <option value="59">59</option>
+                  </select></th>
+              </tr>
+              <tr>
+                <td colspan="4" align="center"><br />
+                  <input name="id_sheet" type="hidden" value="<?=$shiftToday["id_sheet"]?>" />
+                  <input name="btn_save_modify_shift" type="submit" value="Save It &amp; notify my manager" /></td>
+              </tr>
+            </table>
+            </form>
+          </div>
+          <br />
+          <span style="font-size:12px;">(Shift may modified by manager from time to time , if you believe you schedule shift is incorrect or manager ask you to come on different time , simply click the link to modify your pre-arranged shift before you click the &quot;ON/OFF Duty&quot; button, we will notify your manager to confirm your shift for you)</span><br />          
+          <br /></td>
+        </tr>
+      </table>
+      <?php } else {?>
+      <br />
+      <table width="500" border="0" cellspacing="1" cellpadding="10">
+        <tr>
+          <th scope="col">Pre-arranged  Shift For You In This Shop Today</th>
+        </tr>
+        <tr>
+          <td bgcolor="#FEDADD" style="border:#603 1px solid;" align="center"><strong>We not able to find any record, but don't worry</strong><br />
+            <span style="font-size:12px;">(Shift may modified by manager from time to time so if you should you should work here today, <u>just input your shift by yourself</u> AFTER you click the &quot;ON/OFF Duty&quot; button, we will notify your manager to confirm you shift for you)</span></td>
+        </tr>
+      </table>
+<br />
+    <br />
+    <a href="/cpInfo/hp_<?php echo ($this->shopHead == "WHPC")?'COPC':$this->shopHead;?>.php#c">Return to Company Information Page</a><br />
+<br />
+<br />
+</td>
+  </tr>
+</table>
+<?php
+	  }
+}
+if($this->errorFlag){
+?>
+<table width="500" border="0" cellspacing="0" cellpadding="10" align="center" style="border:#603 1px solid;">
+  <tr>
+    <td align="center" bgcolor="#FEDADD"><?=$this->errorMessage ?></td>
+  </tr>
+</table>
+<?php 
+}
+?>
+</body>
+</html>

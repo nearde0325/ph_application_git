@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<form method="post">
+<select name="shop_code">
+  <option value="ADPC">ADPC</option>
+  <option value="BBPC">BBPC</option>
+  <option value="BHPC">BHPC</option>
+  <option value="BSPC">BSPC</option>
+  <option value="BSIC">BSIC</option>
+  <option value="BSXP">BSXP</option>
+  <option value="CBPC">CBPC</option>
+  <option value="CLPC">CLPC</option>
+  <option value="CLIC">CLIC</option>
+  <option value="CSIC">CSIC</option>
+  <option value="DCIC">DCIC</option>
+  <option value="EPPC">EPPC</option>
+  <option value="FGIC">FGIC</option>
+  <option value="HPIC">HPIC</option>
+  <option value="KCPC">KCPC</option>
+  <option value="NLPC">NLPC</option>
+  <option value="PMPC">PMPC</option>
+  <option value="PMIC">PMIC</option>
+  <option value="SLIC">SLIC</option>
+  <option value="WBPC">WBPC</option>
+  <option value="WBIC">WBIC</option>
+  <option value="WGPC">WGPC</option>
+  <option value="WGIC">WGIC</option>
+  <option value="WLIC">WLIC</option>
+</select>
+<input type="submit" name="button" id="button" value="GO" />
+</form>
+<h2><?php echo $this->shopCode; ?></h2>
+<p>
+
+</p>
+<table width="850" border="0" cellspacing="1" cellpadding="5" bgcolor="#666666">
+  <tr>
+    <th bgcolor="#FFFFFF" scope="col">CODE</th>
+    <th bgcolor="#FFFFFF" scope="col">DES</th>
+    <th bgcolor="#FFFFFF" scope="col">Stock-WH</th>
+    <th bgcolor="#FFFFFF" scope="col">Last Sold</th>
+  </tr>
+   <?php
+foreach($this->arrRes as $key => $v){
+	//$name = $pr->getProductNameByCode($v[0]);
+
+?> 
+  <tr>
+    <td bgcolor="#FFFFFF"><?php echo $v[0];?></td>
+    <td bgcolor="#FFFFFF"><?php echo $v[1];?></td>
+    <td bgcolor="#FFFFFF"><?php echo (int)$v[2];?></td>
+    <td bgcolor="#FFFFFF"><?php echo $v[3];?></td>
+  </tr>
+<?php }?>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

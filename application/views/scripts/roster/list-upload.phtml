@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+<h1><?=$this->shopHead?></h1>
+<table width="900" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="width:100px; vertical-align:top;"><table width="100" border="0" cellspacing="0" cellpadding="5">
+      <tr>
+        <td>SHOPS</td>
+      </tr>
+<?php 
+
+foreach($this->shopList as $k2 => $v2){
+
+?>      
+      <tr>
+        <td><a href="/roster/list-upload/shop/<?=$v2["name_shop_location_head"]?>"><?=$v2["name_shop_location_head"]?></a></td>
+      </tr>
+<?php
+}
+?>      
+<?php 
+
+foreach($this->managerList as $k2 => $v2){
+
+?>      
+      <tr>
+        <td><a href="/roster/list-upload/shop/<?=$v2?>"><?=$v2?></a></td>
+      </tr>
+<?php
+}
+?>       
+    </table></td>
+    <td style=" vertical-align:top;">
+<table width="800" border="0" cellspacing="1" cellpadding="5" bgcolor="#333333">
+  <tr>
+    <td bgcolor="#FFFFFF" style="width:100px;">Date</td>
+    <td bgcolor="#FFFFFF" style="width:100px;">Time</td>
+    <td bgcolor="#FFFFFF" style="width:250px;">File</td>
+    <td bgcolor="#FFFFFF" >Manager</td>
+    <td bgcolor="#FFFFFF" style="width:150px;">IP</td>
+  </tr>
+<?php
+foreach($this->logList as $k=>$v){
+?>
+  <tr>
+    <td bgcolor="#FFFFFF"><?=$v["upload_date"]?></td>
+    <td bgcolor="#FFFFFF"><?=$v["upload_time"]?></td>
+    <td bgcolor="#FFFFFF"><a href="/roster/download.php?ph=<?=$this->shopHead?>&rn=<?=$v["filename_saved"]?>&fn=<?=$v["filename_org"]?>" target="_blank"><?=$v["filename_org"]?></a></td>
+    <td bgcolor="#FFFFFF"><?=$v["manager_name_log"]?></td>
+    <td bgcolor="#FFFFFF"><?=$v["upload_ip"]?></td>
+  </tr>
+<?php
+}
+?>
+</table>    
+    
+    </td>
+  </tr>
+</table>
+
+
+
+
+</body>
+</html>

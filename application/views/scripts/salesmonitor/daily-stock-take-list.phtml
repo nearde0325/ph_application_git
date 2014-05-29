@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style>
+.atten{
+	background-color:#FF8080;
+	}
+</style>
+<?php
+$jsFile = "dstk_0610.js";
+?>
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/<?php echo $jsFile?>"></script>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif; font-size:13px;">
+<h2><a href="/salesmonitor/show-weekly-stock-take-diff/shop/<?php echo $this->shopCode?>" target="_blank">Weekly Stock Take Click Here</a></h2>
+<h2>Daily Stock Take List For <?php echo $this->shopCode?> , <?php echo $this->dateToCheck?> 
+  <input type="button" value="Click to Print This Page First" onclick="window.print()" />
+</h2>
+<br />
+<form method="post">
+  <p><strong>Please Print the Page Out First and Sign your Name Here:__________________ ,Start Time:<?php echo Model_DatetimeHelper::timenow();?> ,Finish Time:_______________<br />
+  <br />
+    Please Also Fill in Your Name Here:
+    
+    <input type="text" name="staff_name" id="staff_name" />
+  ,When you begin to fill in the Online Form <br />
+  <br />
+  You should already finish the Paper one, DO NOT ONLY FILL THE ONLINE FORM
+  </strong><strong><br />
+    <br />
+    
+    </strong>  </p>
+  <table width="650" border="1" cellspacing="0" cellpadding="2">
+    
+    <tr>
+    <th scope="col" style="width:100px;">BarCode</th>
+    <th scope="col" style="width:430px;">Description</th>
+    <th scope="col" style="width:40px;">Sales</th>
+    <th scope="col" style="width:40px;">On Hand</th>
+    <th scope="col" style="width:40px;">Actual</th>
+  </tr>
+ <?php
+		$products = new Model_DbTable_Productsva();
+		$rPro = new Model_DbTable_Pr_Prproducts();
+		
+  foreach ($this->arrStock as $key => $v){?> 
+  <tr>
+    <td><?=$v["barcode"]?></td>
+    <td><?php 
+	if(strpos($v['barcode'],']')!==false){
+		$arrTmp = $rPro->getProductByCode(str_replace(array('[',']'),'',$v['barcode']));
+		echo $arrTmp['title_product'];
+		}
+	else{
+		echo  $products->getProductNameByCode(trim($v["barcode"]));
+		}	
+		?>	
+	</td>
+    <td>
+	<?php
+    if(strpos($v['barcode'],']')!==false){
+		echo "-";
+		}
+	else{
+		echo $v["sales_yest"];	
+		}	
+	?>
+    </td>
+    <td 
+    <?php if($v["qty_sys"] <0 ){?>
+    style="background-color:#FF8080"
+    <?php }?>
+    ><?=$v["qty_sys"]?></td>
+    <td>
+    	<input type="text" name="qty_act[<?=$v["id_take"]?>]" id="qty_act_<?=$v["id_take"]?>" style="width:30px;" value="<?=$v["qty_act"]?>" />
+        <input type="hidden" name="qty_sys[<?=$v["id_take"]?>]" id="qty_sys_<?=$v["id_take"]?>" value="<?=$v["qty_sys"]?>">
+    	<input type="hidden" name="id_take[<?=$v["id_take"]?>]" id="id_take_<?=$v["id_take"]?>" value="<?=$v["id_take"]?>" />
+    </td>
+  </tr>
+ <?php }?> 
+ <tr>
+ <td colspan="5" align="center">[The Name You Filled Will be clear after you click the Save button,]<br />
+   <br />
+   <input type="submit" name="bn_sub" id="bn_sub" value="Submit the Stock Take Result" /></td>
+ </tr>
+
+</table>
+</form>
+
+</body>
+</html>

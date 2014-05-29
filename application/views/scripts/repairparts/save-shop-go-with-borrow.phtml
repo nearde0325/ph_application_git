@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+
+<?php
+
+ $arrRepairShops = array(
+ 	1 => 'Bayside Shops',
+	2 => 'CSIC',
+	3 => 'Steven[Tech]',
+	4 => 'BHPC',
+	5 => 'HPIC',
+	6 => 'CBPC',
+	7 => 'WLIC',
+	8 => 'EPPC',
+	9 => 'WB Shops',
+	10 => 'NLPC',
+	11 => 'DCIC',
+	12 => 'KCPC',
+	13 => 'SLIC',
+	14 => 'FGIC',
+	15 => 'PMIC',
+	16 => 'WG Shops',
+	17 => 'ADPC',
+	18 => 'BBPC',
+	19 => 'CL Shops',
+	20 => 'LU [Tech]'
+ 	); 
+	
+	
+if($_POST){	
+?>
+<h1>Repair Parts For Job ID:<?php echo $_POST['id_job']?></h1>
+<p><br />
+For All Parts You borrowed ,Please Refer You Borrow Code in the Job Status Page 
+<br />
+</p>
+<table width="650" border="1" cellspacing="0" cellpadding="15" style="font-size:13px;">
+  <tr>
+    <td>Date :<?php
+echo $date = date("Y-m-d H:i");
+?> Staff Record : 
+    <?php
+
+echo $_POST['staff_name']
+?>
+    Sign:___________</td>
+  </tr>
+  
+  <tr>
+    <td>
+    <table width="620" border="0" cellspacing="0" cellpadding="3">
+      <tr>
+        <td style="width:425px">Code</td>
+        <td align="center">Qty</td>
+        <td align="center">Is<br />
+          Borrow</td>
+        <td align="center">From</td>
+        <td align="center">Borrow<br />
+          Code</td>
+      </tr>
+   <?php
+   if($this->errorMessage == ""){
+foreach($this->arrRes as $key => $value){
+?>   
+      <tr>
+        <td><?php echo $value[0]; ?></td>
+        <td align="center"><?php echo $value[1]; ?></td>
+        <td align="center"><?php echo ($value[2])?"YES":"NO"; ?></td>
+        <td align="center"><?php echo ($value[3])?$arrRepairShops[$value[3]]:"-"; ?></td>
+        <td align="center"><?php echo $value[4]; ?></td>
+      </tr>
+<?php
+}
+   }
+?>  
+    </table>
+    
+    
+   <?php
+    if($this->errorMessage != ""){  
+   ?>	
+    <div style="border:#98051C solid 1px; background-color:#FECDD5; color:#98051C; padding-left:10px;">
+   	<?php echo $this->errorMessage;?>
+    </div>
+   <?php
+	}
+   ?> 
+    </td>
+  </tr>
+
+  <tr>
+    <td>Phone Collection Phone Repair Parts DataBase</td>
+  </tr>
+</table><br />
+
+<form action="/repaircenter/showstatusbyjobid" method="post">
+<input name="id_job" id="id_job" type="hidden" value="<?php echo $_POST['id_job']?>" />
+<input name="shop_head" id="shop_head" type="hidden" value="<?php echo $_POST['shop_head']?>" />
+<input name="" type="submit" value ="RETURN TO JOB DETAIL" />
+</form>
+<?php
+}
+?>
+</body>
+</html>

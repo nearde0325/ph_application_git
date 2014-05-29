@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+
+<h1>Shop Ranking Last Week</h1>
+<p><a href="http://192.168.1.126/caaudit/circle" target="_blank">Generate Ranking Again </a></p>
+
+<a href="http://192.168.1.126/salesmonitor/repair-ranking" target="_blank">Check Repair Rank </a><br />
+<br />
+<table width="800" border="0" cellspacing="1" cellpadding="5" style="background:#333">
+  <tr>
+    <th bgcolor="#FFFFFF" scope="col">Rank</th>
+    <th bgcolor="#FFFFFF" scope="col">Shop</th>
+    <th bgcolor="#FFFFFF" scope="col">Sales</th>
+    <th bgcolor="#FFFFFF" scope="col">Target</th>
+    <th bgcolor="#FFFFFF" scope="col">&nbsp;</th>
+    <th bgcolor="#FFFFFF" scope="col">Rank(-1 Week)</th>
+    <th bgcolor="#FFFFFF" scope="col">Sales</th>
+    <th bgcolor="#FFFFFF" scope="col">%</th>
+  </tr>
+<?php 
+	$sumLastWeek = 0;
+	$sumWeekBefore = 0;
+
+foreach($this->arrRes as $k => $v){
+	
+	 ?>
+  <tr>
+    <td bgcolor="#FFFFFF"><?php echo $v[0] + 1;?></td>
+    <td bgcolor="#FFFFFF"><?php echo $v[1];?></td>
+    <td bgcolor="#FFFFFF"> $ <?php echo $v[2];
+	$sumLastWeek += $v[2];
+	?></td>
+    <td bgcolor="#FFFFFF"> $ <?php echo $v[7];
+	?></td>
+    <td bgcolor="#FFFFFF"><?php
+    $sum = 0;
+	$str = "";
+	foreach($v[6] as $v2){
+		if($v2){
+			$sum++;
+			$str .= "*";
+			}
+		else{
+			$str.= "-";
+			}	
+		}
+	?>
+      [<a href="#" title="<?php echo $str?>"><?php echo $sum?></a>]
+      
+    </td>
+    <td bgcolor="#FFFFFF"><?php echo $v[3] + 1;?></td>
+    <td bgcolor="#FFFFFF">$ <?php echo $v[4];
+	$sumWeekBefore += $v[4];
+	?></td>
+    <td bgcolor="#FFFFFF"><?php echo $v[5];?> %</td>
+  </tr>
+<?php }?>
+  <tr>
+    <td bgcolor="#FFFFFF">Total</td>
+    <td bgcolor="#FFFFFF">&nbsp;</td>
+    <td colspan="3" bgcolor="#FFFFFF"> $ <?php echo $sumLastWeek?></td>
+    <td bgcolor="#FFFFFF">&nbsp;</td>
+    <td bgcolor="#FFFFFF">$ <?php echo $sumWeekBefore?></td>
+    <td bgcolor="#FFFFFF"><?php echo Round(($sumLastWeek - $sumWeekBefore)/$sumWeekBefore * 100 ,2);?> %</td>
+  </tr>
+
+</table>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+<title>Untitled Document</title>
+</head>
+<body style="font-size:13px;">
+<h1>尚未决定的样品列表 | 放弃样品列表 | <br />
+</h1>
+<a href="/supplier/new-sample" target="_blank">添加新样品 </a><br />
+<table width="1300" border="1" cellspacing="2" cellpadding="2">
+  <tr>
+    <td width="160" bgcolor="#CCCCCC" >样图</td>
+    <td width="160" bgcolor="#CCCCCC" >编码</td>
+    <td bgcolor="#CCCCCC">供货商</td>
+    <td width="160" bgcolor="#CCCCCC" >供货商条码</td>  
+    <td bgcolor="#CCCCCC">采购日期</td>
+    <td bgcolor="#CCCCCC">产品名称</td>
+    <td bgcolor="#CCCCCC">采购员</td>
+    <td bgcolor="#CCCCCC">样图拍摄日期</td>
+    <td bgcolor="#CCCCCC">有大图</td>
+    <td bgcolor="#CCCCCC">有进货价</td>
+    <td bgcolor="#CCCCCC">邮出日期</td>
+    <td bgcolor="#CCCCCC">决定</td>
+  </tr>
+<?php
+$suppliers = new Model_DbTable_Suppliers();
+
+foreach($this->samplelist as $key => $value){
+?>  
+  <tr>
+    <td><?php
+	if($value['img_url_sample'] ==""){
+		echo "N/A";
+		}
+	else{
+		?>
+        <a href="/im/thumbs_sample/<?php echo $value['barcode_sample']; ?>.jpg" target="_blank" ><img src="/im/thumbs_sample/<?php echo $value['barcode_sample']; ?>.jpg" height="50" ></a>
+        <?php
+		}
+	 ?></td>
+    <td><?php echo $value['barcode_sample'];?></td>
+    <td><?php echo	$suppliers->getSupplierShortName($value['id_supplier']);?></td>
+    <td><?php echo $value['barcode_supplier'];?></td>
+    <td><?php echo $value['date_introduced'];?></td>
+    <td>[改]<?php echo $value['chinese_name_sample'];?></td>
+    <td><?php echo $value['staff_name'];?></td>
+    <td>[<a target="_blank" href="/cam/takephoto.php?fn=<?php echo $value['barcode_sample']; ?>&color=<?php echo "color";?>">拍</a>]<?php echo $value['img_url_sample'];?></td>
+    <td>[<a href="/supplier/save-imgs/id/<?php echo $value['barcode_sample']; ?>" target="_blank">传</a>]<?php 
+		echo $value['img_zip_sample'];
+	if($value['img_zip_sample']!=""){
+		?>
+        [<a href="/im/zip_sample/<?php echo $value['barcode_sample']; ?>.zip">下</a>]
+    <?php
+		}	
+	?></td>
+    <td><?php 
+	if($value['import_price_sample'] != ""){
+		echo "Y";
+		}
+	else{ echo "N/A";}	?></td>
+    <td><?php echo $value['date_ship'];?></td>
+    <td>转换 | 放弃</td>
+  </tr>
+<?php
+}
+?>  
+  <tr>
+    <td width="160" bgcolor="#CCCCCC" >样图</td>
+    <td width="160" bgcolor="#CCCCCC" >编码</td>
+    <td bgcolor="#CCCCCC">供货商</td>
+    <td width="160" bgcolor="#CCCCCC" >供货商条码</td>
+    <td bgcolor="#CCCCCC">采购日期</td>
+    <td bgcolor="#CCCCCC">产品名称</td>
+    <td bgcolor="#CCCCCC">采购员</td>
+    <td bgcolor="#CCCCCC">样图拍摄日期</td>
+    <td bgcolor="#CCCCCC">有大图</td>
+    <td bgcolor="#CCCCCC">有进货价</td>
+    <td bgcolor="#CCCCCC">邮出日期</td>
+    <td bgcolor="#CCCCCC">决定</td>
+  </tr>
+</table>
+</body>
+</html>

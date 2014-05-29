@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+
+<style type="text/css">
+/* <![CDATA[ */
+
+table, td
+{
+    border-color: #666;
+    border-style: solid;
+}
+table, th
+{
+    border-color: #666;
+    border-style: solid;
+}
+
+table
+{
+    border-width: 0 0 1px 1px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+ 
+td
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+th
+{
+    margin: 0;
+    padding: 4px;
+    border-width: 1px 1px 0 0;
+}
+
+/* ]]> */
+</style>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<h1>Items Your Shop Sold Out in Last 4 Weeks </h1>
+<p><a href="/products/stop-sale-list/shop/<?php echo $this->shop?>" target="_blank">Your Stop Sale List</a> | <a href="/products/back-order-list/shop/<?php echo $this->shop?>" target="_blank">Your Back Order List</a></p>
+<p><br />
+</p>
+<h3>You have 3 Options Of Each Of  The Item<br />
+</h3>
+* Really Want (You believe The Item will sell, If Warehouse Do Not Have Any Stock At The Moment, We May Re-stock For Your Request)<br />
+* If Stock Available /Re-Stock (You have No Confidence about the item will sale well Or Not, If warehouse Restock It to your shop ,<br />
+You are Happy to Give a Try)<br />
+* Stop Sale (You Don't Want This Item).<br />
+<br />
+<br />
+Sold Out Item You Did Not Make a Choice
+<table width="1000" border="0" cellspacing="1" cellpadding="5" style="font-size:13px;">
+  <form method="post" action="" >
+  <tr>
+    <th rowspan="2" scope="col" style="width:80px;">Image</th>
+    <th rowspan="2" scope="col">BarCode</th>
+    <th rowspan="2" style="width:300px;" scope="col">Description</th>
+    <th rowspan="2" style="width:100px;" scope="col">Warehourse<br />
+      Sotck</th>
+    <th colspan="2" scope="col" style="width:80px;">Really Want</th>
+    <th rowspan="2" scope="col" style="width:80px;">Available /<br />
+      Restock</th>
+    <th rowspan="2" scope="col" style="width:80px;">Stop Sale</th>
+  </tr>
+  <tr>
+    <th scope="col">Tick To<br />
+      Confirm</th>
+    <th scope="col">Qty</th>
+  </tr>
+<?php foreach($this->uList as $k => $v) {?>  
+  <tr>
+    <td>
+    <input type="hidden" id="id_extorder" name="id_ext_order[<?php echo $v["id_ext_order"]?>]" value="<?php echo $v["id_ext_order"]?>" />
+    <?php
+    $fileStr = getcwd()."/product_img/home_img/".trim($v["barcode"])."_0.jpg";
+	if(file_exists($fileStr)){
+	?>
+    <img src="/product_img/home_img/<?php echo trim($v["barcode"]) ?>_0.jpg" width="50" height="50"  / >    
+    <?php	
+		}
+	?>
+    </td>
+    <td><?php echo $v["barcode"]?></td>
+    <td><?php echo $v["description"]?></td>
+    <td align="center"><?php echo $v["qty_wh"]?></td>
+    <td align="center"><input name="order_option[<?php echo $v["id_ext_order"]?>]" type="radio" id="radio" value="1" />
+      <label for="order_option"></label></td>
+    <td align="center"><label for="order_qty"></label>
+      <input name="order_qty[<?php echo $v["id_ext_order"]?>]" type="text" id="order_qty<?php echo $v["id_ext_order"]?>" style="width:30px;" value="0" /></td>
+    <td align="center"><input type="radio" name="order_option[<?php echo $v["id_ext_order"]?>]" id="radio2" value="2" /></td>
+    <td align="center"><input type="radio" name="order_option[<?php echo $v["id_ext_order"]?>]" id="radio3" value="3" /></td>
+  </tr>
+<?php  } ?> 
+<tr>
+  <td colspan="8" align="center">
+
+    Your Attendance Password:
+    <label for="staff_name"></label>
+    <input type="password" name="pwd" id="pwd" value=""  />
+    
+    <br /></td>
+</tr>
+<tr>
+  <td colspan="8" align="center"><input name="submit" type="submit" value="Submit Sold Out Order" /></td>
+</tr> 
+  </form>
+</table>
+<br />
+<br />
+Item On The Order /Back Order<br />
+<table width="900" border="1" cellspacing="0" cellpadding="15">
+  <tr>
+    <th scope="col">Barcode</th>
+    <th scope="col">Description</th>
+    <th scope="col">Option</th>
+    <th scope="col">Qty</th>
+  </tr>
+  <?php 
+  //var_dump($this->hList);
+  foreach($this->hList as $k2 => $v2) {?>  
+  <tr>
+    <td><?php echo $v2["barcode"]?></td>
+    <td><?php echo $v2["description"]?></td>
+    <td><?php echo ($v2["order_option"]==1)?"Want It":"Try Available";?></td>
+    <td><?php echo $v2["qty"]?></td>
+  </tr>
+  <?php } ?>
+</table>
+<br />
+<br />
+Item Warehouse Decide To Discontinue<br />
+<table width="900" border="1" cellspacing="0" cellpadding="15">
+  <tr>
+    <th scope="col">Barcode</th>
+    <th scope="col">Description</th>
+    <th scope="col">Status (Stop / Discon)</th>
+  </tr>
+  <?php foreach($this->sList as $k3 => $v3) {?> 
+  <tr>
+    <td><?php echo $v3["barcode"]?></td>
+    <td><?php echo $v3["description"]?></td>
+    <td>Shop :<?php echo ($v3["order_option"]==3)?"Stop Sale":"";?> | WH: <?php if(isset($v["never_will_send"])){echo ($v["never_will_send"])?"Discontinued":"";}?></td>
+  </tr>
+   <?php } ?>
+</table>
+<br />
+Back Order Fullfilled<br />
+<br />
+<table width="900" border="1" cellspacing="0" cellpadding="15">
+  <tr>
+    <th scope="col">Barcode</th>
+    <th scope="col">Description</th>
+    <th scope="col">Fullfill Date</th>
+  </tr>
+  <?php foreach($this->fList as $k4 => $v4) {?>
+  <tr>
+    <td><?php echo $v4["barcode"]?></td>
+    <td><?php echo $v4["description"]?></td>
+    <td><?php echo $v4["order_fullfill_date"]?> </td>
+  </tr>
+  <?php } ?>
+</table>
+<br />
+</body>
+</html>

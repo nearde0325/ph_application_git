@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link type="text/css" href="/css/start/jquery-ui-1.8.21.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.21.custom.min.js"></script>
+</head>
+
+<body style="font-family:Arial, Helvetica, sans-serif">
+<script>
+	$(function() {
+		$( "#date_begin" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+		$( "#date_end" ).datepicker({ dateFormat: "yy-mm-dd",firstDay: 1 });
+	});
+	</script>
+<a href="/rosteraudit/check-all-names">Check Attendance By Names</a> | <a href="/rosteraudit/check-on-duty/shop/vic">VIC Shops</a> | <a href="/rosteraudit/check-on-duty/shop/sa">SA Shops<br />
+<br />
+</a>
+<?php
+date_default_timezone_set('Australia/Melbourne');
+$attRecord = new Model_DbTable_Roster_Attnrecord();
+?>
+<a href="/rosteraudit/check-all-names">ALL</a>
+<?php
+for($i=1;$i<27;$i++){
+?>
+<a href="/rosteraudit/check-roster-by-name/i/<?=$i?>"><?php echo chr($i +64)?></a> | 
+<?php	
+	}
+?>
+<?php
+
+$stDetail = new Model_DbTable_Roster_Stafflogindetail();
+$attr = new Model_DbTable_Roster_Attnrecord()
+?>  
+
+<table width="1400" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left" valign="top">
+    <?php for($i=1;$i<27;$i++){
+    	$tmpArr = array();
+    	$sList = $stDetail->listStaffByLastName($i);
+    	foreach($sList as $k => $v){		
+    		$tmpArr[$v["id"]] = ucwords(Model_EncryptHelper::getSslPassword($v["n"]))."  <em style=\"font-size:10px;\">[".$v["ni"]."]</em>";
+    	
+		}
+    	if(!empty($tmpArr)){
+    	asort($tmpArr);
+    	}
+    	?>
+    <div style="border:#ccc solid 2px; width:200px; margin:15px; padding:10px; display:inline-block; ">
+    <h2><?php echo chr($i +64)?> <em style="font-size:12px; font-weight:normal;">Last Names</em></h2>
+   <?php
+   if(!empty($tmpArr)){
+   foreach($tmpArr as $key => $value){
+	   $ifGone = $attr->lastDayLogin($key);
+	   if($ifGone){
+		   if($ifGone[1]>30){
+			   echo "<img src=\"/im/gone.jpg\" title=\"{$ifGone[0]}\" />";
+			   }
+		   }
+	?>
+   	<a href="/rosteraudit/check-roster-by-name/std/<?=$key?>" ><?=$value?></a>
+   
+    <em style="font-size:10px;">
+    <?
+    $ststus = $attRecord->getLastStatusByDate($key,Model_DatetimeHelper::dateToday());
+	if($ststus==1){echo "(On)";}
+	if($ststus==2){echo "(Off)";}
+	?>
+    </em>
+    
+    <br/>
+   		
+   <?php	
+   }
+   }
+   ?>
+    </div>
+    <?php }?>
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+
+</body>
+</html>

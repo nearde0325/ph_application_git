@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+File For Download:<hr/>
+<?php
+function getDirectoryList ($directory)
+{
+
+	// create an array to hold directory list
+	$results = array();
+
+	// create a handler for the directory
+	$handler = opendir($directory);
+
+	// open directory and walk through the filenames
+	while ($file = readdir($handler)) {
+
+		// if file isn't this directory or its parent, add it to the results
+		if ($file != "." && $file != "..") {
+			$results[] = $file;
+		}
+
+	}
+
+	// tidy up: close the handler
+	closedir($handler);
+
+	// done!
+	return $results;
+
+}
+
+
+
+$arrFiles = getDirectoryList (getcwd().'/barcoderesult/'); 
+
+$arrFileOrders = array(); 
+
+//var_dump($arrFiles);
+
+foreach ($arrFiles as $key => $value){
+	$intTime = filemtime(getcwd().'/barcoderesult/'.$value);
+	$arrFileOrders[$intTime] = $value;
+	
+	}
+krsort($arrFileOrders);
+//var_dump($arrFileOrders);	
+foreach ($arrFileOrders as $k2 => $v2){
+	$arrFN = explode(".",$v2);
+	if($arrFN[1] == "csv"){
+		echo "<a href=\"/barcoderesult/./$v2\">".$v2."</a> - ";
+		echo "<br />";	
+	}
+	
+}
+
+
+/*
+ * 	$arrFN = explode(".",$value);
+	if($arrFN[1] == "csv"){
+		echo "<a href=\"/rmaexport/./$value\">".$value."</a> - ";
+		echo "<a href=\"/rmaexport/delfile.php?fne=".$value."\" target=\"_blank\"> DELETE </a>";
+		echo "<br />";
+ * 
+ * 
+ * */	
+	
+?>
+</body>
+</html>
